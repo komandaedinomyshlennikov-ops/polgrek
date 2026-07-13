@@ -131,8 +131,9 @@
           </div>
           <div>
             <h4>Связь</h4>
-            <a href="https://www.threads.net/@pol.grek" target="_blank" rel="noopener">Threads @pol.grek</a>
+            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес · автор</a>
             <a href="mailto:${email}">${email}</a>
+            <a href="${url('/privacy.html')}">О внешних ссылках</a>
           </div>
         </div>
         <div class="container footer-legal">
@@ -164,8 +165,6 @@
   }
 
   function bookCardHTML(book, opts = {}) {
-    const co = book.authors.length > 1 ? '<span class="tag co">с Лорой Грэк</span>' : '';
-    const flag = book.flagship || opts.flagship ? '<span class="tag flag">Ключевая</span>' : '';
     const tagRu = {
       'когнитивное-здоровье': 'когнитивное здоровье',
       биохакинг: 'биохакинг',
@@ -176,11 +175,19 @@
       гормоны: 'гормоны',
       лора: 'с Лорой',
     };
-    const tags = book.tags
-      .filter((t) => t !== 'лора' || book.authors.length === 1)
-      .slice(0, 2)
-      .map((t) => `<span class="tag">${tagRu[t] || t}</span>`)
-      .join('');
+    const parts = [];
+    if (book.authors.length > 1) {
+      parts.push('<span class="tag co">с Лорой Грэк</span>');
+    }
+    let n = 0;
+    for (const t of book.tags) {
+      if (t === 'лора') continue;
+      parts.push(`<span class="tag">${tagRu[t] || t}</span>`);
+      n += 1;
+      if (n >= 2) break;
+    }
+    // Explicit separator so text without CSS is not glued
+    const tags = parts.join('<span class="tag-sep"> · </span>');
     return `
       <article class="book-card${book.flagship ? ' is-flagship' : ''}">
         <a class="book-cover has-image clean" href="${url('/books/book.html?slug=' + book.slug)}" aria-label="${book.title}">
@@ -188,7 +195,7 @@
         </a>
         <div class="book-body">
           <h3 class="book-title"><a href="${url('/books/book.html?slug=' + book.slug)}">${book.title}</a></h3>
-          <div class="book-tags">${flag}${co}${tags}</div>
+          <div class="book-tags">${tags}</div>
           <p>${book.promise}</p>
           <div class="book-actions">
             ${storeButtons(book, true)}

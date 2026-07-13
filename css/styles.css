@@ -1067,18 +1067,44 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   max-width: none;
   flex: 1;
 }
-.book-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.book-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
 .tag {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 0.28rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  padding: 0.22rem 0.55rem;
   border-radius: 999px;
   background: var(--paper-2);
   color: var(--ink-soft);
+  display: inline;
+}
+.tag-sep {
+  color: var(--muted);
+  font-size: 0.75rem;
+  user-select: none;
+  padding: 0 0.1rem;
 }
 .tag.co { background: rgba(42, 157, 143, 0.14); color: var(--teal-deep); }
+.tag.flag { display: none; } /* legacy; не используем «Ключевая» */
+.grade-legend {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 42rem;
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+.about-lead-note {
+  font-size: 1rem;
+  line-height: 1.6;
+}
 .book-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
