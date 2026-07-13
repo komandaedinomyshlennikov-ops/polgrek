@@ -855,10 +855,10 @@
   }
 
   function renderLabPage() {
-    const grid = document.getElementById('labGrid');
-    if (grid && !grid.querySelector('.article-card')) {
-      grid.innerHTML = POL_GREK.articles.map(articleCardHTML).join('');
-    }
+    const grid = document.getElementById('labGrid') || document.getElementById('articlesGrid');
+    if (!grid) return;
+    // Always refresh so new articles appear even if old static cards exist
+    grid.innerHTML = POL_GREK.articles.map(articleCardHTML).join('');
   }
 
   function renderArticlePage() {
