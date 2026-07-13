@@ -19,25 +19,88 @@
   }
 
   function headerHTML(active) {
+    const doors = `
+      <div class="nav-dropdown" data-dropdown>
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" data-drop-toggle>
+          С чего начать
+          <span class="nav-chevron" aria-hidden="true"></span>
+        </button>
+        <div class="nav-drop-panel" role="menu">
+          <a role="menuitem" href="${url('/books/index.html')}?filter=выгорание">
+            <strong>Я выгорел</strong>
+            <span>RESET · стресс · дебаг</span>
+          </a>
+          <a role="menuitem" href="${url('/books/index.html')}?filter=когнитивное-здоровье">
+            <strong>Мозг после 40 / энергия</strong>
+            <span>100+ · биохакинг · сон</span>
+          </a>
+          <a role="menuitem" href="${url('/books/index.html')}?filter=деньги">
+            <strong>Деньги / эмоции</strong>
+            <span>Мозг и деньги · ЭИ · гормоны</span>
+          </a>
+          <a role="menuitem" class="nav-drop-all" href="${url('/books/index.html')}">Все книги →</a>
+        </div>
+      </div>`;
+
     return `
+      <a class="skip-link" href="#main-content">К содержанию</a>
       <header class="site-header" id="siteHeader">
         <div class="nav-inner">
-          <a class="logo" href="${url('/index.html')}">
+          <a class="logo" href="${url('/index.html')}" aria-label="Пол Грэк — на главную">
             <span class="logo-mark" aria-hidden="true"></span>
             <span class="logo-text">Пол Грэк<span>Pol Grek · нейробиология</span></span>
           </a>
           <nav class="nav-links" id="navLinks" aria-label="Основная навигация">
             <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}">Главная</a>
+            ${doors}
             <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}">Книги</a>
             <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}">Лаборатория</a>
             <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}">Об авторе</a>
+            <a href="${url('/index.html')}#faq" class="nav-soft">FAQ</a>
           </nav>
-          <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">Выбрать книгу</a>
-          <button class="nav-toggle" id="navToggle" aria-label="Меню" aria-expanded="false">
+          <div class="nav-actions">
+            <a class="btn btn-outline nav-cta-secondary" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес</a>
+            <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">Книги</a>
+          </div>
+          <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileDrawer">
             <span></span><span></span><span></span>
           </button>
         </div>
-      </header>`;
+      </header>
+      <div class="mobile-drawer" id="mobileDrawer" hidden>
+        <div class="mobile-drawer-backdrop" data-drawer-close></div>
+        <div class="mobile-drawer-panel" role="dialog" aria-modal="true" aria-label="Меню сайта">
+          <div class="mobile-drawer-head">
+            <strong>Куда дальше?</strong>
+            <button type="button" class="mobile-drawer-close" data-drawer-close aria-label="Закрыть">×</button>
+          </div>
+          <nav class="mobile-drawer-nav" aria-label="Мобильная навигация">
+            <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}">🏠 Главная</a>
+            <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}">📚 Все книги</a>
+            <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}">🧪 Лаборатория</a>
+            <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}">👤 Об авторе</a>
+            <a href="${url('/index.html')}#faq">❓ FAQ</a>
+          </nav>
+          <p class="mobile-drawer-label">С чего начать</p>
+          <div class="mobile-door-list">
+            <a href="${url('/books/index.html')}?filter=выгорание"><strong>Я выгорел</strong><span>RESET · стресс</span></a>
+            <a href="${url('/books/index.html')}?filter=когнитивное-здоровье"><strong>Энергия / 40+</strong><span>100+ · биохакинг</span></a>
+            <a href="${url('/books/index.html')}?filter=деньги"><strong>Деньги / эмоции</strong><span>Мозг и деньги · ЭИ</span></a>
+          </div>
+          <div class="mobile-drawer-cta">
+            <a class="btn btn-primary" href="${url('/books/index.html')}">Открыть каталог</a>
+            <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес</a>
+          </div>
+        </div>
+      </div>
+      <nav class="mobile-tabbar" aria-label="Быстрые разделы">
+        <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span>🏠</span>Главная</a>
+        <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span>📚</span>Книги</a>
+        <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span>🧪</span>Лаб</a>
+        <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}"><span>👤</span>Автор</a>
+        <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener"><span>🛒</span>Литрес</a>
+      </nav>
+      <button type="button" class="back-to-top" id="backToTop" aria-label="Наверх" hidden>↑</button>`;
   }
 
   function footerHTML() {
@@ -136,19 +199,85 @@
     if (headerMount) headerMount.outerHTML = headerHTML(active);
     if (footerMount) footerMount.outerHTML = footerHTML();
 
+    // Ensure main landmark for skip-link
+    const main = document.querySelector('main');
+    if (main && !main.id) main.id = 'main-content';
+    if (main && !main.hasAttribute('tabindex')) main.setAttribute('tabindex', '-1');
+
     const header = document.getElementById('siteHeader');
-    const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 8);
+    const backTop = document.getElementById('backToTop');
+    const onScroll = () => {
+      if (header) header.classList.toggle('scrolled', window.scrollY > 8);
+      if (backTop) {
+        const show = window.scrollY > 480;
+        backTop.hidden = !show;
+        backTop.classList.toggle('visible', show);
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+    if (backTop) {
+      backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
 
+    // Desktop dropdown
+    document.querySelectorAll('[data-dropdown]').forEach((drop) => {
+      const btn = drop.querySelector('[data-drop-toggle]');
+      if (!btn) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = drop.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.querySelectorAll('[data-dropdown].open').forEach((other) => {
+          if (other !== drop) {
+            other.classList.remove('open');
+            const b = other.querySelector('[data-drop-toggle]');
+            if (b) b.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('[data-dropdown].open').forEach((drop) => {
+        drop.classList.remove('open');
+        const b = drop.querySelector('[data-drop-toggle]');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Mobile drawer
     const toggle = document.getElementById('navToggle');
-    const links = document.getElementById('navLinks');
-    if (toggle && links) {
-      toggle.addEventListener('click', () => {
-        const open = links.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const drawer = document.getElementById('mobileDrawer');
+    const openDrawer = (open) => {
+      if (!drawer || !toggle) return;
+      drawer.hidden = !open;
+      drawer.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+      document.body.classList.toggle('drawer-open', open);
+    };
+    if (toggle && drawer) {
+      toggle.addEventListener('click', () => openDrawer(drawer.hidden));
+      drawer.querySelectorAll('[data-drawer-close]').forEach((el) => {
+        el.addEventListener('click', () => openDrawer(false));
+      });
+      drawer.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', () => openDrawer(false));
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') openDrawer(false);
       });
     }
+
+    // Keyboard: close dropdown on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('[data-dropdown].open').forEach((drop) => {
+        drop.classList.remove('open');
+        const b = drop.querySelector('[data-drop-toggle]');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
   }
 
   /* Neural canvas for hero */
