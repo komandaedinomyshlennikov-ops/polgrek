@@ -1582,17 +1582,29 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   display: grid;
   gap: 0.65rem;
   margin: 1rem 0 1.5rem;
+  list-style: none;
+  padding: 0;
 }
 .checklist li {
-  display: grid;
-  grid-template-columns: 22px 1fr;
+  /* flex (not 2-col grid): links/text inside stay one flowing line */
+  display: flex;
   gap: 0.65rem;
-  align-items: start;
+  align-items: flex-start;
   font-size: 0.98rem;
+  line-height: 1.45;
+}
+.checklist li > * {
+  min-width: 0;
+}
+.checklist li a {
+  display: inline;
+  white-space: nowrap;
 }
 .checklist li::before {
   content: '';
-  width: 18px; height: 18px;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
   margin-top: 3px;
   border-radius: 50%;
   background:
