@@ -473,6 +473,18 @@ p { margin: 0 0 1rem; max-width: 68ch; }
 }
 .pro-card h3, .burnout-story h3 { margin-top: 0; font-size: 1.15rem; }
 .pro-card p, .burnout-story p { margin: 0; max-width: none; font-size: 0.95rem; color: var(--muted); }
+.bio-prose {
+  max-width: 720px;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.bio-prose p { max-width: none; margin-bottom: 1.15rem; color: var(--graphite); }
+.bio-prose h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.55rem;
+}
+.bio-principles { margin: 1.25rem 0 0.5rem; }
 .footer-legal {
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 1rem;
