@@ -208,7 +208,7 @@ window.POL_GREK = {
       litres:
         'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0GTF2PQ21',
     },
     {
       slug: 'biohacking-mozga',
@@ -242,7 +242,7 @@ window.POL_GREK = {
         'Я перепробовал всё: модафинил, ноотропы, пептиды, микродозинг, десятки добавок. Гордился собой. Чувствовал себя сверхчеловеком. А потом перестал чувствовать что-либо. Выгорел.\n\nВернулся к базе. К минимальной эффективной дозе. Эта книга — чтобы уберечь вас от моих ошибок.',
       litres: 'https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0H7YP5QJ9',
     },
     {
       slug: 'anatomiya-energii',
@@ -273,7 +273,7 @@ window.POL_GREK = {
         'Ваш 3 PM crash — не черта характера. Это физиология.\n\nЭнергия — не «настрой» и не моральный ресурс. Это сумма трёх систем. Если чините только одну — будете удивляться, почему «всё правильное» не работает.',
       litres: 'https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0GTLMCS4N',
     },
     {
       slug: 'mozg-i-dengi',
@@ -305,7 +305,7 @@ window.POL_GREK = {
         '«Деньги — это не математика. Это нейробиология».\n\nЗнания — это потенциал, а не результат. Мозг отлично умеет подменять действие изучением: ещё одна книга, ещё один курс — ощущение прогресса есть, результата нет. Сила не в знаниях. Сила в том, что ты с ними делаешь.',
       litres: 'https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0H6MN9DX1',
     },
     {
       slug: 'stress-i-mozg',
@@ -336,7 +336,7 @@ window.POL_GREK = {
         'Мозг обожает ощущение контроля. Даже когда его нет. Особенно когда его нет. Поэтому паника при неопределённости — не слабость. Просто мозгу не поставили понятную задачу. Дайте один конкретный следующий шаг — и станет полегче.',
       litres: 'https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
     {
       slug: 'reset',
@@ -369,7 +369,7 @@ window.POL_GREK = {
       litres:
         'https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0H6K6BG5Z',
     },
     {
       slug: 'mentalnyy-debag',
@@ -399,7 +399,7 @@ window.POL_GREK = {
       litres:
         'https://www.litres.ru/book/pol-grek/mental-nyy-debag-kak-perezagruzit-mozg-za-5-minut-v-den-73443798/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
     {
       slug: 'ostorozhnyy-biohaker',
@@ -427,7 +427,7 @@ window.POL_GREK = {
         '2 литра воды в день — маркетинг, а не физиология. Биохакинг — не про то, чтобы делать больше. Это про то, чтобы делать правильные вещи в правильном ритме. Главный навык — вовремя остановиться.',
       litres: 'https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
     {
       slug: 'svyashchennye-chasy',
@@ -457,7 +457,7 @@ window.POL_GREK = {
       litres:
         'https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
     {
       slug: 'zhenskiy-mozg',
@@ -488,7 +488,7 @@ window.POL_GREK = {
         'Пол: Лора сказала: «Я больше не понимаю свой мозг». Ей было сорок три. Я начал читать исследования — и понял: это не слабость. Это физиология.\n\nЛора: Врач сказал «привыкайте». Я не хотела привыкать. Я хотела понимать.',
       litres: 'https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        'https://www.amazon.com/dp/B0H7SB181H',
     },
     {
       slug: 'muzhskoy-mozg',
@@ -518,7 +518,7 @@ window.POL_GREK = {
         'В сорок два я проснулся и почувствовал: что-то сдвинулось. Энергия таяла к обеду. Концентрация рассеивалась. Я нейробиолог — но когда это коснулось меня, стало не по себе. «Неужели это просто возраст?» Дело глубже.',
       litres: 'https://www.litres.ru/book/lora-grek/muzhskoy-mozg-73738682/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
     {
       slug: 'ei-2',
@@ -548,7 +548,7 @@ window.POL_GREK = {
         '«Просто успокойся» — самый бесполезный совет нервной системе. Амигдала срабатывает быстрее мысли. Это не слабость характера. Это архитектура мозга. Вопрос — как вернуть контроль, когда тело уже в режиме угрозы.',
       litres: 'https://www.litres.ru/book/pol-grek/emocional-nyy-intellekt-2-0-73597132/',
       amazon:
-        'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
+        '',
     },
   ],
 

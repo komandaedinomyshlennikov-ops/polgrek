@@ -59,6 +59,27 @@ def tags_html(book: dict) -> str:
     return '<span class="tag-sep"> · </span>'.join(parts)
 
 
+def amazon_product_url(book: dict) -> str:
+    u = (book.get("amazon") or "").strip()
+    if re.search(r"amazon\.[a-z.]+/(?:dp|gp/product)/", u, re.I):
+        return u
+    return ""
+
+
+def store_actions_html(book: dict, href: str, compact: bool = True) -> str:
+    sm = " btn-sm" if compact else ""
+    parts = [
+        f'<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>'
+    ]
+    amz = amazon_product_url(book)
+    if amz:
+        parts.append(
+            f'<a class="btn{sm} btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        )
+    parts.append(f'<a class="btn{sm} btn-outline" href="{href}#excerpt">Отрывок</a>')
+    return "\n      ".join(parts)
+
+
 def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     # prefix for links from books/ folder to other books: "" if same folder
     # assets: ../assets
@@ -78,8 +99,7 @@ def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     <div class="book-tags">{tags_html(book)}</div>
     <p>{esc(book['promise'])}</p>
     <div class="book-actions">
-      <a class="btn btn-sm btn-primary" href="{esc(book['litres'])}" target="_blank" rel="noopener">Литрес</a>
-      <a class="btn btn-sm btn-outline" href="{href}#excerpt">Отрывок</a>
+      {store_actions_html(book, href, compact=True)}
     </div>
     <a class="book-more" href="{href}">Аннотация и отрывок →</a>
   </div>
@@ -233,9 +253,10 @@ def build_book_page(G: dict, book: dict) -> str:
           </div>
           <div class="book-aside-actions">
             <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+            {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else ""}
             <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
           </div>
-          <p class="book-aside-hint">Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.</p>
+          <p class="book-aside-hint">{"Оплата на Литрес или Amazon. " if amazon_product_url(book) else "Оплата на Литрес. "}Здесь — описание и фрагмент; сайт не принимает платежи.</p>
         </aside>
 
         <div class="book-detail-body">
@@ -246,6 +267,7 @@ def build_book_page(G: dict, book: dict) -> str:
 
           <div class="actions book-main-actions">
             <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+            {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else ""}
             <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
             <a class="btn btn-ghost-link" href="{excerpt_file}" download>Скачать отрывок</a>
           </div>
@@ -396,48 +418,38 @@ def main() -> None:
     )
     # Fix flagships for index (from root)
     def card_root(book):
-        slug = book["slug"]
-        return f"""
-<article class="book-card{' is-flagship' if book.get('flagship') else ''}">
-  <a class="book-cover has-image clean" href="books/{slug}.html" aria-label="{esc(book['title'])}">
-    <img src="assets/covers/{book.get('coverFile', slug + '.jpg')}" alt="Обложка: {esc(book['title'])}" loading="lazy" width="600" height="900" />
-  </a>
-  <div class="book-body">
-    <h3 class="book-title"><a href="books/{slug}.html">{esc(book['title'])}</a></h3>
-    <div class="book-tags">{tags_html(book)}</div>
-    <p>{esc(book['promise'])}</p>
-    <div class="book-actions">
-      <a class="btn btn-sm btn-primary" href="{esc(book['litres'])}" target="_blank" rel="noopener">Литрес</a>
-      <a class="btn btn-sm btn-outline" href="books/{slug}.html#excerpt">Отрывок</a>
-    </div>
-    <a class="book-more" href="books/{slug}.html">Аннотация и отрывок →</a>
-  </div>
-</article>"""
+        return book_card(book, books_dir=False)
 
     def card_books_dir(book):
-        slug = book["slug"]
-        return f"""
-<article class="book-card{' is-flagship' if book.get('flagship') else ''}">
-  <a class="book-cover has-image clean" href="{slug}.html" aria-label="{esc(book['title'])}">
-    <img src="../assets/covers/{book.get('coverFile', slug + '.jpg')}" alt="Обложка: {esc(book['title'])}" loading="lazy" width="600" height="900" />
-  </a>
-  <div class="book-body">
-    <h3 class="book-title"><a href="{slug}.html">{esc(book['title'])}</a></h3>
-    <div class="book-tags">{tags_html(book)}</div>
-    <p>{esc(book['promise'])}</p>
-    <div class="book-actions">
-      <a class="btn btn-sm btn-primary" href="{esc(book['litres'])}" target="_blank" rel="noopener">Литрес</a>
-      <a class="btn btn-sm btn-outline" href="{slug}.html#excerpt">Отрывок</a>
-    </div>
-    <a class="book-more" href="{slug}.html">Аннотация и отрывок →</a>
-  </div>
-</article>"""
+        return book_card(book, books_dir=True)
 
-    (SITE / "partials" / "flagships.html").write_text(
-        "".join(card_root(b) for b in flagships), encoding="utf-8"
+    flagships_html = "".join(card_root(b) for b in flagships)
+    books_all_html = "".join(card_books_dir(b) for b in G["books"])
+    (SITE / "partials" / "flagships.html").write_text(flagships_html, encoding="utf-8")
+    (SITE / "partials" / "books-all.html").write_text(books_all_html, encoding="utf-8")
+
+    # Inject into static index + catalog (no-JS grids)
+    def inject_between(path: Path, start_marker: str, end_marker: str, content: str) -> None:
+        raw = path.read_text(encoding="utf-8")
+        a = raw.find(start_marker)
+        b = raw.find(end_marker, a + len(start_marker) if a >= 0 else 0)
+        if a < 0 or b < 0:
+            print("skip inject", path.name)
+            return
+        path.write_text(raw[: a + len(start_marker)] + content + raw[b:], encoding="utf-8")
+        print("inject", path.name)
+
+    inject_between(
+        SITE / "index.html",
+        'id="featuredBooks">',
+        "</div>\n        <p class=\"catalog-hint\">",
+        flagships_html,
     )
-    (SITE / "partials" / "books-all.html").write_text(
-        "".join(card_books_dir(b) for b in G["books"]), encoding="utf-8"
+    inject_between(
+        SITE / "books" / "index.html",
+        'id="booksGrid">',
+        "</div>\n        <p class=\"catalog-hint\"",
+        books_all_html,
     )
 
     arts = "".join(

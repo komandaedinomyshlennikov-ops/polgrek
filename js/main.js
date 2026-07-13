@@ -164,11 +164,19 @@
     return url('/lab/' + slug + '.html');
   }
 
+  function hasAmazonProduct(book) {
+    const u = book && book.amazon;
+    return typeof u === 'string' && /amazon\.[a-z.]+\/(?:dp|gp\/product)\//i.test(u);
+  }
+
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
-    // Only LitRes for per-book conversion (Amazon author-search removed — no exact product URLs)
+    // Amazon only when exact product URL exists (not author search)
+    const amz = hasAmazonProduct(book)
+      ? `\n      <a class="${cls} btn-outline" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">Amazon</a>`
+      : '';
     return `
-      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Литрес</a>
+      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Литрес</a>${amz}
       <a class="${cls} btn-outline" href="${bookPageUrl(book.slug)}#excerpt">Отрывок</a>`;
   }
 
