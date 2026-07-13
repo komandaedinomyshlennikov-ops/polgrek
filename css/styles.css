@@ -264,6 +264,44 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   gap: 0.45rem;
   flex-shrink: 0;
 }
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 252, 247, 0.75);
+}
+.lang-btn {
+  min-width: 2.1rem;
+  min-height: 32px;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-align: center;
+}
+.lang-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.lang-btn:hover:not(.active) {
+  color: var(--ink);
+}
+.mobile-lang-row {
+  margin: 0 0 0.85rem;
+}
+.mobile-lang-row .lang-switch {
+  width: 100%;
+  justify-content: center;
+}
+.mobile-lang-row .lang-btn {
+  flex: 1;
+  min-height: 40px;
+}
 .nav-cta { margin-left: 0; min-height: 42px; padding-inline: 1.1rem; font-size: 0.88rem; }
 .nav-cta-secondary {
   min-height: 42px;
@@ -338,6 +376,12 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   font-size: 0.9rem;
 }
 
+.nav-mobile-tools {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
 .nav-toggle {
   display: none;
   width: 44px;
@@ -1954,6 +1998,7 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   .trust-photo img { max-width: 280px; margin-inline: auto; }
   .nav-links { display: none; }
   .nav-actions { display: none; }
+  .nav-mobile-tools { display: inline-flex; }
   .nav-toggle { display: inline-flex; }
   .mobile-tabbar { display: grid; }
   /* Room for tabbar only */

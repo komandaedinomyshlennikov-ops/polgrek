@@ -22,11 +22,11 @@ TAG_RU = {
 }
 
 
-def load_data() -> dict:
-    node = r"""
+def load_data(data_file: str = "js/data.js") -> dict:
+    node = f"""
 const fs=require('fs');const vm=require('vm');
-const c={window:{}};vm.createContext(c);
-vm.runInContext(fs.readFileSync('js/data.js','utf8'),c);
+const c={{window:{{}}}};vm.createContext(c);
+vm.runInContext(fs.readFileSync({data_file!r},'utf8'),c);
 console.log(JSON.stringify(c.window.POL_GREK));
 """
     return json.loads(subprocess.check_output(["node", "-e", node], cwd=SITE, text=True))
@@ -149,13 +149,25 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
     return [b for _, b in scored[:n]]
 
 
-def shell(title: str, description: str, body: str, page: str, base: str, path_prefix: str) -> str:
-    # path_prefix: '' for root, '../' for books/lab
+def shell(
+    title: str,
+    description: str,
+    body: str,
+    page: str,
+    base: str,
+    path_prefix: str,
+    lang: str = "ru",
+    data_js: str = "js/data.js",
+) -> str:
+    # path_prefix: relative to page for assets (e.g. '../../' for en/books)
     css = f"{path_prefix}css/styles.css"
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
+    data_src = f"{path_prefix}{data_js}"
+    lang_attr = "en" if lang == "en" else "ru"
+    data_lang = ' data-lang="en"' if lang == "en" else ""
     return f"""<!DOCTYPE html>
-<html lang="ru">
+<html lang="{lang_attr}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -168,27 +180,30 @@ def shell(title: str, description: str, body: str, page: str, base: str, path_pr
   <link rel="icon" href="{fav2}" type="image/png" />
   <link rel="stylesheet" href="{css}" />
 </head>
-<body data-page="{page}" data-base="{base}">
+<body data-page="{page}" data-base="{base}"{data_lang}>
   <div id="site-header"></div>
   <main id="main-content" tabindex="-1">
 {body}
   </main>
   <div id="site-footer"></div>
   <script src="{path_prefix}js/base-config.js"></script>
-  <script src="{path_prefix}js/data.js"></script>
+  <script src="{data_src}"></script>
   <script src="{path_prefix}js/main.js"></script>
 </body>
 </html>
 """
 
 
-def build_book_page(G: dict, book: dict) -> str:
+def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False) -> str:
     all_books = G["books"]
     idx = next(i for i, b in enumerate(all_books) if b["slug"] == book["slug"])
     prev_b = all_books[idx - 1] if idx > 0 else None
     next_b = all_books[idx + 1] if idx < len(all_books) - 1 else None
     related = related_books(G, book["slug"], 3)
-    primary = next((t for t in (book.get("tags") or []) if t != "лора"), "")
+    primary = next(
+        (t for t in (book.get("tags") or []) if t not in ("лора", "laura")),
+        "",
+    )
     topic = TAG_RU.get(primary, primary)
     topic_href = f"index.html?filter={html.escape(primary)}" if primary else "index.html"
     authors = ", ".join(book.get("authors") or [])
@@ -196,15 +211,18 @@ def build_book_page(G: dict, book: dict) -> str:
     excerpt_file = f"../excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
     cover = f"../assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}"
 
-    # load excerpt file if exists
-    ex_path = SITE / "excerpts" / book.get("excerptFile", f"{book['slug']}-otryvok.txt")
+    # load excerpt file if exists (skip for EN — use native inline excerpt)
     excerpt_text = book.get("excerpt") or ""
-    if ex_path.exists():
-        raw = ex_path.read_text(encoding="utf-8", errors="ignore")
-        raw = re.sub(r"^[\s\S]*?— Отрывок —\s*", "", raw)
-        raw = re.sub(r"\n—\n[\s\S]*$", "", raw).strip()
-        if raw:
-            excerpt_text = raw[:2200] + ("…" if len(raw) > 2200 else "")
+    if not prefer_inline_excerpt:
+        ex_path = SITE / "excerpts" / book.get("excerptFile", f"{book['slug']}-otryvok.txt")
+        if ex_path.exists():
+            raw = ex_path.read_text(encoding="utf-8", errors="ignore")
+            raw = re.sub(r"^[\s\S]*?— Отрывок —\s*", "", raw)
+            raw = re.sub(r"\n—\n[\s\S]*$", "", raw).strip()
+            if raw:
+                excerpt_text = raw[:2200] + ("…" if len(raw) > 2200 else "")
+    else:
+        excerpt_text = (excerpt_text or "")[:2200]
 
     prev_html = (
         f'<a class="book-pn prev" href="{prev_b["slug"]}.html"><span class="book-pn-label">← Предыдущая</span><strong>{esc(prev_b["title"])}</strong></a>'
@@ -557,6 +575,119 @@ def main() -> None:
 """,
         encoding="utf-8",
     )
+
+
+    # ---- English mirror (native US content) ----
+    try:
+        GE = load_data("js/data-en.js")
+    except Exception as e:
+        print("EN data skip", e)
+        GE = None
+    if GE:
+        TAG_EN = {
+            "cognitive-health": "cognitive health",
+            "biohacking": "biohacking",
+            "energy": "energy",
+            "stress": "stress",
+            "burnout": "burnout",
+            "money": "money",
+            "hormones": "hormones",
+            "laura": "with Laura",
+        }
+        # temporarily swap TAG_RU for EN card labels
+        global TAG_RU
+        _tag_backup = dict(TAG_RU)
+        TAG_RU.clear()
+        TAG_RU.update(TAG_EN)
+
+        en_books = SITE / "en" / "books"
+        en_lab = SITE / "en" / "lab"
+        en_books.mkdir(parents=True, exist_ok=True)
+        en_lab.mkdir(parents=True, exist_ok=True)
+
+        # Lightweight EN book/article pages via existing builders with monkeypatched strings
+        import build_static as _self  # noqa — not needed
+
+        def build_book_en(G, book):
+            # reuse build_book_page but post-process Russian chrome to English
+            html_out = build_book_page(G, book, prefer_inline_excerpt=True)
+            # Fix paths: was ../ for books/ — need ../../ for en/books/
+            html_out = html_out.replace('href="../', 'href="../../')
+            html_out = html_out.replace('src="../', 'src="../../')
+            html_out = html_out.replace('href="../../index.html"', 'href="../index.html"')
+            html_out = html_out.replace(
+                '<html lang="ru">', '<html lang="en">'
+            ).replace(
+                'data-base=".."', 'data-base=".." data-lang="en"'
+            ).replace(
+                'js/data.js', 'js/data-en.js'
+            )
+            # UI chrome replacements (order matters)
+            reps = [
+                ("Страница книги открыта без JavaScript: описание и отрывок ниже.", "Book page loaded without JavaScript: description and excerpt below."),
+                ("Главная", "Home"),
+                ("Книги", "Books"),
+                ("Сейчас открыта книга", "Now reading"),
+                ("На странице:", "On this page:"),
+                ("Для кого", "Who it's for"),
+                ("О чём", "About"),
+                ("Что внутри", "Inside"),
+                ("Отрывок", "Excerpt"),
+                ("Похожие", "Related"),
+                ("Купить на Литрес", "Buy on LitRes"),
+                ("Читать отрывок", "Read excerpt"),
+                ("К отрывку ↓", "To excerpt ↓"),
+                ("Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on Amazon or LitRes. Description and sample here; this site does not take payment."),
+                ("Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on LitRes. Description and sample here; this site does not take payment."),
+                ("Автор:", "Author:"),
+                ("Скачать отрывок", "Download excerpt"),
+                ("Читать целиком на Литрес", "Read full book on LitRes"),
+                ("Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.", "Sample from the book. If the voice clicks — full text on LitRes / Amazon."),
+                ("Каталог", "Catalog"),
+                ("Ещё в каталоге", "More in catalog"),
+                ("Похожие книги", "Related books"),
+                ("← Предыдущая", "← Previous"),
+                ("Следующая →", "Next →"),
+                ("Литрес", "LitRes"),
+                (" — Пол Грэк", " — Pol Grek"),
+            ]
+            for a, b in reps:
+                html_out = html_out.replace(a, b)
+            # co-author label
+            html_out = html_out.replace("с Лорой Грэк", "with Laura Grek")
+            return html_out
+
+        def build_article_en(G, article):
+            html_out = build_article_page(G, article)
+            html_out = html_out.replace('href="../', 'href="../../')
+            html_out = html_out.replace('src="../', 'src="../../')
+            html_out = html_out.replace('<html lang="ru">', '<html lang="en">')
+            html_out = html_out.replace('data-base=".."', 'data-base=".." data-lang="en"')
+            html_out = html_out.replace('js/data.js', 'js/data-en.js')
+            reps = [
+                ("Статья открыта без JavaScript.", "Article loaded without JavaScript."),
+                ("Главная", "Home"),
+                ("Лаборатория", "Lab"),
+                ("мин · отрывок и книга →", "min · excerpt & book →"),
+                ("Книга:", "Book:"),
+                ("Все материалы", "All posts"),
+                ("Ещё из лаборатории", "More from the lab"),
+                ("Купить на Литрес", "Buy on LitRes"),
+                (" — Лаборатория Пола Грэка", " — Pol Grek Lab"),
+            ]
+            for a, b in reps:
+                html_out = html_out.replace(a, b)
+            return html_out
+
+        for book in GE["books"]:
+            (en_books / f"{book['slug']}.html").write_text(build_book_en(GE, book), encoding="utf-8")
+            print("en book", book["slug"])
+        for article in GE["articles"]:
+            (en_lab / f"{article['slug']}.html").write_text(build_article_en(GE, article), encoding="utf-8")
+            print("en article", article["slug"])
+
+        TAG_RU.clear()
+        TAG_RU.update(_tag_backup)
 
     print("OK: static pages built")
 
