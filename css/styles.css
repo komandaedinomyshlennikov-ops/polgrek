@@ -879,7 +879,18 @@ body.has-sticky-buy .back-to-top {
   margin-bottom: 0.85rem;
   font-size: 1.55rem;
 }
-.bio-principles { margin: 1.25rem 0 0.5rem; }
+/* Principles: 2×2 inside narrow bio column — 4-up was ~160px and shattered RU text */
+.bio-principles {
+  margin: 1.25rem 0 0.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1rem;
+  width: 100%;
+}
+@media (max-width: 560px) {
+  .bio-principles {
+    grid-template-columns: 1fr !important;
+  }
+}
 .footer-legal {
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 1rem;
@@ -1020,15 +1031,19 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 }
 .method-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 }
 .method-card {
-  padding: 1.4rem;
+  padding: 1.35rem 1.4rem;
   border-radius: var(--radius);
   background: var(--white);
   border: 1px solid var(--line);
-  min-height: 210px;
+  min-height: 0;
+  min-width: 0; /* allow grid shrink without crushing content layout */
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 .method-icon {
   width: 44px;
@@ -1036,14 +1051,32 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   border-radius: 14px;
   display: grid;
   place-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
+  flex-shrink: 0;
   font-weight: 800;
   font-size: 0.85rem;
   color: var(--ink);
   background: linear-gradient(145deg, rgba(232, 162, 58, 0.25), rgba(42, 157, 143, 0.18));
 }
-.method-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
-.method-card p { font-size: 0.92rem; color: var(--muted); margin: 0; max-width: none; }
+.method-card h3 {
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  margin: 0 0 0.4rem;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+.method-card p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: none;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
 
 /* ---------- Book cards ---------- */
 .books-grid {
@@ -1949,7 +1982,7 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   .dual,
   .myth-fact,
   .trust-split { grid-template-columns: 1fr; }
-  .method-grid { grid-template-columns: 1fr 1fr; }
+  .method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .books-grid,
   .books-grid-flagship,
   .articles-grid,
