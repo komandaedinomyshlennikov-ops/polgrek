@@ -28,15 +28,15 @@
         <div class="nav-drop-panel" role="menu">
           <a role="menuitem" href="${url('/books/index.html')}?filter=выгорание">
             <strong>Я выгорел</strong>
-            <span>RESET · стресс · дебаг</span>
+            <span>RESET, стресс, перезагрузка</span>
           </a>
           <a role="menuitem" href="${url('/books/index.html')}?filter=когнитивное-здоровье">
             <strong>Мозг после 40 / энергия</strong>
-            <span>100+ · биохакинг · сон</span>
+            <span>«Мозг на 100+», биохакинг, сон</span>
           </a>
           <a role="menuitem" href="${url('/books/index.html')}?filter=деньги">
-            <strong>Деньги / эмоции</strong>
-            <span>Мозг и деньги · ЭИ · гормоны</span>
+            <strong>Деньги и эмоции</strong>
+            <span>«Мозг и деньги», эмоции, гормоны</span>
           </a>
           <a role="menuitem" class="nav-drop-all" href="${url('/books/index.html')}">Все книги →</a>
         </div>
@@ -165,7 +165,22 @@
 
   function bookCardHTML(book, opts = {}) {
     const co = book.authors.length > 1 ? '<span class="tag co">с Лорой Грэк</span>' : '';
-    const flag = book.flagship || opts.flagship ? '<span class="tag flag">Флагман</span>' : '';
+    const flag = book.flagship || opts.flagship ? '<span class="tag flag">Ключевая</span>' : '';
+    const tagRu = {
+      'когнитивное-здоровье': 'когнитивное здоровье',
+      биохакинг: 'биохакинг',
+      энергия: 'энергия',
+      стресс: 'стресс',
+      выгорание: 'выгорание',
+      деньги: 'деньги',
+      гормоны: 'гормоны',
+      лора: 'с Лорой',
+    };
+    const tags = book.tags
+      .filter((t) => t !== 'лора' || book.authors.length === 1)
+      .slice(0, 2)
+      .map((t) => `<span class="tag">${tagRu[t] || t}</span>`)
+      .join('');
     return `
       <article class="book-card${book.flagship ? ' is-flagship' : ''}">
         <a class="book-cover has-image clean" href="${url('/books/book.html?slug=' + book.slug)}" aria-label="${book.title}">
@@ -173,7 +188,7 @@
         </a>
         <div class="book-body">
           <h3 class="book-title"><a href="${url('/books/book.html?slug=' + book.slug)}">${book.title}</a></h3>
-          <div class="book-tags">${flag}${co}${book.tags.slice(0, 2).map((t) => `<span class="tag">${t}</span>`).join('')}</div>
+          <div class="book-tags">${flag}${co}${tags}</div>
           <p>${book.promise}</p>
           <div class="book-actions">
             ${storeButtons(book, true)}
@@ -384,7 +399,14 @@
               <div class="rating-stars" aria-label="Оценка ${item.rating}">${'★'.repeat(5)}</div>
               <strong>${item.rating.toFixed(1)}</strong>
               <span class="rating-book">${item.book}</span>
-              <span class="rating-meta">${item.votes} ${item.votes === 1 ? 'оценка' : item.votes < 5 ? 'оценки' : 'оценок'} · ${sp.source}</span>
+              <span class="rating-meta">${(function (n) {
+                n = Math.abs(n) % 100;
+                const n1 = n % 10;
+                if (n > 10 && n < 20) return item.votes + ' оценок';
+                if (n1 === 1) return item.votes + ' оценка';
+                if (n1 >= 2 && n1 <= 4) return item.votes + ' оценки';
+                return item.votes + ' оценок';
+              })(item.votes)} на ${sp.source} · открыть книгу →</span>
             </a>`;
         })
         .join('');
