@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Книги — Пол Грэк</title>
+  <meta name="description" content="Все книги Пола и Лоры Грэк: мозг, стресс, энергия, биохакинг, деньги, гормоны. Отрывки, аннотации, покупка на Литрес и Amazon." />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../assets/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body data-page="books" data-base="..">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="../index.html">Главная</a> · <span>Книги</span>
+        </div>
+        <p class="eyebrow">Каталог</p>
+        <h1>Книги Пола Грэка</h1>
+        <p class="lead">
+          Выберите по проблеме, а не по обложке. На каждой странице — аннотация, отрывок и кнопки
+          <strong>Литрес</strong> / <strong>Amazon</strong>. Без собственного магазина: покупаете там, где уже доверяете.
+        </p>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="container">
+        <div class="filters" id="bookFilters" aria-label="Фильтры"></div>
+        <div class="books-grid" id="booksGrid"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="final-cta">
+          <h2>Не знаете, с чего начать?</h2>
+          <p>Три двери на главной — или откройте «Лабораторию» и найдите тему, которая болит сильнее всего.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="../index.html">Три двери</a>
+            <a class="btn btn-outline" href="../lab/index.html">Лаборатория</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="../js/base-config.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    // Deep-link filter from home doors: ?filter=выгорание
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      const f = params.get('filter');
+      if (!f) return;
+      const tryClick = () => {
+        const btn = document.querySelector(`.filter-btn[data-filter="${CSS.escape(f)}"]`);
+        if (btn) btn.click();
+      };
+      // filters render on DOMContentLoaded in main.js — wait a tick
+      setTimeout(tryClick, 0);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Об авторе — Пол Грэк / Pol Grek</title>
+  <meta name="description" content="Пол Грэк родился в Англии, изучает русский с 35 лет, жена Лора Грэк — выпускница МГУ. Нейробиолог и автор: Литрес, Amazon, Threads @pol.grek." />
+  <meta property="og:title" content="Пол Грэк — об авторе" />
+  <meta property="og:image" content="assets/og-image.jpg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="about" data-base="">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Главная</a> · <span>Об авторе</span>
+        </div>
+        <p class="eyebrow">Автобиография · доверие через факты</p>
+        <div class="about-photo">
+          <img src="assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="220" height="220" />
+        </div>
+        <h1>Пол Грэк</h1>
+        <p class="lead" id="aboutLead"></p>
+        <div class="btn-row" style="margin-top:1.25rem">
+          <a class="btn btn-primary" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Книги на Литрес</a>
+          <a class="btn btn-outline" href="https://www.threads.net/@pol.grek" target="_blank" rel="noopener">Threads @pol.grek</a>
+          <a class="btn btn-ghost-link" href="https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1" target="_blank" rel="noopener">Amazon →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust checkpoints strip -->
+    <section style="padding-top:0;padding-bottom:1rem">
+      <div class="container">
+        <div class="hero-badges" id="bioChips" style="margin:0"></div>
+      </div>
+    </section>
+
+    <!-- Full autobiography timeline -->
+    <section class="ink-section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Чекпоинты пути</p>
+            <h2>Откуда берётся право говорить о мозге</h2>
+            <p>Не «гуру с обложки» — человек, который сначала чинил себя, потом писал. Каждый этап объясняет, почему ему верят.</p>
+          </div>
+        </div>
+        <div class="timeline" id="autoTimeline"></div>
+      </div>
+    </section>
+
+    <!-- Voice code from Threads replies -->
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Threads · как он отвечает людям</p>
+            <h2 id="voiceTitle">Код общения</h2>
+            <p>Лояльность растёт не из статуса, а из тона: Пол не стыдит, не давит, не продаёт «чудо» — объясняет механику и даёт один шаг.</p>
+          </div>
+        </div>
+        <div class="method-grid" id="voicePatterns" style="margin-bottom:1.5rem"></div>
+        <div class="myth-fact" id="voiceExamples"></div>
+      </div>
+    </section>
+
+    <!-- Principles -->
+    <section class="ink-section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Почему остаются</p>
+            <h2>Четыре опоры доверия</h2>
+          </div>
+        </div>
+        <div class="method-grid" id="principles"></div>
+      </div>
+    </section>
+
+    <!-- Laura -->
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Семья и соавторство</p>
+            <h2>Вместе с Лорой Грэк</h2>
+          </div>
+        </div>
+        <div class="dual">
+          <article class="person pol">
+            <div class="avatar has-photo"><img src="assets/pol-grek-portrait.jpg" alt="" width="72" height="72" /></div>
+            <h3>Пол Грэк</h3>
+            <div class="role">Англия · когнитивные науки · IT · русский с 35</div>
+            <p>
+              Лаборатория: механизмы, evidence, anti-hype. Пишет на русском так, как отвечает в Threads —
+              коротко, по делу, с уважением к усталости читателя.
+            </p>
+          </article>
+          <article class="person laura">
+            <div class="avatar">Л</div>
+            <h3>Лора Грэк</h3>
+            <div class="role">Россия · МГУ · клинический психолог</div>
+            <p id="lauraBio"></p>
+          </article>
+        </div>
+        <p class="pull-quote" style="margin-top:2rem">
+          «Все мои книги теперь на ЛитРес. Про сон, мозг, бернаут, биохакинг и деньги — всё, что я собирал годами,
+          сначала чтобы починить себя, потом чтобы поделиться с другими.»
+        </p>
+        <p class="muted" style="font-size:0.9rem">— Пол Грэк, Threads, июнь 2026</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="final-cta">
+          <h2>Доверие → отрывок → книга</h2>
+          <p>Не верьте биографии на слово. Откройте главу. Потом — Литрес или Amazon.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="books/index.html">Книги</a>
+            <a class="btn btn-outline" href="lab/index.html">Лаборатория из Threads</a>
+            <a class="btn btn-secondary" href="https://www.threads.net/@pol.grek" target="_blank" rel="noopener">@pol.grek</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/base-config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

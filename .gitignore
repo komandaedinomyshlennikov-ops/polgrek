@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+.idea/
+.vscode/
+node_modules/
+
+# Full-resolution cover archives (not needed for web)
+assets/covers/*-full.*
