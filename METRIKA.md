@@ -11,10 +11,10 @@
 Файл `js/base-config.js`:
 
 ```js
-window.POL_GREK_METRIKA_ID = 12345678; // ← ваш номер
+window.POL_GREK_METRIKA_ID = 110711984; // активный счётчик polgrek.site
 ```
 
-Пока стоит `0` — Метрика **не** грузится (удобно для локальной разработки).
+Чтобы временно отключить локально: поставьте `0`.
 
 После правки: `git commit` + `git push` (GitHub Pages).
 
