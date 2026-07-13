@@ -1,31 +1,12 @@
 /**
- * GitHub Pages base path.
- * - User/org site (username.github.io): leave as ''
- * - Project site (username.github.io/repo-name/): set to '/repo-name'
- *
- * Override automatically from path if possible.
+ * Site base path for links.
+ * - Custom domain (polgrek.site): ''  ← current
+ * - Project site (user.github.io/polgrek): '/polgrek'
  */
 (function () {
-  var manual = '/polgrek'; // e.g. '/pol-grek-site'
-  var path = window.location.pathname || '/';
-  var auto = '';
+  // Empty string = site at domain root (polgrek.site)
+  var manual = '';
 
-  // Heuristic: if first segment is not a known site file/folder, treat as repo base
-  var known = {
-    '': true,
-    index.html: true,
-    about.html: true,
-    books: true,
-    lab: true,
-    css: true,
-    js: true,
-    assets: true,
-    excerpts: true,
-  };
-  var parts = path.split('/').filter(Boolean);
-  if (parts.length && !known[parts[0]] && parts[0].indexOf('.') === -1) {
-    auto = '/' + parts[0];
-  }
-
-  window.POL_GREK_BASE = manual || auto || '';
+  // Do not use auto-detect: empty manual must stay empty (not fall through to auto)
+  window.POL_GREK_BASE = typeof manual === 'string' ? manual : '';
 })();
