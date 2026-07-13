@@ -23,7 +23,7 @@ window.POL_GREK = {
     disclaimer:
       'This site is for education only. It is not medical, psychological, or financial advice and does not replace a visit with a licensed professional. If you are in crisis, contact emergency services or a qualified clinician.',
     privacy:
-      'We do not collect personal data through registration forms on this site. Links to LitRes, Amazon, and social platforms are governed by those services’ own policies.',
+      'We do not collect personal data through registration forms on this site. Yandex Metrika may be used for visit statistics. Links to LitRes, Amazon, and social platforms are governed by those services’ own policies.',
   },
   faq: [
     {

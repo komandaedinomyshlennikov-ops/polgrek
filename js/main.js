@@ -144,9 +144,52 @@
 
   function langSwitcher() {
     return `<div class="lang-switch" role="group" aria-label="${UI.langAria}">
-      <a class="lang-btn${!isEn ? ' active' : ''}" href="${peerLangUrl('ru')}" hreflang="ru" lang="ru">${UI.langRu}</a>
-      <a class="lang-btn${isEn ? ' active' : ''}" href="${peerLangUrl('en')}" hreflang="en" lang="en">${UI.langEn}</a>
+      <a class="lang-btn${!isEn ? ' active' : ''}" href="${peerLangUrl('ru')}" hreflang="ru" lang="ru" data-track="lang_ru">${UI.langRu}</a>
+      <a class="lang-btn${isEn ? ' active' : ''}" href="${peerLangUrl('en')}" hreflang="en" lang="en" data-track="lang_en">${UI.langEn}</a>
     </div>`;
+  }
+
+  function track(name, params) {
+    if (window.PolMetrika && typeof window.PolMetrika.goal === 'function') {
+      window.PolMetrika.goal(name, params);
+    }
+  }
+
+  function bindAnalytics() {
+    document.addEventListener(
+      'click',
+      (e) => {
+        const a = e.target.closest('a');
+        if (!a || !a.href) return;
+        const params = {
+          lang: isEn ? 'en' : 'ru',
+          path: location.pathname,
+        };
+        if (a.dataset.book) params.book = a.dataset.book;
+
+        // Explicit data-track wins
+        const tracked = a.getAttribute('data-track');
+        if (tracked) {
+          track(tracked, params);
+          return;
+        }
+
+        // Static HTML buttons without data-track
+        const href = a.href;
+        if (/litres\.ru/i.test(href)) {
+          track('litres', params);
+          return;
+        }
+        if (/amazon\.[a-z.]+\/(?:dp|gp\/product)\//i.test(href)) {
+          track('amazon', params);
+          return;
+        }
+        if (a.hasAttribute('download') && /excerpt|otryvok/i.test(href + (a.download || ''))) {
+          track('excerpt_download', params);
+        }
+      },
+      true
+    );
   }
 
   function url(path) {
@@ -735,6 +778,7 @@
       const btn = e.target.closest('.filter-btn');
       if (!btn) return;
       active = btn.dataset.filter;
+      track('filter_books', { filter: active, lang: isEn ? 'en' : 'ru' });
       paint();
     });
 
@@ -746,6 +790,7 @@
   }
 
   async function downloadExcerpt(book) {
+    track('excerpt_download', { book: book.slug, lang: isEn ? 'en' : 'ru' });
     const fileUrl = excerptUrl(book);
     try {
       const res = await fetch(fileUrl);
@@ -862,6 +907,24 @@
       about: 'about',
     };
     mountShell(activeMap[page] || 'home');
+    bindAnalytics();
+
+    // Page-level goals for Metrika reports
+    if (page === 'book') {
+      const m = (location.pathname || '').match(/\/books\/([^/]+)\.html/);
+      const slug = m ? m[1] : '';
+      track('book_view', { book: slug, lang: isEn ? 'en' : 'ru' });
+    }
+    if (page === 'article') {
+      const m = (location.pathname || '').match(/\/lab\/([^/]+)\.html/);
+      track('lab_view', { article: m ? m[1] : '', lang: isEn ? 'en' : 'ru' });
+    }
+    if (window.PolMetrika && typeof window.PolMetrika.params === 'function') {
+      window.PolMetrika.params({
+        lang: isEn ? 'en' : 'ru',
+        page: page,
+      });
+    }
 
     if (page === 'home') renderHome();
     if (page === 'books') renderBooksPage();
@@ -871,5 +934,5 @@
     if (page === 'about') renderAboutPage();
   });
 
-  window.PolSite = { bookCardHTML, articleCardHTML, url, peerLangUrl, isEn, UI };
+  window.PolSite = { bookCardHTML, articleCardHTML, url, peerLangUrl, isEn, UI, track };
 })();
