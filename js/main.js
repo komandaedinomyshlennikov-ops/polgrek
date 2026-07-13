@@ -114,7 +114,7 @@
               <span class="logo-mark" aria-hidden="true"></span>
               <span class="logo-text">Пол Грэк<span>Pol Grek</span></span>
             </div>
-            <p>Нейробиология без эзотерики. Витрина и редакция — покупка на Литрес и Amazon.</p>
+            <p>Нейробиология без эзотерики. Витрина автора — покупка на Литрес.</p>
           </div>
           <div>
             <h4>Разделы</h4>
@@ -126,8 +126,7 @@
           </div>
           <div>
             <h4>Читать и купить</h4>
-            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес · все книги</a>
-            <a href="https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1" target="_blank" rel="noopener">Amazon · Пол Грэк</a>
+            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес · полный каталог автора</a>
           </div>
           <div>
             <h4>Связь</h4>
@@ -157,11 +156,20 @@
     return url('/excerpts/' + file);
   }
 
+  function bookPageUrl(slug) {
+    return url('/books/' + slug + '.html');
+  }
+
+  function articlePageUrl(slug) {
+    return url('/lab/' + slug + '.html');
+  }
+
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
+    // Only LitRes for per-book conversion (Amazon author-search removed — no exact product URLs)
     return `
       <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Литрес</a>
-      <a class="${cls} btn-outline" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">Amazon</a>`;
+      <a class="${cls} btn-outline" href="${bookPageUrl(book.slug)}#excerpt">Отрывок</a>`;
   }
 
   function bookCardHTML(book, opts = {}) {
@@ -190,28 +198,28 @@
     const tags = parts.join('<span class="tag-sep"> · </span>');
     return `
       <article class="book-card${book.flagship ? ' is-flagship' : ''}">
-        <a class="book-cover has-image clean" href="${url('/books/book.html?slug=' + book.slug)}" aria-label="${book.title}">
+        <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${book.title}">
           <img src="${coverUrl(book)}" alt="Обложка: ${book.title}" loading="lazy" width="600" height="900" />
         </a>
         <div class="book-body">
-          <h3 class="book-title"><a href="${url('/books/book.html?slug=' + book.slug)}">${book.title}</a></h3>
+          <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${book.title}</a></h3>
           <div class="book-tags">${tags}</div>
           <p>${book.promise}</p>
           <div class="book-actions">
             ${storeButtons(book, true)}
           </div>
-          <a class="book-more" href="${url('/books/book.html?slug=' + book.slug)}">Аннотация и отрывок →</a>
+          <a class="book-more" href="${bookPageUrl(book.slug)}">Аннотация и отрывок →</a>
         </div>
       </article>`;
   }
 
   function articleCardHTML(a) {
     return `
-      <a class="article-card" href="${url('/lab/article.html?slug=' + a.slug)}">
+      <a class="article-card" href="${articlePageUrl(a.slug)}">
         <div class="cat">${a.category}</div>
         <h3>${a.title}</h3>
         <p>${a.hook}</p>
-        <div class="meta">${a.readMin} мин чтения →</div>
+        <div class="meta">${a.readMin} мин · отрывок и книга →</div>
       </a>`;
   }
 
@@ -465,7 +473,7 @@
         e.preventDefault();
         const radio = document.querySelector('input[name="flagPick"]:checked');
         const slug = (radio && radio.value) || (magnetSelect && magnetSelect.value) || 'mozg-na-100';
-        window.location.href = url('/books/book.html?slug=' + slug + '#excerpt');
+        window.location.href = bookPageUrl(slug) + '#excerpt';
       });
     }
 
@@ -475,7 +483,7 @@
       stack.innerHTML = flagships
         .map(
           (b, i) =>
-            `<a class="hero-cover hero-cover-${i}" href="${url('/books/book.html?slug=' + b.slug)}" aria-label="${b.title}">
+            `<a class="hero-cover hero-cover-${i}" href="${bookPageUrl(b.slug)}" aria-label="${b.title}">
               <img src="${coverUrl(b)}" alt="" width="280" height="420" />
             </a>`
         )
@@ -542,7 +550,7 @@
       URL.revokeObjectURL(a.href);
     } catch (e) {
       // fallback: inline excerpt from data.js
-      const text = `${book.title}\n${book.subtitle}\nАвтор: ${book.authors.join(', ')}\n\n— Отрывок —\n\n${book.excerpt}\n\n© Пол Грэк / Pol Grek\nПолный текст — на Литрес и Amazon.\n`;
+      const text = `${book.title}\n${book.subtitle}\nАвтор: ${book.authors.join(', ')}\n\n— Отрывок —\n\n${book.excerpt}\n\n© Пол Грэк / Pol Grek\nПолный текст — на Литрес.\n`;
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -553,197 +561,28 @@
   }
 
   function renderBookPage() {
-    const params = new URLSearchParams(location.search);
-    const slug = params.get('slug') || 'mozg-na-100';
-    const book = POL_GREK.getBook(slug);
-    const root = document.getElementById('bookRoot');
-    if (!root) return;
-
-    if (!book) {
-      root.innerHTML = `<div class="container page-hero"><h1>Книга не найдена</h1><p class="lead">Такой страницы нет. Вернитесь в каталог.</p><a class="btn btn-primary" href="${url('/books/index.html')}">Все книги</a></div>`;
-      return;
-    }
-
-    document.title = `${book.title} — Пол Грэк`;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', `${book.title}: ${book.subtitle}. Отрывок и покупка на Литрес.`);
+    // Static pages (books/{slug}.html) already contain full HTML.
+    // Keep light enhancements only (TOC highlight, excerpt load).
     document.body.classList.add('has-sticky-buy', 'page-book');
-
-    const related = POL_GREK.relatedBooks(book.slug, 3);
-    const all = POL_GREK.books;
-    const idx = all.findIndex((b) => b.slug === book.slug);
-    const prev = idx > 0 ? all[idx - 1] : null;
-    const next = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
-
-    const primaryTag = (book.tags || []).find((t) => t !== 'лора') || '';
-    const tagRu = {
-      'когнитивное-здоровье': 'когнитивное здоровье',
-      биохакинг: 'биохакинг',
-      энергия: 'энергия',
-      стресс: 'стресс',
-      выгорание: 'выгорание',
-      деньги: 'деньги',
-      гормоны: 'гормоны',
-    };
-    const topicLabel = tagRu[primaryTag] || primaryTag;
-    const topicFilter = primaryTag
-      ? `${url('/books/index.html')}?filter=${encodeURIComponent(primaryTag)}`
-      : url('/books/index.html');
-
-    const authorsLine = book.authors.join(', ');
-    const seriesLine = book.series ? book.series : 'Научпоп о мозге';
-
-    root.innerHTML = `
-      <div class="container book-page">
-        <nav class="breadcrumb" aria-label="Вы здесь">
-          <a href="${url('/index.html')}">Главная</a>
-          <span class="bc-sep" aria-hidden="true">/</span>
-          <a href="${url('/books/index.html')}">Книги</a>
-          ${topicLabel ? `<span class="bc-sep" aria-hidden="true">/</span><a href="${topicFilter}">${topicLabel}</a>` : ''}
-          <span class="bc-sep" aria-hidden="true">/</span>
-          <span aria-current="page">${book.title}</span>
-        </nav>
-
-        <div class="book-you-are-here" role="status">
-          <span>Сейчас открыта книга</span>
-          <strong>${book.title}</strong>
-          <span class="book-you-are-meta">${authorsLine}${book.flagship ? ' · с чего начать' : ''}</span>
-        </div>
-
-        <nav class="book-toc" aria-label="На этой странице">
-          <span class="book-toc-label">На странице:</span>
-          <a href="#for-whom">Для кого</a>
-          <a href="#about-book">О чём</a>
-          <a href="#inside">Что внутри</a>
-          <a href="#excerpt">Отрывок</a>
-          <a href="#related">Похожие</a>
-          <a href="${book.litres}" target="_blank" rel="noopener" class="book-toc-buy">Купить на Литрес</a>
-        </nav>
-
-        <div class="book-detail">
-          <aside class="book-detail-aside">
-            <div class="book-detail-cover has-image">
-              <img src="${coverUrl(book)}" alt="Обложка: ${book.title}" width="640" height="960" />
-            </div>
-            <div class="book-aside-actions">
-              <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Купить на Литрес</a>
-              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
-              <a class="btn btn-ghost-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">Amazon →</a>
-            </div>
-            <p class="book-aside-hint">Оплата на Литрес. Здесь — описание и фрагмент.</p>
-          </aside>
-
-          <div class="book-detail-body">
-            <p class="eyebrow">${seriesLine}</p>
-            <h1 class="display book-h1">${book.title}</h1>
-            <p class="lead">${book.subtitle}</p>
-            <p class="book-authors">Автор: ${authorsLine}</p>
-
-            <div class="actions book-main-actions">
-              <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Купить на Литрес</a>
-              <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
-              <a class="btn btn-ghost-link" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Скачать отрывок</a>
-            </div>
-
-            <p class="grade-legend book-grade">
-              <strong>Уровни доказательности в подходе автора:</strong>
-              A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.
-            </p>
-
-            <section id="for-whom" class="book-section">
-              <h2>Для кого эта книга</h2>
-              <ul class="checklist">${book.forWhom.map((x) => `<li>${x}</li>`).join('')}</ul>
-            </section>
-
-            <section id="about-book" class="book-section">
-              <h2>О чём</h2>
-              <p>${book.annotation}</p>
-            </section>
-
-            <section id="inside" class="book-section">
-              <h2>Что внутри</h2>
-              <ul class="checklist">${book.takeaways.map((x) => `<li>${x}</li>`).join('')}</ul>
-            </section>
-
-            <section class="excerpt-box book-section" id="excerpt">
-              <div class="excerpt-head">
-                <strong>Отрывок</strong>
-                <a class="btn btn-sm btn-primary" href="${book.litres}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
-              </div>
-              <p class="muted excerpt-lead">Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.</p>
-              <pre id="excerptPreview">${book.excerpt}</pre>
-              <div class="btn-row" style="margin-top:1rem">
-                <a class="btn btn-teal" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Скачать отрывок (.txt)</a>
-                <button type="button" class="btn btn-outline" id="downloadExcerpt2">Скачать ещё раз</button>
-              </div>
-            </section>
-
-            <div class="disclaimer">
-              Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
-            </div>
-
-            <nav class="book-prev-next" aria-label="Соседние книги">
-              ${
-                prev
-                  ? `<a class="book-pn prev" href="${url('/books/book.html?slug=' + prev.slug)}">
-                      <span class="book-pn-label">← Предыдущая</span>
-                      <strong>${prev.title}</strong>
-                    </a>`
-                  : `<span class="book-pn prev empty"></span>`
-              }
-              <a class="book-pn catalog" href="${url('/books/index.html')}">Весь каталог</a>
-              ${
-                next
-                  ? `<a class="book-pn next" href="${url('/books/book.html?slug=' + next.slug)}">
-                      <span class="book-pn-label">Следующая →</span>
-                      <strong>${next.title}</strong>
-                    </a>`
-                  : `<span class="book-pn next empty"></span>`
-              }
-            </nav>
-
-            <section class="related book-section" id="related">
-              <div class="section-head">
-                <div>
-                  <p class="eyebrow">Рядом на полке</p>
-                  <h2>Если эта тема откликнулась</h2>
-                </div>
-                <a class="btn btn-outline" href="${topicFilter}">Ещё про «${topicLabel || 'книги'}»</a>
-              </div>
-              <div class="books-grid">${related.map(bookCardHTML).join('')}</div>
-            </section>
-          </div>
-        </div>
-      </div>
-
-      <div class="sticky-buy" aria-label="Быстрые действия">
-        <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener">Купить на Литрес</a>
-        <a class="btn btn-outline" href="#excerpt">Отрывок</a>
-        <a class="btn btn-ghost-link" href="${url('/books/index.html')}">Каталог</a>
-      </div>`;
-
-    // Load full excerpt file into preview when available
-    fetch(excerptUrl(book))
-      .then((r) => (r.ok ? r.text() : null))
-      .then((text) => {
-        const pre = document.getElementById('excerptPreview');
-        if (pre && text) {
-          const clean = text.replace(/^[\s\S]*?— Отрывок —\s*/m, '').replace(/\n—\n[\s\S]*$/, '').trim();
-          pre.textContent = clean.slice(0, 2200) + (clean.length > 2200 ? '…' : '');
-        }
-      })
-      .catch(() => {});
-
-    const dl2 = document.getElementById('downloadExcerpt2');
-    if (dl2) dl2.addEventListener('click', () => downloadExcerpt(book));
-
-    // Highlight TOC section on scroll
+    const pre = document.getElementById('excerptPreview');
+    const path = location.pathname || '';
+    const m = path.match(/\/books\/([^/]+)\.html/);
+    const slug = m ? m[1] : new URLSearchParams(location.search).get('slug');
+    const book = slug ? POL_GREK.getBook(slug) : null;
+    if (book && pre) {
+      fetch(excerptUrl(book))
+        .then((r) => (r.ok ? r.text() : null))
+        .then((text) => {
+          if (!pre || !text) return;
+          const c = text.replace(/^[\s\S]*?— Отрывок —\s*/m, '').replace(/\n—\n[\s\S]*$/, '').trim();
+          pre.textContent = c.slice(0, 2200) + (c.length > 2200 ? '…' : '');
+        })
+        .catch(() => {});
+    }
     const toc = document.querySelector('.book-toc');
     if (toc) {
       const links = [...toc.querySelectorAll('a[href^="#"]')];
-      const sections = links
-        .map((a) => document.querySelector(a.getAttribute('href')))
-        .filter(Boolean);
+      const sections = links.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
       const onScroll = () => {
         let current = sections[0];
         const y = window.scrollY + 120;
@@ -767,69 +606,7 @@
   }
 
   function renderArticlePage() {
-    const params = new URLSearchParams(location.search);
-    const slug = params.get('slug') || POL_GREK.articles[0].slug;
-    const article = POL_GREK.getArticle(slug);
-    const root = document.getElementById('articleRoot');
-    if (!root) return;
-
-    if (!article) {
-      root.innerHTML = `<div class="container page-hero"><h1>Статья не найдена</h1></div>`;
-      return;
-    }
-
-    document.title = `${article.title} — Лаборатория Пола Грэка`;
-    const book = POL_GREK.getBook(article.relatedBook);
-
-    const bodyHTML = article.body
-      .map((block) => {
-        if (block.type === 'h2') return `<h2>${block.text}</h2>`;
-        if (block.type === 'experiment') {
-          return `<div class="experiment"><strong>${block.title}</strong><p style="margin:0;max-width:none">${block.text}</p></div>`;
-        }
-        return `<p>${block.text}</p>`;
-      })
-      .join('');
-
-    root.innerHTML = `
-      <div class="container">
-        <div class="breadcrumb">
-          <a href="${url('/index.html')}">Главная</a> ·
-          <a href="${url('/lab/index.html')}">Лаборатория</a> ·
-          <span>${article.title}</span>
-        </div>
-        <div class="article-layout">
-          <article class="article-content">
-            <p class="eyebrow">${article.category} · ${article.readMin} мин${article.source ? ' · ' + article.source : ''}</p>
-            <h1>${article.title}</h1>
-            <p class="lead">${article.hook}</p>
-            <div class="pull-quote">${article.hook}</div>
-            ${bodyHTML}
-          </article>
-          <aside class="article-side">
-            ${
-              book
-                ? `<div class="side-card">
-                    <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
-                    <h3>${book.title}</h3>
-                    <p>${book.promise}</p>
-                    <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener">Купить на Литрес</a>
-                    <a class="btn btn-outline" href="${url('/books/book.html?slug=' + book.slug)}">О книге</a>
-                    <a class="btn btn-ghost-link" href="${book.amazon}" target="_blank" rel="noopener">Amazon →</a>
-                  </div>`
-                : ''
-            }
-            <div class="side-card" style="margin-top:1rem">
-              <h3>Ещё из лаборатории</h3>
-              ${POL_GREK.articles
-                .filter((a) => a.slug !== article.slug)
-                .slice(0, 3)
-                .map((a) => `<a href="${url('/lab/article.html?slug=' + a.slug)}" style="display:block;padding:0.45rem 0;font-weight:600;color:var(--ink)">${a.title}</a>`)
-                .join('')}
-            </div>
-          </aside>
-        </div>
-      </div>`;
+    // Static lab/{slug}.html already has content; no empty JS shell needed.
   }
 
   function renderAboutPage() {

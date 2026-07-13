@@ -3,15 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Статья — Лаборатория Пола Грэка</title>
-  <meta name="description" content="Материал лаборатории Пола Грэка о нейробиологии и практике." />
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="../assets/favicon.png" type="image/png" />
+  <title>Переход к статье — Пол Грэк</title>
+  <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var slug = p.get('slug') || 'motivaciya-pobochnyy-produkt';
+      location.replace(slug + '.html' + (location.hash || ''));
+    })();
+  </script>
 </head>
-<body data-page="article" data-base="..">
+<body data-page="lab" data-base="..">
   <div id="site-header"></div>
-  <main id="articleRoot" style="padding-top:1.5rem"></main>
+  <main class="container page-hero">
+    <h1>Переход к статье…</h1>
+    <p class="lead">Если переход не сработал, выберите материал ниже или откройте <a href="index.html">лабораторию</a>.</p>
+    <noscript>
+      <p class="muted">Автопереход требует JavaScript. Материалы (без JS):</p>
+      <ul><li><a href="motivaciya-pobochnyy-produkt.html">Мотивация — не причина действия. Это побочный продукт</a></li><li><a href="otdyh-ne-lenta.html">Листание ленты — это не отдых</a></li><li><a href="kontrol-i-neopredelennost.html">Мозг обожает ощущение контроля — особенно когда его нет</a></li><li><a href="vygoranie-ne-styd.html">«Я просто выгорела» и выгорание — одна физиология</a></li><li><a href="znaniya-ne-dengi.html">Знания — потенциал, а не результат</a></li><li><a href="anti-hype-2-litra.html">2 литра воды — маркетинг, а не физиология</a></li></ul>
+    </noscript>
+  </main>
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data.js"></script>

@@ -3,15 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Книга — Пол Грэк</title>
-  <meta name="description" content="Аннотация, отрывок и покупка книги Пола Грэка на Литрес и Amazon." />
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="../assets/favicon.png" type="image/png" />
+  <title>Переход к книге — Пол Грэк</title>
+  <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="../css/styles.css" />
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var slug = p.get('slug') || 'mozg-na-100';
+      location.replace(slug + '.html' + (location.hash || ''));
+    })();
+  </script>
 </head>
-<body data-page="book" data-base="..">
+<body data-page="books" data-base="..">
   <div id="site-header"></div>
-  <main id="bookRoot" style="padding-top:1.5rem"></main>
+  <main class="container page-hero">
+    <h1>Переход к книге…</h1>
+    <p class="lead">Если переход не сработал, выберите книгу ниже или откройте <a href="index.html">каталог</a>.</p>
+    <noscript>
+      <p class="muted">Автопереход требует JavaScript. Список книг (без JS):</p>
+      <ul><li><a href="mozg-na-100.html">Мозг на 100+</a></li><li><a href="biohacking-mozga.html">Биохакинг мозга</a></li><li><a href="anatomiya-energii.html">Анатомия энергии</a></li><li><a href="mozg-i-dengi.html">Мозг и деньги</a></li><li><a href="stress-i-mozg.html">Стресс и мозг</a></li><li><a href="reset.html">RESET</a></li><li><a href="mentalnyy-debag.html">Ментальный дебаг</a></li><li><a href="ostorozhnyy-biohaker.html">Осторожный биохакер</a></li><li><a href="svyashchennye-chasy.html">Священные часы</a></li><li><a href="zhenskiy-mozg.html">Женский мозг</a></li><li><a href="muzhskoy-mozg.html">Мужской мозг</a></li><li><a href="ei-2.html">Эмоциональный интеллект 2.0</a></li></ul>
+    </noscript>
+  </main>
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data.js"></script>
