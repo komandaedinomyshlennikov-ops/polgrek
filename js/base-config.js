@@ -1,27 +1,75 @@
 /**
- * Site base path for links.
- * - Custom domain (polgrek.site): ''  ← current
- * - Project site (user.github.io/polgrek): '/polgrek'
- *
- * Yandex Metrika counter 110711984 (polgrek.site)
- * Goals: see METRIKA.md
+ * Site base path + theme bootstrap + Yandex Metrika.
+ * Theme applies immediately (before paint) to avoid flash.
  */
 (function () {
   // Empty string = site at domain root (polgrek.site)
   var manual = '';
-
-  // Do not use auto-detect: empty manual must stay empty (not fall through to auto)
   window.POL_GREK_BASE = typeof manual === 'string' ? manual : '';
 
-  /** Yandex Metrika counter ID */
-  window.POL_GREK_METRIKA_ID = 110711984;
+  /* ---------- Theme (light / dark) ---------- */
+  var THEME_KEY = 'pol-grek-theme';
 
-  var counterId = Number(window.POL_GREK_METRIKA_ID) || 0;
-  if (!counterId) {
-    return;
+  function systemTheme() {
+    try {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch (e) {
+      return 'light';
+    }
   }
 
-  // Official tag.js bootstrap (id in query matches cabinet snippet)
+  function readStoredTheme() {
+    try {
+      var s = localStorage.getItem(THEME_KEY);
+      if (s === 'dark' || s === 'light') return s;
+    } catch (e) {
+      /* private mode */
+    }
+    return null;
+  }
+
+  function applyTheme(theme) {
+    var t = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    try {
+      document.documentElement.style.colorScheme = t;
+    } catch (e) {
+      /* ignore */
+    }
+    return t;
+  }
+
+  var initial = readStoredTheme() || systemTheme();
+  applyTheme(initial);
+
+  window.PolTheme = {
+    get: function () {
+      return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    },
+    set: function (theme) {
+      var t = applyTheme(theme);
+      try {
+        localStorage.setItem(THEME_KEY, t);
+      } catch (e) {
+        /* ignore */
+      }
+      try {
+        document.dispatchEvent(new CustomEvent('pol-theme-change', { detail: { theme: t } }));
+      } catch (e2) {
+        /* ignore */
+      }
+      return t;
+    },
+    toggle: function () {
+      return window.PolTheme.set(window.PolTheme.get() === 'dark' ? 'light' : 'dark');
+    },
+  };
+
+  /* ---------- Yandex Metrika 110711984 ---------- */
+  window.POL_GREK_METRIKA_ID = 110711984;
+  var counterId = Number(window.POL_GREK_METRIKA_ID) || 0;
+  if (!counterId) return;
+
   (function (m, e, t, r, i, k, a) {
     m[i] =
       m[i] ||
@@ -30,9 +78,7 @@
       };
     m[i].l = 1 * new Date();
     for (var j = 0; j < document.scripts.length; j++) {
-      if (document.scripts[j].src === r) {
-        return;
-      }
+      if (document.scripts[j].src === r) return;
     }
     (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]);
     k.async = 1;
@@ -52,25 +98,17 @@
     trackHash: true,
   });
 
-  // noscript pixel
   try {
     var ns = document.createElement('noscript');
     ns.innerHTML =
       '<div><img src="https://mc.yandex.ru/watch/' +
       counterId +
       '" style="position:absolute;left:-9999px" alt="" /></div>';
-    // Prefer body when available; html fallback for early script in head
-    var parent = document.body || document.documentElement;
-    parent.appendChild(ns);
+    (document.body || document.documentElement).appendChild(ns);
   } catch (e) {
     /* ignore */
   }
 
-  /**
-   * JS goals (create in Metrika → Goals → JavaScript event):
-   * litres, amazon, excerpt_download, lang_en, lang_ru,
-   * book_view, lab_view, filter_books
-   */
   window.PolMetrika = {
     goal: function (name, params) {
       if (!name || !counterId || typeof window.ym !== 'function') return;

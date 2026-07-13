@@ -58,6 +58,9 @@
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Language',
+        themeAria: 'Toggle color theme',
+        themeToLight: 'Switch to light theme',
+        themeToDark: 'Switch to dark theme',
       }
     : {
         skip: 'К содержанию',
@@ -109,6 +112,9 @@
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Язык',
+        themeAria: 'Переключить тему',
+        themeToLight: 'Включить светлую тему',
+        themeToDark: 'Включить тёмную тему',
       };
 
   function peerLangUrl(target) {
@@ -147,6 +153,34 @@
       <a class="lang-btn${!isEn ? ' active' : ''}" href="${peerLangUrl('ru')}" hreflang="ru" lang="ru" data-track="lang_ru">${UI.langRu}</a>
       <a class="lang-btn${isEn ? ' active' : ''}" href="${peerLangUrl('en')}" hreflang="en" lang="en" data-track="lang_en">${UI.langEn}</a>
     </div>`;
+  }
+
+  function themeToggleBtn() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const label = dark ? UI.themeToLight : UI.themeToDark;
+    return `<button type="button" class="theme-toggle" data-theme-toggle aria-label="${label}" title="${label}">
+      <span class="theme-icon-light" aria-hidden="true">☾</span>
+      <span class="theme-icon-dark" aria-hidden="true">☀</span>
+    </button>`;
+  }
+
+  function bindThemeToggle(root) {
+    const scope = root || document;
+    scope.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (window.PolTheme && typeof window.PolTheme.toggle === 'function') {
+          const next = window.PolTheme.toggle();
+          track('theme_' + next, { lang: isEn ? 'en' : 'ru' });
+          // refresh aria on all toggles
+          document.querySelectorAll('[data-theme-toggle]').forEach((b) => {
+            const isDark = next === 'dark';
+            const lab = isDark ? UI.themeToLight : UI.themeToDark;
+            b.setAttribute('aria-label', lab);
+            b.setAttribute('title', lab);
+          });
+        }
+      });
+    });
   }
 
   function track(name, params) {
@@ -251,11 +285,13 @@
           </nav>
           <div class="nav-actions">
             ${langSwitcher()}
+            ${themeToggleBtn()}
             <a class="btn btn-outline nav-cta-secondary" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">${UI.litres}</a>
             <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">${UI.books}</a>
           </div>
           <div class="nav-mobile-tools">
             ${langSwitcher()}
+            ${themeToggleBtn()}
             <button class="nav-toggle" id="navToggle" aria-label="${UI.menuOpen}" aria-expanded="false" aria-controls="mobileDrawer">
               <span></span><span></span><span></span>
             </button>
@@ -269,7 +305,7 @@
             <strong>${UI.drawerTitle}</strong>
             <button type="button" class="mobile-drawer-close" data-drawer-close aria-label="${UI.drawerClose}">×</button>
           </div>
-          <div class="mobile-lang-row">${langSwitcher()}</div>
+          <div class="mobile-lang-row">${langSwitcher()}${themeToggleBtn()}</div>
           <nav class="mobile-drawer-nav" aria-label="${UI.mobileNavAria}">
             <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}">🏠 ${UI.home}</a>
             <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}">📚 ${UI.books}</a>
@@ -480,6 +516,7 @@
     const footerMount = document.getElementById('site-footer');
     if (headerMount) headerMount.outerHTML = headerHTML(active);
     if (footerMount) footerMount.outerHTML = footerHTML();
+    bindThemeToggle(document);
 
     // Ensure main landmark for skip-link
     const main = document.querySelector('main');
