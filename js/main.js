@@ -560,79 +560,166 @@
     if (!root) return;
 
     if (!book) {
-      root.innerHTML = `<div class="container page-hero"><h1>Книга не найдена</h1><a class="btn btn-primary" href="${url('/books/index.html')}">Все книги</a></div>`;
+      root.innerHTML = `<div class="container page-hero"><h1>Книга не найдена</h1><p class="lead">Такой страницы нет. Вернитесь в каталог.</p><a class="btn btn-primary" href="${url('/books/index.html')}">Все книги</a></div>`;
       return;
     }
 
     document.title = `${book.title} — Пол Грэк`;
-    document.body.classList.add('has-sticky-buy');
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', `${book.title}: ${book.subtitle}. Отрывок и покупка на Литрес.`);
+    document.body.classList.add('has-sticky-buy', 'page-book');
 
     const related = POL_GREK.relatedBooks(book.slug, 3);
+    const all = POL_GREK.books;
+    const idx = all.findIndex((b) => b.slug === book.slug);
+    const prev = idx > 0 ? all[idx - 1] : null;
+    const next = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
+
+    const primaryTag = (book.tags || []).find((t) => t !== 'лора') || '';
+    const tagRu = {
+      'когнитивное-здоровье': 'когнитивное здоровье',
+      биохакинг: 'биохакинг',
+      энергия: 'энергия',
+      стресс: 'стресс',
+      выгорание: 'выгорание',
+      деньги: 'деньги',
+      гормоны: 'гормоны',
+    };
+    const topicLabel = tagRu[primaryTag] || primaryTag;
+    const topicFilter = primaryTag
+      ? `${url('/books/index.html')}?filter=${encodeURIComponent(primaryTag)}`
+      : url('/books/index.html');
+
+    const authorsLine = book.authors.join(', ');
+    const seriesLine = book.series ? book.series : 'Научпоп о мозге';
+
     root.innerHTML = `
-      <div class="container">
-        <div class="breadcrumb">
-          <a href="${url('/index.html')}">Главная</a> ·
-          <a href="${url('/books/index.html')}">Книги</a> ·
-          <span>${book.title}</span>
+      <div class="container book-page">
+        <nav class="breadcrumb" aria-label="Вы здесь">
+          <a href="${url('/index.html')}">Главная</a>
+          <span class="bc-sep" aria-hidden="true">/</span>
+          <a href="${url('/books/index.html')}">Книги</a>
+          ${topicLabel ? `<span class="bc-sep" aria-hidden="true">/</span><a href="${topicFilter}">${topicLabel}</a>` : ''}
+          <span class="bc-sep" aria-hidden="true">/</span>
+          <span aria-current="page">${book.title}</span>
+        </nav>
+
+        <div class="book-you-are-here" role="status">
+          <span>Сейчас открыта книга</span>
+          <strong>${book.title}</strong>
+          <span class="book-you-are-meta">${authorsLine}${book.flagship ? ' · с чего начать' : ''}</span>
         </div>
+
+        <nav class="book-toc" aria-label="На этой странице">
+          <span class="book-toc-label">На странице:</span>
+          <a href="#for-whom">Для кого</a>
+          <a href="#about-book">О чём</a>
+          <a href="#inside">Что внутри</a>
+          <a href="#excerpt">Отрывок</a>
+          <a href="#related">Похожие</a>
+          <a href="${book.litres}" target="_blank" rel="noopener" class="book-toc-buy">Купить на Литрес</a>
+        </nav>
+
         <div class="book-detail">
-          <div class="book-detail-cover has-image">
-            <img src="${coverUrl(book)}" alt="Обложка: ${book.title}" width="640" height="960" />
-          </div>
-          <div class="book-detail-body">
-            <p class="eyebrow">Научпоп · без эзотерики</p>
-            <h1 class="display" style="font-size:clamp(2rem,4vw,2.8rem)">${book.title}</h1>
-            <p class="lead">${book.subtitle}</p>
-            <div class="actions">
+          <aside class="book-detail-aside">
+            <div class="book-detail-cover has-image">
+              <img src="${coverUrl(book)}" alt="Обложка: ${book.title}" width="640" height="960" />
+            </div>
+            <div class="book-aside-actions">
               <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Купить на Литрес</a>
-              <a class="btn btn-outline" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Скачать отрывок</a>
-              <a class="btn btn-ghost-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">Также на Amazon →</a>
+              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
+              <a class="btn btn-ghost-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">Amazon →</a>
             </div>
-            <div class="evidence-row" aria-label="Уровни доказательности в подходе автора">
-              <span class="badge-a">A</span><span class="badge-b">B</span><span class="badge-c">C</span><span class="badge-d">D</span>
-              <span class="muted" style="font-size:0.85rem;align-self:center;margin-left:0.35rem">подход с уровнями доказательности</span>
+            <p class="book-aside-hint">Оплата на Литрес. Здесь — описание и фрагмент.</p>
+          </aside>
+
+          <div class="book-detail-body">
+            <p class="eyebrow">${seriesLine}</p>
+            <h1 class="display book-h1">${book.title}</h1>
+            <p class="lead">${book.subtitle}</p>
+            <p class="book-authors">Автор: ${authorsLine}</p>
+
+            <div class="actions book-main-actions">
+              <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">Купить на Литрес</a>
+              <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
+              <a class="btn btn-ghost-link" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Скачать отрывок</a>
             </div>
 
-            <h2 style="margin-top:2rem">Для кого эта книга</h2>
-            <ul class="checklist">${book.forWhom.map((x) => `<li>${x}</li>`).join('')}</ul>
+            <p class="grade-legend book-grade">
+              <strong>Уровни доказательности в подходе автора:</strong>
+              A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.
+            </p>
 
-            <h2>О чём</h2>
-            <p>${book.annotation}</p>
+            <section id="for-whom" class="book-section">
+              <h2>Для кого эта книга</h2>
+              <ul class="checklist">${book.forWhom.map((x) => `<li>${x}</li>`).join('')}</ul>
+            </section>
 
-            <h2>Что внутри</h2>
-            <ul class="checklist">${book.takeaways.map((x) => `<li>${x}</li>`).join('')}</ul>
+            <section id="about-book" class="book-section">
+              <h2>О чём</h2>
+              <p>${book.annotation}</p>
+            </section>
 
-            <div class="excerpt-box" id="excerpt">
-              <strong style="color:var(--ink);font-family:var(--serif);font-size:1.15rem">Отрывок</strong>
-              <p class="muted" style="margin:0.35rem 0 0;font-size:0.9rem">Фрагмент из книги. Если откликается — полный текст на Литрес и Amazon.</p>
+            <section id="inside" class="book-section">
+              <h2>Что внутри</h2>
+              <ul class="checklist">${book.takeaways.map((x) => `<li>${x}</li>`).join('')}</ul>
+            </section>
+
+            <section class="excerpt-box book-section" id="excerpt">
+              <div class="excerpt-head">
+                <strong>Отрывок</strong>
+                <a class="btn btn-sm btn-primary" href="${book.litres}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+              </div>
+              <p class="muted excerpt-lead">Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.</p>
               <pre id="excerptPreview">${book.excerpt}</pre>
               <div class="btn-row" style="margin-top:1rem">
                 <a class="btn btn-teal" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Скачать отрывок (.txt)</a>
-                <button type="button" class="btn btn-outline" id="downloadExcerpt2">Скачать (если ссылка не сработала)</button>
-                <a class="btn btn-outline" href="${book.litres}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+                <button type="button" class="btn btn-outline" id="downloadExcerpt2">Скачать ещё раз</button>
               </div>
-            </div>
+            </section>
 
             <div class="disclaimer">
-              Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника. При острых состояниях — обратитесь к специалисту.
+              Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
             </div>
 
-            <div class="related">
+            <nav class="book-prev-next" aria-label="Соседние книги">
+              ${
+                prev
+                  ? `<a class="book-pn prev" href="${url('/books/book.html?slug=' + prev.slug)}">
+                      <span class="book-pn-label">← Предыдущая</span>
+                      <strong>${prev.title}</strong>
+                    </a>`
+                  : `<span class="book-pn prev empty"></span>`
+              }
+              <a class="book-pn catalog" href="${url('/books/index.html')}">Весь каталог</a>
+              ${
+                next
+                  ? `<a class="book-pn next" href="${url('/books/book.html?slug=' + next.slug)}">
+                      <span class="book-pn-label">Следующая →</span>
+                      <strong>${next.title}</strong>
+                    </a>`
+                  : `<span class="book-pn next empty"></span>`
+              }
+            </nav>
+
+            <section class="related book-section" id="related">
               <div class="section-head">
                 <div>
                   <p class="eyebrow">Рядом на полке</p>
                   <h2>Если эта тема откликнулась</h2>
                 </div>
+                <a class="btn btn-outline" href="${topicFilter}">Ещё про «${topicLabel || 'книги'}»</a>
               </div>
               <div class="books-grid">${related.map(bookCardHTML).join('')}</div>
-            </div>
+            </section>
           </div>
         </div>
       </div>
-      <div class="sticky-buy" aria-label="Купить">
-        <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener">Литрес</a>
-        <a class="btn btn-outline" href="${excerptUrl(book)}" download="${book.excerptFile || book.slug + '-otryvok.txt'}">Отрывок</a>
-        <a class="btn btn-ghost-link" href="${book.amazon}" target="_blank" rel="noopener">Amazon</a>
+
+      <div class="sticky-buy" aria-label="Быстрые действия">
+        <a class="btn btn-primary" href="${book.litres}" target="_blank" rel="noopener">Купить на Литрес</a>
+        <a class="btn btn-outline" href="#excerpt">Отрывок</a>
+        <a class="btn btn-ghost-link" href="${url('/books/index.html')}">Каталог</a>
       </div>`;
 
     // Load full excerpt file into preview when available
@@ -641,17 +728,35 @@
       .then((text) => {
         const pre = document.getElementById('excerptPreview');
         if (pre && text) {
-          // show body without huge footer for on-page preview
           const clean = text.replace(/^[\s\S]*?— Отрывок —\s*/m, '').replace(/\n—\n[\s\S]*$/, '').trim();
           pre.textContent = clean.slice(0, 2200) + (clean.length > 2200 ? '…' : '');
         }
       })
       .catch(() => {});
 
-    ['downloadExcerpt', 'downloadExcerpt2'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('click', () => downloadExcerpt(book));
-    });
+    const dl2 = document.getElementById('downloadExcerpt2');
+    if (dl2) dl2.addEventListener('click', () => downloadExcerpt(book));
+
+    // Highlight TOC section on scroll
+    const toc = document.querySelector('.book-toc');
+    if (toc) {
+      const links = [...toc.querySelectorAll('a[href^="#"]')];
+      const sections = links
+        .map((a) => document.querySelector(a.getAttribute('href')))
+        .filter(Boolean);
+      const onScroll = () => {
+        let current = sections[0];
+        const y = window.scrollY + 120;
+        for (const s of sections) {
+          if (s.offsetTop <= y) current = s;
+        }
+        links.forEach((a) => {
+          a.classList.toggle('active', current && a.getAttribute('href') === '#' + current.id);
+        });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
   }
 
   function renderLabPage() {
