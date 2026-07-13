@@ -67,7 +67,7 @@ window.POL_GREK = {
     practice:
       'Consulting on stress load and cognitive efficiency for teams that look successful from the outside and foggy from the inside.',
     publications:
-      'Books on LitRes and Amazon — from RESET (burnout) to Brain at 100+ and Wired for Wealth. Twelve key titles on this site; full catalog on the storefronts. Evidence grades A–D throughout.',
+      'Books on LitRes and Amazon — from RESET (burnout) to Brain at 100+ and Wired for Wealth. Thirteen key titles on this site; full catalog on the storefronts. Evidence grades A–D throughout.',
     burnoutStory:
       'He hit real burnout: weekends didn’t restore clarity. That became the spine of the popular books — “fix yourself first, then publish.”',
     birth: 'England',
@@ -276,6 +276,38 @@ window.POL_GREK = {
         '“Money isn’t math. It’s neurobiology.”\n\nKnowledge is potential, not results. The brain is great at swapping action for studying: another book, another course — progress vibes, zero outcome. Power isn’t what you know. It’s what you ship.',
       litres: 'https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/',
       amazon: 'https://www.amazon.com/dp/B0H6MN9DX1',
+    },
+    {
+      slug: 'snachala-dengi-potom-soznanie',
+      coverFile: 'snachala-dengi-potom-soznanie.jpg',
+      excerptFile: 'en/snachala-dengi-potom-soznanie-excerpt.txt',
+      title: 'Money First, Then Consciousness',
+      subtitle: 'How external order rewires the mind',
+      authors: ['Pol Grek'],
+      cover: 'cover-4',
+      series: 'Brain Series · money',
+      tags: ['money'],
+      promise:
+        'Operations and results first — “abundance mindset” second. Not affirmations instead of collections.',
+      annotation:
+        'For readers who loved “abundance consciousness” books but still have unpaid invoices. Pol Grek flips the sequence: external action → money and systems → neural rebuild of confidence. Behavioral activation, DSO, scripts, founder cases. No “the universe will provide” — an engineering protocol when cortisol is high and “flow” is gone.',
+      forWhom: [
+        'Founders and freelancers with leaky operations',
+        'You did the inner work — runway still burns',
+        'Tired of “clearing blocks” instead of calling clients',
+        'You want CRM, scripts, 90 days — not metaphysics',
+      ],
+      takeaways: [
+        'Why “consciousness first” often becomes avoidance',
+        'Behavioral activation: act before you feel ready',
+        'DSO and receivables as 24/7 neural stress',
+        'Cases: marketplace, IT, course without “full readiness”',
+        'Formula: ops → results → brain rewrite',
+      ],
+      excerpt:
+        'Fix the outside first — then the “shadow” (that famous “consciousness”) gets prettier on its own.\n\nI picked up the phone and started calling debtors. No affirmations. No “I am worthy.” Just a script, a CRM, and a hard deadline. Forty-five days later — cash in the account. Impostor syndrome didn’t leave because I “processed” it. It left because results rewired the brain.\n\nFormula: external action → money + systems → neural rebuild. Money first. Then consciousness.',
+      litres: 'https://www.litres.ru/book/pol-grek/snachala-dengi-potom-soznanie-73569016/',
+      amazon: '',
     },
     {
       slug: 'stress-i-mozg',
