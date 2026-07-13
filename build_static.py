@@ -618,9 +618,17 @@ def main() -> None:
             html_out = html_out.replace(
                 '<html lang="ru">', '<html lang="en">'
             ).replace(
-                'data-base=".."', 'data-base=".." data-lang="en"'
+                'data-base=".."',
+                'data-base=".." data-lang="en" data-assets="../.."',
             ).replace(
                 'js/data.js', 'js/data-en.js'
+            )
+            # Force EN excerpt download targets
+            en_ex = f'../../excerpts/en/{book["slug"]}-excerpt.txt'
+            html_out = re.sub(
+                r'href="[^"]*excerpts/[^"]+"',
+                f'href="{en_ex}"',
+                html_out,
             )
             # UI chrome replacements (order matters)
             reps = [
@@ -629,6 +637,8 @@ def main() -> None:
                 ("Книги", "Books"),
                 ("Сейчас открыта книга", "Now reading"),
                 ("На странице:", "On this page:"),
+                ("На этой странице", "On this page"),
+                ("Для кого эта книга", "Who this book is for"),
                 ("Для кого", "Who it's for"),
                 ("О чём", "About"),
                 ("Что внутри", "Inside"),
@@ -644,17 +654,31 @@ def main() -> None:
                 ("Читать целиком на Литрес", "Read full book on LitRes"),
                 ("Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.", "Sample from the book. If the voice clicks — full text on LitRes / Amazon."),
                 ("Каталог", "Catalog"),
+                ("Весь каталог", "Full catalog"),
                 ("Ещё в каталоге", "More in catalog"),
                 ("Похожие книги", "Related books"),
                 ("← Предыдущая", "← Previous"),
                 ("Следующая →", "Next →"),
                 ("Литрес", "LitRes"),
                 (" — Пол Грэк", " — Pol Grek"),
+                ("Обложка:", "Cover:"),
+                ("Уровни доказательности в подходе автора:", "Evidence grades in the author’s approach:"),
+                ("A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.", "A — strong data; B — solid studies; C — limited data; D — observation."),
+                ("A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения и экспертный опыт.", "A — strong data; B — solid studies; C — limited data; D — observation and expert practice."),
+                ("Соседние книги", "Neighboring books"),
+                ("Рядом на полке", "Nearby on the shelf"),
+                ("Если эта тема откликнулась", "If this topic resonates"),
+                ("Быстрые действия", "Quick actions"),
+                ("Аннотация и отрывок →", "Blurb & excerpt →"),
+                ("Скачать отрывок (.txt)", "Download excerpt (.txt)"),
+                ("Excerpt и покупка на LitRes.", "Excerpt and purchase links included."),
+                ('aria-label="Вы здесь"', 'aria-label="You are here"'),
+                ("Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.", "This book is educational and does not replace a physician, therapist, or financial advisor."),
+                ("с Лорой Грэк", "with Laura Grek"),
+                ("Who it's for эта книга", "Who this book is for"),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)
-            # co-author label
-            html_out = html_out.replace("с Лорой Грэк", "with Laura Grek")
             return html_out
 
         def build_article_en(G, article):
@@ -669,14 +693,29 @@ def main() -> None:
                 ("Главная", "Home"),
                 ("Лаборатория", "Lab"),
                 ("мин · отрывок и книга →", "min · excerpt & book →"),
+                (" мин", " min"),
                 ("Книга:", "Book:"),
                 ("Все материалы", "All posts"),
                 ("Ещё из лаборатории", "More from the lab"),
                 ("Купить на Литрес", "Buy on LitRes"),
                 (" — Лаборатория Пола Грэка", " — Pol Grek Lab"),
+                ("Пола Грэка", "Pol Grek"),
+                ("Если хотите глубже", "If you want to go deeper"),
+                ("К книге", "To the book"),
+                ("Вы здесь", "You are here"),
+                ("aria-label=\"Вы здесь\"", "aria-label=\"You are here\""),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)
+            html_out = html_out.replace(
+                'data-base=".." data-lang="en"',
+                'data-base=".." data-lang="en" data-assets="../.."',
+            )
+            if 'data-assets' not in html_out:
+                html_out = html_out.replace(
+                    'data-lang="en"',
+                    'data-lang="en" data-assets="../.."',
+                )
             return html_out
 
         for book in GE["books"]:

@@ -152,7 +152,7 @@ window.POL_GREK = {
     {
       slug: 'mozg-na-100',
       coverFile: 'mozg-na-100.jpg',
-      excerptFile: 'mozg-na-100-otryvok.txt',
+      excerptFile: 'en/mozg-na-100-excerpt.txt',
       flagship: true,
       featured: true,
       title: 'Brain at 100+',
@@ -186,7 +186,7 @@ window.POL_GREK = {
     {
       slug: 'biohacking-mozga',
       coverFile: 'biohacking-mozga.jpg',
-      excerptFile: 'biohacking-mozga-otryvok.txt',
+      excerptFile: 'en/biohacking-mozga-excerpt.txt',
       flagship: true,
       featured: true,
       title: 'Brain Biohacking',
@@ -219,7 +219,7 @@ window.POL_GREK = {
     {
       slug: 'anatomiya-energii',
       coverFile: 'anatomiya-energii.jpg',
-      excerptFile: 'anatomiya-energii-otryvok.txt',
+      excerptFile: 'en/anatomiya-energii-excerpt.txt',
       title: 'Anatomy of Energy',
       subtitle: 'Three systems that decide whether you have enough gas in the tank',
       authors: ['Pol Grek'],
@@ -249,7 +249,7 @@ window.POL_GREK = {
     {
       slug: 'mozg-i-dengi',
       coverFile: 'mozg-i-dengi.jpg',
-      excerptFile: 'mozg-i-dengi-otryvok.txt',
+      excerptFile: 'en/mozg-i-dengi-excerpt.txt',
       title: 'Wired for Wealth',
       subtitle: 'How your brain shapes money — and what to do about it',
       authors: ['Pol Grek'],
@@ -280,7 +280,7 @@ window.POL_GREK = {
     {
       slug: 'stress-i-mozg',
       coverFile: 'stress-i-mozg.jpg',
-      excerptFile: 'stress-i-mozg-otryvok.txt',
+      excerptFile: 'en/stress-i-mozg-excerpt.txt',
       title: 'Stress and the Brain',
       subtitle: 'Stop burning out — start using stress as fuel',
       authors: ['Pol Grek'],
@@ -310,7 +310,7 @@ window.POL_GREK = {
     {
       slug: 'reset',
       coverFile: 'reset.jpg',
-      excerptFile: 'reset-otryvok.txt',
+      excerptFile: 'en/reset-excerpt.txt',
       flagship: true,
       featured: true,
       title: 'RESET',
@@ -342,7 +342,7 @@ window.POL_GREK = {
     {
       slug: 'mentalnyy-debag',
       coverFile: 'mentalnyy-debag.jpg',
-      excerptFile: 'mentalnyy-debag-otryvok.txt',
+      excerptFile: 'en/mentalnyy-debag-excerpt.txt',
       title: 'Mental Debug',
       subtitle: 'Reboot your brain in five minutes a day',
       authors: ['Pol Grek'],
@@ -371,7 +371,7 @@ window.POL_GREK = {
     {
       slug: 'ostorozhnyy-biohaker',
       coverFile: 'ostorozhnyy-biohaker.jpg',
-      excerptFile: 'ostorozhnyy-biohaker-otryvok.txt',
+      excerptFile: 'en/ostorozhnyy-biohaker-excerpt.txt',
       title: 'The Careful Biohacker',
       subtitle: 'A “first, do no harm” manifesto',
       authors: ['Pol Grek'],
@@ -398,7 +398,7 @@ window.POL_GREK = {
     {
       slug: 'svyashchennye-chasy',
       coverFile: 'svyashchennye-chasy.jpg',
-      excerptFile: 'svyashchennye-chasy-otryvok.txt',
+      excerptFile: 'en/svyashchennye-chasy-excerpt.txt',
       title: 'Sacred Hours',
       subtitle: 'Sleep, cycles, light — without the mysticism',
       authors: ['Pol Grek'],
@@ -427,7 +427,7 @@ window.POL_GREK = {
     {
       slug: 'zhenskiy-mozg',
       coverFile: 'zhenskiy-mozg.jpg',
-      excerptFile: 'zhenskiy-mozg-otryvok.txt',
+      excerptFile: 'en/zhenskiy-mozg-excerpt.txt',
       title: 'The Female Brain',
       subtitle: 'Hormones, cycles, and cognitive health — without the myths',
       authors: ['Pol Grek', 'Laura Grek'],
@@ -457,7 +457,7 @@ window.POL_GREK = {
     {
       slug: 'muzhskoy-mozg',
       coverFile: 'muzhskoy-mozg.jpg',
-      excerptFile: 'muzhskoy-mozg-otryvok.txt',
+      excerptFile: 'en/muzhskoy-mozg-excerpt.txt',
       title: 'The Male Brain',
       subtitle: 'Strength, focus, and character after forty',
       authors: ['Pol Grek', 'Laura Grek'],
@@ -486,7 +486,7 @@ window.POL_GREK = {
     {
       slug: 'ei-2',
       coverFile: 'ei-2.jpg',
-      excerptFile: 'ei-2-otryvok.txt',
+      excerptFile: 'en/ei-2-excerpt.txt',
       title: 'Emotional Intelligence 2.0',
       subtitle: 'Amygdala, dopamine, shame — instead of “just calm down”',
       authors: ['Pol Grek', 'Laura Grek'],

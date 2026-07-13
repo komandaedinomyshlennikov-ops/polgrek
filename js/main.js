@@ -300,14 +300,36 @@
       </footer>`;
   }
 
+  /** Site root for shared assets (covers, excerpts). EN lives under /en/. */
+  function siteRootPrefix() {
+    const explicit = document.body.dataset.assets;
+    if (explicit !== undefined && explicit !== null && String(explicit).length) {
+      return String(explicit).replace(/\/$/, '');
+    }
+    const path = location.pathname || '';
+    if (/\/en\/(books|lab)\//.test(path) || /\/en\/(books|lab)(\/|$)/.test(path)) {
+      return '../..';
+    }
+    if (path.includes('/en/')) return '..';
+    if (path.includes('/books/') || path.includes('/lab/')) return pathPrefix || '..';
+    return pathPrefix || '';
+  }
+
+  function rootUrl(relPath) {
+    const clean = String(relPath || '').replace(/^\//, '');
+    const root = siteRootPrefix();
+    if (!root || root === '.') return clean;
+    return root + '/' + clean;
+  }
+
   function coverUrl(book) {
     const file = book.coverFile || `${book.slug}.jpg`;
-    return url('/assets/covers/' + file);
+    return rootUrl('assets/covers/' + file);
   }
 
   function excerptUrl(book) {
-    const file = book.excerptFile || `${book.slug}-otryvok.txt`;
-    return url('/excerpts/' + file);
+    const file = book.excerptFile || (isEn ? `en/${book.slug}-excerpt.txt` : `${book.slug}-otryvok.txt`);
+    return rootUrl('excerpts/' + file);
   }
 
   function bookPageUrl(slug) {
@@ -386,7 +408,7 @@
     return `
       <article class="book-card${book.flagship ? ' is-flagship' : ''}">
         <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${book.title}">
-          <img src="${coverUrl(book)}" alt="Обложка: ${book.title}" loading="lazy" width="600" height="900" />
+          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${book.title}" loading="lazy" width="600" height="900" />
         </a>
         <div class="book-body">
           <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${book.title}</a></h3>
@@ -732,16 +754,18 @@
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = book.excerptFile || `${book.slug}-otryvok.txt`;
+      a.download = (book.excerptFile || (isEn ? `${book.slug}-excerpt.txt` : `${book.slug}-otryvok.txt`)).split('/').pop();
       a.click();
       URL.revokeObjectURL(a.href);
     } catch (e) {
       // fallback: inline excerpt from data.js
-      const text = `${book.title}\n${book.subtitle}\nАвтор: ${book.authors.join(', ')}\n\n— Отрывок —\n\n${book.excerpt}\n\n© Пол Грэк / Pol Grek\nПолный текст — на Литрес.\n`;
+      const text = isEn
+        ? `${book.title}\n${book.subtitle}\nAuthor: ${book.authors.join(', ')}\n\n— Excerpt —\n\n${book.excerpt}\n\n© Pol Grek\nFull text — Amazon / LitRes.\n`
+        : `${book.title}\n${book.subtitle}\nАвтор: ${book.authors.join(', ')}\n\n— Отрывок —\n\n${book.excerpt}\n\n© Пол Грэк / Pol Grek\nПолный текст — на Литрес.\n`;
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `${book.slug}-otryvok.txt`;
+      a.download = isEn ? `${book.slug}-excerpt.txt` : `${book.slug}-otryvok.txt`;
       a.click();
       URL.revokeObjectURL(a.href);
     }
