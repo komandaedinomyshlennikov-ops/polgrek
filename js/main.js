@@ -788,9 +788,16 @@
     const filtersEl = document.getElementById('bookFilters');
     if (!grid || !filtersEl) return;
 
+    // URL filter (?filter=деньги) — source of truth for “door” links from home
     let active = 'all';
-    // Preserve static catalog for no-JS; filters re-render when used
-    const hasStatic = !!grid.querySelector('.book-card');
+    try {
+      const urlFilter = new URLSearchParams(location.search).get('filter');
+      if (urlFilter && POL_GREK.filters.some((f) => f.id === urlFilter)) {
+        active = urlFilter;
+      }
+    } catch (e) {
+      /* ignore */
+    }
 
     function paint() {
       const list =
@@ -800,9 +807,12 @@
               const f = POL_GREK.filters.find((x) => x.id === active);
               return f && f.match ? f.match(b) : b.tags.includes(active);
             });
-      grid.innerHTML = list.map(bookCardHTML).join('');
+      // Always paint from data.js so new books appear even if static HTML is cached
+      grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
       const count = document.getElementById('booksCount');
-      if (count) count.textContent = 'Найдено: ' + list.length;
+      if (count) {
+        count.textContent = isEn ? `Found: ${list.length}` : `Найдено: ${list.length}`;
+      }
       filtersEl.querySelectorAll('.filter-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.filter === active);
       });
@@ -816,15 +826,20 @@
       const btn = e.target.closest('.filter-btn');
       if (!btn) return;
       active = btn.dataset.filter;
+      // Keep URL in sync for shareable filter links
+      try {
+        const u = new URL(location.href);
+        if (active === 'all') u.searchParams.delete('filter');
+        else u.searchParams.set('filter', active);
+        history.replaceState(null, '', u.pathname + u.search + u.hash);
+      } catch (err) {
+        /* ignore */
+      }
       track('filter_books', { filter: active, lang: isEn ? 'en' : 'ru' });
       paint();
     });
 
-    // Only full re-render if no static cards or filters will need data paths fixed
-    if (!hasStatic) paint();
-    else {
-      filtersEl.querySelector('.filter-btn')?.classList.add('active');
-    }
+    paint();
   }
 
   async function downloadExcerpt(book) {

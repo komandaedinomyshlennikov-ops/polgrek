@@ -236,16 +236,6 @@
   <script src="../js/base-config.js"></script>
   <script src="../js/data.js"></script>
   <script src="../js/main.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(location.search);
-      const f = params.get('filter');
-      if (!f) return;
-      setTimeout(() => {
-        const btn = document.querySelector('.filter-btn[data-filter="' + CSS.escape(f) + '"]');
-        if (btn) btn.click();
-      }, 0);
-    });
-  </script>
+  <!-- Filter from ?filter= is applied in main.js renderBooksPage (always paints from data.js) -->
 </body>
 </html>
