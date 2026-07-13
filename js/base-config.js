@@ -6,7 +6,7 @@
  * Override automatically from path if possible.
  */
 (function () {
-  var manual = ''; // e.g. '/pol-grek-site'
+  var manual = '/polgrek'; // e.g. '/pol-grek-site'
   var path = window.location.pathname || '/';
   var auto = '';
 
