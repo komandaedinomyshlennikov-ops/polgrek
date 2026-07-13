@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Книги — Пол Грэк</title>
-  <meta name="description" content="Каталог книг Пола и Лоры Грэк: обложки, аннотации, отрывки, Литрес и Amazon." />
-  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="../css/styles.css" />
-</head>
-<body data-page="books" data-base="..">
-  <div id="site-header"></div>
-  <noscript><div class="noscript-banner container">Каталог книг ниже — полный, без JavaScript.</div></noscript>
-  <main>
-    <section class="page-hero">
-      <div class="container">
-        <div class="breadcrumb"><a href="../index.html">Главная</a> · <span>Книги</span></div>
-        <p class="eyebrow">Каталог</p>
-        <h1>Книги Пола Грэка</h1>
-        <p class="lead">12 книг: обложка, короткое обещание, кнопки <strong>Литрес</strong> (основная) и Amazon. Отрывок — на странице книги.</p>
-      </div>
-    </section>
-    <section style="padding-top:0">
-      <div class="container">
-        <div class="filters" id="bookFilters" aria-label="Фильтры"></div>
-        <div class="books-grid" id="booksGrid">
+
 <article class="book-card is-flagship">
   <a class="book-cover has-image clean" href="../books/book.html?slug=mozg-na-100" aria-label="Мозг на 100+">
     <img src="../assets/covers/mozg-na-100.jpg" alt="Обложка: Мозг на 100+" loading="lazy" width="600" height="900" />
@@ -203,27 +178,4 @@
     </div>
     <a class="book-more" href="../books/book.html?slug=ei-2">Аннотация и отрывок →</a>
   </div>
-</article></div>
-        <p class="catalog-hint" style="margin-top:2rem">
-          <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Полный список и отзывы на Литрес →</a>
-        </p>
-      </div>
-    </section>
-  </main>
-  <div id="site-footer"></div>
-  <script src="../js/base-config.js"></script>
-  <script src="../js/data.js"></script>
-  <script src="../js/main.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(location.search);
-      const f = params.get('filter');
-      if (!f) return;
-      setTimeout(() => {
-        const btn = document.querySelector('.filter-btn[data-filter="' + CSS.escape(f) + '"]');
-        if (btn) btn.click();
-      }, 0);
-    });
-  </script>
-</body>
-</html>
+</article>

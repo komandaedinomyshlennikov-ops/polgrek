@@ -386,6 +386,105 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   object-position: center top;
 }
 .trust-list { margin: 1.25rem 0 1.5rem; }
+.hero-proof {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  background: rgba(42, 157, 143, 0.1);
+  border: 1px solid rgba(42, 157, 143, 0.22);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  max-width: 40rem;
+  margin: 0 0 1rem;
+}
+.method-example { margin-top: 1.5rem; padding: 1.5rem; }
+.method-example h3 { margin-top: 0.25rem; }
+.magnet-book-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+}
+.magnet-book-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.14);
+  background: rgba(255,252,247,0.06);
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(246,241,232,0.9);
+  transition: border-color 0.2s, background 0.2s;
+}
+.magnet-book-option img {
+  width: 64px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.magnet-book-option input { position: absolute; opacity: 0; pointer-events: none; }
+.magnet-book-option:has(input:checked),
+.magnet-book-option:hover {
+  border-color: var(--amber);
+  background: rgba(232,162,58,0.12);
+}
+.faq-list { display: grid; gap: 0.65rem; max-width: 800px; }
+.faq-item {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.85rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+.faq-item summary {
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+.faq-item p {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  max-width: none;
+  font-size: 0.95rem;
+}
+.noscript-banner {
+  margin: 0.75rem auto;
+  padding: 0.65rem 1rem;
+  background: rgba(232,162,58,0.15);
+  border: 1px solid rgba(232,162,58,0.35);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.pro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.pro-card, .burnout-story {
+  padding: 1.35rem 1.4rem;
+}
+.pro-card h3, .burnout-story h3 { margin-top: 0; font-size: 1.15rem; }
+.pro-card p, .burnout-story p { margin: 0; max-width: none; font-size: 0.95rem; color: var(--muted); }
+.footer-legal {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: rgba(246,241,232,0.45);
+  max-width: var(--max);
+}
+.footer-legal p { max-width: 70ch; margin: 0 0 0.5rem; }
+@media (max-width: 980px) {
+  .pro-grid { grid-template-columns: 1fr; }
+}
 .hero-card {
   position: absolute;
   left: 1.25rem;

@@ -41,6 +41,8 @@
   }
 
   function footerHTML() {
+    const legal = (window.POL_GREK && POL_GREK.legal) || {};
+    const email = legal.email || 'hello@polgrek.site';
     return `
       <footer class="site-footer">
         <div class="container footer-grid">
@@ -49,13 +51,15 @@
               <span class="logo-mark" aria-hidden="true"></span>
               <span class="logo-text">Пол Грэк<span>Pol Grek</span></span>
             </div>
-            <p>Нейробиология без эзотерики. Книги и протоколы, которые переводят устройство мозга на язык решений.</p>
+            <p>Нейробиология без эзотерики. Витрина и редакция — покупка на Литрес и Amazon.</p>
           </div>
           <div>
             <h4>Разделы</h4>
             <a href="${url('/books/index.html')}">Книги</a>
             <a href="${url('/lab/index.html')}">Лаборатория</a>
             <a href="${url('/about.html')}">Об авторе</a>
+            <a href="${url('/index.html')}#faq">FAQ</a>
+            <a href="${url('/privacy.html')}">Конфиденциальность</a>
           </div>
           <div>
             <h4>Читать и купить</h4>
@@ -65,11 +69,16 @@
           <div>
             <h4>Связь</h4>
             <a href="https://www.threads.net/@pol.grek" target="_blank" rel="noopener">Threads @pol.grek</a>
+            <a href="mailto:${email}">${email}</a>
           </div>
+        </div>
+        <div class="container footer-legal">
+          <p>${legal.disclaimer || 'Материалы не заменяют консультацию врача или психотерапевта.'}</p>
+          <p>${legal.privacy || ''}</p>
         </div>
         <div class="container footer-bottom">
           <span>© ${new Date().getFullYear()} Пол Грэк / Pol Grek</span>
-          <span>Материалы не заменяют медицинскую, психологическую или финансовую консультацию.</span>
+          <span>Не является медицинской рекламой. Издательская витрина автора.</span>
         </div>
       </footer>`;
   }
@@ -229,13 +238,14 @@
   function renderHome() {
     const flagships = POL_GREK.books.filter((b) => b.flagship || b.featured).slice(0, 3);
     const featured = document.getElementById('featuredBooks');
-    if (featured) {
+    // Keep static HTML if present (SEO / no-JS); only fill if empty
+    if (featured && !featured.querySelector('.book-card')) {
       featured.innerHTML = flagships.map((b) => bookCardHTML(b)).join('');
       featured.classList.add('books-grid-flagship');
     }
 
     const social = document.getElementById('socialProof');
-    if (social && POL_GREK.socialProof) {
+    if (social && POL_GREK.socialProof && !social.querySelector('.rating-card')) {
       const sp = POL_GREK.socialProof;
       social.innerHTML = sp.items
         .map((item) => {
@@ -249,12 +259,12 @@
             </a>`;
         })
         .join('');
-      const note = document.getElementById('socialProofNote');
-      if (note) note.textContent = sp.note;
     }
+    const note = document.getElementById('socialProofNote');
+    if (note && POL_GREK.socialProof) note.textContent = POL_GREK.socialProof.note;
 
     const articles = document.getElementById('homeArticles');
-    if (articles) {
+    if (articles && !articles.querySelector('.article-card')) {
       articles.innerHTML = POL_GREK.articles.slice(0, 3).map(articleCardHTML).join('');
     }
 
@@ -279,18 +289,31 @@
         .join('');
     }
 
+    // Sync radio cover picks → select
+    const picks = document.getElementById('magnetPicks');
+    if (picks && magnetSelect) {
+      picks.addEventListener('change', (e) => {
+        if (e.target && e.target.name === 'flagPick') {
+          magnetSelect.value = e.target.value;
+        }
+      });
+      const checked = picks.querySelector('input[name="flagPick"]:checked');
+      if (checked) magnetSelect.value = checked.value;
+    }
+
     const magnetForm = document.getElementById('magnetForm');
     if (magnetForm) {
       magnetForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const slug = magnetSelect.value;
+        const radio = document.querySelector('input[name="flagPick"]:checked');
+        const slug = (radio && radio.value) || (magnetSelect && magnetSelect.value) || 'mozg-na-100';
         window.location.href = url('/books/book.html?slug=' + slug + '#excerpt');
       });
     }
 
-    // Hero stack: 3 flagship covers
+    // Hero stack: fill only if empty (static HTML may already be present)
     const stack = document.getElementById('heroCoverStack');
-    if (stack) {
+    if (stack && !stack.querySelector('img')) {
       stack.innerHTML = flagships
         .map(
           (b, i) =>
@@ -310,6 +333,8 @@
     if (!grid || !filtersEl) return;
 
     let active = 'all';
+    // Preserve static catalog for no-JS; filters re-render when used
+    const hasStatic = !!grid.querySelector('.book-card');
 
     function paint() {
       const list =
@@ -320,6 +345,8 @@
               return f && f.match ? f.match(b) : b.tags.includes(active);
             });
       grid.innerHTML = list.map(bookCardHTML).join('');
+      const count = document.getElementById('booksCount');
+      if (count) count.textContent = 'Найдено: ' + list.length;
       filtersEl.querySelectorAll('.filter-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.filter === active);
       });
@@ -336,7 +363,11 @@
       paint();
     });
 
-    paint();
+    // Only full re-render if no static cards or filters will need data paths fixed
+    if (!hasStatic) paint();
+    else {
+      filtersEl.querySelector('.filter-btn')?.classList.add('active');
+    }
   }
 
   async function downloadExcerpt(book) {
@@ -467,7 +498,9 @@
 
   function renderLabPage() {
     const grid = document.getElementById('labGrid');
-    if (grid) grid.innerHTML = POL_GREK.articles.map(articleCardHTML).join('');
+    if (grid && !grid.querySelector('.article-card')) {
+      grid.innerHTML = POL_GREK.articles.map(articleCardHTML).join('');
+    }
   }
 
   function renderArticlePage() {
@@ -537,28 +570,11 @@
   }
 
   function renderAboutPage() {
+    // Static HTML already contains biography, timeline, principles, Laura.
+    // Only enrich if containers are empty (fallback).
     const a = POL_GREK.author;
-    const lead = document.getElementById('aboutLead');
-    if (lead) lead.textContent = a.bioShort;
-
-    const chips = document.getElementById('bioChips');
-    if (chips) {
-      chips.innerHTML = [
-        ['Англия', 'amber'],
-        ['Русский с 35 лет', ''],
-        ['Лора · МГУ', ''],
-        ['15+ лет наука × IT', ''],
-        ['@pol.grek', 'amber'],
-      ]
-        .map(
-          ([t, d]) =>
-            `<span class="chip"><span class="chip-dot${d ? ' amber' : ''}"></span>${t}</span>`
-        )
-        .join('');
-    }
-
     const timeline = document.getElementById('autoTimeline');
-    if (timeline && a.autobiography) {
+    if (timeline && !timeline.querySelector('.timeline-item') && a.autobiography) {
       timeline.innerHTML = a.autobiography
         .map(
           (item) => `
@@ -569,9 +585,8 @@
         )
         .join('');
     }
-
     const principles = document.getElementById('principles');
-    if (principles) {
+    if (principles && !principles.querySelector('.method-card')) {
       principles.innerHTML = a.principles
         .map(
           (p, i) => `
@@ -583,44 +598,6 @@
         )
         .join('');
     }
-
-    const voice = a.voiceCode;
-    if (voice) {
-      const vt = document.getElementById('voiceTitle');
-      if (vt) vt.textContent = voice.title;
-      const patterns = document.getElementById('voicePatterns');
-      if (patterns) {
-        patterns.innerHTML = voice.patterns
-          .map(
-            (p, i) => `
-            <article class="method-card">
-              <div class="method-icon">${i + 1}</div>
-              <h3 style="font-size:1rem">${p}</h3>
-              <p></p>
-            </article>`
-          )
-          .join('');
-      }
-      const examples = document.getElementById('voiceExamples');
-      if (examples) {
-        examples.innerHTML = voice.examples
-          .map(
-            (ex) => `
-            <article class="myth">
-              <div class="label">Читатель</div>
-              <h3 style="font-size:1.05rem">${ex.situation}</h3>
-            </article>
-            <article class="fact">
-              <div class="label">Пол</div>
-              <p style="margin:0;max-width:none">${ex.reply}</p>
-            </article>`
-          )
-          .join('');
-      }
-    }
-
-    const lauraBio = document.getElementById('lauraBio');
-    if (lauraBio) lauraBio.textContent = POL_GREK.laura.bio;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
