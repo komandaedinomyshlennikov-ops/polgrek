@@ -94,11 +94,11 @@
         </div>
       </div>
       <nav class="mobile-tabbar" aria-label="Быстрые разделы">
-        <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span>🏠</span>Главная</a>
-        <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span>📚</span>Книги</a>
-        <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span>🧪</span>Лаб</a>
-        <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}"><span>👤</span>Автор</a>
-        <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener"><span>🛒</span>Литрес</a>
+        <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span aria-hidden="true">🏠</span>Главная</a>
+        <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>Книги</a>
+        <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span aria-hidden="true">🧪</span>Лаб</a>
+        <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}"><span aria-hidden="true">👤</span>Автор</a>
+        <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener" aria-label="Купить на Литрес"><span aria-hidden="true">🛒</span>Литрес</a>
       </nav>
       <button type="button" class="back-to-top" id="backToTop" aria-label="Наверх" hidden>↑</button>`;
   }

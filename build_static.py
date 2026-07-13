@@ -158,7 +158,7 @@ def shell(title: str, description: str, body: str, page: str, base: str, path_pr
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}" />
   <meta property="og:title" content="{esc(title)}" />
@@ -328,8 +328,8 @@ def build_book_page(G: dict, book: dict) -> str:
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">
-      <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
-      <a class="btn btn-outline" href="#excerpt">Отрывок</a>
+      <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>
+      {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else '<a class="btn btn-outline" href="#excerpt">Отрывок</a>'}
       <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
 """
@@ -489,7 +489,7 @@ def main() -> None:
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Переход к книге — Пол Грэк</title>
   <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="../css/styles.css" />
@@ -526,7 +526,7 @@ def main() -> None:
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Переход к статье — Пол Грэк</title>
   <meta name="robots" content="noindex" />
   <link rel="stylesheet" href="../css/styles.css" />
