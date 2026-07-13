@@ -167,11 +167,12 @@
   function bindThemeToggle(root) {
     const scope = root || document;
     scope.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+      if (btn.dataset.themeBound === '1') return;
+      btn.dataset.themeBound = '1';
       btn.addEventListener('click', () => {
         if (window.PolTheme && typeof window.PolTheme.toggle === 'function') {
           const next = window.PolTheme.toggle();
           track('theme_' + next, { lang: isEn ? 'en' : 'ru' });
-          // refresh aria on all toggles
           document.querySelectorAll('[data-theme-toggle]').forEach((b) => {
             const isDark = next === 'dark';
             const lab = isDark ? UI.themeToLight : UI.themeToDark;
