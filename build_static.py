@@ -194,22 +194,75 @@ def shell(
 """
 
 
+def series_mates(G: dict, book: dict, n: int = 6) -> list:
+    series = (book.get("series") or "").strip()
+    if not series:
+        return []
+    mates = [
+        b
+        for b in G["books"]
+        if b["slug"] != book["slug"] and (b.get("series") or "").strip() == series
+    ]
+    return mates[:n]
+
+
 def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False) -> str:
+    """Product page inspired by MIF catalog product layout."""
     all_books = G["books"]
     idx = next(i for i, b in enumerate(all_books) if b["slug"] == book["slug"])
     prev_b = all_books[idx - 1] if idx > 0 else None
     next_b = all_books[idx + 1] if idx < len(all_books) - 1 else None
-    related = related_books(G, book["slug"], 3)
+    related = related_books(G, book["slug"], 4)
+    mates = series_mates(G, book, 6)
     primary = next(
         (t for t in (book.get("tags") or []) if t not in ("лора", "laura")),
         "",
     )
     topic = TAG_RU.get(primary, primary)
     topic_href = f"index.html?filter={html.escape(primary)}" if primary else "index.html"
-    authors = ", ".join(book.get("authors") or [])
+    authors_list = book.get("authors") or []
+    authors = ", ".join(authors_list)
     series = book.get("series") or "Научпоп о мозге"
     excerpt_file = f"../excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
     cover = f"../assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}"
+    amz = amazon_product_url(book)
+
+    # Highlights (MIF "О книге" bullets): takeaways first, else forWhom
+    highlights = (book.get("takeaways") or book.get("forWhom") or [])[:3]
+    highlights_html = "".join(f"<li>{esc(x)}</li>" for x in highlights)
+
+    # Tags as chips
+    tag_chips = []
+    for t in book.get("tags") or []:
+        if t in ("лора", "laura"):
+            continue
+        label = TAG_RU.get(t, t)
+        tag_chips.append(
+            f'<a class="book-tag-chip" href="index.html?filter={html.escape(t)}">{esc(label)}</a>'
+        )
+    if len(authors_list) > 1:
+        tag_chips.insert(0, '<span class="book-tag-chip is-co">с Лорой Грэк</span>')
+    tags_row = "".join(tag_chips)
+
+    # Series shelf thumbs
+    series_html = ""
+    if mates:
+        thumbs = []
+        for b in mates:
+            c = f"../assets/covers/{b.get('coverFile', b['slug'] + '.jpg')}"
+            thumbs.append(
+                f'<a class="book-series-thumb" href="{b["slug"]}.html" title="{esc(b["title"])}">'
+                f'<img src="{c}" alt="{esc(b["title"])}" width="96" height="144" loading="lazy" />'
+                f"<span>{esc(b['title'])}</span></a>"
+            )
+        series_html = f"""
+      <section class="book-series-shelf" aria-label="Серия">
+        <div class="book-series-head">
+          <p class="eyebrow">{esc(series)}</p>
+          <a class="btn btn-ghost-link" href="index.html">Все книги серии →</a>
+        </div>
+        <div class="book-series-track">{"".join(thumbs)}</div>
+      </section>"""
 
     # load excerpt file if exists (skip for EN — use native inline excerpt)
     excerpt_text = book.get("excerpt") or ""
@@ -224,6 +277,19 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     else:
         excerpt_text = (excerpt_text or "")[:2200]
 
+    # Pull-quote: first non-empty short paragraph of excerpt
+    pull = ""
+    for line in (excerpt_text or "").split("\n"):
+        line = line.strip()
+        if len(line) > 40 and not line.upper().startswith("ДИСКЛЕЙМЕР") and not line.startswith("DISCLAIMER"):
+            pull = line[:220] + ("…" if len(line) > 220 else "")
+            break
+    pull_html = (
+        f'<blockquote class="book-pull-quote"><p>«{esc(pull)}»</p><cite>— {esc(authors_list[0] if authors_list else "Пол Грэк")}</cite></blockquote>'
+        if pull
+        else ""
+    )
+
     prev_html = (
         f'<a class="book-pn prev" href="{prev_b["slug"]}.html"><span class="book-pn-label">← Предыдущая</span><strong>{esc(prev_b["title"])}</strong></a>'
         if prev_b
@@ -236,8 +302,56 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     )
     related_cards = "".join(book_card(b, books_dir=True) for b in related)
 
+    for_whom_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("forWhom") or []))
+    takeaway_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("takeaways") or []))
+    annotation = book.get("annotation") or book.get("promise") or ""
+    # split long annotation into paragraphs on double newline or by sentences groups
+    ann_parts = [p.strip() for p in re.split(r"\n\n+", annotation) if p.strip()]
+    if len(ann_parts) == 1 and len(ann_parts[0]) > 320:
+        # soft split into ~2 paras at sentence boundary near middle
+        t = ann_parts[0]
+        mid = len(t) // 2
+        cut = t.find(". ", mid)
+        if cut > 0:
+            ann_parts = [t[: cut + 1].strip(), t[cut + 2 :].strip()]
+    ann_html = "".join(f"<p>{esc(p)}</p>" for p in ann_parts)
+
+    author_note = (
+        "Пол Грэк — научпоп о мозге без эзотерики. Уровни доказательности A–D, сначала проверка на себе."
+        if len(authors_list) <= 1
+        else "Пол Грэк — механизмы и протоколы. Лора Грэк — клинический психолог (МГУ), соавтор: голос кабинета."
+    )
+
+    amz_btn = (
+        f'<a class="btn btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        if amz
+        else ""
+    )
+    amz_sticky = (
+        f'<a class="btn btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        if amz
+        else '<a class="btn btn-outline" href="#excerpt">Отрывок</a>'
+    )
+    pay_hint = (
+        "Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи."
+        if amz
+        else "Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи."
+    )
+    buy_dd = f'<a href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>'
+    if amz:
+        buy_dd += f' · <a href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+    highlights_block = (
+        f"<ul class=\"book-highlights\">{highlights_html}</ul>" if highlights_html else ""
+    )
+    quotes_block = (
+        f'<section class="book-section book-quotes" id="quotes"><h2>Из книги</h2>{pull_html}</section>'
+        if pull_html
+        else ""
+    )
+    format_store = "на Литрес · Amazon" if amz else "на Литрес"
+
     body = f"""
-    <div class="container book-page" style="padding-top:1.5rem">
+    <div class="container book-page">
       <noscript><div class="noscript-banner">Страница книги открыта без JavaScript: описание и отрывок ниже.</div></noscript>
       <nav class="breadcrumb" aria-label="Вы здесь">
         <a href="../index.html">Главная</a>
@@ -248,106 +362,141 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         <span aria-current="page">{esc(book["title"])}</span>
       </nav>
 
-      <div class="book-you-are-here" role="status">
-        <span>Сейчас открыта книга</span>
-        <strong>{esc(book["title"])}</strong>
-        <span class="book-you-are-meta">{esc(authors)}</span>
-      </div>
-
-      <nav class="book-toc" aria-label="На этой странице">
-        <span class="book-toc-label">На странице:</span>
-        <a href="#for-whom">Для кого</a>
-        <a href="#about-book">О чём</a>
-        <a href="#inside">Что внутри</a>
-        <a href="#excerpt">Отрывок</a>
-        <a href="#related">Похожие</a>
-        <a href="{esc(book["litres"])}" target="_blank" rel="noopener" class="book-toc-buy">Купить на Литрес</a>
-      </nav>
-
-      <div class="book-detail">
-        <aside class="book-detail-aside">
-          <div class="book-detail-cover has-image">
-            <img src="{cover}" alt="Обложка: {esc(book["title"])}" width="640" height="960" />
-          </div>
-          <div class="book-aside-actions">
-            <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
-            {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else ""}
-            <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
-          </div>
-          <p class="book-aside-hint">{"Оплата на Литрес или Amazon. " if amazon_product_url(book) else "Оплата на Литрес. "}Здесь — описание и фрагмент; сайт не принимает платежи.</p>
-        </aside>
-
-        <div class="book-detail-body">
+      <!-- MIF-style product hero: cover + info + buy -->
+      <div class="book-product">
+        <div class="book-product-cover">
+          <img src="{cover}" alt="Обложка: {esc(book["title"])}" width="640" height="960" />
+        </div>
+        <div class="book-product-info">
           <p class="eyebrow">{esc(series)}</p>
-          <h1 class="display book-h1">{esc(book["title"])}</h1>
-          <p class="lead">{esc(book.get("subtitle") or "")}</p>
-          <p class="book-authors">Автор: {esc(authors)}</p>
-
-          <div class="actions book-main-actions">
-            <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
-            {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else ""}
-            <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
-            <a class="btn btn-ghost-link" href="{excerpt_file}" download>Скачать отрывок</a>
-          </div>
-
-          <p class="grade-legend book-grade">
-            <strong>Уровни доказательности в подходе автора:</strong>
-            A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.
+          <h1 class="book-h1">{esc(book["title"])}</h1>
+          <p class="book-subtitle">{esc(book.get("subtitle") or "")}</p>
+          <p class="book-authors">
+            <span class="book-authors-label">Автор</span>
+            <a href="../about.html">{esc(authors)}</a>
           </p>
 
-          <section id="for-whom" class="book-section">
-            <h2>Для кого эта книга</h2>
-            <ul class="checklist">{"".join(f"<li>{esc(x)}</li>" for x in book.get("forWhom") or [])}</ul>
-          </section>
+          {highlights_block}
 
-          <section id="about-book" class="book-section">
-            <h2>О чём</h2>
-            <p>{esc(book.get("annotation") or "")}</p>
-          </section>
-
-          <section id="inside" class="book-section">
-            <h2>Что внутри</h2>
-            <ul class="checklist">{"".join(f"<li>{esc(x)}</li>" for x in book.get("takeaways") or [])}</ul>
-          </section>
-
-          <section class="excerpt-box book-section" id="excerpt">
-            <div class="excerpt-head">
-              <strong>Отрывок</strong>
-              <a class="btn btn-sm btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          <div class="book-buy-card">
+            <div class="book-buy-format">
+              <span class="book-format-pill">Электронная</span>
+              <span class="book-format-store">{format_store}</span>
             </div>
-            <p class="muted excerpt-lead">Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.</p>
-            <pre id="excerptPreview">{esc(excerpt_text)}</pre>
-            <div class="btn-row" style="margin-top:1rem">
-              <a class="btn btn-teal" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
+            <div class="book-buy-actions">
+              <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+              {amz_btn}
+              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
             </div>
-          </section>
-
-          <div class="disclaimer">
-            Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+            <a class="book-buy-download" href="{excerpt_file}" download>Скачать фрагмент (.txt)</a>
+            <p class="book-aside-hint">{pay_hint}</p>
           </div>
 
-          <nav class="book-prev-next" aria-label="Соседние книги">
-            {prev_html}
-            <a class="book-pn catalog" href="index.html">Весь каталог</a>
-            {next_html}
-          </nav>
+          <div class="book-meta-chips">{tags_row}</div>
 
-          <section class="related book-section" id="related">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Рядом на полке</p>
-                <h2>Если эта тема откликнулась</h2>
-              </div>
-              <a class="btn btn-outline" href="{topic_href}">Ещё в каталоге</a>
-            </div>
-            <div class="books-grid">{related_cards}</div>
-          </section>
+          <details class="grade-legend-details book-grade-details">
+            <summary>Уровни доказательности A–D</summary>
+            <p class="grade-legend"><strong>A</strong> — надёжные данные; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения.</p>
+          </details>
         </div>
+      </div>
+
+      {series_html}
+
+      <nav class="book-tabs" aria-label="Разделы о книге">
+        <a href="#about-book">Описание</a>
+        <a href="#for-whom">Для кого</a>
+        <a href="#inside">Что внутри</a>
+        <a href="#excerpt">Отрывок</a>
+        <a href="#author">Об авторе</a>
+        <a href="#related">С этой книгой</a>
+        <a href="{esc(book["litres"])}" target="_blank" rel="noopener" class="book-tabs-buy">Купить</a>
+      </nav>
+
+      <div class="book-body-col">
+        <section id="about-book" class="book-section">
+          <h2>Описание</h2>
+          {ann_html or f"<p>{esc(book.get('promise') or '')}</p>"}
+        </section>
+
+        <section id="for-whom" class="book-section">
+          <h2>Для кого эта книга</h2>
+          <ul class="checklist">{for_whom_items}</ul>
+        </section>
+
+        <section id="inside" class="book-section">
+          <h2>Что внутри</h2>
+          <ul class="checklist">{takeaway_items}</ul>
+        </section>
+
+        {quotes_block}
+
+        <section class="excerpt-box book-section" id="excerpt">
+          <div class="excerpt-head">
+            <strong>Бесплатный отрывок</strong>
+            <a class="btn btn-sm btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          </div>
+          <p class="muted excerpt-lead">Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.</p>
+          <pre id="excerptPreview">{esc(excerpt_text)}</pre>
+          <div class="btn-row" style="margin-top:1rem">
+            <a class="btn btn-teal" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
+            <a class="btn btn-outline" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+          </div>
+        </section>
+
+        <section id="author" class="book-section">
+          <h2>Об авторе</h2>
+          <div class="book-author-card">
+            <div class="book-author-photo">
+              <img src="../assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="88" height="88" />
+            </div>
+            <div>
+              <h3>{esc(authors)}</h3>
+              <p>{esc(author_note)}</p>
+              <div class="btn-row">
+                <a class="btn btn-outline" href="../about.html">Подробнее об авторе</a>
+                <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="specs" class="book-section book-specs">
+          <h2>Выходные данные</h2>
+          <dl class="book-specs-list">
+            <div><dt>Формат</dt><dd>Электронная книга</dd></div>
+            <div><dt>Где купить</dt><dd>{buy_dd}</dd></div>
+            <div><dt>Серия</dt><dd>{esc(series)}</dd></div>
+            <div><dt>Язык</dt><dd>Русский</dd></div>
+            <div><dt>Теги</dt><dd class="book-specs-tags">{tags_row or "—"}</dd></div>
+          </dl>
+        </section>
+
+        <div class="disclaimer">
+          Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+        </div>
+
+        <nav class="book-prev-next" aria-label="Соседние книги">
+          {prev_html}
+          <a class="book-pn catalog" href="index.html">Весь каталог</a>
+          {next_html}
+        </nav>
+
+        <section class="related book-section" id="related">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Подборка</p>
+              <h2>С этой книгой читают</h2>
+            </div>
+            <a class="btn btn-outline" href="{topic_href}">Ещё в каталоге</a>
+          </div>
+          <div class="books-grid books-grid-related">{related_cards}</div>
+        </section>
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">
       <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>
-      {f'<a class="btn btn-outline" href="{esc(amazon_product_url(book))}" target="_blank" rel="noopener">Amazon</a>' if amazon_product_url(book) else '<a class="btn btn-outline" href="#excerpt">Отрывок</a>'}
+      {amz_sticky}
       <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
 """
@@ -630,43 +779,66 @@ def main() -> None:
                 f'href="{en_ex}"',
                 html_out,
             )
-            # UI chrome replacements (order matters)
+            # UI chrome replacements (order matters — longer phrases first)
             reps = [
                 ("Страница книги открыта без JavaScript: описание и отрывок ниже.", "Book page loaded without JavaScript: description and excerpt below."),
-                ("Главная", "Home"),
-                ("Книги", "Books"),
-                ("Сейчас открыта книга", "Now reading"),
-                ("На странице:", "On this page:"),
-                ("На этой странице", "On this page"),
-                ("Для кого эта книга", "Who this book is for"),
-                ("Для кого", "Who it's for"),
-                ("О чём", "About"),
-                ("Что внутри", "Inside"),
-                ("Отрывок", "Excerpt"),
-                ("Похожие", "Related"),
-                ("Купить на Литрес", "Buy on LitRes"),
-                ("Читать отрывок", "Read excerpt"),
-                ("К отрывку ↓", "To excerpt ↓"),
                 ("Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on Amazon or LitRes. Description and sample here; this site does not take payment."),
                 ("Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on LitRes. Description and sample here; this site does not take payment."),
-                ("Автор:", "Author:"),
-                ("Скачать отрывок", "Download excerpt"),
+                ("Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.", "Sample from the manuscript. If the voice clicks — full text on LitRes / Amazon."),
+                ("Пол Грэк — научпоп о мозге без эзотерики. Уровни доказательности A–D, сначала проверка на себе.", "Pol Grek writes popular brain science without mysticism. Evidence grades A–D; self-tested first."),
+                ("Пол Грэк — механизмы и протоколы. Лора Грэк — клинический психолог (МГУ), соавтор: голос кабинета.", "Pol Grek — mechanisms and protocols. Laura Grek — clinical psychologist (MSU), co-author: clinic voice."),
+                ("Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.", "Educational only — not a substitute for medical, psychological, or financial advice."),
+                ("Уровни доказательности A–D", "Evidence grades A–D"),
+                ("A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.", "A — strong data; B — solid studies; C — limited data; D — observation."),
+                ("<strong>A</strong> — надёжные данные; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения.", "<strong>A</strong> — strong data; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation."),
+                ("Для кого эта книга", "Who this book is for"),
+                ("Для кого", "Who it's for"),
+                ("Что внутри", "Inside the book"),
+                ("Вы здесь", "You are here"),
+                ("и покупка на Литрес", "and buy on LitRes"),
+                ("Отрывок и покупка на Литрес", "Excerpt and buy on LitRes"),
+                ("Бесплатный отрывок", "Free excerpt"),
                 ("Читать целиком на Литрес", "Read full book on LitRes"),
-                ("Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.", "Sample from the book. If the voice clicks — full text on LitRes / Amazon."),
-                ("Каталог", "Catalog"),
-                ("Весь каталог", "Full catalog"),
+                ("Купить на Литрес", "Buy on LitRes"),
+                ("Читать отрывок", "Read excerpt"),
+                ("Скачать фрагмент (.txt)", "Download sample (.txt)"),
+                ("Скачать отрывок (.txt)", "Download excerpt (.txt)"),
+                ("Скачать отрывок", "Download excerpt"),
+                ("Все книги серии →", "All series books →"),
+                ("С этой книгой читают", "Readers also pick"),
+                ("С этой книгой", "Also read"),
+                ("Выходные данные", "Product details"),
+                ("Об авторе", "About the author"),
+                ("Подробнее об авторе", "More about the author"),
+                ("Из книги", "From the book"),
+                ("Описание", "Description"),
+                ("Электронная", "Ebook"),
+                ("на Литрес · Amazon", "on LitRes · Amazon"),
+                ("на Литрес", "on LitRes"),
+                ("Где купить", "Where to buy"),
+                ("Формат", "Format"),
+                ("Электронная книга", "Ebook"),
+                ("Серия", "Series"),
+                ("Язык", "Language"),
+                ("Русский", "Russian"),
+                ("Теги", "Tags"),
+                ("Подборка", "Picks"),
                 ("Ещё в каталоге", "More in catalog"),
-                ("Похожие книги", "Related books"),
+                ("Весь каталог", "Full catalog"),
+                ("Каталог", "Catalog"),
                 ("← Предыдущая", "← Previous"),
                 ("Следующая →", "Next →"),
+                ("Соседние книги", "Neighboring books"),
+                ("Разделы о книге", "Book sections"),
+                ("Купить", "Buy"),
+                ("Главная", "Home"),
+                ("Книги", "Books"),
+                ("Автор", "Author"),
+                ("с Лорой Грэк", "with Laura Grek"),
+                ("Обложка:", "Cover:"),
                 ("Литрес", "LitRes"),
                 (" — Пол Грэк", " — Pol Grek"),
-                ("Обложка:", "Cover:"),
-                ("Уровни доказательности в подходе автора:", "Evidence grades in the author’s approach:"),
-                ("A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.", "A — strong data; B — solid studies; C — limited data; D — observation."),
-                ("A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения и экспертный опыт.", "A — strong data; B — solid studies; C — limited data; D — observation and expert practice."),
-                ("Соседние книги", "Neighboring books"),
-                ("Рядом на полке", "Nearby on the shelf"),
+                ("Отрывок", "Excerpt"),
                 ("Если эта тема откликнулась", "If this topic resonates"),
                 ("Быстрые действия", "Quick actions"),
                 ("Аннотация и отрывок →", "Blurb & excerpt →"),

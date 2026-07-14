@@ -16,7 +16,7 @@
   <div id="site-header"></div>
   <main id="main-content" tabindex="-1">
 
-    <div class="container book-page" style="padding-top:1.5rem">
+    <div class="container book-page">
       <noscript><div class="noscript-banner">Страница книги открыта без JavaScript: описание и отрывок ниже.</div></noscript>
       <nav class="breadcrumb" aria-label="Вы здесь">
         <a href="../index.html">Главная</a>
@@ -27,75 +27,89 @@
         <span aria-current="page">Священные часы</span>
       </nav>
 
-      <div class="book-you-are-here" role="status">
-        <span>Сейчас открыта книга</span>
-        <strong>Священные часы</strong>
-        <span class="book-you-are-meta">Пол Грэк</span>
-      </div>
-
-      <nav class="book-toc" aria-label="На этой странице">
-        <span class="book-toc-label">На странице:</span>
-        <a href="#for-whom">Для кого</a>
-        <a href="#about-book">О чём</a>
-        <a href="#inside">Что внутри</a>
-        <a href="#excerpt">Отрывок</a>
-        <a href="#related">Похожие</a>
-        <a href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener" class="book-toc-buy">Купить на Литрес</a>
-      </nav>
-
-      <div class="book-detail">
-        <aside class="book-detail-aside">
-          <div class="book-detail-cover has-image">
-            <img src="../assets/covers/svyashchennye-chasy.jpg" alt="Обложка: Священные часы" width="640" height="960" />
-          </div>
-          <div class="book-aside-actions">
-            <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Купить на Литрес</a>
-            
-            <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
-          </div>
-          <p class="book-aside-hint">Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.</p>
-        </aside>
-
-        <div class="book-detail-body">
+      <!-- MIF-style product hero: cover + info + buy -->
+      <div class="book-product">
+        <div class="book-product-cover">
+          <img src="../assets/covers/svyashchennye-chasy.jpg" alt="Обложка: Священные часы" width="640" height="960" />
+        </div>
+        <div class="book-product-info">
           <p class="eyebrow">Восстановление</p>
-          <h1 class="display book-h1">Священные часы</h1>
-          <p class="lead">Нейроинженерия сознания · сон, циклы, свет</p>
-          <p class="book-authors">Автор: Пол Грэк</p>
-
-          <div class="actions book-main-actions">
-            <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Купить на Литрес</a>
-            
-            <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
-            <a class="btn btn-ghost-link" href="../excerpts/svyashchennye-chasy-otryvok.txt" download>Скачать отрывок</a>
-          </div>
-
-          <p class="grade-legend book-grade">
-            <strong>Уровни доказательности в подходе автора:</strong>
-            A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.
+          <h1 class="book-h1">Священные часы</h1>
+          <p class="book-subtitle">Нейроинженерия сознания · сон, циклы, свет</p>
+          <p class="book-authors">
+            <span class="book-authors-label">Автор</span>
+            <a href="../about.html">Пол Грэк</a>
           </p>
 
-          <section id="for-whom" class="book-section">
-            <h2>Для кого эта книга</h2>
-            <ul class="checklist"><li>Спите 8 часов и всё равно разбиты</li><li>Экраны до ночи / с телефона с утра</li><li>Нужны короткие протоколы</li></ul>
-          </section>
+          <ul class="book-highlights"><li>Считайте циклы, не только часы</li><li>Свет утром и вечером</li><li>5–20 минут протоколов в день</li></ul>
 
-          <section id="about-book" class="book-section">
-            <h2>О чём</h2>
-            <p>О сне и циркадных ритмах без эзотерики. Циклы, свет, мелатонин — и короткие протоколы, которые встраиваются в обычный день. (На Литрес также: «Нейроинженерия сознания» / линейка про сон.)</p>
-          </section>
-
-          <section id="inside" class="book-section">
-            <h2>Что внутри</h2>
-            <ul class="checklist"><li>Считайте циклы, не только часы</li><li>Свет утром и вечером</li><li>5–20 минут протоколов в день</li></ul>
-          </section>
-
-          <section class="excerpt-box book-section" id="excerpt">
-            <div class="excerpt-head">
-              <strong>Отрывок</strong>
-              <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          <div class="book-buy-card">
+            <div class="book-buy-format">
+              <span class="book-format-pill">Электронная</span>
+              <span class="book-format-store">на Литрес</span>
             </div>
-            <p class="muted excerpt-lead">Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.</p>
-            <pre id="excerptPreview">Введение
+            <div class="book-buy-actions">
+              <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Купить на Литрес</a>
+              
+              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
+            </div>
+            <a class="book-buy-download" href="../excerpts/svyashchennye-chasy-otryvok.txt" download>Скачать фрагмент (.txt)</a>
+            <p class="book-aside-hint">Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.</p>
+          </div>
+
+          <div class="book-meta-chips"><a class="book-tag-chip" href="index.html?filter=энергия">энергия</a><a class="book-tag-chip" href="index.html?filter=когнитивное-здоровье">когнитивное здоровье</a></div>
+
+          <details class="grade-legend-details book-grade-details">
+            <summary>Уровни доказательности A–D</summary>
+            <p class="grade-legend"><strong>A</strong> — надёжные данные; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения.</p>
+          </details>
+        </div>
+      </div>
+
+      
+      <section class="book-series-shelf" aria-label="Серия">
+        <div class="book-series-head">
+          <p class="eyebrow">Восстановление</p>
+          <a class="btn btn-ghost-link" href="index.html">Все книги серии →</a>
+        </div>
+        <div class="book-series-track"><a class="book-series-thumb" href="anatomiya-energii.html" title="Анатомия энергии"><img src="../assets/covers/anatomiya-energii.jpg" alt="Анатомия энергии" width="96" height="144" loading="lazy" /><span>Анатомия энергии</span></a><a class="book-series-thumb" href="reset.html" title="RESET"><img src="../assets/covers/reset.jpg" alt="RESET" width="96" height="144" loading="lazy" /><span>RESET</span></a><a class="book-series-thumb" href="mentalnyy-debag.html" title="Ментальный дебаг"><img src="../assets/covers/mentalnyy-debag.jpg" alt="Ментальный дебаг" width="96" height="144" loading="lazy" /><span>Ментальный дебаг</span></a></div>
+      </section>
+
+      <nav class="book-tabs" aria-label="Разделы о книге">
+        <a href="#about-book">Описание</a>
+        <a href="#for-whom">Для кого</a>
+        <a href="#inside">Что внутри</a>
+        <a href="#excerpt">Отрывок</a>
+        <a href="#author">Об авторе</a>
+        <a href="#related">С этой книгой</a>
+        <a href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener" class="book-tabs-buy">Купить</a>
+      </nav>
+
+      <div class="book-body-col">
+        <section id="about-book" class="book-section">
+          <h2>Описание</h2>
+          <p>О сне и циркадных ритмах без эзотерики. Циклы, свет, мелатонин — и короткие протоколы, которые встраиваются в обычный день. (На Литрес также: «Нейроинженерия сознания» / линейка про сон.)</p>
+        </section>
+
+        <section id="for-whom" class="book-section">
+          <h2>Для кого эта книга</h2>
+          <ul class="checklist"><li>Спите 8 часов и всё равно разбиты</li><li>Экраны до ночи / с телефона с утра</li><li>Нужны короткие протоколы</li></ul>
+        </section>
+
+        <section id="inside" class="book-section">
+          <h2>Что внутри</h2>
+          <ul class="checklist"><li>Считайте циклы, не только часы</li><li>Свет утром и вечером</li><li>5–20 минут протоколов в день</li></ul>
+        </section>
+
+        <section class="book-section book-quotes" id="quotes"><h2>Из книги</h2><blockquote class="book-pull-quote"><p>«Я не был в этом одинок. Среди людей с высокой рабочей нагрузкой — исследователей, руководителей, врачей — это почти норма. Негласный консенсус: сон можно оптимизировать вниз. Главное — кофеин и режим.»</p><cite>— Пол Грэк</cite></blockquote></section>
+
+        <section class="excerpt-box book-section" id="excerpt">
+          <div class="excerpt-head">
+            <strong>Бесплатный отрывок</strong>
+            <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          </div>
+          <p class="muted excerpt-lead">Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.</p>
+          <pre id="excerptPreview">Введение
 
 Почему я написал эту книгу
 
@@ -130,30 +144,59 @@
 Как читать эту книгу.
 
 Вы можете читать последовательно — от физиологии к протоколу.…</pre>
-            <div class="btn-row" style="margin-top:1rem">
-              <a class="btn btn-teal" href="../excerpts/svyashchennye-chasy-otryvok.txt" download>Скачать отрывок (.txt)</a>
-            </div>
-          </section>
-
-          <div class="disclaimer">
-            Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+          <div class="btn-row" style="margin-top:1rem">
+            <a class="btn btn-teal" href="../excerpts/svyashchennye-chasy-otryvok.txt" download>Скачать отрывок (.txt)</a>
+            <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Купить на Литрес</a>
           </div>
+        </section>
 
-          <nav class="book-prev-next" aria-label="Соседние книги">
-            <a class="book-pn prev" href="ostorozhnyy-biohaker.html"><span class="book-pn-label">← Предыдущая</span><strong>Осторожный биохакер</strong></a>
-            <a class="book-pn catalog" href="index.html">Весь каталог</a>
-            <a class="book-pn next" href="zhenskiy-mozg.html"><span class="book-pn-label">Следующая →</span><strong>Женский мозг</strong></a>
-          </nav>
-
-          <section class="related book-section" id="related">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Рядом на полке</p>
-                <h2>Если эта тема откликнулась</h2>
-              </div>
-              <a class="btn btn-outline" href="index.html?filter=энергия">Ещё в каталоге</a>
+        <section id="author" class="book-section">
+          <h2>Об авторе</h2>
+          <div class="book-author-card">
+            <div class="book-author-photo">
+              <img src="../assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="88" height="88" />
             </div>
-            <div class="books-grid">
+            <div>
+              <h3>Пол Грэк</h3>
+              <p>Пол Грэк — научпоп о мозге без эзотерики. Уровни доказательности A–D, сначала проверка на себе.</p>
+              <div class="btn-row">
+                <a class="btn btn-outline" href="../about.html">Подробнее об авторе</a>
+                <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="specs" class="book-section book-specs">
+          <h2>Выходные данные</h2>
+          <dl class="book-specs-list">
+            <div><dt>Формат</dt><dd>Электронная книга</dd></div>
+            <div><dt>Где купить</dt><dd><a href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" target="_blank" rel="noopener">Литрес</a></dd></div>
+            <div><dt>Серия</dt><dd>Восстановление</dd></div>
+            <div><dt>Язык</dt><dd>Русский</dd></div>
+            <div><dt>Теги</dt><dd class="book-specs-tags"><a class="book-tag-chip" href="index.html?filter=энергия">энергия</a><a class="book-tag-chip" href="index.html?filter=когнитивное-здоровье">когнитивное здоровье</a></dd></div>
+          </dl>
+        </section>
+
+        <div class="disclaimer">
+          Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+        </div>
+
+        <nav class="book-prev-next" aria-label="Соседние книги">
+          <a class="book-pn prev" href="ostorozhnyy-biohaker.html"><span class="book-pn-label">← Предыдущая</span><strong>Осторожный биохакер</strong></a>
+          <a class="book-pn catalog" href="index.html">Весь каталог</a>
+          <a class="book-pn next" href="zhenskiy-mozg.html"><span class="book-pn-label">Следующая →</span><strong>Женский мозг</strong></a>
+        </nav>
+
+        <section class="related book-section" id="related">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Подборка</p>
+              <h2>С этой книгой читают</h2>
+            </div>
+            <a class="btn btn-outline" href="index.html?filter=энергия">Ещё в каталоге</a>
+          </div>
+          <div class="books-grid books-grid-related">
 <article class="book-card is-flagship">
   <a class="book-cover has-image clean" href="biohacking-mozga.html" aria-label="Биохакинг мозга">
     <img src="../assets/covers/biohacking-mozga.jpg" alt="Обложка: Биохакинг мозга" loading="lazy" width="600" height="900" />
@@ -201,9 +244,23 @@
     </div>
     <a class="book-more" href="anatomiya-energii.html">Аннотация и отрывок →</a>
   </div>
+</article>
+<article class="book-card">
+  <a class="book-cover has-image clean" href="muzhskoy-mozg.html" aria-label="Мужской мозг">
+    <img src="../assets/covers/muzhskoy-mozg.jpg" alt="Обложка: Мужской мозг" loading="lazy" width="600" height="900" />
+  </a>
+  <div class="book-body">
+    <h3 class="book-title"><a href="muzhskoy-mozg.html">Мужской мозг</a></h3>
+    <div class="book-tags"><span class="tag co">с Лорой Грэк</span><span class="tag-sep"> · </span><span class="tag">гормоны</span><span class="tag-sep"> · </span><span class="tag">энергия</span></div>
+    <p>После 40: энергия, фокус, характер — взрослая версия, а не охота за «как в 25».</p>
+    <div class="book-actions">
+      <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/lora-grek/muzhskoy-mozg-73738682/" target="_blank" rel="noopener">Литрес</a>
+      <a class="btn btn-sm btn-outline" href="muzhskoy-mozg.html#excerpt">Отрывок</a>
+    </div>
+    <a class="book-more" href="muzhskoy-mozg.html">Аннотация и отрывок →</a>
+  </div>
 </article></div>
-          </section>
-        </div>
+        </section>
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">

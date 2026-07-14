@@ -16,7 +16,7 @@
   <div id="site-header"></div>
   <main id="main-content" tabindex="-1">
 
-    <div class="container book-page" style="padding-top:1.5rem">
+    <div class="container book-page">
       <noscript><div class="noscript-banner">Страница книги открыта без JavaScript: описание и отрывок ниже.</div></noscript>
       <nav class="breadcrumb" aria-label="Вы здесь">
         <a href="../index.html">Главная</a>
@@ -27,75 +27,89 @@
         <span aria-current="page">RESET</span>
       </nav>
 
-      <div class="book-you-are-here" role="status">
-        <span>Сейчас открыта книга</span>
-        <strong>RESET</strong>
-        <span class="book-you-are-meta">Пол Грэк</span>
-      </div>
-
-      <nav class="book-toc" aria-label="На этой странице">
-        <span class="book-toc-label">На странице:</span>
-        <a href="#for-whom">Для кого</a>
-        <a href="#about-book">О чём</a>
-        <a href="#inside">Что внутри</a>
-        <a href="#excerpt">Отрывок</a>
-        <a href="#related">Похожие</a>
-        <a href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener" class="book-toc-buy">Купить на Литрес</a>
-      </nav>
-
-      <div class="book-detail">
-        <aside class="book-detail-aside">
-          <div class="book-detail-cover has-image">
-            <img src="../assets/covers/reset.jpg" alt="Обложка: RESET" width="640" height="960" />
-          </div>
-          <div class="book-aside-actions">
-            <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Купить на Литрес</a>
-            <a class="btn btn-outline" href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener">Amazon</a>
-            <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
-          </div>
-          <p class="book-aside-hint">Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи.</p>
-        </aside>
-
-        <div class="book-detail-body">
+      <!-- MIF-style product hero: cover + info + buy -->
+      <div class="book-product">
+        <div class="book-product-cover">
+          <img src="../assets/covers/reset.jpg" alt="Обложка: RESET" width="640" height="960" />
+        </div>
+        <div class="book-product-info">
           <p class="eyebrow">Восстановление</p>
-          <h1 class="display book-h1">RESET</h1>
-          <p class="lead">Нейробиология выгорания и восстановление адаптационного ресурса</p>
-          <p class="book-authors">Автор: Пол Грэк</p>
-
-          <div class="actions book-main-actions">
-            <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Купить на Литрес</a>
-            <a class="btn btn-outline" href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener">Amazon</a>
-            <a class="btn btn-outline" href="#excerpt">К отрывку ↓</a>
-            <a class="btn btn-ghost-link" href="../excerpts/reset-otryvok.txt" download>Скачать отрывок</a>
-          </div>
-
-          <p class="grade-legend book-grade">
-            <strong>Уровни доказательности в подходе автора:</strong>
-            A — надёжные данные; B — хорошие исследования; C — ограниченные данные; D — наблюдения.
+          <h1 class="book-h1">RESET</h1>
+          <p class="book-subtitle">Нейробиология выгорания и восстановление адаптационного ресурса</p>
+          <p class="book-authors">
+            <span class="book-authors-label">Автор</span>
+            <a href="../about.html">Пол Грэк</a>
           </p>
 
-          <section id="for-whom" class="book-section">
-            <h2>Для кого эта книга</h2>
-            <ul class="checklist"><li>Отдых не помогает</li><li>Ничего не радует</li><li>«Заебалась» — и хочется понять механизм</li></ul>
-          </section>
+          <ul class="book-highlights"><li>Выгорание ≠ обычная усталость</li><li>Маркеры системного истощения</li><li>Почему «просто отдохни» не работает</li></ul>
 
-          <section id="about-book" class="book-section">
-            <h2>О чём</h2>
-            <p>Писал в том числе из собственного опыта. Не про позитивное мышление — про то, почему отдых не помогает и с чего реально начинать восстановление. Аллостаз, адаптационный ресурс, возврат когнитивного контроля.</p>
-          </section>
-
-          <section id="inside" class="book-section">
-            <h2>Что внутри</h2>
-            <ul class="checklist"><li>Выгорание ≠ обычная усталость</li><li>Маркеры системного истощения</li><li>Почему «просто отдохни» не работает</li><li>С чего начинать восстановление</li></ul>
-          </section>
-
-          <section class="excerpt-box book-section" id="excerpt">
-            <div class="excerpt-head">
-              <strong>Отрывок</strong>
-              <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          <div class="book-buy-card">
+            <div class="book-buy-format">
+              <span class="book-format-pill">Электронная</span>
+              <span class="book-format-store">на Литрес · Amazon</span>
             </div>
-            <p class="muted excerpt-lead">Фрагмент из книги. Если тон откликнулся — полный текст на Литрес.</p>
-            <pre id="excerptPreview">RESET: Нейробиология выгорания и восстановление адаптационного ресурса
+            <div class="book-buy-actions">
+              <a class="btn btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Купить на Литрес</a>
+              <a class="btn btn-outline" href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener">Amazon</a>
+              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
+            </div>
+            <a class="book-buy-download" href="../excerpts/reset-otryvok.txt" download>Скачать фрагмент (.txt)</a>
+            <p class="book-aside-hint">Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи.</p>
+          </div>
+
+          <div class="book-meta-chips"><a class="book-tag-chip" href="index.html?filter=выгорание">выгорание</a><a class="book-tag-chip" href="index.html?filter=стресс">стресс</a></div>
+
+          <details class="grade-legend-details book-grade-details">
+            <summary>Уровни доказательности A–D</summary>
+            <p class="grade-legend"><strong>A</strong> — надёжные данные; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения.</p>
+          </details>
+        </div>
+      </div>
+
+      
+      <section class="book-series-shelf" aria-label="Серия">
+        <div class="book-series-head">
+          <p class="eyebrow">Восстановление</p>
+          <a class="btn btn-ghost-link" href="index.html">Все книги серии →</a>
+        </div>
+        <div class="book-series-track"><a class="book-series-thumb" href="anatomiya-energii.html" title="Анатомия энергии"><img src="../assets/covers/anatomiya-energii.jpg" alt="Анатомия энергии" width="96" height="144" loading="lazy" /><span>Анатомия энергии</span></a><a class="book-series-thumb" href="mentalnyy-debag.html" title="Ментальный дебаг"><img src="../assets/covers/mentalnyy-debag.jpg" alt="Ментальный дебаг" width="96" height="144" loading="lazy" /><span>Ментальный дебаг</span></a><a class="book-series-thumb" href="svyashchennye-chasy.html" title="Священные часы"><img src="../assets/covers/svyashchennye-chasy.jpg" alt="Священные часы" width="96" height="144" loading="lazy" /><span>Священные часы</span></a></div>
+      </section>
+
+      <nav class="book-tabs" aria-label="Разделы о книге">
+        <a href="#about-book">Описание</a>
+        <a href="#for-whom">Для кого</a>
+        <a href="#inside">Что внутри</a>
+        <a href="#excerpt">Отрывок</a>
+        <a href="#author">Об авторе</a>
+        <a href="#related">С этой книгой</a>
+        <a href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener" class="book-tabs-buy">Купить</a>
+      </nav>
+
+      <div class="book-body-col">
+        <section id="about-book" class="book-section">
+          <h2>Описание</h2>
+          <p>Писал в том числе из собственного опыта. Не про позитивное мышление — про то, почему отдых не помогает и с чего реально начинать восстановление. Аллостаз, адаптационный ресурс, возврат когнитивного контроля.</p>
+        </section>
+
+        <section id="for-whom" class="book-section">
+          <h2>Для кого эта книга</h2>
+          <ul class="checklist"><li>Отдых не помогает</li><li>Ничего не радует</li><li>«Заебалась» — и хочется понять механизм</li></ul>
+        </section>
+
+        <section id="inside" class="book-section">
+          <h2>Что внутри</h2>
+          <ul class="checklist"><li>Выгорание ≠ обычная усталость</li><li>Маркеры системного истощения</li><li>Почему «просто отдохни» не работает</li><li>С чего начинать восстановление</li></ul>
+        </section>
+
+        <section class="book-section book-quotes" id="quotes"><h2>Из книги</h2><blockquote class="book-pull-quote"><p>«RESET: Нейробиология выгорания и восстановление адаптационного ресурса»</p><cite>— Пол Грэк</cite></blockquote></section>
+
+        <section class="excerpt-box book-section" id="excerpt">
+          <div class="excerpt-head">
+            <strong>Бесплатный отрывок</strong>
+            <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+          </div>
+          <p class="muted excerpt-lead">Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.</p>
+          <pre id="excerptPreview">RESET: Нейробиология выгорания и восстановление адаптационного ресурса
 
 Пол Грек
 
@@ -110,30 +124,59 @@
 Он встает, совершает привычный ритуал утреннего туалета, выпивает первую чашку крепкого кофе, которая приносит не радость, а лишь кратковременное, суррогатное ощущение когнитивной собранности. По дороге на работу или перед экраном домашнего ноутбука эта сцена повторяется в миллионах вариаций по всему миру. В течение дня к этой фоновой усталости добавятся нарастающая раздражительность из-за пустяков, едва заметные, но пугающие провалы в концентрации внимания, когда абзац рабочего документа приходится перечитывать по четыре раза, и глубокое, экзистенциальное ощущение внутреннего опустошения. К вечеру этот человек доползет до постели, но вместо глубокого, исцеляющего сна его встретит рваное, поверхностное забытье, от которого утром не останется и следа свежести.
 
 Перед нами разворачивается главный парадокс современной цивилизации. Мы живем в эпоху максимального физического комфорта, высочайшего уровня медицины и доступности ресурсов за всю историю человечества. Нам не нужно убегать от саблезубых тигров, мы не проводим по две…</pre>
-            <div class="btn-row" style="margin-top:1rem">
-              <a class="btn btn-teal" href="../excerpts/reset-otryvok.txt" download>Скачать отрывок (.txt)</a>
-            </div>
-          </section>
-
-          <div class="disclaimer">
-            Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+          <div class="btn-row" style="margin-top:1rem">
+            <a class="btn btn-teal" href="../excerpts/reset-otryvok.txt" download>Скачать отрывок (.txt)</a>
+            <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Купить на Литрес</a>
           </div>
+        </section>
 
-          <nav class="book-prev-next" aria-label="Соседние книги">
-            <a class="book-pn prev" href="stress-i-mozg.html"><span class="book-pn-label">← Предыдущая</span><strong>Стресс и мозг</strong></a>
-            <a class="book-pn catalog" href="index.html">Весь каталог</a>
-            <a class="book-pn next" href="mentalnyy-debag.html"><span class="book-pn-label">Следующая →</span><strong>Ментальный дебаг</strong></a>
-          </nav>
-
-          <section class="related book-section" id="related">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Рядом на полке</p>
-                <h2>Если эта тема откликнулась</h2>
-              </div>
-              <a class="btn btn-outline" href="index.html?filter=выгорание">Ещё в каталоге</a>
+        <section id="author" class="book-section">
+          <h2>Об авторе</h2>
+          <div class="book-author-card">
+            <div class="book-author-photo">
+              <img src="../assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="88" height="88" />
             </div>
-            <div class="books-grid">
+            <div>
+              <h3>Пол Грэк</h3>
+              <p>Пол Грэк — научпоп о мозге без эзотерики. Уровни доказательности A–D, сначала проверка на себе.</p>
+              <div class="btn-row">
+                <a class="btn btn-outline" href="../about.html">Подробнее об авторе</a>
+                <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="specs" class="book-section book-specs">
+          <h2>Выходные данные</h2>
+          <dl class="book-specs-list">
+            <div><dt>Формат</dt><dd>Электронная книга</dd></div>
+            <div><dt>Где купить</dt><dd><a href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener">Литрес</a> · <a href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener">Amazon</a></dd></div>
+            <div><dt>Серия</dt><dd>Восстановление</dd></div>
+            <div><dt>Язык</dt><dd>Русский</dd></div>
+            <div><dt>Теги</dt><dd class="book-specs-tags"><a class="book-tag-chip" href="index.html?filter=выгорание">выгорание</a><a class="book-tag-chip" href="index.html?filter=стресс">стресс</a></dd></div>
+          </dl>
+        </section>
+
+        <div class="disclaimer">
+          Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.
+        </div>
+
+        <nav class="book-prev-next" aria-label="Соседние книги">
+          <a class="book-pn prev" href="stress-i-mozg.html"><span class="book-pn-label">← Предыдущая</span><strong>Стресс и мозг</strong></a>
+          <a class="book-pn catalog" href="index.html">Весь каталог</a>
+          <a class="book-pn next" href="mentalnyy-debag.html"><span class="book-pn-label">Следующая →</span><strong>Ментальный дебаг</strong></a>
+        </nav>
+
+        <section class="related book-section" id="related">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Подборка</p>
+              <h2>С этой книгой читают</h2>
+            </div>
+            <a class="btn btn-outline" href="index.html?filter=выгорание">Ещё в каталоге</a>
+          </div>
+          <div class="books-grid books-grid-related">
 <article class="book-card">
   <a class="book-cover has-image clean" href="stress-i-mozg.html" aria-label="Стресс и мозг">
     <img src="../assets/covers/stress-i-mozg.jpg" alt="Обложка: Стресс и мозг" loading="lazy" width="600" height="900" />
@@ -179,9 +222,23 @@
     </div>
     <a class="book-more" href="anatomiya-energii.html">Аннотация и отрывок →</a>
   </div>
+</article>
+<article class="book-card">
+  <a class="book-cover has-image clean" href="ei-2.html" aria-label="Эмоциональный интеллект 2.0">
+    <img src="../assets/covers/ei-2.jpg" alt="Обложка: Эмоциональный интеллект 2.0" loading="lazy" width="600" height="900" />
+  </a>
+  <div class="book-body">
+    <h3 class="book-title"><a href="ei-2.html">Эмоциональный интеллект 2.0</a></h3>
+    <div class="book-tags"><span class="tag co">с Лорой Грэк</span><span class="tag-sep"> · </span><span class="tag">стресс</span></div>
+    <p>Нейробиология + клиническая психология. Без эзотерики.</p>
+    <div class="book-actions">
+      <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/emocional-nyy-intellekt-2-0-73597132/" target="_blank" rel="noopener">Литрес</a>
+      <a class="btn btn-sm btn-outline" href="ei-2.html#excerpt">Отрывок</a>
+    </div>
+    <a class="book-more" href="ei-2.html">Аннотация и отрывок →</a>
+  </div>
 </article></div>
-          </section>
-        </div>
+        </section>
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">
