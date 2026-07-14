@@ -222,6 +222,88 @@ def shell(
 """
 
 
+def pick_pull_quote(book: dict, excerpt_file_text: str = "") -> str:
+    """Return a hooky one-liner for «Из книги» — never title/subtitle fluff."""
+    explicit = (book.get("pullQuote") or book.get("hookQuote") or "").strip()
+    if explicit:
+        return explicit[:280]
+
+    title = (book.get("title") or "").strip().lower()
+    subtitle = (book.get("subtitle") or "").strip().lower()
+    promise = (book.get("promise") or "").strip().lower()
+
+    def is_junk(line: str) -> bool:
+        s = line.strip()
+        if len(s) < 45:
+            return True
+        low = s.lower().strip(" «»\"'.,")
+        if low in (title, subtitle, promise):
+            return True
+        if title and title in low and len(low) < len(title) + 30:
+            return True
+        if subtitle and (low == subtitle or subtitle in low and len(low) < len(subtitle) + 20):
+            return True
+        u = s.upper()
+        if u.startswith("ДИСКЛЕЙМЕР") or s.startswith("DISCLAIMER"):
+            return True
+        if s.startswith("#") or s.startswith("ГЛАВА") or s.startswith("CHAPTER"):
+            return True
+        if s.startswith("Предисловие") or s.startswith("Preface") or s.startswith("Правовая"):
+            return True
+        # Subtitle-like: no period, marketing colon title
+        if "." not in s and "!" not in s and "?" not in s and ":" in s and len(s) < 120:
+            return True
+        # ALL-CAPS chapter heads
+        letters = [c for c in s if c.isalpha()]
+        if letters and sum(1 for c in letters if c.isupper()) / len(letters) > 0.7 and len(s) < 100:
+            return True
+        return False
+
+    def first_sentence_chunk(text: str, max_len: int = 200) -> str:
+        text = re.sub(r"\s+", " ", (text or "").strip())
+        if not text or is_junk(text[:120]):
+            # still try full scan below
+            pass
+        # Prefer first 1–2 sentences
+        parts = re.split(r"(?<=[.!?…])\s+", text)
+        chunk = ""
+        for p in parts:
+            p = p.strip()
+            if not p:
+                continue
+            if is_junk(p) and not chunk:
+                continue
+            nxt = (chunk + " " + p).strip() if chunk else p
+            if len(nxt) > max_len and chunk:
+                break
+            chunk = nxt
+            if len(chunk) >= 70:
+                break
+        if chunk and not is_junk(chunk):
+            return chunk[:max_len].rstrip("…") + ("…" if len(chunk) > max_len else "")
+        return ""
+
+    # 1) Short model excerpt from data.js (usually the real hook)
+    from_model = first_sentence_chunk(book.get("excerpt") or "")
+    if from_model:
+        return from_model
+
+    # 2) File excerpt lines
+    for line in (excerpt_file_text or "").split("\n"):
+        line = line.strip()
+        if is_junk(line):
+            continue
+        got = first_sentence_chunk(line)
+        if got:
+            return got
+
+    # 3) Last resort: promise if it is opinionated enough
+    prom = (book.get("promise") or "").strip()
+    if prom and len(prom) > 40 and not is_junk(prom):
+        return prom
+    return ""
+
+
 def series_mates(G: dict, book: dict, n: int = 6) -> list:
     series = (book.get("series") or "").strip()
     if not series:
@@ -305,18 +387,19 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     else:
         excerpt_text = (excerpt_text or "")[:2200]
 
-    # Pull-quote: first non-empty short paragraph of excerpt
-    pull = ""
-    for line in (excerpt_text or "").split("\n"):
-        line = line.strip()
-        if len(line) > 40 and not line.upper().startswith("ДИСКЛЕЙМЕР") and not line.startswith("DISCLAIMER"):
-            pull = line[:220] + ("…" if len(line) > 220 else "")
-            break
-    pull_html = (
-        f'<blockquote class="book-pull-quote"><p>«{esc(pull)}»</p><cite>— {esc(authors_list[0] if authors_list else "Пол Грэк")}</cite></blockquote>'
-        if pull
-        else ""
-    )
+    # Pull-quote: explicit hook first; never use title/subtitle as “quote”
+    pull = pick_pull_quote(book, excerpt_text)
+    if pull:
+        # Avoid ««…»» when the hook already starts with guillemets/quotes
+        display = pull.strip()
+        if not (display.startswith("«") or display.startswith('"') or display.startswith("“")):
+            display = f"«{display}»"
+        pull_html = (
+            f'<blockquote class="book-pull-quote"><p>{esc(display)}</p>'
+            f'<cite>— {esc(authors_list[0] if authors_list else "Пол Грэк")}</cite></blockquote>'
+        )
+    else:
+        pull_html = ""
 
     prev_html = (
         f'<a class="book-pn prev" href="{prev_b["slug"]}.html"><span class="book-pn-label">← Предыдущая</span><strong>{esc(prev_b["title"])}</strong></a>'
