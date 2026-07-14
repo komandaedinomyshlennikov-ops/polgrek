@@ -67,41 +67,69 @@ def amazon_product_url(book: dict) -> str:
 
 
 def store_actions_html(book: dict, href: str, compact: bool = True) -> str:
+    """Catalog CTA: one buy button + optional Amazon (MIF-style: price/action first)."""
     sm = " btn-sm" if compact else ""
     parts = [
-        f'<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>'
+        f'<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener" data-track="litres">Купить</a>'
     ]
     amz = amazon_product_url(book)
     if amz:
         parts.append(
-            f'<a class="btn{sm} btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+            f'<a class="btn{sm} btn-outline" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
         )
-    parts.append(f'<a class="btn{sm} btn-outline" href="{href}#excerpt">Отрывок</a>')
     return "\n      ".join(parts)
 
 
+def book_card_meta(book: dict) -> str:
+    """One soft line under promise: format + primary topic (MIF meta under title)."""
+    topic = ""
+    for t in book.get("tags") or []:
+        if t in ("лора", "laura"):
+            continue
+        topic = TAG_RU.get(t, t)
+        break
+    bits = ["Электронная"]
+    if topic:
+        bits.append(topic)
+    if len(book.get("authors") or []) > 1:
+        bits.append("с Лорой")
+    return " · ".join(bits)
+
+
 def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
-    # prefix for links from books/ folder to other books: "" if same folder
-    # assets: ../assets
+    """Cover-first catalog tile (MIF pattern: cover → title → pitch → buy)."""
     slug = book["slug"]
     href = book_url(slug, "") if books_dir else f"books/{slug}.html"
-    cover = f"../assets/covers/{book.get('coverFile', slug + '.jpg')}" if books_dir else f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
+    cover = (
+        f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+        if books_dir
+        else f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
+    )
     if not books_dir:
         href = f"books/{slug}.html"
         cover = f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
+
+    badges = []
+    if book.get("flagship"):
+        badges.append('<span class="book-badge book-badge-key">С чего начать</span>')
+    if len(book.get("authors") or []) > 1:
+        badges.append('<span class="book-badge book-badge-co">с Лорой</span>')
+    badge_html = f'<div class="book-cover-badges">{"".join(badges)}</div>' if badges else ""
+
     return f"""
-<article class="book-card{' is-flagship' if book.get('flagship') else ''}">
+<article class="book-card book-card--tile{' is-flagship' if book.get('flagship') else ''}">
   <a class="book-cover has-image clean" href="{href}" aria-label="{esc(book['title'])}">
     <img src="{cover}" alt="Обложка: {esc(book['title'])}" loading="lazy" width="600" height="900" />
+    {badge_html}
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="{href}">{esc(book['title'])}</a></h3>
-    <div class="book-tags">{tags_html(book)}</div>
-    <p>{esc(book['promise'])}</p>
-    <div class="book-actions">
+    <p class="book-card-promise">{esc(book['promise'])}</p>
+    <p class="book-card-meta">{esc(book_card_meta(book))}</p>
+    <div class="book-actions book-actions--tile">
       {store_actions_html(book, href, compact=True)}
+      <a class="book-more" href="{href}">О книге</a>
     </div>
-    <a class="book-more" href="{href}">Аннотация и отрывок →</a>
   </div>
 </article>"""
 

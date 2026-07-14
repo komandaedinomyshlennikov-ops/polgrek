@@ -14,19 +14,22 @@
   <div id="site-header"></div>
   <noscript><div class="noscript-banner container">Full book catalog below — no JavaScript required.</div></noscript>
   <main>
-    <section class="page-hero">
+    <section class="page-hero catalog-page-hero">
       <div class="container">
         <div class="breadcrumb"><a href="../index.html">Home</a> · <span>Books</span></div>
         <p class="eyebrow">Catalog</p>
-        <h1>Books by Pol Grek</h1>
-        <p class="lead">Thirteen key titles here. Full author catalog — on <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a> and Amazon product pages. Each card: cover, pitch, store links, excerpt.</p>
+        <h1>13 books by Pol Grek</h1>
+        <p class="lead">Pick a topic — open the page or buy on Amazon / LitRes. Full author list on <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a>.</p>
       </div>
     </section>
     <section style="padding-top:0">
       <div class="container">
-        <noscript><p class="muted" style="margin-bottom:1rem">Topic filters need JavaScript. Without JS you still get all 12 books below.</p></noscript>
-        <div class="filters" id="bookFilters" aria-label="Filters"></div>
-        <div class="books-grid" id="booksGrid"></div>
+        <noscript><p class="muted" style="margin-bottom:1rem">Topic filters need JavaScript. Without JS you still get the full list below.</p></noscript>
+        <div class="catalog-toolbar">
+          <div class="filters" id="bookFilters" aria-label="Topics"></div>
+          <p class="catalog-count" id="catalogCount">Showing 13 of 13</p>
+        </div>
+        <div class="books-grid books-grid--catalog" id="booksGrid"></div>
         <p class="catalog-hint" style="margin-top:2rem">
           Thirteen key titles on-site. <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Full list and reviews on LitRes →</a>
         </p>

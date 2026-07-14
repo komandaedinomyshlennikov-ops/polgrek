@@ -53,8 +53,13 @@
         mobileDoor3t: 'Money / emotions',
         mobileDoor3s: 'Wealth · EI',
         excerpt: 'Excerpt',
-        annotation: 'Blurb & excerpt →',
+        annotation: 'About the book',
+        buy: 'Buy',
+        ebook: 'Ebook',
+        startHere: 'Start here',
         withLaura: 'with Laura Grek',
+        withLauraShort: 'with Laura',
+        shownOf: (n, total) => `Showing ${n} of ${total}`,
         privacy: 'Privacy',
         buyLitres: 'Buy on LitRes',
         fullLitres: 'Full author catalog on LitRes',
@@ -110,8 +115,13 @@
         mobileDoor3t: 'Деньги / эмоции',
         mobileDoor3s: 'Мозг и деньги · ЭИ',
         excerpt: 'Отрывок',
-        annotation: 'Аннотация и отрывок →',
+        annotation: 'О книге',
+        buy: 'Купить',
+        ebook: 'Электронная',
+        startHere: 'С чего начать',
         withLaura: 'с Лорой Грэк',
+        withLauraShort: 'с Лорой',
+        shownOf: (n, total) => `Показано ${n} из ${total}`,
         privacy: 'Конфиденциальность',
         buyLitres: 'Купить на Литрес',
         fullLitres: 'Литрес · полный каталог автора',
@@ -460,21 +470,20 @@
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
     const amzOk = hasAmazonProduct(book);
+    // Catalog: one clear buy action (MIF pattern) — store secondary
     if (isEn && amzOk) {
       return `
-      <a class="${cls} btn-primary" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>
-      <a class="${cls} btn-outline" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
-      <a class="${cls} btn-outline" href="${bookPageUrl(book.slug)}#excerpt">${UI.excerpt}</a>`;
+      <a class="${cls} btn-primary" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
+      <a class="${cls} btn-outline" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>`;
     }
     const amz = amzOk
       ? `\n      <a class="${cls} btn-outline" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
     return `
-      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>${amz}
-      <a class="${cls} btn-outline" href="${bookPageUrl(book.slug)}#excerpt">${UI.excerpt}</a>`;
+      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.buy}</a>${amz}`;
   }
 
-  function bookCardHTML(book, opts = {}) {
+  function bookCardMeta(book) {
     const tagRu = isEn
       ? {
           'cognitive-health': 'cognitive health',
@@ -484,7 +493,6 @@
           burnout: 'burnout',
           money: 'money',
           hormones: 'hormones',
-          laura: 'with Laura',
           'когнитивное-здоровье': 'cognitive health',
           биохакинг: 'biohacking',
           энергия: 'energy',
@@ -492,7 +500,6 @@
           выгорание: 'burnout',
           деньги: 'money',
           гормоны: 'hormones',
-          лора: 'with Laura',
         }
       : {
           'когнитивное-здоровье': 'когнитивное здоровье',
@@ -502,34 +509,42 @@
           выгорание: 'выгорание',
           деньги: 'деньги',
           гормоны: 'гормоны',
-          лора: 'с Лорой',
         };
-    const parts = [];
-    if (book.authors.length > 1) {
-      parts.push(`<span class="tag co">${UI.withLaura}</span>`);
+    const bits = [UI.ebook];
+    for (const t of book.tags || []) {
+      if (t === 'лора' || t === 'laura') continue;
+      bits.push(tagRu[t] || t);
+      break;
     }
-    let n = 0;
-    for (const t of book.tags) {
-      if (t === 'лора') continue;
-      parts.push(`<span class="tag">${tagRu[t] || t}</span>`);
-      n += 1;
-      if (n >= 2) break;
+    if ((book.authors || []).length > 1) bits.push(UI.withLauraShort);
+    return bits.join(' · ');
+  }
+
+  function bookCardHTML(book, opts = {}) {
+    const badges = [];
+    if (book.flagship) {
+      badges.push(`<span class="book-badge book-badge-key">${UI.startHere}</span>`);
     }
-    // Explicit separator so text without CSS is not glued
-    const tags = parts.join('<span class="tag-sep"> · </span>');
+    if ((book.authors || []).length > 1) {
+      badges.push(`<span class="book-badge book-badge-co">${UI.withLauraShort}</span>`);
+    }
+    const badgeHtml = badges.length
+      ? `<div class="book-cover-badges">${badges.join('')}</div>`
+      : '';
     return `
-      <article class="book-card${book.flagship ? ' is-flagship' : ''}">
+      <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}">
         <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${book.title}">
           <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${book.title}" loading="lazy" width="600" height="900" />
+          ${badgeHtml}
         </a>
         <div class="book-body">
           <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${book.title}</a></h3>
-          <div class="book-tags">${tags}</div>
-          <p>${book.promise}</p>
-          <div class="book-actions">
+          <p class="book-card-promise">${book.promise}</p>
+          <p class="book-card-meta">${bookCardMeta(book)}</p>
+          <div class="book-actions book-actions--tile">
             ${storeButtons(book, true)}
+            <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
           </div>
-          <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
         </div>
       </article>`;
   }
@@ -831,6 +846,12 @@
       /* ignore */
     }
 
+    function filterCount(f) {
+      if (!f || f.id === 'all') return POL_GREK.books.length;
+      if (typeof f.match === 'function') return POL_GREK.books.filter((b) => f.match(b)).length;
+      return POL_GREK.books.filter((b) => (b.tags || []).includes(f.id)).length;
+    }
+
     function paint() {
       const list =
         active === 'all'
@@ -841,9 +862,15 @@
             });
       // Always paint from data.js so new books appear even if static HTML is cached
       grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
-      const count = document.getElementById('booksCount');
+      const count = document.getElementById('booksCount') || document.getElementById('catalogCount');
       if (count) {
-        count.textContent = isEn ? `Found: ${list.length}` : `Найдено: ${list.length}`;
+        const total = POL_GREK.books.length;
+        count.textContent =
+          typeof UI.shownOf === 'function'
+            ? UI.shownOf(list.length, total)
+            : isEn
+              ? `Showing ${list.length} of ${total}`
+              : `Показано ${list.length} из ${total}`;
       }
       filtersEl.querySelectorAll('.filter-btn').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.filter === active);
@@ -851,7 +878,10 @@
     }
 
     filtersEl.innerHTML = POL_GREK.filters
-      .map((f) => `<button type="button" class="filter-btn" data-filter="${f.id}">${f.label}</button>`)
+      .map((f) => {
+        const n = filterCount(f);
+        return `<button type="button" class="filter-btn" data-filter="${f.id}"><span class="filter-label">${f.label}</span><span class="filter-count">${n}</span></button>`;
+      })
       .join('');
 
     filtersEl.addEventListener('click', (e) => {
