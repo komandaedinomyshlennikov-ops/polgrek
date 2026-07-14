@@ -29,7 +29,7 @@ window.POL_GREK = {
   faq: [
     {
       q: 'Is this just another biohacking grift?',
-      a: 'No supplements funnel, no “become superhuman” course, no secret club. You’ll see evidence grades [A]–[D], clear “what doesn’t work,” and free excerpts. Buy on LitRes or Amazon — not a paywall on this site.',
+      a: 'No “become superhuman” course, no miracle stack, no secret club. You’ll see evidence grades [A]–[D], clear “what doesn’t work,” and free excerpts. Buy on LitRes or Amazon — not a paywall on this site.',
     },
     {
       q: 'Why write in Russian if he was born in England?',
@@ -47,7 +47,7 @@ window.POL_GREK = {
   methodExample: {
     title: 'Anti-hype, not vibes',
     myth: '“Drink 2 liters of water a day or your brain shuts down.”',
-    fact: 'A hard 2L rule ignores body weight, climate, and workload — often marketing, not physiology. Sleep, light, movement, and stress load beat aquarium rituals. Same filter for supplements: keep A–B evidence; skip faith-based stacks.',
+    fact: 'A hard 2L rule ignores body weight, climate, and workload — often marketing, not physiology. Sleep, light, movement, and stress load beat aquarium rituals. Same filter for hype tips: keep A–B evidence; skip faith-based stacks.',
   },
   author: {
     name: 'Pol Grek',
@@ -80,7 +80,7 @@ window.POL_GREK = {
       },
       {
         title: 'No hype',
-        text: 'Explicit takedowns of supplement marketing and miracle protocols.',
+        text: 'Explicit takedowns of hype and miracle protocols.',
       },
       {
         title: 'Minimum effective dose',
@@ -198,11 +198,11 @@ window.POL_GREK = {
       tags: ['biohacking', 'cognitive-health', 'energy'],
       promise: 'A straight guide. No magic pills. Minimum effective dose.',
       annotation:
-        'How to improve memory, focus, and energy without torching your psyche in the name of “optimization.” Neuroplasticity, stress, dopamine, sleep, light, movement, supplements, and hard edges on nootropics. The real skill: knowing when enough is enough.',
+        'How to improve memory, focus, and energy without torching your psyche in the name of “optimization.” Neuroplasticity, stress, dopamine, sleep, light, movement, and hard edges on “optimization.” The real skill: knowing when enough is enough.',
       forWhom: [
         'You already “optimized” yourself into burnout',
         'You want science without guru theater',
-        'Supplements only with evidence',
+        'Only what has real evidence',
         'You need rhythm, not a war with yourself',
       ],
       takeaways: [
@@ -213,7 +213,7 @@ window.POL_GREK = {
         'Minimum effective dose (MED)',
       ],
       excerpt:
-        'I tried everything: modafinil, nootropics, peptides, microdosing, a cabinet of supplements. I felt like a superhero. Then I felt nothing. I burned out.\n\nI went back to base. Minimum effective dose. This book is so you don’t pay full price for my mistakes.',
+        'I tried everything: modafinil, nootropics, peptides, microdosing, stacks on stacks. I felt like a superhero. Then I felt nothing. I burned out.\n\nI went back to base. Minimum effective dose. This book is so you don’t pay full price for my mistakes.',
       litres: 'https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/',
       amazon: 'https://www.amazon.com/dp/B0H7YP5QJ9',
     },
@@ -227,7 +227,7 @@ window.POL_GREK = {
       cover: 'cover-3',
       series: 'Recovery',
       tags: ['energy', 'stress'],
-      promise: 'Three energy systems — without a $300 supplement cart.',
+      promise: 'Three energy systems — without a $300 miracle cart.',
       annotation:
         'A clean model for chronic fatigue: mitochondrial, cognitive, and circadian systems. Protocols with evidence grades, N-of-1 experiments, and an honest list of what not to buy.',
       forWhom: [
@@ -411,7 +411,7 @@ window.POL_GREK = {
       cover: 'cover-8',
       series: 'Brain Series',
       tags: ['biohacking'],
-      promise: 'Caution over supplement FOMO. “2 liters of water” is often just marketing.',
+      promise: 'Caution over hype FOMO. “2 liters of water” is often just marketing.',
       annotation:
         'A manifesto for careful biohacking. Why “more protocols” often makes you worse — and how to separate signal from marketing without turning life into a lab with no days off.',
       forWhom: [
@@ -777,7 +777,7 @@ window.POL_GREK = {
         { type: 'h2', text: 'Quick audit' },
         {
           type: 'p',
-          text: 'Honest check: sleep last 3 nights, movement last 2 days, morning light, a screen-free pause after 1 p.m. If answers are weak — skip the new supplement. Fix base. Anatomy of Energy is about not repairing one system while feeding hype.',
+          text: 'Honest check: sleep last 3 nights, movement last 2 days, morning light, a screen-free pause after 1 p.m. If answers are weak — skip the next miracle protocol. Fix base. Anatomy of Energy is about not repairing one system while feeding hype.',
         },
         {
           type: 'experiment',
