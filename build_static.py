@@ -189,7 +189,7 @@ def shell(
     data_js: str = "js/data.js",
 ) -> str:
     # path_prefix: relative to page for assets (e.g. '../../' for en/books)
-    css = f"{path_prefix}css/styles.css"
+    css = f"{path_prefix}css/styles.css?v=20260714c"
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
     data_src = f"{path_prefix}{data_js}"
