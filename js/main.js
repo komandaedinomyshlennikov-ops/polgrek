@@ -470,17 +470,24 @@
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
     const amzOk = hasAmazonProduct(book);
-    // Catalog: one clear buy action (MIF pattern) — store secondary
+    // Catalog tile: one primary buy (MIF). Amazon as text link — not a second fat button.
     if (isEn && amzOk) {
       return `
       <a class="${cls} btn-primary" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
-      <a class="${cls} btn-outline" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>`;
+      <div class="book-card-links">
+        <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
+        <a class="book-amazon-link" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
+      </div>`;
     }
-    const amz = amzOk
-      ? `\n      <a class="${cls} btn-outline" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
+    const amzLink = amzOk
+      ? `<a class="book-amazon-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
     return `
-      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.buy}</a>${amz}`;
+      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.buy}</a>
+      <div class="book-card-links">
+        <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
+        ${amzLink}
+      </div>`;
   }
 
   function bookCardMeta(book) {
@@ -543,7 +550,6 @@
           <p class="book-card-meta">${bookCardMeta(book)}</p>
           <div class="book-actions book-actions--tile">
             ${storeButtons(book, true)}
-            <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
           </div>
         </div>
       </article>`;

@@ -1289,11 +1289,20 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   color: #fff;
 }
 .book-card--tile .book-body {
-  padding: 0.85rem 0.15rem 0.25rem;
+  padding: 0.85rem 0.1rem 0.15rem;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 0.35rem;
+  flex: 1 1 auto;
+  gap: 0.4rem;
+  min-width: 0; /* allow text truncate inside grid */
+}
+/* Critical: generic .book-body p { flex:1 } was stretching promise+meta
+   into overlapping / garbled lines on catalog tiles */
+.book-card--tile .book-body > * {
+  flex: 0 0 auto;
+}
+.book-card--tile .book-title {
+  flex: 0 0 auto;
 }
 .book-title {
   font-family: var(--serif);
@@ -1304,47 +1313,84 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 .book-title a { color: var(--ink); }
 .book-title a:hover { color: var(--teal-deep); }
 .book-card-promise {
-  margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.4;
-  color: var(--muted);
-  max-width: none;
+  margin: 0 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
+  color: var(--muted) !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  /* stable 2-line clamp without flex growth */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(1.45em * 2);
+  max-height: calc(1.45em * 2);
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .book-card-meta {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--muted);
-  opacity: 0.9;
-  max-width: none;
+  margin: 0 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: var(--muted) !important;
+  opacity: 0.92;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .book-actions--tile {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem 0.55rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
   margin-top: auto;
   padding-top: 0.55rem;
+  flex: 0 0 auto !important;
 }
-.book-actions--tile .btn-sm {
-  min-height: 36px;
+.book-actions--tile .btn,
+.book-actions--tile .btn-sm,
+.book-actions--tile .btn-primary,
+.book-actions--tile .btn-outline {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-height: 40px;
+  font-size: 0.86rem;
   padding-inline: 0.85rem;
-  font-size: 0.82rem;
+}
+.book-actions--tile .book-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
 }
 .book-actions--tile .book-more {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--teal-deep);
   min-height: 36px;
   display: inline-flex;
   align-items: center;
-  padding: 0 0.15rem;
+  padding: 0;
+  width: auto;
+  text-align: left;
 }
 .book-actions--tile .book-more:hover { color: var(--ink); }
+.book-actions--tile .book-amazon-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+.book-actions--tile .book-amazon-link:hover { color: var(--ink); }
 .book-card.is-flagship .book-cover {
   box-shadow: 0 14px 36px rgba(232, 162, 58, 0.18);
 }
@@ -1456,7 +1502,8 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   font-size: 0.92rem;
   color: var(--muted);
   max-width: none;
-  flex: 1;
+  /* do NOT flex-grow: breaks multi-paragraph tiles (promise+meta overlap) */
+  flex: 0 0 auto;
 }
 .book-tags {
   display: flex;
@@ -2719,7 +2766,8 @@ a.book-tag-chip:hover {
   .ratings-grid,
   .footer-grid { grid-template-columns: 1fr; }
   .book-card--tile .book-title { font-size: 0.95rem; }
-  .book-actions--tile .btn-outline { display: none; } /* one CTA on narrow cards */
+  .book-card-promise { font-size: 0.82rem !important; }
+  .book-actions--tile .book-amazon-link { display: none; } /* keep one clear path on narrow */
   .hero-visual {
     padding: 1.15rem 0.85rem 1rem;
   }

@@ -67,17 +67,19 @@ def amazon_product_url(book: dict) -> str:
 
 
 def store_actions_html(book: dict, href: str, compact: bool = True) -> str:
-    """Catalog CTA: one buy button + optional Amazon (MIF-style: price/action first)."""
+    """Catalog CTA: one buy button; Amazon as text link (no double fat buttons)."""
     sm = " btn-sm" if compact else ""
-    parts = [
-        f'<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener" data-track="litres">Купить</a>'
-    ]
     amz = amazon_product_url(book)
-    if amz:
-        parts.append(
-            f'<a class="btn{sm} btn-outline" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
-        )
-    return "\n      ".join(parts)
+    amz_link = (
+        f'<a class="book-amazon-link" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
+        if amz
+        else ""
+    )
+    return f"""<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener" data-track="litres">Купить</a>
+      <div class="book-card-links">
+        <a class="book-more" href="{href}">О книге</a>
+        {amz_link}
+      </div>"""
 
 
 def book_card_meta(book: dict) -> str:
@@ -128,7 +130,6 @@ def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     <p class="book-card-meta">{esc(book_card_meta(book))}</p>
     <div class="book-actions book-actions--tile">
       {store_actions_html(book, href, compact=True)}
-      <a class="book-more" href="{href}">О книге</a>
     </div>
   </div>
 </article>"""
