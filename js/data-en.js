@@ -249,7 +249,7 @@ window.POL_GREK = {
     },
     {
       slug: 'mozg-i-dengi',
-      coverFile: 'mozg-i-dengi.jpg',
+      coverFile: 'mozg-i-dengi-en.jpg',
       excerptFile: 'en/mozg-i-dengi-excerpt.txt',
       title: 'Wired for Wealth',
       subtitle: 'How your brain shapes money — and what to do about it',
