@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://polgrek.site/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://polgrek.site/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/about.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://polgrek.site/books/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://polgrek.site/lab/index.html</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/lab/index.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/lab/index.html"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url><loc>https://polgrek.site/books/mozg-na-100.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://polgrek.site/books/biohacking-mozga.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://polgrek.site/books/reset.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://polgrek.site/books/mozg-i-dengi.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/stress-i-mozg.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/mentalnyy-debag.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/anatomiya-energii.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/zhenskiy-mozg.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/muzhskoy-mozg.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/ei-2.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/svyashchennye-chasy.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/ostorozhnyy-biohaker.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/books/snachala-dengi-potom-soznanie.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/en/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://polgrek.site/en/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/en/books/index.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://polgrek.site/en/lab/index.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://polgrek.site/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

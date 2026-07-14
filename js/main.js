@@ -18,6 +18,8 @@
         faq: 'FAQ',
         litres: 'LitRes',
         amazon: 'Amazon',
+        telegram: 'Telegram',
+        threads: 'Threads',
         catalog: 'Open catalog',
         allBooks: 'All books →',
         doorsLabel: 'Where to start',
@@ -33,6 +35,7 @@
         footerSections: 'Sections',
         footerBuy: 'Read & buy',
         footerContact: 'Contact',
+        footerFollow: 'Follow',
         footerPrivacy: 'Privacy & external links',
         footerLegalNote: 'Not medical advertising. Author publishing showcase.',
         logoAria: 'Pol Grek — home',
@@ -72,6 +75,8 @@
         faq: 'FAQ',
         litres: 'Литрес',
         amazon: 'Amazon',
+        telegram: 'Telegram',
+        threads: 'Threads',
         catalog: 'Открыть каталог',
         allBooks: 'Все книги →',
         doorsLabel: 'С чего начать',
@@ -87,6 +92,7 @@
         footerSections: 'Разделы',
         footerBuy: 'Читать и купить',
         footerContact: 'Связь',
+        footerFollow: 'Читать автора',
         footerPrivacy: 'О внешних ссылках',
         footerLegalNote: 'Не является медицинской рекламой. Издательская витрина автора.',
         logoAria: 'Пол Грэк — на главную',
@@ -215,6 +221,14 @@
           track('litres', params);
           return;
         }
+        if (/t\.me\//i.test(href) || /telegram\.me\//i.test(href)) {
+          track('telegram', params);
+          return;
+        }
+        if (/threads\.net\//i.test(href)) {
+          track('threads', params);
+          return;
+        }
         if (/amazon\.[a-z.]+\/(?:dp|gp\/product)\//i.test(href)) {
           track('amazon', params);
           return;
@@ -240,10 +254,20 @@
     return siteBase ? siteBase + '/' + clean : clean;
   }
 
+  function siteLinks() {
+    const L = (window.POL_GREK && POL_GREK.links) || {};
+    return {
+      litres: L.litresAuthor || 'https://www.litres.ru/author/pol-grek/',
+      telegram: L.telegram || 'https://t.me/polgrekauthor',
+      threads: L.threads || 'https://www.threads.net/@pol.grek',
+    };
+  }
+
   function headerHTML(active) {
     const fBurn = isEn ? 'burnout' : 'выгорание';
     const fCog = isEn ? 'cognitive-health' : 'когнитивное-здоровье';
     const fMoney = isEn ? 'money' : 'деньги';
+    const S = siteLinks();
     const doors = `
       <div class="nav-dropdown" data-dropdown>
         <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" data-drop-toggle>
@@ -287,7 +311,11 @@
           <div class="nav-actions">
             ${langSwitcher()}
             ${themeToggleBtn()}
-            <a class="btn btn-outline nav-cta-secondary" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">${UI.litres}</a>
+            <div class="nav-social" aria-label="${UI.footerFollow}">
+              <a class="nav-social-link" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" title="${UI.telegram}" aria-label="${UI.telegram}">TG</a>
+              <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
+            </div>
+            <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.litres}</a>
             <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">${UI.books}</a>
           </div>
           <div class="nav-mobile-tools">
@@ -322,7 +350,9 @@
           </div>
           <div class="mobile-drawer-cta">
             <a class="btn btn-primary" href="${url('/books/index.html')}">${UI.catalog}</a>
-            <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">${UI.litres}</a>
+            <a class="btn btn-outline" href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.litres}</a>
+            <a class="btn btn-outline" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
+            <a class="btn btn-outline" href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads}</a>
           </div>
         </div>
       </div>
@@ -330,8 +360,8 @@
         <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span aria-hidden="true">🏠</span>${UI.home}</a>
         <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>${UI.books}</a>
         <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span aria-hidden="true">🧪</span>${isEn ? 'Lab' : 'Лаб'}</a>
-        <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}"><span aria-hidden="true">👤</span>${isEn ? 'About' : 'Автор'}</a>
-        <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
+        <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" aria-label="${UI.telegram}"><span aria-hidden="true">✈️</span>TG</a>
+        <a href="${S.litres}" target="_blank" rel="noopener" data-track="litres" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
       </nav>
       <button type="button" class="back-to-top" id="backToTop" aria-label="${UI.top}" hidden>↑</button>`;
   }
@@ -340,6 +370,7 @@
     const legal = (window.POL_GREK && POL_GREK.legal) || {};
     const email = legal.email || 'hello@polgrek.site';
     const name = isEn ? 'Pol Grek' : 'Пол Грэк';
+    const S = siteLinks();
     return `
       <footer class="site-footer">
         <div class="container footer-grid">
@@ -360,11 +391,12 @@
           </div>
           <div>
             <h4>${UI.footerBuy}</h4>
-            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">${UI.fullLitres}</a>
+            <a href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.fullLitres}</a>
           </div>
           <div>
-            <h4>${UI.footerContact}</h4>
-            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">${UI.litres}</a>
+            <h4>${UI.footerFollow}</h4>
+            <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram} · @polgrekauthor</a>
+            <a href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads} · @pol.grek</a>
             <a href="mailto:${email}">${email}</a>
             <a href="${url('/privacy.html')}">${UI.footerPrivacy}</a>
           </div>

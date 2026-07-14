@@ -395,6 +395,32 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   padding-inline: 0.95rem;
   font-size: 0.88rem;
 }
+.nav-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.nav-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-strong);
+  background: var(--btn-outline-bg);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.nav-social-link:hover {
+  color: var(--ink);
+  background: var(--nav-active);
+  border-color: transparent;
+}
 
 /* Dropdown «С чего начать» */
 .nav-dropdown { position: relative; }
@@ -1312,6 +1338,33 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 }
 .tag.co { background: rgba(42, 157, 143, 0.14); color: var(--teal-deep); }
 .tag.flag { display: none; } /* legacy; не используем «Ключевая» */
+.grade-legend-details {
+  margin: 0 0 1rem;
+  max-width: 40rem;
+}
+.grade-legend-details summary {
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--teal-deep);
+  list-style: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.grade-legend-details summary::-webkit-details-marker { display: none; }
+.grade-legend-details summary::before {
+  content: '+';
+  display: inline-flex;
+  width: 1.1rem;
+  margin-right: 0.35rem;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.grade-legend-details[open] summary::before { content: '−'; }
+.grade-legend-details .grade-legend {
+  margin-top: 0.5rem;
+}
 .grade-legend {
   font-size: 0.9rem;
   color: var(--muted);
@@ -2209,6 +2262,9 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   }
   .section-head { align-items: start; flex-direction: column; gap: 0.75rem; }
   .section-head .btn { width: 100%; }
+  .section-head .btn-row { width: 100%; }
+  .section-head .btn-row .btn { width: auto; flex: 1 1 auto; }
+  .nav-social { display: none; } /* TG/Threads: drawer + tabbar on mobile */
   .page-hero h1 { max-width: none; }
   .final-cta .btn-row {
     flex-direction: column;
