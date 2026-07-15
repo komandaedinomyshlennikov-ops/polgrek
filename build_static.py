@@ -113,7 +113,7 @@ def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
 
     badges = []
     if book.get("flagship"):
-        badges.append('<span class="book-badge book-badge-key">С чего начать</span>')
+        badges.append('<span class="book-badge book-badge-key">Флагман</span>')
     if len(book.get("authors") or []) > 1:
         badges.append('<span class="book-badge book-badge-co">с Лорой</span>')
     badge_html = f'<div class="book-cover-badges">{"".join(badges)}</div>' if badges else ""
@@ -189,7 +189,7 @@ def shell(
     data_js: str = "js/data.js",
 ) -> str:
     # path_prefix: relative to page for assets (e.g. '../../' for en/books)
-    css = f"{path_prefix}css/styles.css?v=20260714c"
+    css = f"{path_prefix}css/styles.css?v=20260714e"
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
     data_src = f"{path_prefix}{data_js}"
@@ -210,7 +210,25 @@ def shell(
   <link rel="stylesheet" href="{css}" />
 </head>
 <body data-page="{page}" data-base="{base}"{data_lang}>
-  <div id="site-header"></div>
+  <div id="site-header">
+    <header class="site-header site-header--static" id="siteHeader">
+      <div class="nav-inner">
+        <a class="logo" href="{path_prefix}index.html" aria-label="{('Pol Grek — home' if lang == 'en' else 'Пол Грэк — на главную')}">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-text">{('Pol Grek' if lang == 'en' else 'Пол Грэк')}<span>{('brain science' if lang == 'en' else 'нейробиология')}</span></span>
+        </a>
+        <nav class="nav-links" aria-label="{('Primary' if lang == 'en' else 'Основная навигация')}">
+          <a href="{path_prefix}index.html">{('Home' if lang == 'en' else 'Главная')}</a>
+          <a href="{path_prefix}books/index.html">{('Books' if lang == 'en' else 'Книги')}</a>
+          <a href="{path_prefix}lab/index.html">{('Lab' if lang == 'en' else 'Лаборатория')}</a>
+          <a href="{path_prefix}about.html">{('About' if lang == 'en' else 'Об авторе')}</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-primary nav-cta" href="{path_prefix}books/index.html">{('Books' if lang == 'en' else 'Книги')}</a>
+        </div>
+      </div>
+    </header>
+  </div>
   <main id="main-content" tabindex="-1">
 {body}
   </main>

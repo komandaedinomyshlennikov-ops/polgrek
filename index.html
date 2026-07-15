@@ -17,7 +17,7 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260714c" />
+  <link rel="stylesheet" href="css/styles.css?v=20260714e" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -36,31 +36,60 @@
   </script>
 </head>
 <body data-page="home" data-base="">
-  <div id="site-header"></div>
-  <noscript><div class="noscript-banner container">Сайт работает без JavaScript: книги, рейтинги и тексты ниже видны сразу.</div></noscript>
+  <div id="site-header">
+    <header class="site-header site-header--static" id="siteHeader">
+      <div class="nav-inner">
+        <a class="logo" href="index.html" aria-label="Пол Грэк — на главную">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-text">Пол Грэк<span>Pol Grek · нейробиология</span></span>
+        </a>
+        <nav class="nav-links" aria-label="Основная навигация">
+          <a href="index.html" class="active">Главная</a>
+          <a href="books/index.html">Книги</a>
+          <a href="lab/index.html">Лаборатория</a>
+          <a href="about.html">Об авторе</a>
+          <a href="#faq" class="nav-soft">FAQ</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-outline nav-cta-secondary" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Литрес</a>
+          <a class="btn btn-primary nav-cta" href="#excerpt">Отрывок</a>
+        </div>
+      </div>
+    </header>
+  </div>
+  <noscript><div class="noscript-banner container">Сайт работает без JavaScript: меню выше, книги и отрывки — ниже.</div></noscript>
 
-  <main>
+  <main id="main-content" tabindex="-1">
+    <nav class="page-jump" aria-label="Разделы страницы">
+      <a href="#doors">Ситуации</a>
+      <a href="#flagships">Книги</a>
+      <a href="#excerpt" class="page-jump-cta">Скачать отрывок</a>
+      <a href="#author-home">Об авторе</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
     <section class="hero">
       <div class="container hero-grid">
         <div>
           <p class="eyebrow">Пол Грэк · научпоп о мозге</p>
           <h1>Пол Грэк — научпоп о мозге без эзотерики</h1>
           <p class="lead lead-short">
-            Книги с уровнями доказательности <strong>[A]–[D]</strong>: что реально работает, а что хайп и пустые обещания. Отрывок бесплатно — полный текст на Литрес.
+            Книги с уровнями доказательности <strong>[A]–[D]</strong>: что реально работает, а что хайп. Начните с бесплатной главы — без подписки.
           </p>
           <p class="hero-proof">Пример: «пейте 2 литра воды» — часто маркетинг, не физиология. База (сон, свет, движение) важнее ритуала.</p>
           <details class="grade-legend-details">
             <summary>Как читать уровни A–D</summary>
-            <p class="grade-legend"><strong>A</strong> — надёжные данные и обзоры; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения и экспертный опыт. Так видно, где уверенность выше, а где нужна осторожность.</p>
+            <p class="grade-legend"><strong>A</strong> — надёжные данные и обзоры; <strong>B</strong> — хорошие исследования; <strong>C</strong> — ограниченные данные; <strong>D</strong> — наблюдения и экспертный опыт.</p>
           </details>
-          <div class="hero-badges hero-badges-soft">
-            <span class="chip"><span class="chip-dot"></span>Без эзотерики</span>
-            <span class="chip"><span class="chip-dot amber"></span>Отрывок бесплатно</span>
-            <span class="chip"><span class="chip-dot"></span>Книги на Литрес</span>
+          <div class="hero-cta-panel">
+            <a class="btn btn-primary btn-cta-lg" href="#excerpt">Скачать бесплатный отрывок</a>
+            <a class="btn btn-outline" href="books/index.html">Каталог книг</a>
+            <a class="btn btn-ghost-link" href="excerpts/mozg-na-100-otryvok.txt" download>Сразу .txt «Мозг на 100+»</a>
           </div>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="#excerpt">Скачать отрывок</a>
-            <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Книги на Литрес</a>
+          <div class="hero-badges hero-badges-soft">
+            <span class="chip"><span class="chip-dot amber"></span>Без email и подписки</span>
+            <span class="chip"><span class="chip-dot"></span>Уровни A–D</span>
+            <span class="chip"><span class="chip-dot"></span>Литрес</span>
           </div>
         </div>
         <div class="hero-visual hero-visual-stack">
@@ -77,18 +106,19 @@
             </a>
           </div>
           <div class="hero-card">
-            <strong>Сначала отрывок — потом Литрес.</strong>
+            <strong>Глава бесплатно. Покупка — на Литрес.</strong>
             <p>«Мозг на 100+», биохакинг, RESET</p>
+            <a class="btn btn-sm btn-primary" href="#excerpt" style="margin-top:0.65rem">К отрывку ↓</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section>
+    <section id="doors">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">С чего начать</p>
+            <p class="eyebrow">Подбор по ситуации</p>
             <h2>Выберите свою ситуацию</h2>
           </div>
         </div>
@@ -119,9 +149,9 @@
       <div class="container" id="books">
         <div class="section-head">
           <div>
-            <p class="eyebrow">С чего начать</p>
-            <h2>Три главные книги — с них удобнее всего начать</h2>
-            <p>Обложка, короткое описание, «Литрес» / Amazon (где есть) и отрывок.</p>
+            <p class="eyebrow">Флагманы</p>
+            <h2>Три главные книги</h2>
+            <p>С них удобнее всего начать: обложка, короткое описание, покупка и отрывок.</p>
           </div>
           <a class="btn btn-outline" href="books/index.html">Весь каталог</a>
         </div>
@@ -129,7 +159,7 @@
 <article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/mozg-na-100.html" aria-label="Мозг на 100+">
     <img src="assets/covers/mozg-na-100.jpg" alt="Обложка: Мозг на 100+" loading="lazy" width="600" height="900" />
-    <div class="book-cover-badges"><span class="book-badge book-badge-key">С чего начать</span></div>
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="books/mozg-na-100.html">Мозг на 100+</a></h3>
@@ -147,7 +177,7 @@
 <article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/biohacking-mozga.html" aria-label="Биохакинг мозга">
     <img src="assets/covers/biohacking-mozga.jpg" alt="Обложка: Биохакинг мозга" loading="lazy" width="600" height="900" />
-    <div class="book-cover-badges"><span class="book-badge book-badge-key">С чего начать</span></div>
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="books/biohacking-mozga.html">Биохакинг мозга</a></h3>
@@ -165,7 +195,7 @@
 <article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/reset.html" aria-label="RESET">
     <img src="assets/covers/reset.jpg" alt="Обложка: RESET" loading="lazy" width="600" height="900" />
-    <div class="book-cover-badges"><span class="book-badge book-badge-key">С чего начать</span></div>
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="books/reset.html">RESET</a></h3>
@@ -217,7 +247,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="author-home">
       <div class="container trust-split">
         <div class="trust-photo">
           <img src="assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="400" height="400" />
@@ -267,13 +297,13 @@
       </div>
     </section>
 
-    <section id="excerpt">
+    <section id="excerpt" class="excerpt-section">
       <div class="container">
-        <div class="magnet magnet-with-books">
+        <div class="magnet magnet-with-books magnet-cta-focus">
           <div>
-            <p class="eyebrow" style="color:var(--amber)">Бесплатно</p>
-            <h2>Глава из книги — скачать</h2>
-            <p>Выберите книгу и откройте фрагмент. Если стиль зайдёт — полный текст на Литрес. Без подписки и писем.</p>
+            <p class="eyebrow" style="color:var(--amber)">Главный шаг</p>
+            <h2>Скачайте главу бесплатно</h2>
+            <p>Выберите книгу и откройте фрагмент. Без email и подписки. Если стиль зайдёт — полный текст на Литрес.</p>
           </div>
           <form class="magnet-form" id="magnetForm">
             <div class="magnet-book-picks" id="magnetPicks">

@@ -232,6 +232,91 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   outline-offset: 2px;
 }
 
+/* Home page jump links (IA / orientation) */
+.page-jump {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.45rem;
+  padding: 0.65rem 1rem;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 90;
+}
+.page-jump a {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.page-jump a:hover {
+  background: var(--nav-hover);
+  color: var(--ink);
+}
+.page-jump-cta {
+  background: linear-gradient(135deg, var(--amber), var(--amber-deep)) !important;
+  color: #1a1205 !important;
+  border-color: transparent !important;
+}
+.page-jump-cta:hover {
+  filter: brightness(1.05);
+}
+
+.hero-cta-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.75rem;
+  margin: 1.15rem 0 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(232, 162, 58, 0.1);
+  border: 1px solid rgba(232, 162, 58, 0.28);
+  max-width: 36rem;
+}
+.btn-cta-lg {
+  min-height: 52px;
+  padding-inline: 1.35rem;
+  font-size: 1.02rem;
+  font-weight: 800;
+  box-shadow: 0 12px 28px rgba(232, 162, 58, 0.35);
+}
+.magnet-cta-focus {
+  outline: 2px solid rgba(232, 162, 58, 0.35);
+  outline-offset: 4px;
+}
+.excerpt-section {
+  scroll-margin-top: calc(var(--nav-h) + 3.5rem);
+}
+#doors, #flagships, #author-home, #faq, #excerpt {
+  scroll-margin-top: calc(var(--nav-h) + 3.25rem);
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.breadcrumb a {
+  color: var(--teal-deep);
+  font-weight: 600;
+}
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb [aria-current="page"] {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -2746,6 +2831,47 @@ a.book-tag-chip:hover {
   .nav-mobile-tools { display: inline-flex; }
   .nav-toggle { display: inline-flex; }
   .mobile-tabbar { display: grid; }
+  /* Static no-JS header: keep links usable without drawer */
+  .site-header--static {
+    height: auto;
+    min-height: var(--nav-h);
+  }
+  .site-header--static .nav-inner {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+    padding-block: 0.55rem;
+  }
+  .site-header--static .nav-links {
+    display: flex !important;
+    order: 5;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    padding-bottom: 0.15rem;
+  }
+  .site-header--static .nav-links a {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.82rem;
+  }
+  .site-header--static .nav-actions {
+    display: flex !important;
+  }
+  .page-jump {
+    top: 0;
+    position: relative;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page-jump a { flex: 0 0 auto; }
+  .hero-cta-panel {
+    max-width: none;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-cta-panel .btn { width: 100%; }
   /* Room for tabbar only */
   body {
     padding-bottom: calc(var(--mobile-tabbar-h) + env(safe-area-inset-bottom, 0px) + 0.75rem);
