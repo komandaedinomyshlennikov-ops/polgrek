@@ -22,7 +22,7 @@
         threads: 'Threads',
         catalog: 'Open catalog',
         allBooks: 'All books →',
-        doorsLabel: 'Pick your situation',
+        doorsLabel: 'Find a book for your situation',
         drawerTitle: 'Where next?',
         drawerClose: 'Close',
         menuOpen: 'Open menu',
@@ -40,18 +40,26 @@
         footerLegalNote: 'Not medical advertising. Author publishing showcase.',
         logoAria: 'Pol Grek — home',
         logoSub: 'Pol Grek · brain science',
-        door1t: 'I burned out',
-        door1s: 'RESET · stress · reboot',
-        door2t: 'Brain after 40 / energy',
-        door2s: 'Brain at 100+ · biohacking · sleep',
-        door3t: 'Money & emotions',
-        door3s: 'Wired for Wealth · EI · hormones',
-        mobileDoor1t: 'I burned out',
-        mobileDoor1s: 'RESET · stress',
-        mobileDoor2t: 'Energy / 40+',
-        mobileDoor2s: '100+ · biohacking',
-        mobileDoor3t: 'Money / emotions',
-        mobileDoor3s: 'Wealth · EI',
+        door1t: 'Burned out, can’t recover',
+        door1s: 'RESET',
+        door2t: 'Fog / focus after 40',
+        door2s: 'Brain at 100+',
+        door3t: 'Constant stress',
+        door3s: 'Stress and the Brain',
+        door4t: 'Energy & clarity for years',
+        door4s: '100+ · Biohacking',
+        door5t: 'Money & emotions stuck',
+        door5s: 'Wired for Wealth',
+        mobileDoor1t: 'Burned out',
+        mobileDoor1s: 'RESET',
+        mobileDoor2t: 'Fog after 40',
+        mobileDoor2s: 'Brain at 100+',
+        mobileDoor3t: 'Constant stress',
+        mobileDoor3s: 'Stress & the Brain',
+        mobileDoor4t: 'Long-term energy',
+        mobileDoor4s: '100+ · biohacking',
+        mobileDoor5t: 'Money / emotions',
+        mobileDoor5s: 'Wired for Wealth',
         excerpt: 'Excerpt',
         annotation: 'About the book',
         buy: 'Buy',
@@ -89,7 +97,7 @@
         threads: 'Threads',
         catalog: 'Открыть каталог',
         allBooks: 'Все книги →',
-        doorsLabel: 'Подбор по ситуации',
+        doorsLabel: 'Найдите книгу под свою ситуацию',
         drawerTitle: 'Куда дальше?',
         drawerClose: 'Закрыть',
         menuOpen: 'Открыть меню',
@@ -107,18 +115,26 @@
         footerLegalNote: 'Не является медицинской рекламой. Издательская витрина автора.',
         logoAria: 'Пол Грэк — на главную',
         logoSub: 'Pol Grek · нейробиология',
-        door1t: 'Я выгорел',
-        door1s: 'RESET, стресс, перезагрузка',
-        door2t: 'Мозг после 40 / энергия',
-        door2s: '«Мозг на 100+», биохакинг, сон',
-        door3t: 'Деньги и эмоции',
-        door3s: '«Мозг и деньги», эмоции, гормоны',
-        mobileDoor1t: 'Я выгорел',
-        mobileDoor1s: 'RESET · стресс',
-        mobileDoor2t: 'Энергия / 40+',
-        mobileDoor2s: '100+ · биохакинг',
-        mobileDoor3t: 'Деньги / эмоции',
-        mobileDoor3s: 'Мозг и деньги · ЭИ',
+        door1t: 'Выгорел, не восстанавливаюсь',
+        door1s: 'RESET',
+        door2t: 'Туман / фокус после 40',
+        door2s: 'Мозг на 100+',
+        door3t: 'Постоянный стресс',
+        door3s: 'Стресс и мозг',
+        door4t: 'Энергия и ясность на годы',
+        door4s: '100+ · Биохакинг',
+        door5t: 'Деньги и эмоции «плывут»',
+        door5s: 'Мозг и деньги',
+        mobileDoor1t: 'Выгорание',
+        mobileDoor1s: 'RESET',
+        mobileDoor2t: 'Туман после 40',
+        mobileDoor2s: 'Мозг на 100+',
+        mobileDoor3t: 'Стресс',
+        mobileDoor3s: 'Стресс и мозг',
+        mobileDoor4t: 'Энергия на годы',
+        mobileDoor4s: '100+ · биохакинг',
+        mobileDoor5t: 'Деньги / эмоции',
+        mobileDoor5s: 'Мозг и деньги',
         excerpt: 'Отрывок',
         annotation: 'О книге',
         buy: 'Купить',
@@ -284,10 +300,12 @@
   }
 
   function headerHTML(active) {
-    const fBurn = isEn ? 'burnout' : 'выгорание';
-    const fCog = isEn ? 'cognitive-health' : 'когнитивное-здоровье';
-    const fMoney = isEn ? 'money' : 'деньги';
     const S = siteLinks();
+    const d1 = url('/books/reset.html');
+    const d2 = url('/books/mozg-na-100.html');
+    const d3 = url('/books/stress-i-mozg.html');
+    const d4 = url('/books/mozg-na-100.html');
+    const d5 = url('/books/mozg-i-dengi.html');
     const doors = `
       <div class="nav-dropdown" data-dropdown>
         <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" data-drop-toggle>
@@ -295,18 +313,11 @@
           <span class="nav-chevron" aria-hidden="true"></span>
         </button>
         <div class="nav-drop-panel" role="menu">
-          <a role="menuitem" href="${url('/books/index.html')}?filter=${encodeURIComponent(fBurn)}">
-            <strong>${UI.door1t}</strong>
-            <span>${UI.door1s}</span>
-          </a>
-          <a role="menuitem" href="${url('/books/index.html')}?filter=${encodeURIComponent(fCog)}">
-            <strong>${UI.door2t}</strong>
-            <span>${UI.door2s}</span>
-          </a>
-          <a role="menuitem" href="${url('/books/index.html')}?filter=${encodeURIComponent(fMoney)}">
-            <strong>${UI.door3t}</strong>
-            <span>${UI.door3s}</span>
-          </a>
+          <a role="menuitem" href="${d1}"><strong>${UI.door1t}</strong><span>${UI.door1s}</span></a>
+          <a role="menuitem" href="${d2}"><strong>${UI.door2t}</strong><span>${UI.door2s}</span></a>
+          <a role="menuitem" href="${d3}"><strong>${UI.door3t}</strong><span>${UI.door3s}</span></a>
+          <a role="menuitem" href="${d4}"><strong>${UI.door4t}</strong><span>${UI.door4s}</span></a>
+          <a role="menuitem" href="${d5}"><strong>${UI.door5t}</strong><span>${UI.door5s}</span></a>
           <a role="menuitem" class="nav-drop-all" href="${url('/books/index.html')}">${UI.allBooks}</a>
         </div>
       </div>`;
@@ -364,9 +375,11 @@
           </nav>
           <p class="mobile-drawer-label">${UI.doorsLabel}</p>
           <div class="mobile-door-list">
-            <a href="${url('/books/index.html')}?filter=${encodeURIComponent(fBurn)}"><strong>${UI.mobileDoor1t}</strong><span>${UI.mobileDoor1s}</span></a>
-            <a href="${url('/books/index.html')}?filter=${encodeURIComponent(fCog)}"><strong>${UI.mobileDoor2t}</strong><span>${UI.mobileDoor2s}</span></a>
-            <a href="${url('/books/index.html')}?filter=${encodeURIComponent(fMoney)}"><strong>${UI.mobileDoor3t}</strong><span>${UI.mobileDoor3s}</span></a>
+            <a href="${d1}"><strong>${UI.mobileDoor1t}</strong><span>${UI.mobileDoor1s}</span></a>
+            <a href="${d2}"><strong>${UI.mobileDoor2t}</strong><span>${UI.mobileDoor2s}</span></a>
+            <a href="${d3}"><strong>${UI.mobileDoor3t}</strong><span>${UI.mobileDoor3s}</span></a>
+            <a href="${d4}"><strong>${UI.mobileDoor4t}</strong><span>${UI.mobileDoor4s}</span></a>
+            <a href="${d5}"><strong>${UI.mobileDoor5t}</strong><span>${UI.mobileDoor5s}</span></a>
           </div>
           <div class="mobile-drawer-cta">
             <a class="btn btn-primary" href="${url('/books/index.html')}">${UI.catalog}</a>
