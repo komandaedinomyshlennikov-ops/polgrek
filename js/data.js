@@ -5,7 +5,7 @@ window.POL_GREK = {
     amazonAuthor:
       'https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1',
     threads: 'https://www.threads.net/@pol.grek',
-    telegram: 'https://t.me/polgrekauthor',
+    telegram: 'https://t.me/+KGQgs6MVHHYwZGVi',
   },
 
   socialProof: {
@@ -41,7 +41,7 @@ window.POL_GREK = {
     },
     {
       q: 'Где купить и как проверить, что автор настоящий?',
-      a: 'Главная проверяемая точка — страница автора на Литрес: litres.ru/author/pol-grek/ (книги, описания, оценки). На сайте — 13 ключевых книг; полный каталог — на Литрес. Сайт — витрина, не магазин: оплата на площадке. Живые каналы: Telegram t.me/polgrekauthor и Threads @pol.grek.',
+      a: 'Главная проверяемая точка — страница автора на Литрес: litres.ru/author/pol-grek/ (книги, описания, оценки). На сайте — 13 ключевых книг; полный каталог — на Литрес. Сайт — витрина, не магазин: оплата на площадке. Живые каналы: Telegram t.me/+KGQgs6MVHHYwZGVi и Threads @pol.grek.',
     },
   ],
   methodExample: {

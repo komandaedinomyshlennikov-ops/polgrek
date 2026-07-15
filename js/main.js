@@ -278,7 +278,7 @@
     const L = (window.POL_GREK && POL_GREK.links) || {};
     return {
       litres: L.litresAuthor || 'https://www.litres.ru/author/pol-grek/',
-      telegram: L.telegram || 'https://t.me/polgrekauthor',
+      telegram: L.telegram || 'https://t.me/+KGQgs6MVHHYwZGVi',
       threads: L.threads || 'https://www.threads.net/@pol.grek',
     };
   }
@@ -415,7 +415,7 @@
           </div>
           <div>
             <h4>${UI.footerFollow}</h4>
-            <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram} · @polgrekauthor</a>
+            <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
             <a href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads} · @pol.grek</a>
             <a href="mailto:${email}">${email}</a>
             <a href="${url('/privacy.html')}">${UI.footerPrivacy}</a>

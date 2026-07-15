@@ -5,7 +5,7 @@ window.POL_GREK = {
     litresAuthor: 'https://www.litres.ru/author/pol-grek/',
     amazonAuthor: 'https://www.amazon.com/s?k=Pol+Grek',
     threads: 'https://www.threads.net/@pol.grek',
-    telegram: 'https://t.me/polgrekauthor',
+    telegram: 'https://t.me/+KGQgs6MVHHYwZGVi',
   },
 
   socialProof: {

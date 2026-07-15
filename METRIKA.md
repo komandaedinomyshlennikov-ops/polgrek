@@ -39,7 +39,7 @@ window.POL_GREK_METRIKA_ID = 110711984; // активный счётчик polgr
 |--------------------|-------------------|
 | `litres` | Клик по кнопке/ссылке Литрес (`data-track="litres"`) |
 | `amazon` | Клик Amazon |
-| `telegram` | Клик Telegram (`t.me/polgrekauthor`) |
+| `telegram` | Клик Telegram (`t.me/+KGQgs6MVHHYwZGVi`) |
 | `threads` | Клик Threads (`@pol.grek`) |
 | `catalog_search` | Поиск в каталоге книг (query ≥ 2 символов) |
 | `excerpt_download` | Скачивание отрывка |

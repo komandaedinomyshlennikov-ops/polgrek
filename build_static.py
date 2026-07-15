@@ -794,7 +794,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
               <p>{esc(author_note)}</p>
               <div class="btn-row">
                 <a class="btn btn-outline" href="../about.html">Подробнее об авторе</a>
-                <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
+                <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener">Telegram</a>
               </div>
             </div>
           </div>
