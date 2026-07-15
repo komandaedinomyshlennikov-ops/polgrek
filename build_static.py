@@ -245,6 +245,27 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
     return [b for _, b in scored[:n]]
 
 
+SITE_ORIGIN = "https://polgrek.site"
+OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
+CSS_VER = "20260715seo"
+
+
+def abs_url(path: str) -> str:
+    path = path or "/"
+    if path.startswith("http"):
+        return path
+    if not path.startswith("/"):
+        path = "/" + path
+    return SITE_ORIGIN + path
+
+
+def clip_title(title: str, max_len: int = 60) -> str:
+    title = (title or "").strip()
+    if len(title) <= max_len:
+        return title
+    return title[: max_len - 1].rstrip(" .,—–-") + "…"
+
+
 def shell(
     title: str,
     description: str,
@@ -254,29 +275,74 @@ def shell(
     path_prefix: str,
     lang: str = "ru",
     data_js: str = "js/data.js",
+    *,
+    canonical: str = "",
+    og_type: str = "article",
+    og_image: str = "",
+    hreflang_ru: str = "",
+    hreflang_en: str = "",
+    json_ld: list | None = None,
+    extra_head: str = "",
 ) -> str:
     # path_prefix: relative to page for assets (e.g. '../../' for en/books)
-    css = f"{path_prefix}css/styles.css?v=20260714e"
+    css = f"{path_prefix}css/styles.css?v={CSS_VER}"
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
     data_src = f"{path_prefix}{data_js}"
     lang_attr = "en" if lang == "en" else "ru"
     data_lang = ' data-lang="en"' if lang == "en" else ""
+    data_assets = ' data-assets="../.."' if "/en/" in (canonical or "") and page in ("book", "article") else (
+        ' data-assets=".."' if lang == "en" and page in ("book", "article") else ""
+    )
+    # en books use path_prefix ../../ and data-assets set by post-process; keep simple here
+    if lang == "en" and path_prefix.count("../") >= 2:
+        data_assets = ' data-assets="../.."'
+    elif lang == "en" and path_prefix.startswith(".."):
+        data_assets = ' data-assets=".."'
+
+    desc = (description or "")[:160]
+    og_img = og_image or OG_IMAGE
+    can = canonical or ""
+    hreflang_block = ""
+    if hreflang_ru and hreflang_en:
+        hreflang_block = f"""
+  <link rel="alternate" hreflang="ru" href="{esc(hreflang_ru)}" />
+  <link rel="alternate" hreflang="en" href="{esc(hreflang_en)}" />
+  <link rel="alternate" hreflang="x-default" href="{esc(hreflang_ru)}" />"""
+    canonical_tag = f'\n  <link rel="canonical" href="{esc(can)}" />' if can else ""
+    og_url_tag = f'\n  <meta property="og:url" content="{esc(can)}" />' if can else ""
+
+    ld_scripts = ""
+    for block in json_ld or []:
+        import json as _json
+
+        ld_scripts += (
+            '\n  <script type="application/ld+json">\n'
+            + _json.dumps(block, ensure_ascii=False, indent=2)
+            + "\n  </script>"
+        )
+
     return f"""<!DOCTYPE html>
 <html lang="{lang_attr}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>{esc(title)}</title>
-  <meta name="description" content="{esc(description)}" />
+  <meta name="description" content="{esc(desc)}" />{canonical_tag}
   <meta property="og:title" content="{esc(title)}" />
-  <meta property="og:description" content="{esc(description)}" />
-  <meta property="og:type" content="article" />
+  <meta property="og:description" content="{esc(desc)}" />
+  <meta property="og:type" content="{esc(og_type)}" />{og_url_tag}
+  <meta property="og:image" content="{esc(og_img)}" />
+  <meta property="og:locale" content="{'en_US' if lang == 'en' else 'ru_RU'}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{esc(title)}" />
+  <meta name="twitter:description" content="{esc(desc)}" />
+  <meta name="twitter:image" content="{esc(og_img)}" />{hreflang_block}
   <link rel="icon" href="{fav}" type="image/svg+xml" />
   <link rel="icon" href="{fav2}" type="image/png" />
-  <link rel="stylesheet" href="{css}" />
-</head>
-<body data-page="{page}" data-base="{base}"{data_lang}>
+  <link rel="stylesheet" href="{css}" />{ld_scripts}
+{extra_head}</head>
+<body data-page="{page}" data-base="{base}"{data_lang}{data_assets}>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
       <div class="nav-inner">
@@ -697,9 +763,51 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
       <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
 """
-    title = f"{book['title']} — Пол Грэк"
-    desc = f"{book['title']}: {book.get('subtitle') or book.get('promise') or ''}. Отрывок и покупка на Литрес."
-    return shell(title, desc[:160], body, "book", "..", "../")
+    title = clip_title(f"{book['title']} — Пол Грэк", 60)
+    desc = f"{book['title']}: {book.get('subtitle') or book.get('promise') or ''}. Отрывок бесплатно, покупка на Литрес."
+    can = abs_url(f"/books/{book['slug']}.html")
+    can_en = abs_url(f"/en/books/{book['slug']}.html")
+    cover_abs = abs_url(f"/assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}")
+    authors_ld = book.get("authors") or ["Пол Грэк"]
+    book_ld = {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": book["title"],
+        "description": (book.get("annotation") or book.get("promise") or desc)[:300],
+        "url": can,
+        "image": cover_abs,
+        "inLanguage": "ru",
+        "author": [{"@type": "Person", "name": a} for a in authors_ld],
+        "offers": {
+            "@type": "Offer",
+            "url": book.get("litres") or can,
+            "availability": "https://schema.org/InStock",
+            "priceCurrency": "RUB",
+        },
+    }
+    crumbs = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Главная", "item": abs_url("/")},
+            {"@type": "ListItem", "position": 2, "name": "Книги", "item": abs_url("/books/index.html")},
+            {"@type": "ListItem", "position": 3, "name": book["title"], "item": can},
+        ],
+    }
+    return shell(
+        title,
+        desc[:160],
+        body,
+        "book",
+        "..",
+        "../",
+        canonical=can,
+        og_type="book",
+        og_image=cover_abs,
+        hreflang_ru=can,
+        hreflang_en=can_en,
+        json_ld=[book_ld, crumbs],
+    )
 
 
 def build_article_page(G: dict, article: dict) -> str:
@@ -752,9 +860,51 @@ def build_article_page(G: dict, article: dict) -> str:
       </div>
     </div>
 """
-    title = f"{article['title']} — Лаборатория Пола Грэка"
+    raw_title = article["title"]
+    title = clip_title(f"{raw_title} — Пол Грэк", 60)
     desc = (article.get("hook") or article["title"])[:160]
-    return shell(title, desc, body, "article", "..", "../")
+    can = abs_url(f"/lab/{article['slug']}.html")
+    can_en = abs_url(f"/en/lab/{article['slug']}.html")
+    article_ld = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": clip_title(raw_title, 110),
+        "description": desc,
+        "url": can,
+        "inLanguage": "ru",
+        "author": {"@type": "Person", "name": "Пол Грэк", "url": abs_url("/about.html")},
+        "publisher": {"@type": "Person", "name": "Пол Грэк", "url": abs_url("/")},
+        "mainEntityOfPage": can,
+    }
+    if book:
+        article_ld["isPartOf"] = {
+            "@type": "Book",
+            "name": book["title"],
+            "url": abs_url(f"/books/{book['slug']}.html"),
+        }
+    crumbs = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Главная", "item": abs_url("/")},
+            {"@type": "ListItem", "position": 2, "name": "Лаборатория", "item": abs_url("/lab/index.html")},
+            {"@type": "ListItem", "position": 3, "name": clip_title(raw_title, 80), "item": can},
+        ],
+    }
+    return shell(
+        title,
+        desc,
+        body,
+        "article",
+        "..",
+        "../",
+        canonical=can,
+        og_type="article",
+        og_image=OG_IMAGE,
+        hreflang_ru=can,
+        hreflang_en=can_en,
+        json_ld=[article_ld, crumbs],
+    )
 
 
 def main() -> None:
@@ -1048,6 +1198,60 @@ def main() -> None:
                 f'href="{en_ex}"',
                 html_out,
             )
+            slug = book["slug"]
+            en_desc = (
+                f"{book['title']}: {book.get('subtitle') or book.get('promise') or ''}. "
+                "Free excerpt; buy on LitRes or Amazon."
+            )[:160]
+            html_out = re.sub(
+                r'<meta name="description" content="[^"]*"\s*/?>',
+                f'<meta name="description" content="{esc(en_desc)}" />',
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'property="og:description" content="[^"]*"',
+                f'property="og:description" content="{esc(en_desc)}"',
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'name="twitter:description" content="[^"]*"',
+                f'name="twitter:description" content="{esc(en_desc)}"',
+                html_out,
+                count=1,
+            )
+            # SEO: EN canonical/og:url + schema language (keep hreflang ru on /books/)
+            html_out = re.sub(
+                rf'(<link rel="canonical" href=")https://polgrek\.site/books/{re.escape(slug)}\.html(")',
+                rf"\1https://polgrek.site/en/books/{slug}.html\2",
+                html_out,
+            )
+            html_out = re.sub(
+                rf'(property="og:url" content=")https://polgrek\.site/books/{re.escape(slug)}\.html(")',
+                rf"\1https://polgrek.site/en/books/{slug}.html\2",
+                html_out,
+            )
+            html_out = html_out.replace(
+                f'"url": "https://polgrek.site/books/{slug}.html"',
+                f'"url": "https://polgrek.site/en/books/{slug}.html"',
+            )
+            html_out = html_out.replace(
+                f'"item": "https://polgrek.site/books/{slug}.html"',
+                f'"item": "https://polgrek.site/en/books/{slug}.html"',
+            )
+            html_out = html_out.replace('"inLanguage": "ru"', '"inLanguage": "en"')
+            html_out = html_out.replace('content="ru_RU"', 'content="en_US"')
+            html_out = html_out.replace('"name": "Главная"', '"name": "Home"')
+            html_out = html_out.replace('"name": "Книги"', '"name": "Books"')
+            html_out = html_out.replace(
+                '"item": "https://polgrek.site/"',
+                '"item": "https://polgrek.site/en/"',
+            )
+            html_out = html_out.replace(
+                '"item": "https://polgrek.site/books/index.html"',
+                '"item": "https://polgrek.site/en/books/index.html"',
+            )
             # UI chrome replacements (order matters — longer phrases first)
             reps = [
                 ("Страница книги открыта без JavaScript: описание и отрывок ниже.", "Book page loaded without JavaScript: description and excerpt below."),
@@ -1127,8 +1331,59 @@ def main() -> None:
             html_out = html_out.replace('href="../', 'href="../../')
             html_out = html_out.replace('src="../', 'src="../../')
             html_out = html_out.replace('<html lang="ru">', '<html lang="en">')
-            html_out = html_out.replace('data-base=".."', 'data-base=".." data-lang="en"')
+            html_out = html_out.replace('data-base=".."', 'data-base=".." data-lang="en" data-assets="../.."')
             html_out = html_out.replace('js/data.js', 'js/data-en.js')
+            # Shorter EN document title
+            en_title = clip_title(f"{article['title']} | Pol Grek", 60)
+            html_out = re.sub(
+                r"<title>[^<]*</title>",
+                f"<title>{esc(en_title)}</title>",
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'property="og:title" content="[^"]*"',
+                f'property="og:title" content="{esc(en_title)}"',
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'name="twitter:title" content="[^"]*"',
+                f'name="twitter:title" content="{esc(en_title)}"',
+                html_out,
+                count=1,
+            )
+            slug = article["slug"]
+            html_out = re.sub(
+                rf'(<link rel="canonical" href=")https://polgrek\.site/lab/{re.escape(slug)}\.html(")',
+                rf"\1https://polgrek.site/en/lab/{slug}.html\2",
+                html_out,
+            )
+            html_out = re.sub(
+                rf'(property="og:url" content=")https://polgrek\.site/lab/{re.escape(slug)}\.html(")',
+                rf"\1https://polgrek.site/en/lab/{slug}.html\2",
+                html_out,
+            )
+            html_out = html_out.replace(
+                f'"url": "https://polgrek.site/lab/{slug}.html"',
+                f'"url": "https://polgrek.site/en/lab/{slug}.html"',
+            )
+            html_out = html_out.replace(
+                f'"item": "https://polgrek.site/lab/{slug}.html"',
+                f'"item": "https://polgrek.site/en/lab/{slug}.html"',
+            )
+            html_out = html_out.replace('"inLanguage": "ru"', '"inLanguage": "en"')
+            html_out = html_out.replace('content="ru_RU"', 'content="en_US"')
+            html_out = html_out.replace('"name": "Главная"', '"name": "Home"')
+            html_out = html_out.replace('"name": "Лаборатория"', '"name": "Lab"')
+            html_out = html_out.replace(
+                '"item": "https://polgrek.site/"',
+                '"item": "https://polgrek.site/en/"',
+            )
+            html_out = html_out.replace(
+                '"item": "https://polgrek.site/lab/index.html"',
+                '"item": "https://polgrek.site/en/lab/index.html"',
+            )
             reps = [
                 ("Статья открыта без JavaScript.", "Article loaded without JavaScript."),
                 ("Главная", "Home"),
@@ -1139,7 +1394,7 @@ def main() -> None:
                 ("Все материалы", "All posts"),
                 ("Ещё из лаборатории", "More from the lab"),
                 ("Купить на Литрес", "Buy on LitRes"),
-                (" — Лаборатория Пола Грэка", " — Pol Grek Lab"),
+                (" — Пол Грэк", " | Pol Grek"),
                 ("Пола Грэка", "Pol Grek"),
                 ("Если хотите глубже", "If you want to go deeper"),
                 ("К книге", "To the book"),
@@ -1169,7 +1424,119 @@ def main() -> None:
         TAG_RU.clear()
         TAG_RU.update(_tag_backup)
 
+    write_sitemap(G, GE)
     print("OK: static pages built")
+
+
+def write_sitemap(G: dict, GE: dict | None = None) -> None:
+    """Full sitemap: hubs, all books, all lab articles, EN mirrors, lastmod."""
+    from datetime import date
+
+    today = date.today().isoformat()
+    urls: list[tuple[str, str, str, str | None]] = []
+    # (loc, changefreq, priority, hreflang_pair or None)
+
+    def add(loc: str, freq: str, prio: str, alt: str | None = None):
+        urls.append((loc, freq, prio, alt))
+
+    add(f"{SITE_ORIGIN}/", "weekly", "1.0", f"{SITE_ORIGIN}/en/")
+    add(f"{SITE_ORIGIN}/about.html", "monthly", "0.8", f"{SITE_ORIGIN}/en/about.html")
+    add(f"{SITE_ORIGIN}/books/index.html", "weekly", "0.9", f"{SITE_ORIGIN}/en/books/index.html")
+    add(f"{SITE_ORIGIN}/lab/index.html", "weekly", "0.8", f"{SITE_ORIGIN}/en/lab/index.html")
+    add(f"{SITE_ORIGIN}/privacy.html", "yearly", "0.3", f"{SITE_ORIGIN}/en/privacy.html")
+
+    for b in G.get("books") or []:
+        slug = b["slug"]
+        add(
+            f"{SITE_ORIGIN}/books/{slug}.html",
+            "monthly",
+            "0.75" if b.get("flagship") else "0.65",
+            f"{SITE_ORIGIN}/en/books/{slug}.html",
+        )
+    for a in G.get("articles") or []:
+        slug = a["slug"]
+        add(
+            f"{SITE_ORIGIN}/lab/{slug}.html",
+            "monthly",
+            "0.55",
+            f"{SITE_ORIGIN}/en/lab/{slug}.html",
+        )
+
+    # EN hubs (also listed as alts; include as own loc for crawlers)
+    for loc in (
+        f"{SITE_ORIGIN}/en/",
+        f"{SITE_ORIGIN}/en/about.html",
+        f"{SITE_ORIGIN}/en/books/index.html",
+        f"{SITE_ORIGIN}/en/lab/index.html",
+        f"{SITE_ORIGIN}/en/privacy.html",
+    ):
+        if not any(u[0] == loc for u in urls):
+            add(loc, "weekly", "0.6", None)
+
+    # EN books/articles as own URLs (hreflang already on RU entries; still list for discovery)
+    if GE:
+        for b in GE.get("books") or []:
+            loc = f"{SITE_ORIGIN}/en/books/{b['slug']}.html"
+            if not any(u[0] == loc for u in urls):
+                add(loc, "monthly", "0.5", None)
+        for a in GE.get("articles") or []:
+            loc = f"{SITE_ORIGIN}/en/lab/{a['slug']}.html"
+            if not any(u[0] == loc for u in urls):
+                add(loc, "monthly", "0.45", None)
+
+    # Dedupe by loc keeping first
+    seen = set()
+    ordered = []
+    for u in urls:
+        if u[0] in seen:
+            continue
+        seen.add(u[0])
+        ordered.append(u)
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ]
+    for loc, freq, prio, alt in ordered:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{loc}</loc>")
+        lines.append(f"    <lastmod>{today}</lastmod>")
+        if alt:
+            # Determine if loc is EN or RU for hreflang direction
+            if "/en/" in loc:
+                ru = loc.replace("/en/", "/")
+                if ru.endswith("/en"):
+                    ru = SITE_ORIGIN + "/"
+                # privacy en path
+                if loc == f"{SITE_ORIGIN}/en/":
+                    ru = f"{SITE_ORIGIN}/"
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="ru" href="{ru}"/>'
+                )
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="en" href="{loc}"/>'
+                )
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ru}"/>'
+                )
+            else:
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="ru" href="{loc}"/>'
+                )
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="en" href="{alt}"/>'
+                )
+                lines.append(
+                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{loc}"/>'
+                )
+        lines.append(f"    <changefreq>{freq}</changefreq>")
+        lines.append(f"    <priority>{prio}</priority>")
+        lines.append("  </url>")
+    lines.append("</urlset>")
+    lines.append("")
+    (SITE / "sitemap.xml").write_text("\n".join(lines), encoding="utf-8")
+    print("sitemap urls", len(ordered))
 
 
 if __name__ == "__main__":
