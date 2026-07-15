@@ -537,6 +537,49 @@
     return bits.join(' · ');
   }
 
+  function filterSafeId(fid) {
+    const map = {
+      all: 'all',
+      стресс: 'stress',
+      'когнитивное-здоровье': 'cog',
+      деньги: 'money',
+      гормоны: 'hormones',
+      выгорание: 'burnout',
+      лора: 'laura',
+      биохакинг: 'bio',
+      stress: 'stress',
+      'cognitive-health': 'cog',
+      money: 'money',
+      hormones: 'hormones',
+      burnout: 'burnout',
+      laura: 'laura',
+      biohacking: 'bio',
+    };
+    return map[fid] || String(fid || 'x').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  }
+
+  function bookDataShow(book) {
+    const tokens = ['all'];
+    const seen = { all: true };
+    (POL_GREK.filters || []).forEach((f) => {
+      if (!f || f.id === 'all') return;
+      let ok = false;
+      try {
+        ok = f.match ? f.match(book) : (book.tags || []).includes(f.id);
+      } catch (e) {
+        ok = false;
+      }
+      if (ok) {
+        const t = filterSafeId(f.id);
+        if (!seen[t]) {
+          tokens.push(t);
+          seen[t] = true;
+        }
+      }
+    });
+    return tokens.join(' ');
+  }
+
   function bookCardHTML(book, opts = {}) {
     const badges = [];
     if (book.flagship) {
@@ -548,8 +591,9 @@
     const badgeHtml = badges.length
       ? `<div class="book-cover-badges">${badges.join('')}</div>`
       : '';
+    const show = bookDataShow(book);
     return `
-      <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}">
+      <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}" data-show="${show}">
         <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${book.title}">
           <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${book.title}" loading="lazy" width="600" height="900" />
           ${badgeHtml}
@@ -878,6 +922,7 @@
   }
 
   function renderBooksPage() {
+    document.documentElement.classList.add('js');
     const grid = document.getElementById('booksGrid');
     const filtersEl = document.getElementById('bookFilters');
     if (!grid || !filtersEl) return;
@@ -885,6 +930,18 @@
     const searchInput = document.getElementById('catalogSearch');
     const searchClear = document.getElementById('catalogSearchClear');
     const emptyEl = document.getElementById('catalogEmpty');
+
+    // Sync CSS no-JS radios with URL filter on first paint (optional)
+    try {
+      const urlFilter = new URLSearchParams(location.search).get('filter');
+      if (urlFilter) {
+        const safe = filterSafeId(urlFilter);
+        const radio = document.getElementById('nsf-' + safe);
+        if (radio) radio.checked = true;
+      }
+    } catch (e) {
+      /* ignore */
+    }
 
     // URL: ?filter= + ?q=
     let active = 'all';

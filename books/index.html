@@ -6,7 +6,7 @@
   <title>Книги — Пол Грэк</title>
   <meta name="description" content="Каталог книг Пола и Лоры Грэк: обложки, аннотации, отрывки, Литрес ." />
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260714f" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260714h" />
 </head>
 <body data-page="books" data-base="..">
   <div id="site-header">
@@ -28,21 +28,23 @@
       </div>
     </header>
   </div>
-  <noscript><div class="noscript-banner container">Меню выше. Каталог книг ниже — полный, без JavaScript. Поиск и фильтры — с JS.</div></noscript>
+  <noscript><div class="noscript-banner container">Меню выше. Фильтры по темам работают без JavaScript (кнопки ниже). Поиск — с JS.</div></noscript>
   <main id="main-content" tabindex="-1">
     <section class="page-hero catalog-page-hero">
       <div class="container">
         <nav class="breadcrumb" aria-label="Вы здесь"><a href="../index.html">Главная</a><span class="bc-sep">/</span><span aria-current="page">Книги</span></nav>
         <p class="eyebrow">Каталог</p>
         <h1>13 книг Пола Грэка</h1>
-        <p class="lead">Поиск по названию и теме, фильтр по ситуации — или сразу купить на Литрес. Полный каталог изданий — <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">на Литрес</a>.</p>
+        <p class="lead">Фильтр по теме (и поиск с JS) — или сразу купить на Литрес. Полный каталог изданий — <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">на Литрес</a>.</p>
       </div>
     </section>
     <section style="padding-top:0">
       <div class="container">
-        <noscript><p class="muted" style="margin-bottom:1rem">Поиск и фильтры по темам работают с JavaScript. Без JS ниже — полный список книг.</p></noscript>
+        <!-- CSS-only topic filters: radios must precede the grid (sibling ~ selector) -->
+        <div class="catalog-css-root" id="catalogCssRoot">
+<!--NSF_START--><input type="radio" name="nsf" id="nsf-all" class="nsf-input" value="all" checked /><input type="radio" name="nsf" id="nsf-stress" class="nsf-input" value="стресс" /><input type="radio" name="nsf" id="nsf-cog" class="nsf-input" value="когнитивное-здоровье" /><input type="radio" name="nsf" id="nsf-money" class="nsf-input" value="деньги" /><input type="radio" name="nsf" id="nsf-hormones" class="nsf-input" value="гормоны" /><input type="radio" name="nsf" id="nsf-burnout" class="nsf-input" value="выгорание" /><input type="radio" name="nsf" id="nsf-laura" class="nsf-input" value="лора" /><input type="radio" name="nsf" id="nsf-bio" class="nsf-input" value="биохакинг" /><div class="filters nsf-labels" role="radiogroup" aria-label="Темы"><label for="nsf-all" class="filter-btn nsf-label"><span class="filter-label">Все книги</span><span class="filter-count">13</span></label><label for="nsf-stress" class="filter-btn nsf-label"><span class="filter-label">Стресс и энергия</span><span class="filter-count">8</span></label><label for="nsf-cog" class="filter-btn nsf-label"><span class="filter-label">Когнитивное здоровье</span><span class="filter-count">3</span></label><label for="nsf-money" class="filter-btn nsf-label"><span class="filter-label">Деньги</span><span class="filter-count">2</span></label><label for="nsf-hormones" class="filter-btn nsf-label"><span class="filter-label">Гормоны и пол</span><span class="filter-count">2</span></label><label for="nsf-burnout" class="filter-btn nsf-label"><span class="filter-label">Выгорание</span><span class="filter-count">3</span></label><label for="nsf-laura" class="filter-btn nsf-label"><span class="filter-label">Вместе с Лорой</span><span class="filter-count">3</span></label><label for="nsf-bio" class="filter-btn nsf-label"><span class="filter-label">Биохакинг</span><span class="filter-count">2</span></label></div><!--NSF_END-->
         <div class="catalog-toolbar">
-          <div class="catalog-search-wrap">
+          <div class="catalog-search-wrap catalog-js-only">
             <label class="sr-only" for="catalogSearch">Поиск в каталоге</label>
             <input
               type="search"
@@ -55,15 +57,15 @@
             />
             <button type="button" class="catalog-search-clear" id="catalogSearchClear" hidden aria-label="Очистить поиск">×</button>
           </div>
-          <div class="filters" id="bookFilters" aria-label="Темы"></div>
-          <p class="catalog-count" id="catalogCount">Показано 13 из 13</p>
+          <div class="filters catalog-js-only" id="bookFilters" aria-label="Темы"></div>
+          <p class="catalog-count catalog-js-only" id="catalogCount">Показано 13 из 13</p>
         </div>
-        <div class="catalog-empty" id="catalogEmpty" hidden>
+        <div class="catalog-empty catalog-js-only" id="catalogEmpty" hidden>
           <p data-empty-msg>Ничего не найдено. Попробуйте другое слово или сбросьте тему.</p>
           <button type="button" class="btn btn-outline" data-catalog-reset>Показать все книги</button>
         </div>
         <div class="books-grid books-grid--catalog" id="booksGrid">
-<article class="book-card book-card--tile is-flagship">
+<article class="book-card book-card--tile is-flagship" data-show="all cog">
   <a class="book-cover has-image clean" href="mozg-na-100.html" aria-label="Мозг на 100+">
     <img src="../assets/covers/mozg-na-100.jpg" alt="Обложка: Мозг на 100+" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
@@ -81,7 +83,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile is-flagship">
+<article class="book-card book-card--tile is-flagship" data-show="all stress cog bio">
   <a class="book-cover has-image clean" href="biohacking-mozga.html" aria-label="Биохакинг мозга">
     <img src="../assets/covers/biohacking-mozga.jpg" alt="Обложка: Биохакинг мозга" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
@@ -99,7 +101,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress">
   <a class="book-cover has-image clean" href="anatomiya-energii.html" aria-label="Анатомия энергии">
     <img src="../assets/covers/anatomiya-energii.jpg" alt="Обложка: Анатомия энергии" loading="lazy" width="600" height="900" />
     
@@ -117,7 +119,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all money">
   <a class="book-cover has-image clean" href="mozg-i-dengi.html" aria-label="Мозг и деньги">
     <img src="../assets/covers/mozg-i-dengi.jpg" alt="Обложка: Мозг и деньги" loading="lazy" width="600" height="900" />
     
@@ -135,7 +137,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all money">
   <a class="book-cover has-image clean" href="snachala-dengi-potom-soznanie.html" aria-label="Сначала деньги, потом сознание">
     <img src="../assets/covers/snachala-dengi-potom-soznanie.jpg" alt="Обложка: Сначала деньги, потом сознание" loading="lazy" width="600" height="900" />
     
@@ -153,7 +155,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress burnout">
   <a class="book-cover has-image clean" href="stress-i-mozg.html" aria-label="Стресс и мозг">
     <img src="../assets/covers/stress-i-mozg.jpg" alt="Обложка: Стресс и мозг" loading="lazy" width="600" height="900" />
     
@@ -171,7 +173,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile is-flagship">
+<article class="book-card book-card--tile is-flagship" data-show="all stress burnout">
   <a class="book-cover has-image clean" href="reset.html" aria-label="RESET">
     <img src="../assets/covers/reset.jpg" alt="Обложка: RESET" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
@@ -189,7 +191,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress burnout">
   <a class="book-cover has-image clean" href="mentalnyy-debag.html" aria-label="Ментальный дебаг">
     <img src="../assets/covers/mentalnyy-debag.jpg" alt="Обложка: Ментальный дебаг" loading="lazy" width="600" height="900" />
     
@@ -207,7 +209,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all bio">
   <a class="book-cover has-image clean" href="ostorozhnyy-biohaker.html" aria-label="Осторожный биохакер">
     <img src="../assets/covers/ostorozhnyy-biohaker.jpg" alt="Обложка: Осторожный биохакер" loading="lazy" width="600" height="900" />
     
@@ -225,7 +227,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress cog">
   <a class="book-cover has-image clean" href="svyashchennye-chasy.html" aria-label="Священные часы">
     <img src="../assets/covers/svyashchennye-chasy.jpg" alt="Обложка: Священные часы" loading="lazy" width="600" height="900" />
     
@@ -243,7 +245,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all hormones laura">
   <a class="book-cover has-image clean" href="zhenskiy-mozg.html" aria-label="Женский мозг">
     <img src="../assets/covers/zhenskiy-mozg.jpg" alt="Обложка: Женский мозг" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-co">с Лорой</span></div>
@@ -261,7 +263,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress hormones laura">
   <a class="book-cover has-image clean" href="muzhskoy-mozg.html" aria-label="Мужской мозг">
     <img src="../assets/covers/muzhskoy-mozg.jpg" alt="Обложка: Мужской мозг" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-co">с Лорой</span></div>
@@ -279,7 +281,7 @@
     </div>
   </div>
 </article>
-<article class="book-card book-card--tile">
+<article class="book-card book-card--tile" data-show="all stress laura">
   <a class="book-cover has-image clean" href="ei-2.html" aria-label="Эмоциональный интеллект 2.0">
     <img src="../assets/covers/ei-2.jpg" alt="Обложка: Эмоциональный интеллект 2.0" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-co">с Лорой</span></div>
@@ -300,6 +302,7 @@
         <p class="catalog-hint" style="margin-top:2rem">
           На сайте — 13 ключевых. <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Полный список и отзывы на Литрес →</a>
         </p>
+        </div><!-- /.catalog-css-root -->
       </div>
     </section>
   </main>

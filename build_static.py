@@ -98,6 +98,72 @@ def book_card_meta(book: dict) -> str:
     return " · ".join(bits)
 
 
+# Safe CSS tokens for no-JS catalog filters (data-show + radio ids)
+FILTER_SAFE = {
+    "all": "all",
+    "стресс": "stress",
+    "когнитивное-здоровье": "cog",
+    "деньги": "money",
+    "гормоны": "hormones",
+    "выгорание": "burnout",
+    "лора": "laura",
+    "биохакинг": "bio",
+    # EN data-en.js ids
+    "stress": "stress",
+    "cognitive-health": "cog",
+    "money": "money",
+    "hormones": "hormones",
+    "burnout": "burnout",
+    "laura": "laura",
+    "biohacking": "bio",
+}
+
+
+def filter_safe(fid: str) -> str:
+    if fid in FILTER_SAFE:
+        return FILTER_SAFE[fid]
+    return re.sub(r"[^a-z0-9]+", "-", (fid or "").lower()).strip("-") or "x"
+
+
+def book_matches_filter_id(book: dict, fid: str) -> bool:
+    """Mirror js/data.js filter rules (match fns are lost in JSON load)."""
+    if fid in ("all",):
+        return True
+    tags = set(book.get("tags") or [])
+    authors = book.get("authors") or []
+    if fid in ("стресс", "stress"):
+        return bool(tags & {"стресс", "энергия", "выгорание", "stress", "energy", "burnout"})
+    if fid in ("когнитивное-здоровье", "cognitive-health"):
+        return bool(tags & {"когнитивное-здоровье", "cognitive-health"})
+    if fid in ("деньги", "money"):
+        return bool(tags & {"деньги", "money"})
+    if fid in ("гормоны", "hormones"):
+        return bool(tags & {"гормоны", "hormones"})
+    if fid in ("выгорание", "burnout"):
+        return bool(tags & {"выгорание", "burnout"})
+    if fid in ("лора", "laura"):
+        return bool(tags & {"лора", "laura"}) or len(authors) > 1
+    if fid in ("биохакинг", "biohacking"):
+        return bool(tags & {"биохакинг", "biohacking"})
+    return fid in tags
+
+
+def book_data_show(book: dict, filter_ids: list[str] | None = None) -> str:
+    """Tokens for CSS :checked filters, always includes 'all'."""
+    ids = filter_ids or list(FILTER_SAFE.keys())
+    tokens = ["all"]
+    seen = {"all"}
+    for fid in ids:
+        if fid == "all":
+            continue
+        if book_matches_filter_id(book, fid):
+            tok = filter_safe(fid)
+            if tok not in seen:
+                tokens.append(tok)
+                seen.add(tok)
+    return " ".join(tokens)
+
+
 def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     """Cover-first catalog tile (MIF pattern: cover → title → pitch → buy)."""
     slug = book["slug"]
@@ -117,9 +183,10 @@ def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     if len(book.get("authors") or []) > 1:
         badges.append('<span class="book-badge book-badge-co">с Лорой</span>')
     badge_html = f'<div class="book-cover-badges">{"".join(badges)}</div>' if badges else ""
+    show = book_data_show(book)
 
     return f"""
-<article class="book-card book-card--tile{' is-flagship' if book.get('flagship') else ''}">
+<article class="book-card book-card--tile{' is-flagship' if book.get('flagship') else ''}" data-show="{esc(show)}">
   <a class="book-cover has-image clean" href="{href}" aria-label="{esc(book['title'])}">
     <img src="{cover}" alt="Обложка: {esc(book['title'])}" loading="lazy" width="600" height="900" />
     {badge_html}
@@ -747,6 +814,78 @@ def main() -> None:
         'id="booksGrid">',
         "</div>\n        <p class=\"catalog-hint\"",
         books_all_html,
+    )
+
+    # No-JS filter radios + labels (counts from data)
+    def noscript_filters_html(books: list, lang: str = "ru") -> str:
+        # Prefer filter defs from data if present
+        raw_filters = G.get("filters") or []
+        # Fallback RU list if functions stripped to id/label only
+        if not raw_filters:
+            raw_filters = [
+                {"id": "all", "label": "Все книги" if lang == "ru" else "All books"},
+            ]
+        # Ensure we have full RU set even if labels only
+        labels_ru = {
+            "all": "Все книги",
+            "стресс": "Стресс и энергия",
+            "когнитивное-здоровье": "Когнитивное здоровье",
+            "деньги": "Деньги",
+            "гормоны": "Гормоны и пол",
+            "выгорание": "Выгорание",
+            "лора": "Вместе с Лорой",
+            "биохакинг": "Биохакинг",
+        }
+        labels_en = {
+            "all": "All books",
+            "stress": "Stress & energy",
+            "cognitive-health": "Cognitive health",
+            "money": "Money",
+            "hormones": "Hormones",
+            "burnout": "Burnout",
+            "laura": "With Laura",
+            "biohacking": "Biohacking",
+        }
+        # Build ordered filter list from data.js ids when available
+        fids = [f.get("id") for f in raw_filters if f.get("id")]
+        if "all" not in fids:
+            fids = ["all"] + fids
+        radios = []
+        labels = []
+        for fid in fids:
+            safe = filter_safe(fid)
+            checked = " checked" if fid == "all" else ""
+            count = sum(1 for b in books if book_matches_filter_id(b, fid))
+            label = None
+            for f in raw_filters:
+                if f.get("id") == fid:
+                    label = f.get("label")
+                    break
+            if not label:
+                label = (labels_en if lang == "en" else labels_ru).get(fid, fid)
+            radios.append(
+                f'<input type="radio" name="nsf" id="nsf-{safe}" class="nsf-input" value="{esc(fid)}"{checked} />'
+            )
+            labels.append(
+                f'<label for="nsf-{safe}" class="filter-btn nsf-label">'
+                f'<span class="filter-label">{esc(label)}</span>'
+                f'<span class="filter-count">{count}</span></label>'
+            )
+        aria = "Topics" if lang == "en" else "Темы"
+        return (
+            "".join(radios)
+            + f'<div class="filters nsf-labels" role="radiogroup" aria-label="{aria}">'
+            + "".join(labels)
+            + "</div>"
+        )
+
+    # Inject noscript filter block into RU catalog
+    nsf_ru = noscript_filters_html(G["books"], "ru")
+    inject_between(
+        SITE / "books" / "index.html",
+        '<!--NSF_START-->',
+        "<!--NSF_END-->",
+        nsf_ru,
     )
 
     arts = "".join(

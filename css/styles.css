@@ -1680,6 +1680,88 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 .catalog-empty[hidden] {
   display: none !important;
 }
+
+/* —— No-JS topic filters (CSS :checked + data-show) ——
+   DOM: radios → .nsf-labels → .catalog-toolbar → .catalog-empty → .books-grid
+   `~` matches any following sibling. */
+.catalog-css-root {
+  position: relative;
+}
+.nsf-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+.nsf-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.15rem;
+  width: 100%;
+}
+.nsf-labels .nsf-label {
+  cursor: pointer;
+  user-select: none;
+}
+#nsf-all:checked ~ .nsf-labels label[for="nsf-all"],
+#nsf-stress:checked ~ .nsf-labels label[for="nsf-stress"],
+#nsf-cog:checked ~ .nsf-labels label[for="nsf-cog"],
+#nsf-money:checked ~ .nsf-labels label[for="nsf-money"],
+#nsf-hormones:checked ~ .nsf-labels label[for="nsf-hormones"],
+#nsf-burnout:checked ~ .nsf-labels label[for="nsf-burnout"],
+#nsf-laura:checked ~ .nsf-labels label[for="nsf-laura"],
+#nsf-bio:checked ~ .nsf-labels label[for="nsf-bio"] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+[data-theme="dark"] #nsf-all:checked ~ .nsf-labels label[for="nsf-all"],
+[data-theme="dark"] #nsf-stress:checked ~ .nsf-labels label[for="nsf-stress"],
+[data-theme="dark"] #nsf-cog:checked ~ .nsf-labels label[for="nsf-cog"],
+[data-theme="dark"] #nsf-money:checked ~ .nsf-labels label[for="nsf-money"],
+[data-theme="dark"] #nsf-hormones:checked ~ .nsf-labels label[for="nsf-hormones"],
+[data-theme="dark"] #nsf-burnout:checked ~ .nsf-labels label[for="nsf-burnout"],
+[data-theme="dark"] #nsf-laura:checked ~ .nsf-labels label[for="nsf-laura"],
+[data-theme="dark"] #nsf-bio:checked ~ .nsf-labels label[for="nsf-bio"] {
+  background: var(--teal-deep);
+  border-color: var(--teal-deep);
+  color: #0b1f33;
+}
+
+/* Hide non-matching cards for topic filters */
+#nsf-stress:checked ~ .books-grid .book-card,
+#nsf-cog:checked ~ .books-grid .book-card,
+#nsf-money:checked ~ .books-grid .book-card,
+#nsf-hormones:checked ~ .books-grid .book-card,
+#nsf-burnout:checked ~ .books-grid .book-card,
+#nsf-laura:checked ~ .books-grid .book-card,
+#nsf-bio:checked ~ .books-grid .book-card {
+  display: none !important;
+}
+#nsf-stress:checked ~ .books-grid .book-card[data-show~="stress"],
+#nsf-cog:checked ~ .books-grid .book-card[data-show~="cog"],
+#nsf-money:checked ~ .books-grid .book-card[data-show~="money"],
+#nsf-hormones:checked ~ .books-grid .book-card[data-show~="hormones"],
+#nsf-burnout:checked ~ .books-grid .book-card[data-show~="burnout"],
+#nsf-laura:checked ~ .books-grid .book-card[data-show~="laura"],
+#nsf-bio:checked ~ .books-grid .book-card[data-show~="bio"] {
+  display: block !important;
+}
+
+/* JS mode: hide CSS radios/labels; show search + JS filters */
+html.js .nsf-input,
+html.js .nsf-labels {
+  display: none !important;
+}
+html:not(.js) .catalog-js-only {
+  display: none !important;
+}
+html:not(.js) .nsf-labels {
+  display: flex !important;
+}
 .filter-count {
   display: inline-flex;
   align-items: center;
