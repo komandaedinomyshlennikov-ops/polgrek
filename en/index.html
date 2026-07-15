@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.litres.ru" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260715ux" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260715ux2" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,6 +78,7 @@
   }
   </script>
 </head>
+
 <body data-page="home" data-base="" data-lang="en" data-assets="..">
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -91,14 +92,16 @@
           <a href="books/index.html">Books</a>
           <a href="lab/index.html">Lab</a>
           <a href="about.html">About</a>
+          <a href="#faq" class="nav-soft">FAQ</a>
         </nav>
         <div class="nav-actions">
+          <a class="btn btn-outline nav-cta-secondary" href="https://www.amazon.com/s?k=Pol+Grek" target="_blank" rel="noopener">Amazon</a>
           <a class="btn btn-primary nav-cta" href="#excerpt">Excerpt</a>
         </div>
       </div>
     </header>
   </div>
-  <noscript><div class="noscript-banner container">This site works without JavaScript: books, ratings, and copy below load in plain HTML.</div></noscript>
+  <noscript><div class="noscript-banner container">This site works without JavaScript: menu above; books and excerpts below.</div></noscript>
 
   <main id="main-content" tabindex="-1">
     <nav class="page-jump" aria-label="On this page">
@@ -108,36 +111,27 @@
       <a href="#author-home">Author</a>
       <a href="#faq">FAQ</a>
     </nav>
+
     <section class="hero">
       <div class="container hero-grid">
         <div>
           <p class="eyebrow">Pol Grek · popular brain science</p>
-          <h1>Pol Grek — brain science without the woo</h1>
+          <h1>Brain science without the woo</h1>
           <p class="lead lead-short">
-            Books use evidence grades <strong>[A]–[D]</strong>: what actually works vs. hype and empty promises. Free excerpt — full text on Amazon or LitRes.
+            Evidence grades <strong>[A]–[D]</strong>. Free chapter — no email. Full text on Amazon or LitRes.
           </p>
-          <p class="hero-proof">Example: “drink 2 liters a day” is often marketing, not physiology. Sleep, light, and movement beat aquarium rituals.</p>
           <details class="grade-legend-details">
             <summary>How to read grades A–D</summary>
-            <p class="grade-legend"><strong>A</strong> — strong data and reviews; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation and expert practice.</p>
+            <p class="grade-legend"><strong>A</strong> — strong data; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation.</p>
           </details>
           <div class="hero-cta-panel">
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Download a free excerpt</a>
             <a class="btn btn-outline" href="books/index.html">Book catalog</a>
           </div>
-          <div class="hero-badges hero-badges-soft">
-            <span class="chip"><span class="chip-dot"></span>No woo</span>
-            <span class="chip"><span class="chip-dot amber"></span>Free excerpt</span>
-            <span class="chip"><span class="chip-dot"></span>Amazon + LitRes</span>
-          </div>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="#excerpt">Free excerpt</a>
-            <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes catalog</a>
-          </div>
         </div>
         <div class="hero-visual hero-visual-stack">
           <canvas id="neuralCanvas" aria-hidden="true"></canvas>
-          <div class="hero-cover-stack" id="heroCoverStack">
+          <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
             <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html" aria-label="Brain at 100+">
               <img src="../assets/covers/mozg-na-100.jpg" alt="Cover: Brain at 100+" width="280" height="420" decoding="async" />
             </a>
@@ -149,8 +143,8 @@
             </a>
           </div>
           <div class="hero-card">
-            <strong>Excerpt first — then Amazon or LitRes.</strong>
-            <p>Brain at 100+, Brain Biohacking, RESET</p>
+            <strong>Free chapter → Amazon / LitRes</strong>
+            <p>Three flagships: 100+, biohacking, RESET</p>
           </div>
         </div>
       </div>
@@ -192,87 +186,64 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Flagships</p>
-            <h2>Three flagship books — best first reads</h2>
-            <p>Cover, one-line pitch, Amazon / LitRes, and excerpt.</p>
+            <h2>Three main books</h2>
+            <p>Best first reads: cover, one-line pitch, buy link, and free excerpt.</p>
           </div>
           <a class="btn btn-outline" href="books/index.html">Full catalog</a>
         </div>
-        <div class="books-grid books-grid-flagship" id="featuredBooks"></div>
-        <p class="catalog-hint">Thirteen key titles on this site. <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">Full author catalog on LitRes →</a></p>
+        <div class="books-grid books-grid-flagship" id="featuredBooks"><article class="book-card book-card--tile is-flagship">
+  <a class="book-cover has-image clean" href="books/mozg-na-100.html" aria-label="Brain at 100+">
+    <img src="../assets/covers/mozg-na-100.jpg" alt="Cover: Brain at 100+" loading="lazy" width="600" height="900" />
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
+  </a>
+  <div class="book-body">
+    <h3 class="book-title"><a href="books/mozg-na-100.html">Brain at 100+</a></h3>
+    <p class="book-card-promise">Not life hacks — a cognitive longevity protocol grounded in evidence grades.</p>
+    <p class="book-card-meta">Ebook · cognitive-health</p>
+    <div class="book-actions book-actions--tile">
+      <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener" data-track="litres">Buy</a>
+      <div class="book-card-links">
+        <a class="book-more" href="books/mozg-na-100.html">About</a>
+        <a class="book-amazon-link" href="https://www.amazon.com/dp/B0GTF2PQ21" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
-    </section>
-
-    <section id="social" class="ink-section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Trust from the platform</p>
-            <h2>Public ratings — numbers live here</h2>
-            <p>Scores and vote counts on-page. Full reader reviews on LitRes book pages.</p>
-          </div>
-        </div>
-        <div class="ratings-grid" id="ratingsGrid"></div>
-        <p class="muted social-note" id="socialProofNote"></p>
+    </div>
+  </div>
+</article><article class="book-card book-card--tile is-flagship">
+  <a class="book-cover has-image clean" href="books/biohacking-mozga.html" aria-label="Brain Biohacking">
+    <img src="../assets/covers/biohacking-mozga.jpg" alt="Cover: Brain Biohacking" loading="lazy" width="600" height="900" />
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
+  </a>
+  <div class="book-body">
+    <h3 class="book-title"><a href="books/biohacking-mozga.html">Brain Biohacking</a></h3>
+    <p class="book-card-promise">A straight guide. No magic pills. Minimum effective dose.</p>
+    <p class="book-card-meta">Ebook · biohacking</p>
+    <div class="book-actions book-actions--tile">
+      <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener" data-track="litres">Buy</a>
+      <div class="book-card-links">
+        <a class="book-more" href="books/biohacking-mozga.html">About</a>
+        <a class="book-amazon-link" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
-    </section>
-
-    <section id="author-home">
-      <div class="container trust-split trust-split-compact">
-        <div class="trust-photo">
-          <img src="../assets/pol-grek-portrait.jpg" alt="Pol Grek" width="400" height="400" />
-        </div>
-        <div>
-          <p class="eyebrow">About the author</p>
-          <h2>Pol Grek</h2>
-          <p class="lead">Born in England. Popular brain science without mysticism; practice at the edge of neuropsychology, tech, and high-load teams. Russian from age 35 with his wife Laura (clinical psychologist, MSU). Lived burnout first — books second.</p>
-          <ul class="checklist trust-list">
-            <li>Evidence grades A–D, anti-hype, minimum effective dose, self-tested first</li>
-            <li>Writes short on purpose — lower cognitive load</li>
-            <li>Buy on <a href="https://www.amazon.com/s?k=Pol+Grek" target="_blank" rel="noopener">Amazon</a> or <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a></li>
-            <li>Full bio — <a href="about.html">About</a></li>
-          </ul>
-          <div class="btn-row">
-            <a class="btn btn-outline" href="about.html">Full biography</a>
-          </div>
-        </div>
+    </div>
+  </div>
+</article><article class="book-card book-card--tile is-flagship">
+  <a class="book-cover has-image clean" href="books/reset.html" aria-label="RESET">
+    <img src="../assets/covers/reset.jpg" alt="Cover: RESET" loading="lazy" width="600" height="900" />
+    <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
+  </a>
+  <div class="book-body">
+    <h3 class="book-title"><a href="books/reset.html">RESET</a></h3>
+    <p class="book-card-promise">When weekends don’t restore you: a protocol after systemic depletion.</p>
+    <p class="book-card-meta">Ebook · burnout</p>
+    <div class="book-actions book-actions--tile">
+      <a class="btn btn-sm btn-primary" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" target="_blank" rel="noopener" data-track="litres">Buy</a>
+      <div class="book-card-links">
+        <a class="book-more" href="books/reset.html">About</a>
+        <a class="book-amazon-link" href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
-    </section>
-
-    <section class="method ink-section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Method</p>
-            <h2>Not life hacks. Architecture.</h2>
-          </div>
-        </div>
-        <div class="method-grid">
-          <article class="method-card"><div class="method-icon">01</div><h3>Evidence</h3><p>Grades A–D. Not “I feel like.”</p></article>
-          <article class="method-card"><div class="method-icon">02</div><h3>No hype</h3><p>Explicit: what fails and what marketing sells.</p></article>
-          <article class="method-card"><div class="method-icon">03</div><h3>Min. effective dose</h3><p>Fewer protocols — measurable effect.</p></article>
-          <article class="method-card"><div class="method-icon">04</div><h3>Self first</h3><p>Personal run. Then the book.</p></article>
-        </div>
-        <div class="panel method-example">
-          <p class="eyebrow">Not abstract</p>
-          <h3>Anti-hype example</h3>
-          <div class="myth-fact">
-            <article class="myth"><div class="label">Hype</div><p>“Drink 2 liters a day or your brain fails.”</p></article>
-            <article class="fact"><div class="label">Breakdown</div><p>Hard 2L without weight/load context is often marketing. Sleep, light, movement, stress first. Everything else after base — and only with evidence.</p></article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="lab-preview">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Lab</p>
-            <h2>Short pieces — path to a book</h2>
-          </div>
-          <a class="btn btn-outline" href="lab/index.html">All lab posts</a>
-        </div>
-        <div class="articles-grid" id="articlesGrid"></div>
+    </div>
+  </div>
+</article></div>
+        <p class="catalog-hint">Thirteen key titles on this site. <a href="books/index.html">Full catalog →</a> · <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes →</a></p>
       </div>
     </section>
 
@@ -284,38 +255,79 @@
             <h2>Download a chapter</h2>
             <p>No email, no newsletter. If the voice clicks — full text on Amazon or LitRes.</p>
           </div>
-          <div class="btn-row" style="flex-direction:column;align-items:flex-start;gap:0.65rem">
-            <a class="btn btn-primary btn-cta-lg" href="../excerpts/mozg-na-100-otryvok.txt" download>Brain at 100+ · excerpt (.txt)</a>
-            <a class="btn btn-outline" href="../excerpts/biohacking-mozga-otryvok.txt" download>Brain biohacking · excerpt (.txt)</a>
-            <a class="btn btn-outline" href="../excerpts/reset-otryvok.txt" download>RESET · excerpt (.txt)</a>
-            <p class="magnet-note">Plain .txt files. No signup.</p>
+          <form class="magnet-form" id="magnetForm">
+            <div class="magnet-book-picks" id="magnetPicks">
+<label class="magnet-book-option">
+  <input type="radio" name="flagPick" value="mozg-na-100" checked>
+  <img src="../assets/covers/mozg-na-100.jpg" alt="Brain at 100+" width="80" height="120">
+  <span>Brain at 100+</span>
+</label>
+<label class="magnet-book-option">
+  <input type="radio" name="flagPick" value="biohacking-mozga">
+  <img src="../assets/covers/biohacking-mozga.jpg" alt="Brain Biohacking" width="80" height="120">
+  <span>Brain Biohacking</span>
+</label>
+<label class="magnet-book-option">
+  <input type="radio" name="flagPick" value="reset">
+  <img src="../assets/covers/reset.jpg" alt="RESET" width="80" height="120">
+  <span>RESET</span>
+</label>
+</div>
+            <label for="magnetBook" class="sr-only">Book</label>
+            <select id="magnetBook" name="book" class="sr-only" required></select>
+            <button type="submit" class="btn btn-primary btn-cta-lg">Download / open excerpt</button>
+            <p class="magnet-note">Plain .txt. No mailing list.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="author-home">
+      <div class="container trust-split trust-split-compact">
+        <div class="trust-photo">
+          <img src="../assets/pol-grek-portrait.jpg" alt="Pol Grek" width="400" height="400" />
+        </div>
+        <div>
+          <p class="eyebrow">About the author</p>
+          <h2>Pol Grek</h2>
+          <p class="lead">
+            Born in England. Writes popular brain science without mysticism. Started Russian at 35 — largely thanks to his wife Laura (clinical psychologist, MSU). Lived burnout first, then wrote the books.
+          </p>
+          <p class="muted" style="margin-bottom:1rem;max-width:40rem">
+            Books use evidence grades A–D. Laura co-authors selected titles. Catalog and ratings live on
+            <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a>
+            and Amazon product pages.
+          </p>
+          <div class="btn-row">
+            <a class="btn btn-outline" href="about.html">Full biography</a>
+            <a class="btn btn-ghost-link" href="lab/index.html">Lab</a>
+            <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="faq">
+    <section id="faq" class="ink-section">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">FAQ</p>
-            <h2>Straight answers</h2>
+            <p class="eyebrow">Straight talk</p>
+            <h2>FAQ</h2>
           </div>
         </div>
-        <div class="faq-list" id="faqList"></div>
+        <div class="faq-list"><details class="faq-item"><summary>Is this just another biohacking grift?</summary><p>No “become superhuman” course, no miracle stack, no secret club. You’ll see evidence grades [A]–[D], clear “what doesn’t work,” and free excerpts. Buy on LitRes or Amazon — not a paywall on this site.</p></details><details class="faq-item"><summary>Why write in Russian if he was born in England?</summary><p>His wife, Laura Grek, is a clinical psychologist (Moscow State University). Pol started Russian at 35 for family and shared language. The Russian books and Threads are for that audience. This English site is the US-facing edition of the same work.</p></details><details class="faq-item"><summary>Who owns the science voice?</summary><p>Pol writes applied neuropsychology with A–D evidence labels. Laura co-authors selected titles (anxiety, hormones, EI) from clinical practice. This is popular science, not a treatment plan — health decisions stay with your clinician.</p></details></div>
       </div>
     </section>
 
     <section>
       <div class="container">
         <div class="final-cta">
-          <h2>Start with a chapter, not a promise</h2>
-          <p>Free excerpt on the site. Checkout on Amazon or LitRes. Short posts on Telegram and Threads.</p>
+          <h2>Start with a chapter</h2>
+          <p>Excerpt on this site. Checkout on Amazon or LitRes.</p>
           <div class="btn-row">
-            <a class="btn btn-primary" href="books/reset.html#excerpt">RESET · excerpt</a>
-            <a class="btn btn-outline" href="https://www.amazon.com/dp/B0GTF2PQ21" target="_blank" rel="noopener">Brain at 100+ on Amazon</a>
-            <a class="btn btn-ghost-link" href="https://t.me/polgrekauthor" target="_blank" rel="noopener">Telegram</a>
-            <a class="btn btn-ghost-link" href="#faq">FAQ</a>
+            <a class="btn btn-primary" href="#excerpt">Download excerpt</a>
+            <a class="btn btn-outline" href="books/index.html">Catalog</a>
+            <a class="btn btn-ghost-link" href="https://www.amazon.com/dp/B0GTF2PQ21" target="_blank" rel="noopener">Amazon</a>
           </div>
         </div>
       </div>

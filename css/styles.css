@@ -2705,11 +2705,32 @@ a.book-tag-chip:hover {
 }
 .excerpt-box {
   margin: 1.5rem 0;
-  padding: 1.4rem;
+  padding: 1.25rem 1.35rem 1.4rem;
   border-radius: var(--radius);
   background: var(--paper-2);
-  border: 1px dashed var(--line-strong);
+  border: 1px solid var(--line-strong);
 }
+.excerpt-reader {
+  margin-top: 0.85rem;
+  max-width: 40rem;
+}
+.excerpt-prose {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.excerpt-prose p {
+  margin: 0 0 0.95rem;
+}
+.excerpt-prose p:last-child {
+  margin-bottom: 0;
+}
+/* legacy pre (if any) */
 .excerpt-box pre {
   white-space: pre-wrap;
   font-family: var(--serif);
@@ -2717,6 +2738,69 @@ a.book-tag-chip:hover {
   line-height: 1.7;
   color: var(--ink);
   margin: 0.75rem 0 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.excerpt-more {
+  margin-top: 0.65rem;
+  border-top: 1px dashed var(--line);
+  padding-top: 0.55rem;
+}
+.excerpt-more summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.35rem 0.15rem;
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+  user-select: none;
+}
+.excerpt-more summary::-webkit-details-marker { display: none; }
+.excerpt-more summary::before {
+  content: "＋";
+  font-weight: 800;
+  color: var(--amber-deep);
+}
+.excerpt-more[open] summary::before { content: "−"; }
+.excerpt-more .excerpt-prose-rest {
+  margin-top: 0.75rem;
+  padding-top: 0.15rem;
+}
+@media (max-width: 720px) {
+  .excerpt-box {
+    padding: 1rem 0.95rem 1.15rem;
+    margin-inline: 0;
+    border-radius: 14px;
+  }
+  .excerpt-prose {
+    font-size: 1.08rem;
+    line-height: 1.72;
+  }
+  .excerpt-prose p {
+    margin-bottom: 1.05rem;
+  }
+  .excerpt-reader {
+    max-width: none;
+  }
+  .excerpt-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .excerpt-cta-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .book-buy-actions {
+    flex-direction: column;
+  }
+  .book-buy-actions .btn {
+    width: 100%;
+  }
 }
 .disclaimer {
   margin-top: 2rem;

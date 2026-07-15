@@ -247,7 +247,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260715ux"
+CSS_VER = "20260715ux2"
 
 
 def abs_url(path: str) -> str:
@@ -381,6 +381,59 @@ def shell(
 </body>
 </html>
 """
+
+
+def excerpt_to_paragraphs(text: str, max_chars: int = 2400) -> list[str]:
+    """Split manuscript excerpt into readable paragraphs (for prose, not <pre>)."""
+    text = (text or "").strip()
+    if not text:
+        return []
+    # normalize
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"^[\s\S]*?— (?:Отрывок|Excerpt) —\s*", "", text, flags=re.I)
+    text = re.sub(r"\n—\n[\s\S]*$", "", text).strip()
+    if len(text) > max_chars:
+        text = text[:max_chars].rsplit(" ", 1)[0] + "…"
+    # prefer blank-line paragraphs; else pack single newlines into blocks
+    parts = [p.strip() for p in re.split(r"\n\s*\n+", text) if p.strip()]
+    if len(parts) <= 1:
+        lines = [ln.strip() for ln in text.split("\n") if ln.strip()]
+        parts = []
+        buf: list[str] = []
+        for ln in lines:
+            buf.append(ln)
+            # ~2–3 lines per visual paragraph for mobile
+            if len(" ".join(buf)) > 220:
+                parts.append(" ".join(buf))
+                buf = []
+        if buf:
+            parts.append(" ".join(buf))
+    else:
+        # collapse internal newlines inside a para
+        parts = [re.sub(r"\s*\n\s*", " ", p) for p in parts]
+    return parts
+
+
+def excerpt_prose_html(text: str, *, lang: str = "ru", preview_n: int = 4) -> str:
+    """Readable excerpt: first paragraphs visible, rest in <details> for mobile comfort."""
+    paras = excerpt_to_paragraphs(text)
+    if not paras:
+        empty = "Excerpt will appear here." if lang == "en" else "Отрывок появится здесь."
+        return f'<div class="excerpt-prose" id="excerptPreview"><p class="muted">{empty}</p></div>'
+    head = paras[:preview_n]
+    rest = paras[preview_n:]
+    head_html = "".join(f"<p>{esc(p)}</p>" for p in head)
+    out = f'<div class="excerpt-prose" id="excerptPreview">{head_html}</div>'
+    if rest:
+        rest_html = "".join(f"<p>{esc(p)}</p>" for p in rest)
+        more = "Show more of the excerpt" if lang == "en" else "Показать ещё текст отрывка"
+        out += (
+            f'<details class="excerpt-more">'
+            f"<summary>{more}</summary>"
+            f'<div class="excerpt-prose excerpt-prose-rest" id="excerptPreviewMore">{rest_html}</div>'
+            f"</details>"
+        )
+    return f'<div class="excerpt-reader">{out}</div>'
 
 
 def pick_pull_quote(book: dict, excerpt_file_text: str = "") -> str:
@@ -535,18 +588,29 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         <div class="book-series-track">{"".join(thumbs)}</div>
       </section>"""
 
-    # load excerpt file if exists (skip for EN — use native inline excerpt)
+    # Load excerpt file when present (RU .txt or EN excerpts/en/*)
     excerpt_text = book.get("excerpt") or ""
-    if not prefer_inline_excerpt:
-        ex_path = SITE / "excerpts" / book.get("excerptFile", f"{book['slug']}-otryvok.txt")
+    excerpt_lang = "en" if prefer_inline_excerpt else "ru"
+    ex_candidates = []
+    if prefer_inline_excerpt:
+        ef = book.get("excerptFile") or f"en/{book['slug']}-excerpt.txt"
+        ex_candidates.append(SITE / "excerpts" / ef)
+        ex_candidates.append(SITE / "excerpts" / "en" / f"{book['slug']}-excerpt.txt")
+    else:
+        ex_candidates.append(
+            SITE / "excerpts" / book.get("excerptFile", f"{book['slug']}-otryvok.txt")
+        )
+    for ex_path in ex_candidates:
         if ex_path.exists():
             raw = ex_path.read_text(encoding="utf-8", errors="ignore")
-            raw = re.sub(r"^[\s\S]*?— Отрывок —\s*", "", raw)
+            raw = re.sub(r"^[\s\S]*?— (?:Отрывок|Excerpt) —\s*", "", raw, flags=re.I)
             raw = re.sub(r"\n—\n[\s\S]*$", "", raw).strip()
             if raw:
-                excerpt_text = raw[:2200] + ("…" if len(raw) > 2200 else "")
-    else:
-        excerpt_text = (excerpt_text or "")[:2200]
+                excerpt_text = raw
+                if "en/" in str(ex_path).replace("\\", "/") or prefer_inline_excerpt:
+                    excerpt_lang = "en"
+                break
+    excerpt_html = excerpt_prose_html(excerpt_text, lang=excerpt_lang, preview_n=4)
 
     # Pull-quote: explicit hook first; never use title/subtitle as “quote”
     pull = pick_pull_quote(book, excerpt_text)
@@ -712,7 +776,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
             <a class="btn btn-sm btn-primary" href="{excerpt_file}" download>Скачать .txt</a>
           </div>
           <p class="muted excerpt-lead">Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.</p>
-          <pre id="excerptPreview">{esc(excerpt_text)}</pre>
+          {excerpt_html}
           <div class="btn-row excerpt-cta-row">
             <a class="btn btn-primary btn-cta-lg" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
             <a class="btn btn-outline" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>

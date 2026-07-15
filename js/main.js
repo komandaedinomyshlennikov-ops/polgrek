@@ -1124,6 +1124,57 @@
     }
   }
 
+  /** Split excerpt text into prose paragraphs for mobile-friendly reading. */
+  function fillExcerptProse(root, text) {
+    if (!root) return;
+    const max = 2400;
+    let t = String(text || '').trim();
+    if (t.length > max) t = t.slice(0, max).replace(/\s+\S*$/, '') + '…';
+    let parts = t.split(/\n\s*\n+/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
+    if (parts.length <= 1) {
+      const lines = t.split(/\n/).map((l) => l.trim()).filter(Boolean);
+      parts = [];
+      let buf = [];
+      for (const ln of lines) {
+        buf.push(ln);
+        if (buf.join(' ').length > 220) {
+          parts.push(buf.join(' '));
+          buf = [];
+        }
+      }
+      if (buf.length) parts.push(buf.join(' '));
+    }
+    const previewN = 4;
+    const head = parts.slice(0, previewN);
+    const rest = parts.slice(previewN);
+    root.classList.add('excerpt-prose');
+    root.innerHTML = head.map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    let more = document.getElementById('excerptPreviewMore');
+    let details = root.closest('.excerpt-reader')?.querySelector('.excerpt-more');
+    if (rest.length) {
+      if (!details) {
+        const reader = root.closest('.excerpt-reader') || root.parentElement;
+        details = document.createElement('details');
+        details.className = 'excerpt-more';
+        details.innerHTML = `<summary>${isEn ? 'Show more of the excerpt' : 'Показать ещё текст отрывка'}</summary><div class="excerpt-prose excerpt-prose-rest" id="excerptPreviewMore"></div>`;
+        if (reader) reader.appendChild(details);
+        more = details.querySelector('#excerptPreviewMore');
+      }
+      if (more) more.innerHTML = rest.map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+      if (details) details.hidden = false;
+    } else if (details) {
+      details.hidden = true;
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   function renderBookPage() {
     // Static pages (books/{slug}.html) already contain full HTML.
     // Keep light enhancements only (TOC highlight, excerpt load).
@@ -1138,8 +1189,11 @@
         .then((r) => (r.ok ? r.text() : null))
         .then((text) => {
           if (!pre || !text) return;
-          const c = text.replace(/^[\s\S]*?— Отрывок —\s*/m, '').replace(/\n—\n[\s\S]*$/, '').trim();
-          pre.textContent = c.slice(0, 2200) + (c.length > 2200 ? '…' : '');
+          const c = text
+            .replace(/^[\s\S]*?— (?:Отрывок|Excerpt) —\s*/im, '')
+            .replace(/\n—\n[\s\S]*$/, '')
+            .trim();
+          fillExcerptProse(pre, c);
         })
         .catch(() => {});
     }
