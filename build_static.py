@@ -247,7 +247,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260715seo"
+CSS_VER = "20260715seo2"
 
 
 def abs_url(path: str) -> str:
@@ -327,19 +327,28 @@ def shell(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="{'Pol Grek' if lang == 'en' else 'Пол Грэк'}" />
+  <meta name="theme-color" content="#0B1F33" />
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}" />{canonical_tag}
+  <meta property="og:site_name" content="{'Pol Grek' if lang == 'en' else 'Пол Грэк'}" />
   <meta property="og:title" content="{esc(title)}" />
   <meta property="og:description" content="{esc(desc)}" />
   <meta property="og:type" content="{esc(og_type)}" />{og_url_tag}
   <meta property="og:image" content="{esc(og_img)}" />
+  <meta property="og:image:alt" content="{esc(title)}" />
   <meta property="og:locale" content="{'en_US' if lang == 'en' else 'ru_RU'}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{esc(title)}" />
   <meta name="twitter:description" content="{esc(desc)}" />
   <meta name="twitter:image" content="{esc(og_img)}" />{hreflang_block}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.litres.ru" />
   <link rel="icon" href="{fav}" type="image/svg+xml" />
   <link rel="icon" href="{fav2}" type="image/png" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="{SITE_ORIGIN}/sitemap.xml" />
   <link rel="stylesheet" href="{css}" />{ld_scripts}
 {extra_head}</head>
 <body data-page="{page}" data-base="{base}"{data_lang}{data_assets}>
@@ -778,13 +787,21 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         "image": cover_abs,
         "inLanguage": "ru",
         "author": [{"@type": "Person", "name": a} for a in authors_ld],
-        "offers": {
-            "@type": "Offer",
+        "bookFormat": "https://schema.org/EBook",
+        "workExample": {
+            "@type": "Book",
+            "bookFormat": "https://schema.org/EBook",
             "url": book.get("litres") or can,
-            "availability": "https://schema.org/InStock",
-            "priceCurrency": "RUB",
+            "potentialAction": {
+                "@type": "ReadAction",
+                "target": book.get("litres") or can,
+            },
         },
     }
+    if book.get("litres"):
+        book_ld["sameAs"] = [book["litres"]]
+    if amz := amazon_product_url(book):
+        book_ld.setdefault("sameAs", []).append(amz)
     crumbs = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -871,10 +888,16 @@ def build_article_page(G: dict, article: dict) -> str:
         "headline": clip_title(raw_title, 110),
         "description": desc,
         "url": can,
+        "image": [OG_IMAGE],
         "inLanguage": "ru",
         "author": {"@type": "Person", "name": "Пол Грэк", "url": abs_url("/about.html")},
-        "publisher": {"@type": "Person", "name": "Пол Грэк", "url": abs_url("/")},
-        "mainEntityOfPage": can,
+        "publisher": {
+            "@type": "Person",
+            "name": "Пол Грэк",
+            "url": abs_url("/"),
+            "image": abs_url("/assets/pol-grek-portrait.jpg"),
+        },
+        "mainEntityOfPage": {"@type": "WebPage", "@id": can},
     }
     if book:
         article_ld["isPartOf"] = {
@@ -1425,7 +1448,60 @@ def main() -> None:
         TAG_RU.update(_tag_backup)
 
     write_sitemap(G, GE)
+    inject_catalog_itemlist(G, lang="ru")
+    if GE:
+        inject_catalog_itemlist(GE, lang="en")
     print("OK: static pages built")
+
+
+def inject_catalog_itemlist(G: dict, *, lang: str = "ru") -> None:
+    """Add ItemList JSON-LD to books catalog for rich results (RU and/or EN)."""
+    import json as _json
+
+    is_en = lang == "en"
+    prefix = "/en/books/" if is_en else "/books/"
+    name = "Books by Pol Grek" if is_en else "Книги Пола Грэка"
+    path = SITE / ("en/books/index.html" if is_en else "books/index.html")
+    if not path.exists():
+        return
+
+    items = []
+    for i, b in enumerate(G.get("books") or [], 1):
+        items.append(
+            {
+                "@type": "ListItem",
+                "position": i,
+                "name": b["title"],
+                "url": abs_url(f"{prefix}{b['slug']}.html"),
+            }
+        )
+    block = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": name,
+        "numberOfItems": len(items),
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "itemListElement": items,
+    }
+    pretty = _json.dumps(block, ensure_ascii=False, indent=2)
+    pretty_ind = "\n".join("  " + line if line else line for line in pretty.split("\n"))
+    script = (
+        '  <script type="application/ld+json" id="catalog-itemlist">\n'
+        + pretty_ind
+        + "\n  </script>\n"
+    )
+    raw = path.read_text(encoding="utf-8")
+    if 'id="catalog-itemlist"' in raw:
+        raw = re.sub(
+            r'  <script type="application/ld\+json" id="catalog-itemlist">[\s\S]*?</script>\n?',
+            script,
+            raw,
+            count=1,
+        )
+    else:
+        raw = raw.replace("</head>", script + "</head>", 1)
+    path.write_text(raw, encoding="utf-8")
+    print(f"catalog ItemList injected ({lang})")
 
 
 def write_sitemap(G: dict, GE: dict | None = None) -> None:

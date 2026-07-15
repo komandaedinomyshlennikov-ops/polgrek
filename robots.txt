@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# Stub redirects — not for indexing
+Disallow: /books/book.html
+Disallow: /lab/article.html
+Disallow: /en/books/book.html
+Disallow: /en/lab/article.html
+
 Sitemap: https://polgrek.site/sitemap.xml
