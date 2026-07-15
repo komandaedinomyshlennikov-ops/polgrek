@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.litres.ru" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260715seo2" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260715ux" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -79,10 +79,35 @@
   </script>
 </head>
 <body data-page="home" data-base="" data-lang="en" data-assets="..">
-  <div id="site-header"></div>
+  <div id="site-header">
+    <header class="site-header site-header--static" id="siteHeader">
+      <div class="nav-inner">
+        <a class="logo" href="index.html" aria-label="Pol Grek — home">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-text">Pol Grek<span>brain science</span></span>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="index.html" class="active">Home</a>
+          <a href="books/index.html">Books</a>
+          <a href="lab/index.html">Lab</a>
+          <a href="about.html">About</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-primary nav-cta" href="#excerpt">Excerpt</a>
+        </div>
+      </div>
+    </header>
+  </div>
   <noscript><div class="noscript-banner container">This site works without JavaScript: books, ratings, and copy below load in plain HTML.</div></noscript>
 
-  <main>
+  <main id="main-content" tabindex="-1">
+    <nav class="page-jump" aria-label="On this page">
+      <a href="#doors">Situations</a>
+      <a href="#flagships">Books</a>
+      <a href="#excerpt" class="page-jump-cta">Excerpt</a>
+      <a href="#author-home">Author</a>
+      <a href="#faq">FAQ</a>
+    </nav>
     <section class="hero">
       <div class="container hero-grid">
         <div>
@@ -96,6 +121,10 @@
             <summary>How to read grades A–D</summary>
             <p class="grade-legend"><strong>A</strong> — strong data and reviews; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation and expert practice.</p>
           </details>
+          <div class="hero-cta-panel">
+            <a class="btn btn-primary btn-cta-lg" href="#excerpt">Download a free excerpt</a>
+            <a class="btn btn-outline" href="books/index.html">Book catalog</a>
+          </div>
           <div class="hero-badges hero-badges-soft">
             <span class="chip"><span class="chip-dot"></span>No woo</span>
             <span class="chip"><span class="chip-dot amber"></span>Free excerpt</span>
@@ -127,11 +156,11 @@
       </div>
     </section>
 
-    <section>
+    <section id="doors">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Where to start</p>
+            <p class="eyebrow">By situation</p>
             <h2>Pick the door that sounds like you</h2>
           </div>
         </div>
@@ -162,7 +191,7 @@
       <div class="container" id="books">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Where to start</p>
+            <p class="eyebrow">Flagships</p>
             <h2>Three flagship books — best first reads</h2>
             <p>Cover, one-line pitch, Amazon / LitRes, and excerpt.</p>
           </div>
@@ -187,8 +216,8 @@
       </div>
     </section>
 
-    <section>
-      <div class="container trust-split">
+    <section id="author-home">
+      <div class="container trust-split trust-split-compact">
         <div class="trust-photo">
           <img src="../assets/pol-grek-portrait.jpg" alt="Pol Grek" width="400" height="400" />
         </div>
@@ -244,6 +273,24 @@
           <a class="btn btn-outline" href="lab/index.html">All lab posts</a>
         </div>
         <div class="articles-grid" id="articlesGrid"></div>
+      </div>
+    </section>
+
+    <section id="excerpt" class="excerpt-section">
+      <div class="container">
+        <div class="magnet magnet-with-books magnet-cta-focus">
+          <div>
+            <p class="eyebrow" style="color:var(--amber)">Free</p>
+            <h2>Download a chapter</h2>
+            <p>No email, no newsletter. If the voice clicks — full text on Amazon or LitRes.</p>
+          </div>
+          <div class="btn-row" style="flex-direction:column;align-items:flex-start;gap:0.65rem">
+            <a class="btn btn-primary btn-cta-lg" href="../excerpts/mozg-na-100-otryvok.txt" download>Brain at 100+ · excerpt (.txt)</a>
+            <a class="btn btn-outline" href="../excerpts/biohacking-mozga-otryvok.txt" download>Brain biohacking · excerpt (.txt)</a>
+            <a class="btn btn-outline" href="../excerpts/reset-otryvok.txt" download>RESET · excerpt (.txt)</a>
+            <p class="magnet-note">Plain .txt files. No signup.</p>
+          </div>
+        </div>
       </div>
     </section>
 

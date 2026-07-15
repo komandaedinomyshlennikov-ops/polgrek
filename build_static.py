@@ -247,7 +247,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260715seo2"
+CSS_VER = "20260715ux"
 
 
 def abs_url(path: str) -> str:
@@ -655,12 +655,15 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
               <span class="book-format-pill">Электронная</span>
               <span class="book-format-store">{format_store}</span>
             </div>
+            <p class="book-buy-lead">Сначала бесплатная глава — потом покупка на Литрес.</p>
             <div class="book-buy-actions">
+              <a class="btn btn-primary btn-cta-lg" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
+              <a class="btn btn-outline" href="#excerpt">Читать на странице</a>
+            </div>
+            <div class="book-buy-actions book-buy-actions--store">
               <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
               {amz_btn}
-              <a class="btn btn-outline" href="#excerpt">Читать отрывок</a>
             </div>
-            <a class="book-buy-download" href="{excerpt_file}" download>Скачать фрагмент (.txt)</a>
             <p class="book-aside-hint">{pay_hint}</p>
           </div>
 
@@ -706,12 +709,12 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         <section class="excerpt-box book-section" id="excerpt">
           <div class="excerpt-head">
             <strong>Бесплатный отрывок</strong>
-            <a class="btn btn-sm btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Читать целиком на Литрес</a>
+            <a class="btn btn-sm btn-primary" href="{excerpt_file}" download>Скачать .txt</a>
           </div>
           <p class="muted excerpt-lead">Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.</p>
           <pre id="excerptPreview">{esc(excerpt_text)}</pre>
-          <div class="btn-row" style="margin-top:1rem">
-            <a class="btn btn-teal" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
+          <div class="btn-row excerpt-cta-row">
+            <a class="btn btn-primary btn-cta-lg" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
             <a class="btn btn-outline" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
           </div>
         </section>
@@ -1294,9 +1297,12 @@ def main() -> None:
                 ("и покупка на Литрес", "and buy on LitRes"),
                 ("Отрывок и покупка на Литрес", "Excerpt and buy on LitRes"),
                 ("Бесплатный отрывок", "Free excerpt"),
+                ("Сначала бесплатная глава — потом покупка на Литрес.", "Start with a free chapter — then buy on LitRes / Amazon."),
+                ("Читать на странице", "Read on this page"),
                 ("Читать целиком на Литрес", "Read full book on LitRes"),
                 ("Купить на Литрес", "Buy on LitRes"),
                 ("Читать отрывок", "Read excerpt"),
+                ("Скачать .txt", "Download .txt"),
                 ("Скачать фрагмент (.txt)", "Download sample (.txt)"),
                 ("Скачать отрывок (.txt)", "Download excerpt (.txt)"),
                 ("Скачать отрывок", "Download excerpt"),

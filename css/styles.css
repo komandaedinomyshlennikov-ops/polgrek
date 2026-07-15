@@ -2268,14 +2268,43 @@ html:not(.js) .nsf-labels {
   gap: 0.5rem;
 }
 .book-buy-actions .btn { min-height: 48px; }
-.book-buy-download {
-  display: inline-block;
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--teal-deep);
+.book-buy-actions--store {
+  margin-top: 0.55rem;
 }
-.book-buy-download:hover { color: var(--ink); }
+.book-buy-lead {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.book-buy-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1a1205;
+  background: linear-gradient(135deg, var(--amber), var(--amber-deep));
+  border: none;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(232, 162, 58, 0.28);
+}
+.book-buy-download:hover {
+  color: #1a1205;
+  filter: brightness(1.05);
+}
+.excerpt-cta-row {
+  margin-top: 1rem;
+  gap: 0.65rem;
+}
+.excerpt-cta-row .btn-cta-lg {
+  min-width: min(100%, 16rem);
+}
 .book-aside-hint {
   font-size: 0.8rem;
   color: var(--muted);
