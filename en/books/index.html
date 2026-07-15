@@ -8,26 +8,43 @@
   <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/books/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/" />
-  <link rel="stylesheet" href="../../css/styles.css?v=20260714e" />
+  <link rel="stylesheet" href="../../css/styles.css?v=20260714f" />
 </head>
 <body data-page="books" data-base=".." data-lang="en" data-assets="../..">
   <div id="site-header"></div>
-  <noscript><div class="noscript-banner container">Full book catalog below — no JavaScript required.</div></noscript>
-  <main>
+  <noscript><div class="noscript-banner container">Full book catalog below — no JavaScript required. Search and filters need JS.</div></noscript>
+  <main id="main-content" tabindex="-1">
     <section class="page-hero catalog-page-hero">
       <div class="container">
-        <div class="breadcrumb"><a href="../index.html">Home</a> · <span>Books</span></div>
+        <nav class="breadcrumb" aria-label="You are here"><a href="../index.html">Home</a><span class="bc-sep">/</span><span aria-current="page">Books</span></nav>
         <p class="eyebrow">Catalog</p>
         <h1>13 books by Pol Grek</h1>
-        <p class="lead">Pick a topic — open the page or buy on Amazon / LitRes. Full author list on <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a>.</p>
+        <p class="lead">Search by title or topic, filter by situation — or buy on Amazon / LitRes. Full author list on <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">LitRes</a>.</p>
       </div>
     </section>
     <section style="padding-top:0">
       <div class="container">
-        <noscript><p class="muted" style="margin-bottom:1rem">Topic filters need JavaScript. Without JS you still get the full list below.</p></noscript>
+        <noscript><p class="muted" style="margin-bottom:1rem">Search and topic filters need JavaScript. Without JS you still get the full list below.</p></noscript>
         <div class="catalog-toolbar">
+          <div class="catalog-search-wrap">
+            <label class="sr-only" for="catalogSearch">Search catalog</label>
+            <input
+              type="search"
+              id="catalogSearch"
+              class="catalog-search"
+              name="q"
+              placeholder="Search books…"
+              autocomplete="off"
+              enterkeyhint="search"
+            />
+            <button type="button" class="catalog-search-clear" id="catalogSearchClear" hidden aria-label="Clear search">×</button>
+          </div>
           <div class="filters" id="bookFilters" aria-label="Topics"></div>
           <p class="catalog-count" id="catalogCount">Showing 13 of 13</p>
+        </div>
+        <div class="catalog-empty" id="catalogEmpty" hidden>
+          <p data-empty-msg>No books match. Try another word or reset the topic filter.</p>
+          <button type="button" class="btn btn-outline" data-catalog-reset>Show all books</button>
         </div>
         <div class="books-grid books-grid--catalog" id="booksGrid"></div>
         <p class="catalog-hint" style="margin-top:2rem">

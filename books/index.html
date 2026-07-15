@@ -6,7 +6,7 @@
   <title>Книги — Пол Грэк</title>
   <meta name="description" content="Каталог книг Пола и Лоры Грэк: обложки, аннотации, отрывки, Литрес ." />
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260714e" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260714f" />
 </head>
 <body data-page="books" data-base="..">
   <div id="site-header">
@@ -28,22 +28,39 @@
       </div>
     </header>
   </div>
-  <noscript><div class="noscript-banner container">Меню выше. Каталог книг ниже — полный, без JavaScript.</div></noscript>
+  <noscript><div class="noscript-banner container">Меню выше. Каталог книг ниже — полный, без JavaScript. Поиск и фильтры — с JS.</div></noscript>
   <main id="main-content" tabindex="-1">
     <section class="page-hero catalog-page-hero">
       <div class="container">
         <nav class="breadcrumb" aria-label="Вы здесь"><a href="../index.html">Главная</a><span class="bc-sep">/</span><span aria-current="page">Книги</span></nav>
         <p class="eyebrow">Каталог</p>
         <h1>13 книг Пола Грэка</h1>
-        <p class="lead">Выберите тему — откройте карточку или сразу купите на Литрес. Полный каталог изданий автора — <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">на Литрес</a>.</p>
+        <p class="lead">Поиск по названию и теме, фильтр по ситуации — или сразу купить на Литрес. Полный каталог изданий — <a href="https://www.litres.ru/author/pol-grek/" target="_blank" rel="noopener">на Литрес</a>.</p>
       </div>
     </section>
     <section style="padding-top:0">
       <div class="container">
-        <noscript><p class="muted" style="margin-bottom:1rem">Фильтры по темам работают с JavaScript. Без JS ниже — полный список книг.</p></noscript>
+        <noscript><p class="muted" style="margin-bottom:1rem">Поиск и фильтры по темам работают с JavaScript. Без JS ниже — полный список книг.</p></noscript>
         <div class="catalog-toolbar">
+          <div class="catalog-search-wrap">
+            <label class="sr-only" for="catalogSearch">Поиск в каталоге</label>
+            <input
+              type="search"
+              id="catalogSearch"
+              class="catalog-search"
+              name="q"
+              placeholder="Поиск по книгам…"
+              autocomplete="off"
+              enterkeyhint="search"
+            />
+            <button type="button" class="catalog-search-clear" id="catalogSearchClear" hidden aria-label="Очистить поиск">×</button>
+          </div>
           <div class="filters" id="bookFilters" aria-label="Темы"></div>
           <p class="catalog-count" id="catalogCount">Показано 13 из 13</p>
+        </div>
+        <div class="catalog-empty" id="catalogEmpty" hidden>
+          <p data-empty-msg>Ничего не найдено. Попробуйте другое слово или сбросьте тему.</p>
+          <button type="button" class="btn btn-outline" data-catalog-reset>Показать все книги</button>
         </div>
         <div class="books-grid books-grid--catalog" id="booksGrid">
 <article class="book-card book-card--tile is-flagship">

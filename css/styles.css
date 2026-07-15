@@ -1565,31 +1565,102 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1.25rem;
+  gap: 0.65rem 0.85rem;
   margin-bottom: 1.35rem;
   position: sticky;
   top: calc(var(--nav-h) + 0.35rem);
   z-index: 30;
-  padding: 0.65rem 0.75rem;
+  padding: 0.75rem 0.85rem;
   border-radius: 14px;
   background: var(--header-bg-scrolled);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
 }
+.catalog-search-wrap {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: min(100%, 200px);
+  max-width: 320px;
+}
+.catalog-search {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 2.4rem 0.55rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--panel-bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.catalog-search::placeholder {
+  color: var(--muted);
+  opacity: 0.9;
+}
+.catalog-search:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.18);
+}
+.catalog-search-clear {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: none;
+  background: var(--chip-bg);
+  color: var(--ink-soft);
+  font-size: 1.25rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.catalog-search-clear:hover {
+  background: var(--nav-active);
+  color: var(--ink);
+}
+.catalog-search-clear[hidden] {
+  display: none !important;
+}
 .catalog-toolbar .filters {
   margin: 0;
-  flex: 1;
+  flex: 1 1 100%;
   min-width: 0;
+  order: 3;
 }
 .catalog-count {
   margin: 0;
+  margin-left: auto;
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--muted);
   white-space: nowrap;
   flex-shrink: 0;
+}
+.catalog-empty {
+  text-align: center;
+  padding: 2.5rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 18px;
+  background: var(--panel-bg);
+  border: 1px dashed var(--line-strong);
+}
+.catalog-empty p {
+  margin: 0 auto 1.15rem;
+  max-width: 28rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+.catalog-empty[hidden] {
+  display: none !important;
 }
 .filter-count {
   display: inline-flex;

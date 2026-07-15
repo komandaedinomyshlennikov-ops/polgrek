@@ -41,6 +41,7 @@ window.POL_GREK_METRIKA_ID = 110711984; // активный счётчик polgr
 | `amazon` | Клик Amazon |
 | `telegram` | Клик Telegram (`t.me/polgrekauthor`) |
 | `threads` | Клик Threads (`@pol.grek`) |
+| `catalog_search` | Поиск в каталоге книг (query ≥ 2 символов) |
 | `excerpt_download` | Скачивание отрывка |
 | `lang_en` | Переключение на English |
 | `lang_ru` | Переключение на Русский |

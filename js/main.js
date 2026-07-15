@@ -60,6 +60,11 @@
         withLaura: 'with Laura Grek',
         withLauraShort: 'with Laura',
         shownOf: (n, total) => `Showing ${n} of ${total}`,
+        searchPlaceholder: 'Search books…',
+        searchLabel: 'Search catalog',
+        searchClear: 'Clear search',
+        searchEmpty: 'No books match. Try another word or reset the topic filter.',
+        searchReset: 'Show all books',
         privacy: 'Privacy',
         buyLitres: 'Buy on LitRes',
         fullLitres: 'Full author catalog on LitRes',
@@ -122,6 +127,11 @@
         withLaura: 'с Лорой Грэк',
         withLauraShort: 'с Лорой',
         shownOf: (n, total) => `Показано ${n} из ${total}`,
+        searchPlaceholder: 'Поиск по книгам…',
+        searchLabel: 'Поиск в каталоге',
+        searchClear: 'Очистить поиск',
+        searchEmpty: 'Ничего не найдено. Попробуйте другое слово или сбросьте тему.',
+        searchReset: 'Показать все книги',
         privacy: 'Конфиденциальность',
         buyLitres: 'Купить на Литрес',
         fullLitres: 'Литрес · полный каталог автора',
@@ -836,76 +846,196 @@
     initNeuralCanvas(document.getElementById('neuralCanvas'));
   }
 
+  function bookSearchHaystack(book) {
+    const parts = [
+      book.title,
+      book.subtitle,
+      book.promise,
+      book.annotation,
+      book.series,
+      book.slug,
+      ...(book.authors || []),
+      ...(book.tags || []),
+      ...(book.forWhom || []),
+      ...(book.takeaways || []),
+    ];
+    return parts
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+      .replace(/ё/g, 'е');
+  }
+
+  function bookMatchesQuery(book, rawQ) {
+    const q = String(rawQ || '')
+      .trim()
+      .toLowerCase()
+      .replace(/ё/g, 'е');
+    if (!q) return true;
+    const hay = bookSearchHaystack(book);
+    const terms = q.split(/\s+/).filter(Boolean);
+    return terms.every((t) => hay.includes(t));
+  }
+
   function renderBooksPage() {
     const grid = document.getElementById('booksGrid');
     const filtersEl = document.getElementById('bookFilters');
     if (!grid || !filtersEl) return;
 
-    // URL filter (?filter=деньги) — source of truth for “door” links from home
+    const searchInput = document.getElementById('catalogSearch');
+    const searchClear = document.getElementById('catalogSearchClear');
+    const emptyEl = document.getElementById('catalogEmpty');
+
+    // URL: ?filter= + ?q=
     let active = 'all';
+    let query = '';
     try {
-      const urlFilter = new URLSearchParams(location.search).get('filter');
+      const params = new URLSearchParams(location.search);
+      const urlFilter = params.get('filter');
       if (urlFilter && POL_GREK.filters.some((f) => f.id === urlFilter)) {
         active = urlFilter;
       }
+      query = (params.get('q') || '').trim();
     } catch (e) {
       /* ignore */
     }
 
+    if (searchInput) {
+      searchInput.placeholder = UI.searchPlaceholder || searchInput.placeholder;
+      searchInput.setAttribute('aria-label', UI.searchLabel || 'Search');
+      if (query) searchInput.value = query;
+    }
+    if (searchClear) {
+      searchClear.setAttribute('aria-label', UI.searchClear || 'Clear');
+      searchClear.title = UI.searchClear || 'Clear';
+    }
+
+    function syncUrl() {
+      try {
+        const u = new URL(location.href);
+        if (active === 'all') u.searchParams.delete('filter');
+        else u.searchParams.set('filter', active);
+        if (!query) u.searchParams.delete('q');
+        else u.searchParams.set('q', query);
+        history.replaceState(null, '', u.pathname + u.search + u.hash);
+      } catch (err) {
+        /* ignore */
+      }
+    }
+
+    function listForFilter(filterId) {
+      if (filterId === 'all') return POL_GREK.books.slice();
+      return POL_GREK.books.filter((b) => {
+        const f = POL_GREK.filters.find((x) => x.id === filterId);
+        return f && f.match ? f.match(b) : (b.tags || []).includes(filterId);
+      });
+    }
+
     function filterCount(f) {
-      if (!f || f.id === 'all') return POL_GREK.books.length;
-      if (typeof f.match === 'function') return POL_GREK.books.filter((b) => f.match(b)).length;
-      return POL_GREK.books.filter((b) => (b.tags || []).includes(f.id)).length;
+      // Counts reflect current search query (if any) within each topic
+      const base = listForFilter(f.id);
+      return base.filter((b) => bookMatchesQuery(b, query)).length;
+    }
+
+    function paintFilters() {
+      filtersEl.innerHTML = POL_GREK.filters
+        .map((f) => {
+          const n = filterCount(f);
+          return `<button type="button" class="filter-btn${f.id === active ? ' active' : ''}" data-filter="${f.id}"><span class="filter-label">${f.label}</span><span class="filter-count">${n}</span></button>`;
+        })
+        .join('');
     }
 
     function paint() {
-      const list =
-        active === 'all'
-          ? POL_GREK.books
-          : POL_GREK.books.filter((b) => {
-              const f = POL_GREK.filters.find((x) => x.id === active);
-              return f && f.match ? f.match(b) : b.tags.includes(active);
-            });
+      let list = listForFilter(active).filter((b) => bookMatchesQuery(b, query));
       // Always paint from data.js so new books appear even if static HTML is cached
-      grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
+      if (list.length) {
+        grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
+        grid.hidden = false;
+        if (emptyEl) emptyEl.hidden = true;
+      } else {
+        grid.innerHTML = '';
+        grid.hidden = true;
+        if (emptyEl) {
+          emptyEl.hidden = false;
+          const msg = emptyEl.querySelector('[data-empty-msg]');
+          if (msg) msg.textContent = UI.searchEmpty || msg.textContent;
+        }
+      }
+
       const count = document.getElementById('booksCount') || document.getElementById('catalogCount');
       if (count) {
         const total = POL_GREK.books.length;
-        count.textContent =
+        let label =
           typeof UI.shownOf === 'function'
             ? UI.shownOf(list.length, total)
             : isEn
               ? `Showing ${list.length} of ${total}`
               : `Показано ${list.length} из ${total}`;
+        if (query) {
+          label += isEn ? ` · “${query}”` : ` · «${query}»`;
+        }
+        count.textContent = label;
       }
-      filtersEl.querySelectorAll('.filter-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.filter === active);
-      });
-    }
 
-    filtersEl.innerHTML = POL_GREK.filters
-      .map((f) => {
-        const n = filterCount(f);
-        return `<button type="button" class="filter-btn" data-filter="${f.id}"><span class="filter-label">${f.label}</span><span class="filter-count">${n}</span></button>`;
-      })
-      .join('');
+      if (searchClear) {
+        searchClear.hidden = !query;
+      }
+      paintFilters();
+    }
 
     filtersEl.addEventListener('click', (e) => {
       const btn = e.target.closest('.filter-btn');
       if (!btn) return;
       active = btn.dataset.filter;
-      // Keep URL in sync for shareable filter links
-      try {
-        const u = new URL(location.href);
-        if (active === 'all') u.searchParams.delete('filter');
-        else u.searchParams.set('filter', active);
-        history.replaceState(null, '', u.pathname + u.search + u.hash);
-      } catch (err) {
-        /* ignore */
-      }
-      track('filter_books', { filter: active, lang: isEn ? 'en' : 'ru' });
+      syncUrl();
+      track('filter_books', { filter: active, q: query || undefined, lang: isEn ? 'en' : 'ru' });
       paint();
     });
+
+    let searchTimer = null;
+    function applySearch(raw, { trackEvent } = {}) {
+      query = String(raw || '').trim();
+      syncUrl();
+      paint();
+      if (trackEvent && query.length >= 2) {
+        track('catalog_search', { q: query, lang: isEn ? 'en' : 'ru' });
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => applySearch(searchInput.value, { trackEvent: true }), 180);
+      });
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          applySearch('');
+          searchInput.blur();
+        }
+      });
+    }
+
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        applySearch('');
+        if (searchInput) searchInput.focus();
+      });
+    }
+
+    if (emptyEl) {
+      emptyEl.addEventListener('click', (e) => {
+        const reset = e.target.closest('[data-catalog-reset]');
+        if (!reset) return;
+        active = 'all';
+        query = '';
+        if (searchInput) searchInput.value = '';
+        syncUrl();
+        paint();
+      });
+    }
 
     paint();
   }
