@@ -610,27 +610,21 @@
   }
 
   function storeButtons(book, compact) {
-    const cls = compact ? 'btn btn-sm' : 'btn';
     const amzOk = hasAmazonProduct(book);
     const buy = escapeAttr(litresBuyUrl(book));
     const rel = litresRel();
-    // Catalog tile: one primary buy (MIF). Amazon as text link — not a second fat button.
-    if (isEn && amzOk) {
-      return `
-      <a class="${cls} btn-primary" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
-      <div class="book-card-links">
-        <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
-        <a class="book-amazon-link" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
-      </div>`;
-    }
+    const buyLabel = UI.buyLitres || UI.buy;
+    // Under each catalog card: full-width affiliate Buy (LitRes AdvCake)
     const amzLink = amzOk
       ? `<a class="book-amazon-link" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
     return `
-      <a class="${cls} btn-primary" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.buy}</a>
-      <div class="book-card-links">
-        <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
-        ${amzLink}
+      <div class="book-card-cta">
+        <a class="btn btn-primary book-card-buy" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${buyLabel}</a>
+        <div class="book-card-links">
+          <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
+          ${amzLink}
+        </div>
       </div>`;
   }
 
@@ -736,10 +730,8 @@
           <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${book.title}</a></h3>
           <p class="book-card-promise">${book.promise}</p>
           <p class="book-card-meta">${bookCardMeta(book)}</p>
-          <div class="book-actions book-actions--tile">
-            ${storeButtons(book, true)}
-          </div>
         </div>
+        ${storeButtons(book, true)}
       </article>`;
   }
 

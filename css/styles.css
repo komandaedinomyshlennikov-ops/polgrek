@@ -1499,31 +1499,40 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   opacity: 1 !important;
 }
 
-/* Actions: one primary button + text links */
+/* Actions under each catalog card: affiliate Buy + text links */
 .book-card--tile .book-actions,
-.book-actions--tile {
+.book-actions--tile,
+.book-card-cta {
   display: block !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0.85rem 0 0 !important;
+  padding: 0.75rem 0 0 !important;
+  border-top: 1px solid var(--line);
   flex: none !important;
   width: 100%;
+  box-sizing: border-box;
 }
+.book-card-buy,
 .book-actions--tile .btn,
 .book-actions--tile .btn-sm,
 .book-actions--tile .btn-primary,
 .book-actions--tile .btn-outline,
-.book-card--tile .book-actions .btn {
+.book-card--tile .book-actions .btn,
+.book-card-cta .book-card-buy {
   display: flex !important;
   align-items: center;
   justify-content: center;
   flex: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 42px !important;
-  margin: 0 0 0.45rem !important;
-  font-size: 0.9rem !important;
+  min-height: 46px !important;
+  margin: 0 0 0.5rem !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
   box-sizing: border-box;
+  box-shadow: 0 8px 20px rgba(232, 162, 58, 0.28);
 }
+.book-card-cta .book-card-links,
 .book-actions--tile .book-card-links,
 .book-card--tile .book-card-links {
   display: flex !important;
@@ -1533,8 +1542,9 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   gap: 0.35rem 0.75rem;
   width: 100%;
   margin: 0;
-  padding: 0.1rem 0 0;
+  padding: 0.15rem 0 0;
 }
+.book-card-cta .book-more,
 .book-actions--tile .book-more,
 .book-card--tile .book-more {
   display: inline !important;
@@ -1550,10 +1560,12 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   border: none !important;
   box-shadow: none !important;
 }
+.book-card-cta .book-more:hover,
 .book-actions--tile .book-more:hover,
 .book-card--tile .book-more:hover {
   color: var(--ink) !important;
 }
+.book-card-cta .book-amazon-link,
 .book-actions--tile .book-amazon-link {
   display: inline !important;
   font-size: 0.82rem !important;
@@ -1565,7 +1577,9 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   width: auto !important;
   background: none !important;
   border: none !important;
+  box-shadow: none !important;
 }
+.book-card-cta .book-amazon-link:hover,
 .book-actions--tile .book-amazon-link:hover {
   color: var(--ink) !important;
 }

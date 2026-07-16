@@ -199,9 +199,15 @@ def litres_rel(G: dict | None = None) -> str:
     return "noopener"
 
 
-def store_actions_html(book: dict, href: str, compact: bool = True, G: dict | None = None) -> str:
-    """Catalog CTA: one buy button; Amazon as text link (no double fat buttons)."""
-    sm = " btn-sm" if compact else ""
+def store_actions_html(
+    book: dict,
+    href: str,
+    compact: bool = True,
+    G: dict | None = None,
+    *,
+    lang: str = "ru",
+) -> str:
+    """Catalog CTA under card: full-width affiliate Buy + «О книге» / Amazon."""
     amz = amazon_product_url(book)
     amz_link = (
         f'<a class="book-amazon-link" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
@@ -210,11 +216,15 @@ def store_actions_html(book: dict, href: str, compact: bool = True, G: dict | No
     )
     buy = litres_buy_url(G, book)
     rel = litres_rel(G)
-    return f"""<a class="btn{sm} btn-primary" href="{esc(buy)}" target="_blank" rel="{rel}" data-track="litres">Купить</a>
+    buy_label = "Buy on LitRes" if lang == "en" else "Купить на Литрес"
+    more_label = "About the book" if lang == "en" else "О книге"
+    return f"""<div class="book-card-cta">
+      <a class="btn btn-primary book-card-buy" href="{esc(buy)}" target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
       <div class="book-card-links">
-        <a class="book-more" href="{href}">О книге</a>
+        <a class="book-more" href="{href}">{more_label}</a>
         {amz_link}
-      </div>"""
+      </div>
+    </div>"""
 
 
 def book_card_meta(book: dict) -> str:
@@ -299,41 +309,51 @@ def book_data_show(book: dict, filter_ids: list[str] | None = None) -> str:
     return " ".join(tokens)
 
 
-def book_card(book: dict, prefix: str = "", books_dir: bool = True, G: dict | None = None) -> str:
-    """Cover-first catalog tile (MIF pattern: cover → title → pitch → buy)."""
+def book_card(
+    book: dict,
+    prefix: str = "",
+    books_dir: bool = True,
+    G: dict | None = None,
+    *,
+    lang: str = "ru",
+) -> str:
+    """Cover-first catalog tile: cover → title → pitch → affiliate Buy under card."""
     slug = book["slug"]
     href = book_url(slug, "") if books_dir else f"books/{slug}.html"
-    cover = (
-        f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
-        if books_dir
-        else f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
-    )
-    if not books_dir:
+    if lang == "en" and books_dir:
+        cover = f"../../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+    elif books_dir:
+        cover = f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+    elif lang == "en":
+        href = f"books/{slug}.html"
+        cover = f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+    else:
         href = f"books/{slug}.html"
         cover = f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
 
     badges = []
     if book.get("flagship"):
-        badges.append('<span class="book-badge book-badge-key">Флагман</span>')
+        flag = "Flagship" if lang == "en" else "Флагман"
+        badges.append(f'<span class="book-badge book-badge-key">{flag}</span>')
     if len(book.get("authors") or []) > 1:
-        badges.append('<span class="book-badge book-badge-co">с Лорой</span>')
+        co = "with Laura" if lang == "en" else "с Лорой"
+        badges.append(f'<span class="book-badge book-badge-co">{co}</span>')
     badge_html = f'<div class="book-cover-badges">{"".join(badges)}</div>' if badges else ""
     show = book_data_show(book)
+    cover_alt = ("Cover: " if lang == "en" else "Обложка: ") + book["title"]
 
     return f"""
 <article class="book-card book-card--tile{' is-flagship' if book.get('flagship') else ''}" data-show="{esc(show)}">
   <a class="book-cover has-image clean" href="{href}" aria-label="{esc(book['title'])}">
-    <img src="{cover}" alt="Обложка: {esc(book['title'])}" loading="lazy" width="600" height="900" />
+    <img src="{cover}" alt="{esc(cover_alt)}" loading="lazy" width="600" height="900" />
     {badge_html}
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="{href}">{esc(book['title'])}</a></h3>
     <p class="book-card-promise">{esc(book['promise'])}</p>
     <p class="book-card-meta">{esc(book_card_meta(book))}</p>
-    <div class="book-actions book-actions--tile">
-      {store_actions_html(book, href, compact=True, G=G)}
-    </div>
   </div>
+  {store_actions_html(book, href, compact=True, G=G, lang=lang)}
 </article>"""
 
 
@@ -382,7 +402,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260715ux2"
+CSS_VER = "20260716buy"
 
 
 def abs_url(path: str) -> str:
@@ -1658,6 +1678,26 @@ def main() -> None:
             (en_lab / f"{article['slug']}.html").write_text(build_article_en(GE, article), encoding="utf-8")
             print("en article", article["slug"])
 
+        # EN catalog: static cards with affiliate Buy (no-JS)
+        en_books_html = "".join(
+            book_card(b, books_dir=True, G=GE, lang="en") for b in GE.get("books") or []
+        )
+        en_cat = SITE / "en" / "books" / "index.html"
+        if en_cat.exists():
+            raw = en_cat.read_text(encoding="utf-8")
+            start = 'id="booksGrid">'
+            a = raw.find(start)
+            if a >= 0:
+                # replace everything until closing </div> of booksGrid
+                # find matching close: first </div> after grid open that is alone-ish
+                b = raw.find("</div>", a + len(start))
+                if b >= 0:
+                    en_cat.write_text(
+                        raw[: a + len(start)] + en_books_html + raw[b:],
+                        encoding="utf-8",
+                    )
+                    print("inject en/books/index.html catalog cards")
+
         TAG_RU.clear()
         TAG_RU.update(_tag_backup)
 
@@ -1831,3 +1871,4 @@ def write_sitemap(G: dict, GE: dict | None = None) -> None:
 
 if __name__ == "__main__":
     main()
+
