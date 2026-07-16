@@ -80,20 +80,77 @@ def _litres_base(url: str) -> str:
     return u
 
 
+def _affiliate_sub1(label: str) -> str:
+    """Normalize Sub1: keep slug readable, never inject &/= into query."""
+    import re
+
+    s = (label or "").strip()
+    # allow only safe token chars (hyphen/underscore ok for AdvCake reports)
+    s = re.sub(r"[^a-zA-Z0-9._-]+", "_", s)
+    return s[:80]
+
+
 def apply_affiliate_template(tpl: str, direct: str, sub1: str = "") -> str:
-    """Apply AdvCake template: {url} raw, {url_enc} encoded, {sub1} label."""
-    from urllib.parse import quote
+    """Apply AdvCake template or build query via urlencode (preferred).
+
+    Prefer structured params when template is the default AdvCake form —
+    avoids fragile string replace and keeps sub1=stress-i-mozg intact.
+    """
+    from urllib.parse import quote, urlencode
 
     base = _litres_base(direct)
-    if not tpl or not base:
+    if not base:
         return base
+    label = _affiliate_sub1(sub1)
+
+    # Structured build (default path): never split slug on hyphens
+    # Matches AdvCake «ручной» generator: litres URL + utm_* + sub1 + erid
+    if not tpl or "{url}" in tpl and "utm_source=advcake" in tpl:
+        # pull ids from template when present
+        content = "f71f3ad5"
+        erid = "2VfnxyNkZrY"
+        keyword = "polgrek / site"
+        if tpl:
+            import re
+
+            m = re.search(r"utm_content=([^&{]+)", tpl)
+            if m:
+                content = m.group(1)
+            m = re.search(r"erid=([^&{]+)", tpl)
+            if m:
+                erid = m.group(1)
+            m = re.search(r"keyword=([^&{]+)", tpl)
+            if m:
+                from urllib.parse import unquote_plus
+
+                keyword = unquote_plus(m.group(1))
+        q = urlencode(
+            [
+                ("utm_source", "advcake"),
+                ("utm_medium", "cpa"),
+                ("utm_campaign", "affiliate"),
+                ("utm_content", content),
+                ("advcake_params", ""),
+                ("utm_term", ""),
+                ("sub1", label),
+                ("keyword", keyword),
+                ("erid", erid),
+                ("advcake_method", "1"),
+                ("m", "1"),
+            ],
+            doseq=False,
+        )
+        return f"{base}?{q}"
+
+    # Custom template fallback
     out = tpl
     if "{url_enc}" in out:
         out = out.replace("{url_enc}", quote(base, safe=""))
     if "{url}" in out:
         out = out.replace("{url}", base)
     if "{sub1}" in out:
-        out = out.replace("{sub1}", quote(sub1 or "", safe=""))
+        # encode so hyphenated slugs never become extra query keys
+        out = out.replace("{sub1}", quote(label, safe="-_.~"))
     return out
 
 
@@ -119,7 +176,7 @@ def litres_buy_url(G: dict | None, book: dict | str, slug: str | None = None) ->
         return str(by_slug[s]).strip()
 
     tpl = (aff.get("template") or "").strip()
-    if tpl and direct:
+    if aff.get("enabled") and direct:
         return apply_affiliate_template(tpl, direct, s)
     return direct
 
@@ -131,7 +188,7 @@ def litres_author_url(G: dict) -> str:
     if aff.get("enabled") and (aff.get("authorUrl") or "").strip():
         return str(aff["authorUrl"]).strip()
     tpl = (aff.get("template") or "").strip()
-    if aff.get("enabled") and tpl:
+    if aff.get("enabled") and (tpl or True):
         return apply_affiliate_template(tpl, direct, str(aff.get("authorSub1") or "author"))
     return direct
 

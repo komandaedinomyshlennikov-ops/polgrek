@@ -498,14 +498,67 @@
     return String(u).replace(/\?[\s\S]*$/, '').trim();
   }
 
+  /** Escape URL for HTML attribute (JS-built cards). */
+  function escapeAttr(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  /** Sub1 token: never allow & or = that would split the query. */
+  function affiliateSub1(label) {
+    return String(label || '')
+      .trim()
+      .replace(/[^a-zA-Z0-9._-]+/g, '_')
+      .slice(0, 80);
+  }
+
   /**
-   * Apply AdvCake template.
-   * {url} raw base, {url_enc} encoded, {sub1} tracking label (slug / author).
+   * Build AdvCake litres deep link.
+   * Structured query (urlencode-equivalent) so hyphenated slugs stay intact:
+   * sub1=stress-i-mozg  — NOT sub1=stres&mozg=
    */
   function applyAffiliateTemplate(tpl, direct, sub1) {
     const base = litresDirect(direct);
-    if (!tpl || !base) return base;
-    let out = String(tpl);
+    if (!base) return base;
+    const label = affiliateSub1(sub1);
+    const t = String(tpl || '');
+
+    // Default AdvCake manual generator shape → build with URLSearchParams
+    if (!t || (t.indexOf('{url}') !== -1 && t.indexOf('utm_source=advcake') !== -1)) {
+      let content = 'f71f3ad5';
+      let erid = '2VfnxyNkZrY';
+      let keyword = 'polgrek / site';
+      const mc = t.match(/utm_content=([^&{]+)/);
+      if (mc) content = mc[1];
+      const me = t.match(/erid=([^&{]+)/);
+      if (me) erid = me[1];
+      const mk = t.match(/keyword=([^&{]+)/);
+      if (mk) {
+        try {
+          keyword = decodeURIComponent(mk[1].replace(/\+/g, ' '));
+        } catch (_) {
+          keyword = mk[1];
+        }
+      }
+      const q = new URLSearchParams();
+      q.set('utm_source', 'advcake');
+      q.set('utm_medium', 'cpa');
+      q.set('utm_campaign', 'affiliate');
+      q.set('utm_content', content);
+      q.set('advcake_params', '');
+      q.set('utm_term', '');
+      q.set('sub1', label);
+      q.set('keyword', keyword);
+      q.set('erid', erid);
+      q.set('advcake_method', '1');
+      q.set('m', '1');
+      return base + '?' + q.toString();
+    }
+
+    let out = t;
     if (out.indexOf('{url_enc}') !== -1) {
       out = out.split('{url_enc}').join(encodeURIComponent(base));
     }
@@ -513,7 +566,7 @@
       out = out.split('{url}').join(base);
     }
     if (out.indexOf('{sub1}') !== -1) {
-      out = out.split('{sub1}').join(encodeURIComponent(sub1 || ''));
+      out = out.split('{sub1}').join(encodeURIComponent(label));
     }
     return out;
   }
@@ -559,19 +612,19 @@
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
     const amzOk = hasAmazonProduct(book);
-    const buy = litresBuyUrl(book);
+    const buy = escapeAttr(litresBuyUrl(book));
     const rel = litresRel();
     // Catalog tile: one primary buy (MIF). Amazon as text link — not a second fat button.
     if (isEn && amzOk) {
       return `
-      <a class="${cls} btn-primary" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
+      <a class="${cls} btn-primary" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
       <div class="book-card-links">
         <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
         <a class="book-amazon-link" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
       </div>`;
     }
     const amzLink = amzOk
-      ? `<a class="book-amazon-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
+      ? `<a class="book-amazon-link" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
     return `
       <a class="${cls} btn-primary" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.buy}</a>
