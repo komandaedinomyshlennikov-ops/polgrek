@@ -8,6 +8,16 @@ window.POL_GREK = {
     telegram: 'https://t.me/+KGQgs6MVHHYwZGVi',
   },
 
+  // Keep in sync with data.js affiliate (AdvCake / LitRes).
+  affiliate: {
+    enabled: true,
+    template:
+      '{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    authorSub1: 'author',
+    authorUrl: '',
+    bySlug: {},
+  },
+
   socialProof: {
     source: 'LitRes',
     sourceUrl: 'https://www.litres.ru/author/pol-grek/',

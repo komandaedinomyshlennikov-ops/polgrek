@@ -66,7 +66,83 @@ def amazon_product_url(book: dict) -> str:
     return ""
 
 
-def store_actions_html(book: dict, href: str, compact: bool = True) -> str:
+def affiliate_cfg(G: dict | None = None) -> dict:
+    if G is None:
+        return {}
+    return G.get("affiliate") or {}
+
+
+def _litres_base(url: str) -> str:
+    """Strip query string; AdvCake params are re-applied via template."""
+    u = (url or "").strip()
+    if "?" in u:
+        u = u.split("?", 1)[0]
+    return u
+
+
+def apply_affiliate_template(tpl: str, direct: str, sub1: str = "") -> str:
+    """Apply AdvCake template: {url} raw, {url_enc} encoded, {sub1} label."""
+    from urllib.parse import quote
+
+    base = _litres_base(direct)
+    if not tpl or not base:
+        return base
+    out = tpl
+    if "{url_enc}" in out:
+        out = out.replace("{url_enc}", quote(base, safe=""))
+    if "{url}" in out:
+        out = out.replace("{url}", base)
+    if "{sub1}" in out:
+        out = out.replace("{sub1}", quote(sub1 or "", safe=""))
+    return out
+
+
+def litres_buy_url(G: dict | None, book: dict | str, slug: str | None = None) -> str:
+    """Partner deep link (AdvCake) when affiliate.enabled, else plain LitRes URL.
+
+    affiliate.template — e.g. '{url}?utm_source=advcake&...&sub1={sub1}'
+    affiliate.bySlug   — map slug → full partner URL
+    """
+    if isinstance(book, str):
+        direct = _litres_base(book)
+        s = slug or ""
+    else:
+        direct = _litres_base(book.get("litres") or "")
+        s = slug or (book.get("slug") or "")
+
+    aff = affiliate_cfg(G)
+    if not aff.get("enabled"):
+        return direct
+
+    by_slug = aff.get("bySlug") or {}
+    if s and by_slug.get(s):
+        return str(by_slug[s]).strip()
+
+    tpl = (aff.get("template") or "").strip()
+    if tpl and direct:
+        return apply_affiliate_template(tpl, direct, s)
+    return direct
+
+
+def litres_author_url(G: dict) -> str:
+    aff = affiliate_cfg(G)
+    links = G.get("links") or {}
+    direct = _litres_base(links.get("litresAuthor") or "https://www.litres.ru/author/pol-grek/")
+    if aff.get("enabled") and (aff.get("authorUrl") or "").strip():
+        return str(aff["authorUrl"]).strip()
+    tpl = (aff.get("template") or "").strip()
+    if aff.get("enabled") and tpl:
+        return apply_affiliate_template(tpl, direct, str(aff.get("authorSub1") or "author"))
+    return direct
+
+
+def litres_rel(G: dict | None = None) -> str:
+    if affiliate_cfg(G).get("enabled"):
+        return "noopener sponsored"
+    return "noopener"
+
+
+def store_actions_html(book: dict, href: str, compact: bool = True, G: dict | None = None) -> str:
     """Catalog CTA: one buy button; Amazon as text link (no double fat buttons)."""
     sm = " btn-sm" if compact else ""
     amz = amazon_product_url(book)
@@ -75,7 +151,9 @@ def store_actions_html(book: dict, href: str, compact: bool = True) -> str:
         if amz
         else ""
     )
-    return f"""<a class="btn{sm} btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener" data-track="litres">Купить</a>
+    buy = litres_buy_url(G, book)
+    rel = litres_rel(G)
+    return f"""<a class="btn{sm} btn-primary" href="{esc(buy)}" target="_blank" rel="{rel}" data-track="litres">Купить</a>
       <div class="book-card-links">
         <a class="book-more" href="{href}">О книге</a>
         {amz_link}
@@ -164,7 +242,7 @@ def book_data_show(book: dict, filter_ids: list[str] | None = None) -> str:
     return " ".join(tokens)
 
 
-def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
+def book_card(book: dict, prefix: str = "", books_dir: bool = True, G: dict | None = None) -> str:
     """Cover-first catalog tile (MIF pattern: cover → title → pitch → buy)."""
     slug = book["slug"]
     href = book_url(slug, "") if books_dir else f"books/{slug}.html"
@@ -196,7 +274,7 @@ def book_card(book: dict, prefix: str = "", books_dir: bool = True) -> str:
     <p class="book-card-promise">{esc(book['promise'])}</p>
     <p class="book-card-meta">{esc(book_card_meta(book))}</p>
     <div class="book-actions book-actions--tile">
-      {store_actions_html(book, href, compact=True)}
+      {store_actions_html(book, href, compact=True, G=G)}
     </div>
   </div>
 </article>"""
@@ -636,7 +714,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         if next_b
         else '<span class="book-pn next empty"></span>'
     )
-    related_cards = "".join(book_card(b, books_dir=True) for b in related)
+    related_cards = "".join(book_card(b, books_dir=True, G=G) for b in related)
 
     for_whom_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("forWhom") or []))
     takeaway_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("takeaways") or []))
@@ -673,7 +751,9 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         if amz
         else "Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи."
     )
-    buy_dd = f'<a href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>'
+    buy_url = litres_buy_url(G, book)
+    buy_rel = litres_rel(G)
+    buy_dd = f'<a href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>'
     if amz:
         buy_dd += f' · <a href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
     highlights_block = (
@@ -725,7 +805,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
               <a class="btn btn-outline" href="#excerpt">Читать на странице</a>
             </div>
             <div class="book-buy-actions book-buy-actions--store">
-              <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+              <a class="btn btn-primary" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Купить на Литрес</a>
               {amz_btn}
             </div>
             <p class="book-aside-hint">{pay_hint}</p>
@@ -749,7 +829,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         <a href="#excerpt">Отрывок</a>
         <a href="#author">Об авторе</a>
         <a href="#related">С этой книгой</a>
-        <a href="{esc(book["litres"])}" target="_blank" rel="noopener" class="book-tabs-buy">Купить</a>
+        <a href="{esc(buy_url)}" target="_blank" rel="{buy_rel}" class="book-tabs-buy">Купить</a>
       </nav>
 
       <div class="book-body-col">
@@ -779,7 +859,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
           {excerpt_html}
           <div class="btn-row excerpt-cta-row">
             <a class="btn btn-primary btn-cta-lg" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
-            <a class="btn btn-outline" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+            <a class="btn btn-outline" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Купить на Литрес</a>
           </div>
         </section>
 
@@ -834,7 +914,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">
-      <a class="btn btn-primary" href="{esc(book["litres"])}" target="_blank" rel="noopener">Литрес</a>
+      <a class="btn btn-primary" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>
       {amz_sticky}
       <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
@@ -900,13 +980,15 @@ def build_article_page(G: dict, article: dict) -> str:
     body_html = article_body_html(article)
     book_side = ""
     if book:
+        book_buy = litres_buy_url(G, book)
+        book_rel = litres_rel(G)
         book_side = f"""
         <div class="side-card">
           <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
           <h3>{esc(book["title"])}</h3>
           <p>{esc(book["promise"])}</p>
           <a class="btn btn-primary" href="../books/{book["slug"]}.html">К книге</a>
-          <a class="btn btn-outline" href="{esc(book["litres"])}" target="_blank" rel="noopener">Купить на Литрес</a>
+          <a class="btn btn-outline" href="{esc(book_buy)}" target="_blank" rel="{book_rel}">Купить на Литрес</a>
         </div>"""
     more = "".join(
         f'<a href="{a["slug"]}.html" style="display:block;padding:0.45rem 0;font-weight:600;color:var(--ink)">{esc(a["title"])}</a>'
@@ -1017,15 +1099,20 @@ def main() -> None:
     # Update catalog partials (no Amazon)
     flagships = [b for b in G["books"] if b.get("flagship")]
     (SITE / "partials" / "flagships.html").write_text(
-        "".join(book_card(b, books_dir=False).replace('href="books/', 'href="books/').replace('src="assets/', 'src="assets/') for b in flagships),
+        "".join(
+            book_card(b, books_dir=False, G=G)
+            .replace('href="books/', 'href="books/')
+            .replace('src="assets/', 'src="assets/')
+            for b in flagships
+        ),
         encoding="utf-8",
     )
     # Fix flagships for index (from root)
     def card_root(book):
-        return book_card(book, books_dir=False)
+        return book_card(book, books_dir=False, G=G)
 
     def card_books_dir(book):
-        return book_card(book, books_dir=True)
+        return book_card(book, books_dir=True, G=G)
 
     flagships_html = "".join(card_root(b) for b in flagships)
     books_all_html = "".join(card_books_dir(b) for b in G["books"])

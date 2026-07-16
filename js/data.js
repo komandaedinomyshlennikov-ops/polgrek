@@ -8,6 +8,27 @@ window.POL_GREK = {
  telegram: 'https://t.me/+KGQgs6MVHHYwZGVi',
  },
 
+ /**
+  * Партнёрка Литрес через AdvCake (my.advcake.com).
+  * Формат генератора «Ручной»: те же query-параметры на URL litres.ru.
+  *
+  * {url}  — прямой URL книги/автора (без query), как есть
+  * {url_enc} — encodeURIComponent(url) — для редких трекинг-доменов
+  * {sub1} — метка (slug книги / author)
+  *
+  * utm_content + erid — из вашего кабинета; не менять без перегенерации.
+  * См. ADVCATE.md
+  */
+ affiliate: {
+  enabled: true,
+  // Из генератора 2026-07-16: utm_content=f71f3ad5, erid=2VfnxyNkZrY, keyword=polgrek / site
+  template:
+   '{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+  authorSub1: 'author',
+  authorUrl: '',
+  bySlug: {},
+ },
+
  socialProof: {
  source: 'Литрес',
  sourceUrl: 'https://www.litres.ru/author/pol-grek/',

@@ -293,7 +293,8 @@
   function siteLinks() {
     const L = (window.POL_GREK && POL_GREK.links) || {};
     return {
-      litres: L.litresAuthor || 'https://www.litres.ru/author/pol-grek/',
+      litres: litresAuthorUrl(),
+      litresRel: litresRel(),
       telegram: L.telegram || 'https://t.me/+KGQgs6MVHHYwZGVi',
       threads: L.threads || 'https://www.threads.net/@pol.grek',
     };
@@ -346,7 +347,7 @@
               <a class="nav-social-link" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" title="${UI.telegram}" aria-label="${UI.telegram}">TG</a>
               <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
             </div>
-            <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.litres}</a>
+            <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
             <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">${UI.books}</a>
           </div>
           <div class="nav-mobile-tools">
@@ -383,7 +384,7 @@
           </div>
           <div class="mobile-drawer-cta">
             <a class="btn btn-primary" href="${url('/books/index.html')}">${UI.catalog}</a>
-            <a class="btn btn-outline" href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.litres}</a>
+            <a class="btn btn-outline" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
             <a class="btn btn-outline" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
             <a class="btn btn-outline" href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads}</a>
           </div>
@@ -394,7 +395,7 @@
         <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>${UI.books}</a>
         <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span aria-hidden="true">🧪</span>${isEn ? 'Lab' : 'Лаб'}</a>
         <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" aria-label="${UI.telegram}"><span aria-hidden="true">✈️</span>TG</a>
-        <a href="${S.litres}" target="_blank" rel="noopener" data-track="litres" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
+        <a href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
       </nav>
       <button type="button" class="back-to-top" id="backToTop" aria-label="${UI.top}" hidden>↑</button>`;
   }
@@ -424,7 +425,7 @@
           </div>
           <div>
             <h4>${UI.footerBuy}</h4>
-            <a href="${S.litres}" target="_blank" rel="noopener" data-track="litres">${UI.fullLitres}</a>
+            <a href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.fullLitres}</a>
           </div>
           <div>
             <h4>${UI.footerFollow}</h4>
@@ -490,23 +491,90 @@
     return typeof u === 'string' && /amazon\.[a-z.]+\/(?:dp|gp\/product)\//i.test(u);
   }
 
+  /** Direct LitRes URL (for schema / non-buy references). Strip tracking query. */
+  function litresDirect(bookOrUrl) {
+    if (!bookOrUrl) return '';
+    let u = typeof bookOrUrl === 'string' ? bookOrUrl : bookOrUrl.litres || '';
+    return String(u).replace(/\?[\s\S]*$/, '').trim();
+  }
+
+  /**
+   * Apply AdvCake template.
+   * {url} raw base, {url_enc} encoded, {sub1} tracking label (slug / author).
+   */
+  function applyAffiliateTemplate(tpl, direct, sub1) {
+    const base = litresDirect(direct);
+    if (!tpl || !base) return base;
+    let out = String(tpl);
+    if (out.indexOf('{url_enc}') !== -1) {
+      out = out.split('{url_enc}').join(encodeURIComponent(base));
+    }
+    if (out.indexOf('{url}') !== -1) {
+      out = out.split('{url}').join(base);
+    }
+    if (out.indexOf('{sub1}') !== -1) {
+      out = out.split('{sub1}').join(encodeURIComponent(sub1 || ''));
+    }
+    return out;
+  }
+
+  /**
+   * Buy URL: AdvCake partner deep link when affiliate.enabled, else plain LitRes.
+   */
+  function litresBuyUrl(bookOrUrl, slug) {
+    const direct = litresDirect(bookOrUrl);
+    const aff = (window.POL_GREK && window.POL_GREK.affiliate) || {};
+    if (!aff.enabled) return direct;
+
+    const s =
+      slug ||
+      (bookOrUrl && typeof bookOrUrl === 'object' ? bookOrUrl.slug : '') ||
+      '';
+    const bySlug = aff.bySlug || {};
+    if (s && bySlug[s]) return bySlug[s];
+
+    const tpl = (aff.template || '').trim();
+    if (tpl && direct) {
+      return applyAffiliateTemplate(tpl, direct, s);
+    }
+    return direct;
+  }
+
+  function litresAuthorUrl() {
+    const L = (window.POL_GREK && window.POL_GREK.links) || {};
+    const aff = (window.POL_GREK && window.POL_GREK.affiliate) || {};
+    const direct = L.litresAuthor || 'https://www.litres.ru/author/pol-grek/';
+    if (aff.enabled && aff.authorUrl) return aff.authorUrl;
+    if (aff.enabled && aff.template) {
+      return applyAffiliateTemplate(aff.template, direct, aff.authorSub1 || 'author');
+    }
+    return direct;
+  }
+
+  function litresRel() {
+    const aff = (window.POL_GREK && window.POL_GREK.affiliate) || {};
+    return aff.enabled ? 'noopener sponsored' : 'noopener';
+  }
+
   function storeButtons(book, compact) {
     const cls = compact ? 'btn btn-sm' : 'btn';
     const amzOk = hasAmazonProduct(book);
+    const buy = litresBuyUrl(book);
+    const rel = litresRel();
     // Catalog tile: one primary buy (MIF). Amazon as text link — not a second fat button.
     if (isEn && amzOk) {
       return `
       <a class="${cls} btn-primary" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.buy}</a>
       <div class="book-card-links">
         <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
-        <a class="book-amazon-link" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
+        <a class="book-amazon-link" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.litres}</a>
       </div>`;
     }
     const amzLink = amzOk
       ? `<a class="book-amazon-link" href="${book.amazon}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
     return `
-      <a class="${cls} btn-primary" href="${book.litres}" target="_blank" rel="noopener" data-track="litres" data-book="${book.slug}">${UI.buy}</a>
+      <a class="${cls} btn-primary" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${UI.buy}</a>
       <div class="book-card-links">
         <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
         ${amzLink}
@@ -820,7 +888,7 @@
         .map((item) => {
           const book = POL_GREK.getBook(item.slug);
           return `
-            <a class="rating-card" href="${book ? book.litres : sp.sourceUrl}" target="_blank" rel="noopener">
+            <a class="rating-card" href="${book ? litresBuyUrl(book) : sp.sourceUrl}" target="_blank" rel="${book ? litresRel() : 'noopener'}">
               <div class="rating-stars" aria-label="Оценка ${item.rating}">${'★'.repeat(5)}</div>
               <strong>${item.rating.toFixed(1)}</strong>
               <span class="rating-book">${item.book}</span>
