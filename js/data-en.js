@@ -113,7 +113,7 @@ window.POL_GREK = {
     practice:
       'Consulting on stress load and cognitive efficiency for teams that look successful from the outside and foggy from the inside.',
     publications:
-      'Books on LitRes and Amazon — from RESET (burnout) to Brain at 100+ and Wired for Wealth. Thirteen key titles on this site; full catalog on the storefronts. Evidence grades A–D throughout.',
+      'Books on LitRes and Amazon — from RESET (burnout) to Brain at 100+ and Wired for Wealth. Thirteen titles on this site with excerpts; the full shelf is on LitRes and Amazon. Evidence grades A–D throughout.',
     burnoutStory:
       'He hit real burnout: weekends didn’t restore clarity. That became the spine of the popular books — “fix yourself first, then publish.”',
     birth: 'England',
