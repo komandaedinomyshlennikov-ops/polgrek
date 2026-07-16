@@ -606,408 +606,229 @@ window.POL_GREK = {
   ],
 
   articles: [
-    {
-      slug: 'motivaciya-pobochnyy-produkt',
-      title: 'Motivation isn’t why you act. It’s what shows up after you act.',
-      category: 'Brain & behavior',
-      hook: 'If you’re stuck on “how do I force myself to start?” — forcing yourself means fighting your own brain.',
-      readMin: 5,
-      relatedBook: 'mentalnyy-debag',
-      source: 'Threads · pol.grek · Motivation',
-      body: [
-        { type: 'p', text: 'Motivation isn’t the cause of action. It’s a byproduct of action.' },
-        {
-          type: 'p',
-          text: 'Start with a tiny move. Any move. Not “work on yourself” — send the email, open the doc, make the call. The brain sees action and re-tunes. Not the other way around.',
-        },
-        { type: 'h2', text: 'The flip' },
-        {
-          type: 'p',
-          text: 'Waiting for the “right mood” is like waiting for the car to warm up while you stand outside. Your brain will never say “now I’m ready.” It will always invent one more reason to wait.',
-        },
-        { type: 'h2', text: 'The mechanism' },
-        {
-          type: 'p',
-          text: 'Dopamine locks onto started motion harder than fantasy about outcomes. Action without mood often creates mood. Mood without action burns as procrastination.',
-        },
-        {
-          type: 'experiment',
-          title: 'Mini experiment',
-          text: 'One task you’ve delayed. Timer: 10 minutes. Not “finish perfectly” — only start. Then decide: continue or stop. Most people continue.',
-        },
-        {
-          type: 'p',
-          text: 'Pol stopped waiting for the right mood years ago. Output jumped. What about you — mood first, then work? Or the reverse?',
-        },
-      ],
-    },
-    {
-      slug: 'otdyh-ne-lenta',
-      title: 'Scrolling is not rest',
-      category: 'Sleep & energy',
-      hook: 'You’re in bed with your phone calling it rest. Your brain is still chewing new input — same job it did all day.',
-      readMin: 6,
-      relatedBook: 'svyashchennye-chasy',
-      source: 'Threads · pol.grek · slow living',
-      body: [
-        {
-          type: 'p',
-          text: 'Everyone rediscovered “slow living.” Translation: people realized their rest doesn’t work. Not because they rest too little — because during “rest” the brain keeps doing the day job: chewing new information.',
-        },
-        {
-          type: 'p',
-          text: 'Feed scrolling isn’t rest. A show plus parallel scrolling is worse. The brain doesn’t need “do nothing.” It needs to stop new input for 15–20 minutes so it can process what it already has — that’s where clarity shows up.',
-        },
-        { type: 'h2', text: 'We used to call it boredom' },
-        {
-          type: 'p',
-          text: 'Now it’s branded. Same job: let the head sit without a task. Real rest starts where the input stream ends.',
-        },
-        {
-          type: 'experiment',
-          title: '15 minutes offline',
-          text: 'Today: 15 minutes without phone or background noise. Not formal meditation — just quiet. When was the last time?',
-        },
-        {
-          type: 'p',
-          text: 'If you want to “quit everything and leave for 30 days,” three days of real silence sometimes do more than a month of half-rest. If a week after vacation you want to run again — the problem is the system, not the vacation length.',
-        },
-      ],
-    },
-    {
-      slug: 'kontrol-i-neopredelennost',
-      title: 'The brain loves control — especially when it has none',
-      category: 'Stress & burnout',
-      hook: 'Panic under uncertainty isn’t weakness. It’s a system without a clear next step.',
-      readMin: 5,
-      relatedBook: 'stress-i-mozg',
-      source: 'Threads · pol.grek',
-      body: [
-        {
-          type: 'p',
-          text: 'The brain loves the feeling of control. Even when it doesn’t have any. Especially then.',
-        },
-        {
-          type: 'p',
-          text: 'That’s why uncertainty panic isn’t a character flaw. Give the system one concrete next step and the noise drops.',
-        },
-        { type: 'h2', text: 'Energy spent fighting reality' },
-        {
-          type: 'p',
-          text: 'Most people underestimate how much fuel goes into arguing with what is. Fighting “how it should be” often costs more than dealing with “how it is.”',
-        },
-        {
-          type: 'experiment',
-          title: 'One next step',
-          text: 'Write the thing hanging over you. Cross out everything except one action in the next 24 hours — small enough that skipping it would be embarrassing. Do it. Panic often falls from one finished step, not a five-year plan.',
-        },
-      ],
-    },
-    {
-      slug: 'vygoranie-ne-styd',
-      title: '“I’m just burned out” and burnout are the same physiology',
-      category: 'Stress & burnout',
-      hook: 'Feeling and mechanism — two words for the same stop sign. The body says halt; we keep driving.',
-      readMin: 7,
-      relatedBook: 'reset',
-      source: 'Threads · pol.grek',
-      body: [
-        {
-          type: 'p',
-          text: 'People joke that “burnout” is a polite word for “I’m completely done.” Neurobiology says they’re the same stop. One names the feeling. The other names the mechanism: cortisol, system drain. Call it what you want — the body hits red and we still accelerate.',
-        },
-        { type: 'h2', text: 'Not broken — tired of abstraction' },
-        {
-          type: 'p',
-          text: 'Wanting a job with visible end-of-day results isn’t “degradation.” KPI and endless reports starve dopamine. Hands-on work with a finish line feeds the brain. That’s a normal need for tangible outcomes.',
-        },
-        { type: 'h2', text: 'Rest vs system' },
-        {
-          type: 'p',
-          text: 'Wanting to disappear for a month isn’t a tantrum. It’s the brain saying capacity is low. Good news: three real days offline can help. Bad news: if a week after vacation you want to flee again — the problem is the operating system, not the weekend.',
-        },
-        {
-          type: 'experiment',
-          title: 'Marker',
-          text: 'List 3 things that used to charge you. Over two weeks: real desire, or only “I should”? If only “I should” — you’re not talking about weekends anymore. You’re talking about recovery architecture. RESET is about why rest fails and where to start.',
-        },
-      ],
-    },
-    {
-      slug: 'znaniya-ne-dengi',
-      title: 'Knowledge is potential — not results',
-      category: 'Money & decisions',
-      hook: 'Why smart people stay broke: power isn’t what you know. It’s what you do with it.',
-      readMin: 5,
-      relatedBook: 'mozg-i-dengi',
-      source: 'Threads · pol.grek',
-      body: [
-        {
-          type: 'p',
-          text: 'Knowledge is potential, not results. You can know nutrition and still live on takeout. You can know how to sell and never dial a prospect.',
-        },
-        {
-          type: 'p',
-          text: 'The brain loves swapping action for studying — productive procrastination. Another book, another course: progress feelings, zero outcome.',
-        },
-        { type: 'h2', text: 'Cheat code' },
-        {
-          type: 'p',
-          text: 'Don’t wait for the perfect moment. Your brain will never say “ready now.” The gap between knowing and money is action.',
-        },
-        {
-          type: 'experiment',
-          title: 'Anti-course week',
-          text: 'This week: zero new courses. One action from what you already know. Small. Finished. Visible results beat perfect plans.',
-        },
-      ],
-    },
-    {
-      slug: 'anti-hype-2-litra',
-      title: '“2 liters of water” is marketing, not physiology',
-      category: 'Careful biohacking',
-      hook: 'A careful biohacker asks first: is this data — or a catchy slogan?',
-      readMin: 4,
-      relatedBook: 'ostorozhnyy-biohaker',
-      source: 'Threads · pol.grek',
-      body: [
-        {
-          type: 'p',
-          text: '“I force 2 liters a day and feel like an aquarium.” Short answer: 2L is marketing more often than physiology.',
-        },
-        {
-          type: 'p',
-          text: 'Same pattern as a dozen “must-do” biohacks: hard numbers with no body weight, climate, activity, or kidney context. Careful doesn’t mean “drink less.” It means “don’t buy dogma.” Sleep, light, movement, food, stress beat a stack of rituals.',
-        },
-        {
-          type: 'experiment',
-          title: 'Hype filter',
-          text: 'Run any feed tip through three questions: (1) Study or mechanism? (2) Personal context? (3) What if I skip it for a week? If you don’t know — it’s content, not a protocol.',
-        },
-      ],
-    },
-    {
-      slug: 'dofamin-predvkushenie',
-      title: 'Dopamine is anticipation — not happiness',
-      category: 'Money & decisions',
-      hook: 'Your brain spikes on waiting for the purchase, not on owning it. That’s why “one more order” never fills the hole.',
-      readMin: 6,
-      relatedBook: 'mozg-i-dengi',
-      source: 'Threads · pol.grek · money',
-      body: [
-        {
-          type: 'p',
-          text: 'Dopamine gets sold as “happiness.” Closer to truth: anticipation and seeking. Peak is “almost there.” The purchase itself is rarely the same peak. Mood shopping works briefly — then asks for a replay.',
-        },
-        {
-          type: 'p',
-          text: 'Enter status-on-credit and infinite feeds: the brain chases “reward soon,” not durable capacity. Budget knowledge fails if choice architecture is built for the click.',
-        },
-        { type: 'h2', text: 'Instead of willpower sermons' },
-        {
-          type: 'p',
-          text: 'Don’t ban wanting. Add friction to impulse, remove friction from useful defaults: 24-hour wait list, no saved cards in the browser, autopay for boring bills. Prefrontal cortex wins when the environment helps.',
-        },
-        {
-          type: 'experiment',
-          title: '24-hour rule',
-          text: 'Any optional buy over your X threshold sits in notes for 24 hours — not the cart. Write: “what feeling am I actually after?” Often by tomorrow it’s a different want.',
-        },
-      ],
-    },
-    {
-      slug: 'proval-v-15',
-      title: 'The 3 p.m. crash isn’t laziness',
-      category: 'Sleep & energy',
-      hook: 'Clear morning, fog and irritation after lunch — usually three systems, not “try harder.”',
-      readMin: 5,
-      relatedBook: 'anatomiya-energii',
-      source: 'Threads · pol.grek · energy',
-      body: [
-        {
-          type: 'p',
-          text: 'Energy isn’t moral fiber. It’s at least three loops: mitochondrial (fuel/recovery), cognitive (attention load), circadian (light, timing, sleep). Fix only one and you’ll wonder why “doing everything right” still fails.',
-        },
-        {
-          type: 'p',
-          text: 'Post-lunch crashes mix heavy meals, office light, long focus without pauses, and stacked stress. The brain isn’t “lazy” — it’s rationing.',
-        },
-        { type: 'h2', text: 'Quick audit' },
-        {
-          type: 'p',
-          text: 'Honest check: sleep last 3 nights, movement last 2 days, morning light, a screen-free pause after 1 p.m. If answers are weak — skip the next miracle protocol. Fix base. Anatomy of Energy is about not repairing one system while feeding hype.',
-        },
-        {
-          type: 'experiment',
-          title: '5-day N-of-1',
-          text: 'One lever: 10–15 minutes of walking in daylight after lunch. Change nothing else. Rate fog 1–10. If it shifts — that’s data, not motivation.',
-        },
-      ],
-    },
-    {
-      slug: 'son-ne-tolko-chasy',
-      title: 'Count sleep cycles — not only “8 hours”',
-      category: 'Sleep & energy',
-      hook: 'Eight hours in bed with a phone isn’t the same as recovery. Cycles and cutting the input stream matter more.',
-      readMin: 5,
-      relatedBook: 'svyashchennye-chasy',
-      source: 'Threads · pol.grek · sleep',
-      body: [
-        {
-          type: 'p',
-          text: '“I sleep eight hours and still feel wrecked” is classic. Bed often becomes a second shift: feed, show, chat. Cycles fragment, evening light shifts melatonin, morning phone hits the cortex before coffee.',
-        },
-        {
-          type: 'p',
-          text: 'Real rest starts where the input stream stops — even 15–20 minutes. Not necessarily formal meditation. Quiet without a task.',
-        },
-        { type: 'h2', text: 'Minimum that beats hype' },
-        {
-          type: 'p',
-          text: 'Morning light, dimmer evenings, no phone in the last 15 minutes before sleep, wake near finished ~90-minute cycles — not a magic “8.” Everything else comes after base.',
-        },
-        {
-          type: 'experiment',
-          title: '15 minutes offline',
-          text: 'Tonight: 15 minutes screen-free before sleep. Book, shower, just lie there. Tomorrow rate morning clarity 1–10. Five nights — that’s an experiment, not a reel tip.',
-        },
-      ],
-    },
-    {
-      slug: 'prosto-uspokojsya',
-      title: '“Just calm down” is useless advice to a nervous system',
-      category: 'Brain & behavior',
-      hook: 'The amygdala outruns thought. That isn’t weak character. It’s hardware. The question is how to regain control once the body is in threat mode.',
-      readMin: 6,
-      relatedBook: 'ei-2',
-      source: 'Threads · pol.grek · emotions',
-      body: [
-        {
-          type: 'p',
-          text: '“Just calm down” is the most useless line you can feed a nervous system. The amygdala is faster than the prefrontal cortex. While you “logically understand,” the body is already in threat mode. Not personality. Hardware.',
-        },
-        {
-          type: 'p',
-          text: 'Shame and guilt add a second layer: “something’s wrong with me.” Then STOP, breath, and pause aren’t woo — they’re giving the cortex a chance to catch up. Self-help isn’t therapy if things are heavy.',
-        },
-        { type: 'h2', text: 'Better than slogans' },
-        {
-          type: 'p',
-          text: 'Name the emotion out loud, 90 seconds of physiology (longer exhale), one concrete 2-minute next step. Not “heal childhood tonight” — get the wheel back. More in Emotional Intelligence 2.0 with Laura.',
-        },
-        {
-          type: 'experiment',
-          title: 'STOP for 90 seconds',
-          text: 'Next spike: Stop — one-word feeling. Take a breath — longer exhale ×5. Observe — where in the body. Proceed — one micro-step. Not perfect. Just start.',
-        },
-      ],
-    },
-    {
-      slug: 'minimalnaya-effektivnaya-doza',
-      title: 'Minimum effective dose isn’t laziness — it’s a filter',
-      category: 'Careful biohacking',
-      hook: 'If a protocol needs a pharmacy cabinet to “work,” it probably doesn’t work for long.',
-      readMin: 5,
-      relatedBook: 'biohacking-mozga',
-      source: 'Threads · pol.grek · biohacking',
-      body: [
-        {
-          type: 'p',
-          text: 'Minimum effective dose (MED) isn’t laziness. It’s the opposite of a “just in case” stack. More protocols often mean more noise, less sleep, more FOMO that you’re missing something.',
-        },
-        {
-          type: 'p',
-          text: 'A careful biohacker asks: mechanism? context? cost of skipping a week? Base (sleep, light, movement, food, stress) beats the “2 liters + 12 pills” ritual.',
-        },
-        { type: 'h2', text: 'Don’t break your mind “optimizing”' },
-        {
-          type: 'p',
-          text: 'One lever, measurable effect, then the next. Not ten in parallel. Brain Biohacking covers why fast methods burn out and where nootropics stop being smart.',
-        },
-        {
-          type: 'experiment',
-          title: 'One lever, 7 days',
-          text: 'Pick one: stabler sleep ±30 min, or 20 minutes walking, or screens off 30 min before bed. Touch nothing else. End of week: what actually moved? Keep only that.',
-        },
-      ],
-    },
-    {
-      slug: 'kognitivnyy-rezerv',
-      title: 'Cognitive reserve isn’t a gene lottery',
-      category: 'Cognitive health',
-      hook: 'Your brain won’t “just hold on” until retirement. Reserve is the sum of daily choices that either bank or burn.',
-      readMin: 6,
-      relatedBook: 'mozg-na-100',
-      source: 'Threads · pol.grek · longevity',
-      body: [
-        {
-          type: 'p',
-          text: 'Most people assume clarity will somehow last. Cognitive longevity isn’t only genes. It’s sleep, movement, blood pressure and sugar, effortful thinking — and honesty about what steals memory every day.',
-        },
-        {
-          type: 'p',
-          text: 'Miracle pills sell hope. A protocol sells boring: regular, measurable, no panic at 40, 50, 60+. Brain at 100+ is that: A–D evidence, no magic.',
-        },
-        { type: 'h2', text: 'What builds reserve in practice' },
-        {
-          type: 'p',
-          text: 'Sleep as base. Movement that raises heart rate. Complexity: language, tool, task without autopilot. Social contact without the feed. Less chronic fog from debt of rest.',
-        },
-        {
-          type: 'experiment',
-          title: '20 minutes of difficulty',
-          text: 'Three times this week: 20 minutes of something slightly harder than comfort (not a work deadline). Instrument, language, puzzle without hints. Brains need effort load — like muscles.',
-        },
-      ],
-    },
-    {
-      slug: 'styd-ne-toplivo',
-      title: 'Shame is a bad motivator. It eats capacity',
-      category: 'Brain & behavior',
-      hook: '“You just don’t want it enough” sounds tough and almost never fixes the system. Shame closes the prefrontal cortex; it doesn’t open it.',
-      readMin: 5,
-      relatedBook: 'ei-2',
-      source: 'Threads · pol.grek · shame',
-      body: [
-        {
-          type: 'p',
-          text: 'Shame gets sold as fuel: feel bad, then run. In practice it narrows attention, boosts avoidance and feed-numbing. A threat-mode brain learns and plans poorly.',
-        },
-        {
-          type: 'p',
-          text: 'Self-compassion isn’t “allow everything.” It’s lowering noise so you can return to mechanics: sleep, boundaries, one step. Laura hears this in clinic; Pol maps mechanisms. Together — no woo.',
-        },
-        {
-          type: 'experiment',
-          title: 'Phrase instead of the whip',
-          text: 'Swap “I did nothing again” for “the system is heavy; what’s one real 5-minute step?” Do it. Shame can wait. Action first.',
-        },
-      ],
-    },
-    {
-      slug: 'neopredelennost-odin-shag',
-      title: 'Uncertainty isn’t fixed by a yearly plan — by one step',
-      category: 'Stress & burnout',
-      hook: 'The brain loves control — especially when it has none. Panic is often a request for a clear task, not a weak character.',
-      readMin: 4,
-      relatedBook: 'stress-i-mozg',
-      source: 'Threads · pol.grek · stress',
-      body: [
-        {
-          type: 'p',
-          text: 'Uncertainty burns fuel: the brain spins scenarios, cortisol stays on, decisions tunnel. A huge yearly plan can add noise. A small finished step reduces it.',
-        },
-        {
-          type: 'p',
-          text: 'Give the system one concrete task for 24 hours — small enough that skipping it would be embarrassing. Panic often falls not from “full future clarity,” but from “I already moved.”',
-        },
-        {
-          type: 'experiment',
-          title: 'Card for the day',
-          text: 'On paper: one line “today I will ___.” No second bullet. Evening — checkmark or roll to tomorrow with a one-sentence reason. Not a boss report. A signal to the brain.',
-        },
-      ],
-    },
+  {
+    slug: "motivaciya-pobochnyy-produkt",
+    title: "Motivation isn’t why you act. It’s what shows up after you act",
+    category: "Brain & behavior",
+    hook: "If you’re waiting for the “right mood” before you start — you’re waiting for a signal the brain often never sends. Move first. Mood follows.",
+    readMin: 4,
+    relatedBook: "mentalnyy-debag",
+    source: "Threads · pol.grek · Motivation",
+    body: [
+      { type: "p", text: "Motivation isn’t the cause of action. It’s a byproduct of action." },
+      { type: "p", text: "The leap “I’ll feel ready, then I’ll do it” sounds logical and almost never works. The brain adapts faster to movement already started than to a fantasy of the outcome. Not “work on yourself” — open the doc, send one message, stand up. Any small “I did it.”" },
+      { type: "h2", text: "The flip" },
+      { type: "p", text: "Waiting for the mood is like waiting for the car to warm up while standing next to it instead of sitting in the driver’s seat. The system will always invent one more reason to wait. That isn’t laziness. It’s thrift: the brain hates spending fuel without a signal that the process has already begun." },
+      { type: "h2", text: "Mechanics" },
+      { type: "p", text: "The dopamine system latches harder onto something started than onto a perfect plan. Action without mood often creates mood. Mood without action burns off in scrolling. Everyday “motivation → behavior” is overrated; “behavior → state” is not." },
+      { type: 'experiment', title: "Mini experiment", text: "One task you’ve been postponing. Ten-minute timer. Not “do it perfectly” — only start. Then decide: continue or stop. Most people continue. That’s data, not character." },
+      { type: "p", text: "Practical takeaway: don’t fix motivation. Fix the entry into action. The brain often assembles the rest." }
+    ],
+  },
+  {
+    slug: "otdyh-ne-lenta",
+    title: "Scrolling is not rest",
+    category: "Sleep & energy",
+    hook: "You’re in bed with your phone calling it rest. Your brain is still chewing new input — same job it did all day.",
+    readMin: 3,
+    relatedBook: "svyashchennye-chasy",
+    source: "Threads · pol.grek · slowliving",
+    body: [
+      { type: "p", text: "“Slow living” often hides a simple fact: rest isn’t working. Not because you rest too little — because during “rest” the brain keeps doing work-mode: chewing the incoming stream." },
+      { type: "p", text: "Feed, show-plus-scroll, texts in bed — that isn’t recovery. That’s a second shift. The brain doesn’t need “do nothing.” It needs 15–20 minutes without new input. Then it processes what it already has — and clarity shows up." },
+      { type: "h2", text: "We used to call this boredom" },
+      { type: "p", text: "Now it’s a brand. Same core: give the head time without a task. Real rest starts where the input stream stops. Not “phones are evil.” Attention mechanics." },
+      { type: 'experiment', title: "15 minutes without input", text: "Today: 15 minutes without phone or background noise. Not formal meditation — just quiet. When was the last time?" },
+      { type: "p", text: "If you want to “quit everything for 30 days,” three days without deadlines and screens sometimes do more. If a week after vacation you want to run again — the problem is the system you return to, not “not enough rest.”" }
+    ],
+  },
+  {
+    slug: "kontrol-i-neopredelennost",
+    title: "The brain loves a sense of control — especially when it has none",
+    category: "Stress & burnout",
+    hook: "Panic under uncertainty isn’t weak character. The system didn’t get a clear next step.",
+    readMin: 3,
+    relatedBook: "stress-i-mozg",
+    source: "Threads · pol.grek",
+    body: [
+      { type: "p", text: "The brain loves a sense of control. Even when there is none. Especially when there is none." },
+      { type: "p", text: "So panic in the fog isn’t a verdict on character. It’s a request for a clear task. Give one concrete step — and the background noise often eases. Not because “the year is planned,” but because the system got a signal: movement exists." },
+      { type: "h2", text: "Energy spent fighting reality" },
+      { type: "p", text: "How much fuel goes to “how it should be” instead of “how it is”? Resistance to reality often costs more than contact with it. Not philosophy. Cost accounting." },
+      { type: 'experiment', title: "One next step", text: "Write what’s hanging over you. Cross out everything except one action in the next 24 hours — small enough that it’s embarrassing not to do it. Do it. Panic often drops not from a yearly plan, but from one finished step." }
+    ],
+  },
+  {
+    slug: "vygoranie-ne-styd",
+    title: "“I’m just burned out” and burnout are the same physiology",
+    category: "Stress & burnout",
+    hook: "Feeling and mechanism — two words for the same stop sign. The body says halt; we keep driving.",
+    readMin: 4,
+    relatedBook: "reset",
+    source: "Threads · pol.grek · replies",
+    body: [
+      { type: "p", text: "People say “burnout” was invented so we wouldn’t say “I’m done.” Neurobiologically it’s the same thing. “Done” is the feeling. “Burnout” is the frame: cortisol, depletion, recovery offline. Call it whatever you want. Core: the body hits stop, and we keep going." },
+      { type: "h2", text: "Not “I lost it.” Tired of the abstract" },
+      { type: "p", text: "Wanting hands-on work instead of KPIs isn’t degradation. It’s a brain that gets little reward from tasks with no visible result. You finished — what changed? Unclear. Dopamine is thin. “I can see it, I did it, day closed” is a different deal." },
+      { type: "h2", text: "Rest vs the system" },
+      { type: "p", text: "Wanting to disappear for a month isn’t a whim. Signal: resource is low. Sometimes three days without deadlines and phone is enough. If a week after vacation you want out again — it isn’t “add more weekends.” It’s the system you return to." },
+      { type: 'experiment', title: "Marker", text: "List three things that used to charge you. Over two weeks: real desire — or only “I should”? If only “I should,” the talk isn’t about days off. RESET is about why rest fails and where to start for real." }
+    ],
+  },
+  {
+    slug: "znaniya-ne-dengi",
+    title: "Knowledge is potential — not results",
+    category: "Money & decisions",
+    hook: "Why do smart people stay broke? Power isn’t what you know. It’s what you do with it.",
+    readMin: 3,
+    relatedBook: "mozg-i-dengi",
+    source: "Threads · pol.grek",
+    body: [
+      { type: "p", text: "Knowledge is potential, not outcome. You can know nutrition and live on takeout. You can know sales and never make a call." },
+      { type: "p", text: "The brain is great at swapping action for learning. Another course, another chapter — progress feels real, results don’t. That isn’t “intelligence gets in the way.” It’s choice architecture: studying is safer than risking a move." },
+      { type: "h2", text: "The flip" },
+      { type: "p", text: "Don’t wait for “now I’m ready.” The brain rarely issues that signal. The gap between knowing and money (or any result) is a finished action — not another PDF." },
+      { type: 'experiment', title: "Anti-course week", text: "This week: zero new courses. One action from what you already know. Small. Closed. Visible result beats a perfect plan for the brain." }
+    ],
+  },
+  {
+    slug: "anti-hype-2-litra",
+    title: "“2 liters of water” is marketing, not physiology",
+    category: "Careful biohacking",
+    hook: "A careful biohacker asks first: is this data — or a catchy slogan?",
+    readMin: 3,
+    relatedBook: "ostorozhnyy-biohaker",
+    source: "Threads · pol.grek",
+    body: [
+      { type: "p", text: "“I force 2 liters a day and feel like an aquarium.” A hard number without weight, climate, activity, or kidneys is usually marketing, not universal physiology." },
+      { type: "p", text: "Dozens of “must-do” biohacks work the same way: clean, simple, no context. Careful doesn’t mean “drink less.” It means “don’t buy dogma.” Base (sleep, light, movement, food, stress) beats a stack of rituals. The everyday claim “2 L → health for everyone” is weaker than the slogans." },
+      { type: 'experiment', title: "Hype filter", text: "Any feed tip: (1) mechanism / study? (2) your context? (3) what if you skip a week? If all three are “don’t know” — it’s content, not a protocol." }
+    ],
+  },
+  {
+    slug: "dofamin-predvkushenie",
+    title: "Dopamine is anticipation — not happiness",
+    category: "Money & decisions",
+    hook: "The brain spikes on waiting for the purchase, not on owning it. That’s why “one more order” never fills the hole.",
+    readMin: 4,
+    relatedBook: "mozg-i-dengi",
+    source: "Threads · pol.grek · money",
+    body: [
+      { type: "p", text: "Dopamine is often sold as “happiness.” Closer to truth: anticipation and search. Peak is “almost there.” The purchase is a different story. Mood-shopping works briefly and asks for a repeat." },
+      { type: "p", text: "Hence status-on-credit and the endless feed: the brain chases “reward soon,” not durable resource. Budget knowledge helps. If the environment is built for the click, knowledge loses." },
+      { type: "h2", text: "Instead of willpower" },
+      { type: "p", text: "Don’t “ban wanting.” Raise friction on impulse, lower it on useful defaults: 24 hours outside the cart, no saved cards, boring bills on autopay. Prefrontal cortex wins when the environment helps — not when you shame it." },
+      { type: 'experiment', title: "24-hour rule", text: "Optional buy above your line — 24 hours in notes, not the cart. Write: “what do I actually want to feel?” Often by tomorrow you want something else." }
+    ],
+  },
+  {
+    slug: "proval-v-15",
+    title: "The 3 p.m. crash isn’t laziness",
+    category: "Sleep & energy",
+    hook: "Clear morning, fog after lunch? More often multi-system physiology than “pull yourself together.”",
+    readMin: 4,
+    relatedBook: "anatomiya-energii",
+    source: "Threads · pol.grek · energy",
+    body: [
+      { type: "p", text: "Energy isn’t a moral resource. At minimum: fuel and recovery, attention load, and circadian timing (light, clock, sleep). Fix only one — and wonder why “doing everything right” fails." },
+      { type: "p", text: "The post-lunch crash often mixes heavy food, office light, long focus without breaks, and stockpiled stress. The brain isn’t “breaking from laziness.” It’s conserving." },
+      { type: "h2", text: "Short audit" },
+      { type: "p", text: "Honest check: sleep last 3 nights, movement last 2 days, morning light, screen-free pause after 1 p.m. If answers are “meh,” you don’t need a secret protocol. You need base. Anatomy of Energy is about not fixing one system while feeding hype." },
+      { type: 'experiment', title: "N-of-1 for 5 days", text: "One lever: 10–15 minutes walk in daylight after lunch. Leave the rest alone. Rate fog 1–10. If it shifts — that’s data, not “I finally got disciplined.”" }
+    ],
+  },
+  {
+    slug: "son-ne-tolko-chasy",
+    title: "Count sleep cycles — not only “8 hours”",
+    category: "Sleep & energy",
+    hook: "Eight hours in bed with a phone isn’t recovery. Cycles and cutting the input stream matter more.",
+    readMin: 4,
+    relatedBook: "svyashchennye-chasy",
+    source: "Threads · pol.grek · sleep",
+    body: [
+      { type: "p", text: "“I sleep 8 hours and still wake wrecked” is classic. Often bed is a second workday: feed, show, chat. Cycles fragment, evening light shifts melatonin, morning phone hits cortex before coffee." },
+      { type: "p", text: "Rest starts where input stops — even 15–20 minutes. Not mandatory “app meditation.” Quiet without a task. The claim “exactly 8 hours → always recovered” is weaker than headlines: quality and stimulus cutoff matter more." },
+      { type: "h2", text: "Minimum that beats hype" },
+      { type: "p", text: "Morning light, dimmer evenings, no phone in the last 15 minutes, wake nearer finished cycles (~90 min), not the magic “eight.” Everything else after base." },
+      { type: 'experiment', title: "15 minutes without input", text: "Before sleep: 15 minutes screen-free. Book, shower, just lie there. Morning clarity 1–10. Five nights — an experiment, not a reel tip." }
+    ],
+  },
+  {
+    slug: "prosto-uspokojsya",
+    title: "“Just calm down” is useless advice to a nervous system",
+    category: "Brain & behavior",
+    hook: "The amygdala outruns thought. That isn’t weak character. It’s hardware. The question is how to take the wheel once the body is in threat mode.",
+    readMin: 4,
+    relatedBook: "ei-2",
+    source: "Threads · pol.grek · emotion",
+    body: [
+      { type: "p", text: "“Just calm down” is nearly useless advice to a nervous system. The amygdala outruns prefrontal cortex. While you “understand logically,” the body is already in threat. Not character. Hardware." },
+      { type: "p", text: "Shame adds a second layer: “something’s wrong with me.” Then STOP, breath, pause aren’t woo — they’re a chance for cortex to catch up. Pop science is not therapy when things are heavy." },
+      { type: "h2", text: "What beats the slogan" },
+      { type: "p", text: "Name the emotion out loud. Ninety seconds of physiology: longer exhale than inhale. One two-minute micro-step. Not “heal childhood tonight” — take the wheel. More in Emotional Intelligence 2.0 with Laura." },
+      { type: 'experiment', title: "STOP for 90 seconds", text: "Spike → Stop: one-word feeling. Take a breath: longer exhale ×5. Observe: where in the body. Proceed: one micro-step. Not perfect. Just start." }
+    ],
+  },
+  {
+    slug: "minimalnaya-effektivnaya-doza",
+    title: "Minimum effective dose isn’t laziness — it’s a filter",
+    category: "Careful biohacking",
+    hook: "If a protocol needs a pharmacy cabinet to “work,” it probably doesn’t work for long.",
+    readMin: 3,
+    relatedBook: "biohacking-mozga",
+    source: "Threads · pol.grek · biohacking",
+    body: [
+      { type: "p", text: "Minimum effective dose isn’t laziness. It’s the opposite of a “just in case” stack. More protocols often mean more noise, less sleep, more anxiety that you’re “missing something.”" },
+      { type: "p", text: "A careful biohacker asks: mechanism? context? what if I skip a week? Base (sleep, light, movement, food, stress) beats “2 liters and 12 miracle steps.”" },
+      { type: "h2", text: "How not to break your mind with “optimization”" },
+      { type: "p", text: "One lever → measurable effect → next. Not ten in parallel. Brain Biohacking covers why fast methods burn out and where nootropics stop being smart." },
+      { type: 'experiment', title: "One lever for 7 days", text: "One only: sleep window ±30 min steadier, or 20 minutes walk, or screens off 30 min before bed. Leave the rest. End of week: what actually moved? Keep only that." }
+    ],
+  },
+  {
+    slug: "kognitivnyy-rezerv",
+    title: "Cognitive reserve isn’t a gene lottery",
+    category: "Cognitive health",
+    hook: "Your brain won’t “just hold on” until retirement. Reserve is the sum of choices that either bank or burn. At 70 and 90 you can still get better — not automatically, and not “too late by passport.”",
+    readMin: 4,
+    relatedBook: "mozg-na-100",
+    source: "Threads · pol.grek · longevity",
+    body: [
+      { type: "p", text: "Convenient myth: “too late, brain’s not what it was.” The link “age → only decline” is weaker than it feels. Studies show cognitive function can improve across ages — key word can. Not automatic. Not everyone. But the passport doesn’t flip a hard off switch." },
+      { type: "p", text: "“Too late” often becomes a self-fulfilling prophecy: less novelty, less load, less practice — then decline arrives not from years, but from refusing to load the system. The brain answers the diet of input, not the number on the ID." },
+      { type: "h2", text: "What banks reserve" },
+      { type: "p", text: "Sleep. Movement that raises pulse. Difficulty: language, instrument, task off autopilot. Live contact. Less fog from debt-sleep and “I’ll rest later.” Miracle pills sell hope. Protocol sells boredom: regular, measurable. Brain at 100+ is A–D evidence, no magic." },
+      { type: 'experiment', title: "20 minutes of difficulty", text: "Three times this week: 20 minutes slightly harder than comfort (not a work deadline). Instrument, language, puzzle without hints. Brains need effort load — like muscle." }
+    ],
+  },
+  {
+    slug: "styd-ne-toplivo",
+    title: "Shame is a bad motivator. It eats capacity",
+    category: "Brain & behavior",
+    hook: "“You just don’t want it enough” sounds tough and almost never fixes the system. Shame closes prefrontal cortex; it doesn’t open it.",
+    readMin: 3,
+    relatedBook: "ei-2",
+    source: "Threads · pol.grek · shame",
+    body: [
+      { type: "p", text: "Shame is sold as fuel: feel bad — then run. In practice it narrows attention, boosts avoidance and feed-eating. Under threat, the brain learns and plans poorly." },
+      { type: "p", text: "Self-compassion isn’t “allow everything.” It’s lower the noise so you can return to mechanics: sleep, boundaries, one step. The label “rotten character” often masks environment and a self-control system still under construction — prefrontal cortex matures late. A whip doesn’t speed assembly." },
+      { type: 'experiment', title: "Phrase instead of whip", text: "Instead of “I did nothing again” — “the system is heavy right now; what one 5-minute step is real?” Do it. Shame can be unpacked later. Now — action." }
+    ],
+  },
+  {
+    slug: "neopredelennost-odin-shag",
+    title: "Uncertainty isn’t fixed by a yearly plan — by one step",
+    category: "Stress & burnout",
+    hook: "The brain loves control — especially when it has none. Panic is often a request for a clear task, not a weak character.",
+    readMin: 3,
+    relatedBook: "stress-i-mozg",
+    source: "Threads · pol.grek · stress",
+    body: [
+      { type: "p", text: "Uncertainty eats resource: scenarios spin, cortisol holds the background, decisions go tunnel-vision. A huge yearly plan sometimes adds noise. A small finished step reduces it." },
+      { type: "p", text: "Give the system one task for 24 hours — small enough that it’s embarrassing not to do it. Panic often eases not from “full future clarity,” but from the signal: “I already moved.” Not weakness. A control request you can dose." },
+      { type: 'experiment', title: "One card for the day", text: "On paper: “today I will ___.” No second line. Evening: checkmark or move with a one-sentence reason. Not a report to a boss. A signal to the brain." }
+    ],
+  }
   ],
 
   filters: [
