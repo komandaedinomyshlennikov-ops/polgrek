@@ -402,7 +402,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260716buy"
+CSS_VER = "20260716buy2"
 
 
 def abs_url(path: str) -> str:

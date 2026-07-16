@@ -1504,12 +1504,18 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 .book-actions--tile,
 .book-card-cta {
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   margin: 0.85rem 0 0 !important;
   padding: 0.75rem 0 0 !important;
   border-top: 1px solid var(--line);
   flex: none !important;
-  width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  overflow: visible !important;
 }
 .book-card-buy,
 .book-actions--tile .btn,
@@ -1519,18 +1525,31 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 .book-card--tile .book-actions .btn,
 .book-card-cta .book-card-buy {
   display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   align-items: center;
   justify-content: center;
   flex: none !important;
   width: 100% !important;
   max-width: 100% !important;
-  min-height: 46px !important;
+  min-height: 48px !important;
+  height: auto !important;
   margin: 0 0 0.5rem !important;
-  padding: 0.65rem 1rem !important;
+  padding: 0.7rem 1rem !important;
   font-size: 0.95rem !important;
   font-weight: 800 !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  text-align: center !important;
   box-sizing: border-box;
   box-shadow: 0 8px 20px rgba(232, 162, 58, 0.28);
+  background: linear-gradient(135deg, var(--amber) 0%, var(--amber-deep) 100%) !important;
+  color: var(--btn-primary-text, #1a1205) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
 }
 .book-card-cta .book-card-links,
 .book-actions--tile .book-card-links,
@@ -1770,6 +1789,12 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
   color: #0b1f33;
 }
 
+/* When "all" is selected, force every card visible */
+#nsf-all:checked ~ .books-grid .book-card {
+  display: block !important;
+  visibility: visible !important;
+}
+
 /* Hide non-matching cards for topic filters */
 #nsf-stress:checked ~ .books-grid .book-card,
 #nsf-cog:checked ~ .books-grid .book-card,
@@ -1794,6 +1819,35 @@ section { padding: clamp(3.5rem, 7vw, 5.5rem) 0; }
 html.js .nsf-input,
 html.js .nsf-labels {
   display: none !important;
+}
+/* Critical: do NOT let no-JS :checked rules hide cards after JS re-paints the grid
+   (browsers may restore a non-all radio; then every card stays display:none). */
+html.js .books-grid .book-card,
+html.js .books-grid .book-card--tile {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+html.js .books-grid .book-card-cta,
+html.js .books-grid .book-card-buy,
+html.js .books-grid-flagship .book-card-cta,
+html.js .books-grid-flagship .book-card-buy {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 48px !important;
+  height: auto !important;
+  pointer-events: auto !important;
+}
+html.js .books-grid .book-card-cta {
+  display: block !important;
 }
 html:not(.js) .catalog-js-only {
   display: none !important;

@@ -720,16 +720,18 @@
       ? `<div class="book-cover-badges">${badges.join('')}</div>`
       : '';
     const show = bookDataShow(book);
+    const title = escapeAttr(book.title || '');
+    const promise = escapeAttr(book.promise || '');
     return `
       <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}" data-show="${show}">
-        <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${book.title}">
-          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${book.title}" loading="lazy" width="600" height="900" />
+        <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${title}">
+          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" width="600" height="900" />
           ${badgeHtml}
         </a>
         <div class="book-body">
-          <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${book.title}</a></h3>
-          <p class="book-card-promise">${book.promise}</p>
-          <p class="book-card-meta">${bookCardMeta(book)}</p>
+          <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${title}</a></h3>
+          <p class="book-card-promise">${promise}</p>
+          <p class="book-card-meta">${escapeAttr(bookCardMeta(book))}</p>
         </div>
         ${storeButtons(book, true)}
       </article>`;
@@ -1057,13 +1059,17 @@
     const searchClear = document.getElementById('catalogSearchClear');
     const emptyEl = document.getElementById('catalogEmpty');
 
-    // Sync CSS no-JS radios with URL filter on first paint (optional)
+    // Neutralize no-JS CSS filters: they use display:none on .book-card and can
+    // hide the whole grid (and Buy buttons) after JS repaints — e.g. restored radio.
     try {
-      const urlFilter = new URLSearchParams(location.search).get('filter');
-      if (urlFilter) {
-        const safe = filterSafeId(urlFilter);
-        const radio = document.getElementById('nsf-' + safe);
-        if (radio) radio.checked = true;
+      document.querySelectorAll('.nsf-input').forEach((r) => {
+        r.checked = false;
+        r.disabled = true;
+      });
+      const nsfAll = document.getElementById('nsf-all');
+      if (nsfAll) {
+        nsfAll.disabled = false;
+        nsfAll.checked = true;
       }
     } catch (e) {
       /* ignore */
