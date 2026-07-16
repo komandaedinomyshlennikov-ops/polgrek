@@ -26,9 +26,19 @@ window.POL_GREK = {
    '{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
   authorSub1: 'author',
   authorUrl: '',
-  bySlug: {
+    bySlug: {
     'stress-i-mozg':
       'https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=stress-i-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'zhenskiy-mozg':
+      'https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=zhenskiy-mozg&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'biohacking-mozga':
+      'https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=biohaking-mozga&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mozg-i-dengi':
+      'https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-i-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mozg-ne-stareet-on-lomaetsya':
+      'https://www.litres.ru/book/pol-grek/mozg-ne-stareet-on-lomaetsya-74072773/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-ne-stareet&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'glubokiy-son-bez-tabletok':
+      'https://www.litres.ru/book/pol-grek/glubokiy-son-bez-tabletok-neyrobiologiya-vosstanovleniya-mozga-no-73936374/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=glubokiy-son-bez&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
   },
  },
 
