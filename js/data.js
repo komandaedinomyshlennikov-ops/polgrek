@@ -26,19 +26,35 @@ window.POL_GREK = {
    '{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
   authorSub1: 'author',
   authorUrl: '',
-    bySlug: {
-    'stress-i-mozg':
-      'https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=stress-i-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
-    'zhenskiy-mozg':
-      'https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=zhenskiy-mozg&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+      bySlug: {
+    'anatomiya-energii':
+      'https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=anatomiya-energii&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
     'biohacking-mozga':
       'https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=biohaking-mozga&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
-    'mozg-i-dengi':
-      'https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-i-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
-    'mozg-ne-stareet-on-lomaetsya':
-      'https://www.litres.ru/book/pol-grek/mozg-ne-stareet-on-lomaetsya-74072773/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-ne-stareet&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'detskiy-mozg':
+      'https://www.litres.ru/book/pol-grek/detskiy-mozg-73952409/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=detskiy-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
     'glubokiy-son-bez-tabletok':
       'https://www.litres.ru/book/pol-grek/glubokiy-son-bez-tabletok-neyrobiologiya-vosstanovleniya-mozga-no-73936374/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=glubokiy-son-bez&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mentalnyy-debag':
+      'https://www.litres.ru/book/pol-grek/mental-nyy-debag-kak-perezagruzit-mozg-za-5-minut-v-den-73443798/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mental-nyy-debag&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mozg-i-dengi':
+      'https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-i-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mozg-na-100':
+      'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-na-100&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'mozg-ne-stareet-on-lomaetsya':
+      'https://www.litres.ru/book/pol-grek/mozg-ne-stareet-on-lomaetsya-74072773/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-ne-stareet&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'neyrodengi':
+      'https://www.litres.ru/book/lora-grek/neyrodengi-kak-mozg-meshaet-nam-bogatet-i-kak-zastavit-ego-rabot-74175788/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=neyrodengi-kak-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'reset':
+      'https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=reset-&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'snachala-dengi-potom-soznanie':
+      'https://www.litres.ru/book/pol-grek/snachala-dengi-potom-soznanie-73569016/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=snachala-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'stress-i-mozg':
+      'https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=stress-i-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'svyashchennye-chasy':
+      'https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=svyaschennye-chasy&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+    'zhenskiy-mozg':
+      'https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=zhenskiy-mozg&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
   },
  },
 
