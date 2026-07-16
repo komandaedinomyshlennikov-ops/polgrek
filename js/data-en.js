@@ -15,7 +15,10 @@ window.POL_GREK = {
       '{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
     authorSub1: 'author',
     authorUrl: '',
-    bySlug: {},
+    bySlug: {
+    'stress-i-mozg':
+      'https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=stress-i-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1',
+  },
   },
 
   socialProof: {
