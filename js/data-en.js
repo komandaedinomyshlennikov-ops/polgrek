@@ -62,7 +62,7 @@ window.POL_GREK = {
       { book: 'Brain at 100+', rating: 5.0, votes: 2, slug: 'mozg-na-100' },
       { book: 'The Female Brain', rating: 4.7, votes: 3, slug: 'zhenskiy-mozg' },
     ],
-    note: 'Titles are relatively new — vote counts are still small. Ratings from the LitRes author page (checked Jul 13, 2026). No fake quotes — public scores only. Full reviews live on each book page.',
+    note: 'From the LitRes author page, 13 Jul 2026. Titles are new — few ratings yet, and that’s fine. No invented quotes — public scores only. Real reviews are on each book page on LitRes.',
   },
   legal: {
     email: 'hello@polgrek.site',

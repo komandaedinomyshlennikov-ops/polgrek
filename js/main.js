@@ -1008,11 +1008,17 @@
               <span class="rating-meta">${(function (n) {
                 n = Math.abs(n) % 100;
                 const n1 = n % 10;
-                if (n > 10 && n < 20) return item.votes + ' оценок';
-                if (n1 === 1) return item.votes + ' оценка';
-                if (n1 >= 2 && n1 <= 4) return item.votes + ' оценки';
-                return item.votes + ' оценок';
-              })(item.votes)} на ${sp.source} · открыть книгу →</span>
+                let word = 'оценок';
+                if (!(n > 10 && n < 20)) {
+                  if (n1 === 1) word = 'оценка';
+                  else if (n1 >= 2 && n1 <= 4) word = 'оценки';
+                }
+                if (isEn) {
+                  const w = n === 1 ? 'rating' : 'ratings';
+                  return item.votes + ' ' + w + ' · view on LitRes →';
+                }
+                return item.votes + ' ' + word + ' · смотреть на Литрес →';
+              })(item.votes)}</span>
             </a>`;
         })
         .join('');
