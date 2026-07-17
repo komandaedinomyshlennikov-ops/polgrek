@@ -23,10 +23,17 @@ TAG_RU = {
 
 
 def load_data(data_file: str = "js/data.js") -> dict:
+    """Load POL_GREK; side-load lab articles from data-articles*.js when split out."""
+    articles_file = (
+        "js/data-articles-en.js" if "data-en" in data_file else "js/data-articles.js"
+    )
     node = f"""
 const fs=require('fs');const vm=require('vm');
 const c={{window:{{}}}};vm.createContext(c);
 vm.runInContext(fs.readFileSync({data_file!r},'utf8'),c);
+try {{
+  vm.runInContext(fs.readFileSync({articles_file!r},'utf8'),c);
+}} catch (e) {{ /* optional side file */ }}
 console.log(JSON.stringify(c.window.POL_GREK));
 """
     return json.loads(subprocess.check_output(["node", "-e", node], cwd=SITE, text=True))
@@ -405,7 +412,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260717pre4"
+CSS_VER = "20260717pre5"
 
 
 def abs_url(path: str) -> str:
@@ -447,6 +454,10 @@ def shell(
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
     data_src = f"{path_prefix}{data_js}"
+    articles_script = ""
+    if page in ("article", "lab"):
+        art_name = "data-articles-en.js" if lang == "en" else "data-articles.js"
+        articles_script = f'  <script src="{path_prefix}js/{art_name}"></script>\n'
     lang_attr = "en" if lang == "en" else "ru"
     data_lang = ' data-lang="en"' if lang == "en" else ""
     data_assets = ' data-assets="../.."' if "/en/" in (canonical or "") and page in ("book", "article") else (
@@ -534,7 +545,7 @@ def shell(
   <div id="site-footer"></div>
   <script src="{path_prefix}js/base-config.js"></script>
   <script src="{data_src}"></script>
-  <script src="{path_prefix}js/main.js"></script>
+{articles_script}  <script src="{path_prefix}js/main.js"></script>
 </body>
 </html>
 """
@@ -1158,6 +1169,186 @@ def build_article_page(G: dict, article: dict) -> str:
     )
 
 
+def faq_details_html(faq: list, *, home_max: int = 4) -> str:
+    """No-JS FAQ block from POL_GREK.faq (single source)."""
+    items = []
+    for item in (faq or [])[:home_max]:
+        q = esc(item.get("q") or item.get("question") or "")
+        a = esc(item.get("a") or item.get("answer") or "")
+        if not q or not a:
+            continue
+        items.append(
+            f'<details class="faq-item"><summary>{q}</summary><p>{a}</p></details>'
+        )
+    return "".join(items)
+
+
+def faq_json_ld(faq: list, *, home_max: int = 4) -> dict:
+    entities = []
+    for item in (faq or [])[:home_max]:
+        q = (item.get("q") or item.get("question") or "").strip()
+        a = (item.get("a") or item.get("answer") or "").strip()
+        if not q or not a:
+            continue
+        entities.append(
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+        )
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": entities,
+    }
+
+
+def timeline_html(autobio: list, *, max_items: int = 5) -> str:
+    parts = []
+    for item in (autobio or [])[:max_items]:
+        title = esc(item.get("checkpoint") or "")
+        text = esc(item.get("text") or "")
+        if not title:
+            continue
+        parts.append(
+            f'<div class="timeline-item"><strong>{title}</strong><p>{text}</p></div>'
+        )
+    return "".join(parts)
+
+
+def sync_faq_and_timeline(G: dict, GE: dict | None) -> None:
+    """Write partials + inject home FAQ/schema and about timeline from data."""
+    # RU partials
+    faq_ru = faq_details_html(G.get("faq") or [])
+    (SITE / "partials" / "faq.html").write_text(faq_ru, encoding="utf-8")
+    auto = ((G.get("author") or {}).get("autobiography") or [])[:5]
+    (SITE / "partials" / "timeline.html").write_text(
+        timeline_html(auto), encoding="utf-8"
+    )
+
+    def inject_faq_list(path: Path, html_block: str) -> None:
+        if not path.exists():
+            return
+        raw = path.read_text(encoding="utf-8")
+        start = raw.find('class="faq-list"')
+        if start < 0:
+            return
+        # find opening >
+        gt = raw.find(">", start)
+        if gt < 0:
+            return
+        # find matching close for this div — first </div> after content that closes faq-list
+        # use marker comments if present, else replace between <div class="faq-list"> and next section-level close
+        open_tag_end = gt + 1
+        # naive: find </div>\n      </div>\n    </section> after faq-list
+        close = raw.find("</div>", open_tag_end)
+        # may be nested details only — first </div> after items closes faq-list
+        # walk depth
+        i = open_tag_end
+        depth = 1
+        while i < len(raw) and depth:
+            nxt_open = raw.find("<div", i)
+            nxt_close = raw.find("</div>", i)
+            if nxt_close < 0:
+                return
+            if nxt_open >= 0 and nxt_open < nxt_close:
+                depth += 1
+                i = nxt_open + 4
+            else:
+                depth -= 1
+                if depth == 0:
+                    close = nxt_close
+                    break
+                i = nxt_close + 6
+        new = raw[:open_tag_end] + html_block + raw[close:]
+        path.write_text(new, encoding="utf-8")
+        print("inject FAQ", path)
+
+    def inject_faq_schema(path: Path, block: dict) -> None:
+        if not path.exists():
+            return
+        raw = path.read_text(encoding="utf-8")
+        ld = (
+            '\n  <script type="application/ld+json">\n'
+            + json.dumps(block, ensure_ascii=False, indent=2)
+            + "\n  </script>"
+        )
+        # replace existing FAQPage script or insert before </head>
+        m = re.search(
+            r'\s*<script type="application/ld\+json">\s*\{[^}]*"@type":\s*"FAQPage"[\s\S]*?</script>',
+            raw,
+        )
+        if m:
+            raw = raw[: m.start()] + ld + raw[m.end() :]
+        else:
+            raw = raw.replace("</head>", ld + "\n</head>", 1)
+        path.write_text(raw, encoding="utf-8")
+        print("inject FAQ schema", path)
+
+    inject_faq_list(SITE / "index.html", faq_ru)
+    inject_faq_schema(SITE / "index.html", faq_json_ld(G.get("faq") or []))
+
+    if GE:
+        faq_en = faq_details_html(GE.get("faq") or [])
+        (SITE / "partials" / "faq-en.html").write_text(faq_en, encoding="utf-8")
+        inject_faq_list(SITE / "en" / "index.html", faq_en)
+        inject_faq_schema(SITE / "en" / "index.html", faq_json_ld(GE.get("faq") or []))
+        auto_en = ((GE.get("author") or {}).get("autobiography") or [])[:5]
+        (SITE / "partials" / "timeline-en.html").write_text(
+            timeline_html(auto_en), encoding="utf-8"
+        )
+
+    # About timeline: inject if #autoTimeline empty or missing block
+    def ensure_about_timeline(path: Path, html_block: str, heading: str) -> None:
+        if not path.exists():
+            return
+        raw = path.read_text(encoding="utf-8")
+        if 'id="autoTimeline"' in raw:
+            # replace inner
+            m = re.search(
+                r'(<div[^>]*id="autoTimeline"[^>]*>)([\s\S]*?)(</div>)', raw
+            )
+            if m:
+                raw = raw[: m.start(1)] + m.group(1) + html_block + m.group(3) + raw[m.end(3) :]
+                path.write_text(raw, encoding="utf-8")
+                print("update timeline", path)
+            return
+        # insert before first Laura section or before books/verify
+        marker = 'id="laura"'
+        block = (
+            f'\n        <h2 id="path">{heading}</h2>\n'
+            f'        <div class="timeline" id="autoTimeline">{html_block}</div>\n'
+        )
+        if marker in raw:
+            # insert before <h2 id="laura">
+            raw = re.sub(
+                r'(\s*<h2 id="laura")',
+                block + r"\1",
+                raw,
+                count=1,
+            )
+        else:
+            raw = raw.replace(
+                "</div>\n    </section>\n\n    <section>",
+                block + "</div>\n    </section>\n\n    <section>",
+                1,
+            )
+        path.write_text(raw, encoding="utf-8")
+        print("insert timeline", path)
+
+    ensure_about_timeline(
+        SITE / "about.html", timeline_html(auto), "Путь — коротко"
+    )
+    if GE:
+        auto_en = ((GE.get("author") or {}).get("autobiography") or [])[:5]
+        ensure_about_timeline(
+            SITE / "en" / "about.html",
+            timeline_html(auto_en),
+            "Path — short",
+        )
+
+
 def main() -> None:
     G = load_data()
 
@@ -1393,6 +1584,7 @@ def main() -> None:
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data.js"></script>
+  <script src="../js/data-articles.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>
@@ -1595,6 +1787,7 @@ def main() -> None:
             html_out = html_out.replace('src="../', 'src="../../')
             html_out = html_out.replace('<html lang="ru">', '<html lang="en">')
             html_out = html_out.replace('data-base=".."', 'data-base=".." data-lang="en" data-assets="../.."')
+            html_out = html_out.replace('js/data-articles.js', 'js/data-articles-en.js')
             html_out = html_out.replace('js/data.js', 'js/data-en.js')
             # Shorter EN document title
             en_title = clip_title(f"{article['title']} | Pol Grek", 60)
@@ -1719,6 +1912,7 @@ def main() -> None:
     inject_catalog_itemlist(G, lang="ru")
     if GE:
         inject_catalog_itemlist(GE, lang="en")
+    sync_faq_and_timeline(G, GE)
     print("OK: static pages built")
 
 
