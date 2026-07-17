@@ -853,9 +853,21 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     )
     buy_url = litres_buy_url(G, book)
     buy_rel = litres_rel(G)
-    buy_dd = f'<a href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>'
+    # Specs «Где купить»: clean LitRes URL (no AdvCake query) so adblockers
+    # don't strip the whole link and leave only Amazon visible.
+    litres_clean = (
+        (book.get("buyUrl") or book.get("litres") or buy_url or "").split("?")[0].strip()
+    )
+    buy_parts: list[str] = []
+    if litres_clean:
+        buy_parts.append(
+            f'<a href="{esc(litres_clean)}" target="_blank" rel="noopener">Литрес</a>'
+        )
     if amz:
-        buy_dd += f' · <a href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        buy_parts.append(
+            f'<a href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        )
+    buy_dd = " · ".join(buy_parts) if buy_parts else "—"
     highlights_block = (
         f"<ul class=\"book-highlights\">{highlights_html}</ul>" if highlights_html else ""
     )
