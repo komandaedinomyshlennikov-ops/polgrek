@@ -68,7 +68,7 @@
         withLaura: 'with Laura Grek',
         withLauraShort: 'with Laura',
         shownOf: (n, total) => `Showing ${n} of ${total}`,
-        searchPlaceholder: 'Search books…',
+        searchPlaceholder: 'Burnout, sleep, money…',
         searchLabel: 'Search catalog',
         searchClear: 'Clear search',
         searchEmpty: 'No books match. Try another word or reset the topic filter.',
@@ -143,7 +143,7 @@
         withLaura: 'с Лорой Грэк',
         withLauraShort: 'с Лорой',
         shownOf: (n, total) => `Показано ${n} из ${total}`,
-        searchPlaceholder: 'Поиск по книгам…',
+        searchPlaceholder: 'Выгорание, сон, деньги…',
         searchLabel: 'Поиск в каталоге',
         searchClear: 'Очистить поиск',
         searchEmpty: 'Ничего не найдено. Попробуйте другое слово или сбросьте тему.',
@@ -722,6 +722,10 @@
     const show = bookDataShow(book);
     const title = escapeAttr(book.title || '');
     const promise = escapeAttr(book.promise || '');
+    const whom = (book.forWhom && book.forWhom[0]) || book.problem || '';
+    const chip = whom
+      ? `<p class="book-card-chip">${escapeAttr(String(whom).slice(0, 90))}</p>`
+      : '';
     return `
       <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}" data-show="${show}">
         <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${title}">
@@ -730,6 +734,7 @@
         </a>
         <div class="book-body">
           <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${title}</a></h3>
+          ${chip}
           <p class="book-card-promise">${promise}</p>
           <p class="book-card-meta">${escapeAttr(bookCardMeta(book))}</p>
         </div>
@@ -1432,6 +1437,20 @@
     if (page === 'lab') renderLabPage();
     if (page === 'article') renderArticlePage();
     if (page === 'about') renderAboutPage();
+
+    // Home doors: collapse extras on mobile; always expanded on desktop
+    const doorsMore = document.querySelectorAll('details.doors-more');
+    if (doorsMore.length) {
+      const mq = window.matchMedia('(min-width: 801px)');
+      const syncDoors = () => {
+        doorsMore.forEach((el) => {
+          el.open = mq.matches;
+        });
+      };
+      syncDoors();
+      if (mq.addEventListener) mq.addEventListener('change', syncDoors);
+      else if (mq.addListener) mq.addListener(syncDoors);
+    }
   });
 
   window.PolSite = { bookCardHTML, articleCardHTML, url, peerLangUrl, isEn, UI, track };
