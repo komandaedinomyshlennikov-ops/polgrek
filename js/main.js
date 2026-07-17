@@ -1475,18 +1475,32 @@
     if (page === 'article') renderArticlePage();
     if (page === 'about') renderAboutPage();
 
-    // Home doors: collapse extras on mobile; always expanded on desktop
-    const doorsMore = document.querySelectorAll('details.doors-more');
-    if (doorsMore.length) {
+    // Home doors: flat 5-card grid; on narrow screens collapse 04–05 behind button
+    const doorsGrid = document.getElementById('doorsGrid');
+    const doorsMoreBtn = document.getElementById('doorsMoreBtn');
+    if (doorsGrid && doorsMoreBtn) {
       const mq = window.matchMedia('(min-width: 801px)');
-      const syncDoors = () => {
-        doorsMore.forEach((el) => {
-          el.open = mq.matches;
-        });
+      const syncDoorsExpand = () => {
+        if (mq.matches) {
+          doorsGrid.classList.remove('is-collapsible');
+          doorsGrid.classList.add('is-expanded');
+          doorsMoreBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          doorsGrid.classList.add('is-collapsible');
+          if (!doorsGrid.dataset.userExpanded) {
+            doorsGrid.classList.remove('is-expanded');
+            doorsMoreBtn.setAttribute('aria-expanded', 'false');
+          }
+        }
       };
-      syncDoors();
-      if (mq.addEventListener) mq.addEventListener('change', syncDoors);
-      else if (mq.addListener) mq.addListener(syncDoors);
+      doorsMoreBtn.addEventListener('click', () => {
+        doorsGrid.classList.add('is-expanded');
+        doorsGrid.dataset.userExpanded = '1';
+        doorsMoreBtn.setAttribute('aria-expanded', 'true');
+      });
+      syncDoorsExpand();
+      if (mq.addEventListener) mq.addEventListener('change', syncDoorsExpand);
+      else if (mq.addListener) mq.addListener(syncDoorsExpand);
     }
   });
 

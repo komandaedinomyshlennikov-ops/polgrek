@@ -1331,26 +1331,29 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
 /* ---------- Problem doors ---------- */
 .doors {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 .doors--situations {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+  /* Flat 5 cards: 3+2. Avoid display:contents on <details> (5th card drops a row). */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem 1.1rem;
+  align-items: stretch;
 }
-.doors-more {
+.doors--situations .door {
+  min-width: 0;
+}
+/* Second row (04–05): same column width as first row, not full-bleed */
+.doors--situations .door--extra {
+  grid-column: auto;
+}
+.doors-more-btn {
   grid-column: 1 / -1;
-  margin: 0;
-  border: none;
-  background: none;
-}
-.doors-more-summary {
-  list-style: none;
-  cursor: pointer;
-  display: inline-flex;
+  justify-self: start;
+  display: none; /* shown only on narrow screens when extras are collapsed */
   align-items: center;
   gap: 0.5rem;
-  margin: 0.35rem 0 0.75rem;
+  margin: 0.15rem 0 0;
   padding: 0.65rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--line);
@@ -1358,8 +1361,13 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   font-weight: 600;
   font-size: 0.92rem;
   color: var(--ink-soft);
+  cursor: pointer;
+  font-family: inherit;
 }
-.doors-more-summary::-webkit-details-marker { display: none; }
+.doors-more-btn:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
 .doors-more-count {
   display: inline-flex;
   min-width: 1.4rem;
@@ -1369,13 +1377,29 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   background: var(--paper-3);
   font-size: 0.8rem;
 }
-.doors-more[open] .doors-more-summary { margin-bottom: 0.85rem; }
-.doors--more-inner { margin: 0; }
-/* Desktop: always show extra doors; hide the toggle */
-@media (min-width: 801px) {
-  .doors-more-summary { display: none; }
-  .doors-more { display: contents; }
-  .doors--more-inner { display: contents; }
+/* Mobile: hide 04–05 only after JS marks grid collapsible (no-JS keeps all 5) */
+@media (max-width: 800px) {
+  .doors--situations.is-collapsible:not(.is-expanded) .door--extra {
+    display: none;
+  }
+  .doors--situations.is-collapsible:not(.is-expanded) .doors-more-btn {
+    display: inline-flex;
+  }
+  .doors--situations.is-collapsible.is-expanded .doors-more-btn,
+  .doors--situations:not(.is-collapsible) .doors-more-btn {
+    display: none;
+  }
+}
+@media (min-width: 801px) and (max-width: 1100px) {
+  .doors--situations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Ensure situations grid not overridden by generic .doors 2-col rule */
+@media (min-width: 981px) {
+  .doors.doors--situations {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .section-lead {
   margin: 0.35rem 0 0;

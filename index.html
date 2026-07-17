@@ -34,7 +34,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260717buy2" />
+  <link rel="stylesheet" href="css/styles.css?v=20260717doors" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -206,7 +206,7 @@
             <p class="section-lead">Выберите состояние, которое вам ближе. Ниже — книги, которые лучше всего ложатся на эти случаи. Без обещаний «за две недели» — сначала отрывок, потом решение.</p>
           </div>
         </div>
-        <div class="doors doors--situations">
+        <div class="doors doors--situations" id="doorsGrid">
           <a class="door" href="books/reset.html">
             <div class="num">01</div>
             <h3>Я выгорел и не могу восстановиться</h3>
@@ -225,23 +225,21 @@
             <p>Напряжение стало фоном. Как устроен стресс в мозге и что реально снижает нагрузку — без «просто успокойся».</p>
             <span class="link">Книга: <strong>Стресс и мозг</strong> · при истощении — RESET →</span>
           </a>
-          <details class="doors-more">
-            <summary class="doors-more-summary">Ещё ситуации <span class="doors-more-count">2</span></summary>
-            <div class="doors doors--situations doors--more-inner">
-              <a class="door" href="books/mozg-na-100.html">
-                <div class="num">04</div>
-                <h3>Хочу устойчивую энергию и ясность на годы</h3>
-                <p>Не разовый «буст», а база: сон, движение, нагрузка с усилием. Плюс честный разбор биохакинга без хайпа.</p>
-                <span class="link">Книги: <strong>Мозг на 100+</strong> + «Биохакинг мозга» →</span>
-              </a>
-              <a class="door" href="books/mozg-i-dengi.html">
-                <div class="num">05</div>
-                <h3>Деньги, эмоции и отношения «плывут»</h3>
-                <p>Сила воли не спасает — часто мешают стресс, импульсы и состояние мозга, а не «слабый характер».</p>
-                <span class="link">Книга: <strong>Мозг и деньги</strong> · также «Сначала деньги…» →</span>
-              </a>
-            </div>
-          </details>
+          <a class="door door--extra" href="books/mozg-na-100.html">
+            <div class="num">04</div>
+            <h3>Хочу устойчивую энергию и ясность на годы</h3>
+            <p>Не разовый «буст», а база: сон, движение, нагрузка с усилием. Плюс честный разбор биохакинга без хайпа.</p>
+            <span class="link">Книги: <strong>Мозг на 100+</strong> + «Биохакинг мозга» →</span>
+          </a>
+          <a class="door door--extra" href="books/mozg-i-dengi.html">
+            <div class="num">05</div>
+            <h3>Деньги, эмоции и отношения «плывут»</h3>
+            <p>Сила воли не спасает — часто мешают стресс, импульсы и состояние мозга, а не «слабый характер».</p>
+            <span class="link">Книга: <strong>Мозг и деньги</strong> · также «Сначала деньги…» →</span>
+          </a>
+          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
+            Ещё ситуации <span class="doors-more-count">2</span>
+          </button>
         </div>
       </div>
     </section>
@@ -448,6 +446,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/main.js?v=20260717buy2"></script>
+  <script src="js/main.js?v=20260717doors"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260717buy2" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260717doors" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -201,7 +201,7 @@
             <p class="section-lead">Pick the state that fits best. Below are the titles that map cleanly to those cases — no “fixed in two weeks” promises. Free excerpt first, then decide.</p>
           </div>
         </div>
-        <div class="doors doors--situations">
+        <div class="doors doors--situations" id="doorsGrid">
           <a class="door" href="books/reset.html">
             <div class="num">01</div>
             <h3>I’m burned out and can’t recover</h3>
@@ -220,23 +220,21 @@
             <p>Tension became background noise. How stress works in the brain — and what actually lowers load, without “just relax.”</p>
             <span class="link">Book: <strong>Stress and the Brain</strong> · if depleted — RESET →</span>
           </a>
-          <details class="doors-more">
-            <summary class="doors-more-summary">More situations <span class="doors-more-count">2</span></summary>
-            <div class="doors doors--situations doors--more-inner">
-              <a class="door" href="books/mozg-na-100.html">
-                <div class="num">04</div>
-                <h3>I want steady energy and clarity for years</h3>
-                <p>Not a one-off boost: sleep, movement, effortful load. Plus an honest take on biohacking without the hype.</p>
-                <span class="link">Books: <strong>Brain at 100+</strong> + Brain Biohacking →</span>
-              </a>
-              <a class="door" href="books/mozg-i-dengi.html">
-                <div class="num">05</div>
-                <h3>Money, emotions, relationships feel stuck</h3>
-                <p>Willpower fails often because of stress, impulse, and brain state — not “weak character.”</p>
-                <span class="link">Book: <strong>Wired for Wealth</strong> · also Money First… →</span>
-              </a>
-            </div>
-          </details>
+          <a class="door door--extra" href="books/mozg-na-100.html">
+            <div class="num">04</div>
+            <h3>I want steady energy and clarity for years</h3>
+            <p>Not a one-off boost: sleep, movement, effortful load. Plus an honest take on biohacking without the hype.</p>
+            <span class="link">Books: <strong>Brain at 100+</strong> + Brain Biohacking →</span>
+          </a>
+          <a class="door door--extra" href="books/mozg-i-dengi.html">
+            <div class="num">05</div>
+            <h3>Money, emotions, relationships feel stuck</h3>
+            <p>Willpower fails often because of stress, impulse, and brain state — not “weak character.”</p>
+            <span class="link">Book: <strong>Wired for Wealth</strong> · also Money First… →</span>
+          </a>
+          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
+            More situations <span class="doors-more-count">2</span>
+          </button>
         </div>
       </div>
     </section>
@@ -435,6 +433,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260717buy2"></script>
+  <script src="../js/main.js?v=20260717doors"></script>
 </body>
 </html>
