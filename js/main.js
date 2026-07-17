@@ -760,8 +760,8 @@
     return `
       <a class="article-card" href="${articlePageUrl(a.slug)}" data-cat="${catSlug}">
         <div class="cat">${cat}</div>
-        <h3>${a.title}</h3>
-        <p>${a.hook}</p>
+        <h3>${escapeAttr(a.title || '')}</h3>
+        <p>${escapeAttr(a.hook || '')}</p>
         <div class="meta">${meta}</div>
       </a>`;
   }
@@ -1338,6 +1338,7 @@
   function renderLabPage() {
     const grid = document.getElementById('labGrid') || document.getElementById('articlesGrid');
     if (!grid) return;
+    grid.classList.add('articles-grid--editorial');
     // Always refresh so new articles appear even if old static cards exist
     grid.innerHTML = POL_GREK.articles.map(articleCardHTML).join('');
   }
