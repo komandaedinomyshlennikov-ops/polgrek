@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Пол Грэк — научпоп о мозге без эзотерики</title>
-  <meta name="description" content="Научпоп о мозге без эзотерики. Уровни доказательности A–D, бесплатные отрывки, книги на Литрес. Telegram. Пол Грэк — прикладная нейропсихология." />
+  <title>Пол Грэк — как устроен мозг, без эзотерики</title>
+  <meta name="description" content="Пол Грэк — автор научпопа о мозге. 13 книг, уровни A–D, без хайпа. Сначала бесплатный отрывок, потом Литрес. Telegram." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Пол Грэк" />
   <meta name="theme-color" content="#0B1F33" />
   <meta property="og:site_name" content="Пол Грэк" />
-  <meta property="og:title" content="Пол Грэк — научпоп о мозге без эзотерики" />
-  <meta property="og:description" content="Без эзотерики. Отрывки бесплатно. Книги на Литрес. Telegram и Threads." />
+  <meta property="og:title" content="Пол Грэк — как устроен мозг, без эзотерики" />
+  <meta property="og:description" content="Сначала отрывок бесплатно. Потом книги на Литрес. Без эзотерики и чудо-протоколов." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://polgrek.site/" />
   <meta property="og:image" content="https://polgrek.site/assets/og-image.jpg" />
@@ -19,13 +19,13 @@
   <meta property="og:locale:alternate" content="en_US" />
   <link rel="canonical" href="https://polgrek.site/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Пол Грэк — научпоп о мозге без эзотерики" />
-  <meta name="twitter:description" content="Без эзотерики. Отрывки бесплатно. Книги на Литрес." />
+  <meta name="twitter:title" content="Пол Грэк — как устроен мозг, без эзотерики" />
+  <meta name="twitter:description" content="Сначала отрывок бесплатно. Потом книги на Литрес." />
   <meta name="twitter:image" content="https://polgrek.site/assets/og-image.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.litres.ru" />
-  <link rel="preload" as="image" href="assets/covers/mozg-na-100.jpg" fetchpriority="high" />
+  <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" href="assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -33,7 +33,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260716buy2" />
+  <link rel="stylesheet" href="css/styles.css?v=20260717pre1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -150,10 +150,11 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Пол Грэк · научпоп о мозге</p>
-          <h1>Научпоп о мозге без эзотерики</h1>
+          <p class="eyebrow">Пол Грэк · 13 книг · уровни A–D</p>
+          <h1>Как устроен мозг — без эзотерики и хайпа</h1>
+          <p class="hero-person">Автор научпопа: механика вместо морали. Не «характер», а система — и что с ней делать.</p>
           <p class="lead lead-short">
-            Уровни доказательности <strong>[A]–[D]</strong>. Глава бесплатно — без email. Полный текст на Литрес.
+            Сначала <strong>бесплатный отрывок</strong> (без email). Если зайдёт — полный текст на Литрес.
           </p>
           <details class="grade-legend-details">
             <summary>Как читать уровни A–D</summary>
@@ -161,20 +162,21 @@
           </details>
           <div class="hero-cta-panel">
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Скачать бесплатный отрывок</a>
-            <a class="btn btn-outline" href="books/index.html">Каталог книг</a>
+            <a class="btn btn-outline" href="books/index.html">Каталог и ситуации</a>
           </div>
+          <p class="hero-trust">Книги на Литрес · отрывки бесплатно · без чудо-протоколов</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <canvas id="neuralCanvas" aria-hidden="true"></canvas>
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
             <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html" aria-label="Мозг на 100+">
-              <img src="assets/covers/mozg-na-100.jpg" alt="Обложка: Мозг на 100+" width="280" height="420" decoding="async" />
+              <img src="assets/covers/mozg-na-100.webp" alt="Обложка: Мозг на 100+" width="280" height="420" decoding="async" />
             </a>
             <a class="hero-cover hero-cover-1" href="books/biohacking-mozga.html" aria-label="Биохакинг мозга">
-              <img src="assets/covers/biohacking-mozga.jpg" alt="Обложка: Биохакинг мозга" width="280" height="420" decoding="async" />
+              <img src="assets/covers/biohacking-mozga.webp" alt="Обложка: Биохакинг мозга" width="280" height="420" decoding="async" />
             </a>
             <a class="hero-cover hero-cover-2" href="books/reset.html" aria-label="RESET">
-              <img src="assets/covers/reset.jpg" alt="Обложка: RESET" width="280" height="420" decoding="async" />
+              <img src="assets/covers/reset.webp" alt="Обложка: RESET" width="280" height="420" decoding="async" />
             </a>
           </div>
           <div class="hero-card">
@@ -242,7 +244,7 @@
         <div class="books-grid books-grid-flagship" id="featuredBooks">
 <article class="book-card book-card--tile is-flagship" data-show="all cog">
   <a class="book-cover has-image clean" href="books/mozg-na-100.html" aria-label="Мозг на 100+">
-    <img src="assets/covers/mozg-na-100.jpg" alt="Обложка: Мозг на 100+" loading="lazy" width="600" height="900" />
+    <img src="assets/covers/mozg-na-100.webp" alt="Обложка: Мозг на 100+" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
@@ -260,7 +262,7 @@
 </article>
 <article class="book-card book-card--tile is-flagship" data-show="all stress cog bio">
   <a class="book-cover has-image clean" href="books/biohacking-mozga.html" aria-label="Биохакинг мозга">
-    <img src="assets/covers/biohacking-mozga.jpg" alt="Обложка: Биохакинг мозга" loading="lazy" width="600" height="900" />
+    <img src="assets/covers/biohacking-mozga.webp" alt="Обложка: Биохакинг мозга" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
@@ -278,7 +280,7 @@
 </article>
 <article class="book-card book-card--tile is-flagship" data-show="all stress burnout">
   <a class="book-cover has-image clean" href="books/reset.html" aria-label="RESET">
-    <img src="assets/covers/reset.jpg" alt="Обложка: RESET" loading="lazy" width="600" height="900" />
+    <img src="assets/covers/reset.webp" alt="Обложка: RESET" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Флагман</span></div>
   </a>
   <div class="book-body">
@@ -310,17 +312,17 @@
             <div class="magnet-book-picks" id="magnetPicks">
 <label class="magnet-book-option">
   <input type="radio" name="flagPick" value="mozg-na-100" checked>
-  <img src="assets/covers/mozg-na-100.jpg" alt="Мозг на 100+" width="80" height="120">
+  <img src="assets/covers/mozg-na-100.webp" alt="Мозг на 100+" width="80" height="120">
   <span>Мозг на 100+</span>
 </label>
 <label class="magnet-book-option">
   <input type="radio" name="flagPick" value="biohacking-mozga" >
-  <img src="assets/covers/biohacking-mozga.jpg" alt="Биохакинг мозга" width="80" height="120">
+  <img src="assets/covers/biohacking-mozga.webp" alt="Биохакинг мозга" width="80" height="120">
   <span>Биохакинг мозга</span>
 </label>
 <label class="magnet-book-option">
   <input type="radio" name="flagPick" value="reset" >
-  <img src="assets/covers/reset.jpg" alt="RESET" width="80" height="120">
+  <img src="assets/covers/reset.webp" alt="RESET" width="80" height="120">
   <span>RESET</span>
 </label></div>
             <label for="magnetBook" class="sr-only">Книга</label>

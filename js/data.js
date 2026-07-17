@@ -233,7 +233,7 @@ window.POL_GREK = {
  books: [
  {
  slug: 'mozg-na-100',
- coverFile: 'mozg-na-100.jpg',
+ coverFile: 'mozg-na-100.webp',
  excerptFile: 'mozg-na-100-otryvok.txt',
  flagship: true,
  featured: true,
@@ -269,7 +269,7 @@ window.POL_GREK = {
  },
  {
  slug: 'biohacking-mozga',
- coverFile: 'biohacking-mozga.jpg',
+ coverFile: 'biohacking-mozga.webp',
  excerptFile: 'biohacking-mozga-otryvok.txt',
  flagship: true,
  featured: true,
@@ -304,7 +304,7 @@ window.POL_GREK = {
  },
  {
  slug: 'anatomiya-energii',
- coverFile: 'anatomiya-energii.jpg',
+ coverFile: 'anatomiya-energii.webp',
  excerptFile: 'anatomiya-energii-otryvok.txt',
  title: 'Анатомия энергии',
  subtitle: 'Три системы, которые решают, хватит ли вам сил',
@@ -336,7 +336,7 @@ window.POL_GREK = {
  },
  {
  slug: 'mozg-i-dengi',
- coverFile: 'mozg-i-dengi.jpg',
+ coverFile: 'mozg-i-dengi.webp',
  excerptFile: 'mozg-i-dengi-otryvok.txt',
  title: 'Мозг и деньги',
  subtitle: 'Как мозг влияет на доходы — и что с этим делать',
@@ -369,7 +369,7 @@ window.POL_GREK = {
  },
  {
  slug: 'snachala-dengi-potom-soznanie',
- coverFile: 'snachala-dengi-potom-soznanie.jpg',
+ coverFile: 'snachala-dengi-potom-soznanie.webp',
  excerptFile: 'snachala-dengi-potom-soznanie-otryvok.txt',
  title: 'Сначала деньги, потом сознание',
  subtitle: 'Как внешний порядок перестраивает мышление',
@@ -402,7 +402,7 @@ window.POL_GREK = {
  },
  {
  slug: 'stress-i-mozg',
- coverFile: 'stress-i-mozg.jpg',
+ coverFile: 'stress-i-mozg.webp',
  excerptFile: 'stress-i-mozg-otryvok.txt',
  title: 'Стресс и мозг',
  subtitle: 'Как перестать выгорать и начать использовать стресс как топливо',
@@ -434,7 +434,7 @@ window.POL_GREK = {
  },
  {
  slug: 'reset',
- coverFile: 'reset.jpg',
+ coverFile: 'reset.webp',
  excerptFile: 'reset-otryvok.txt',
  flagship: true,
  featured: true,
@@ -468,7 +468,7 @@ window.POL_GREK = {
  },
  {
  slug: 'mentalnyy-debag',
- coverFile: 'mentalnyy-debag.jpg',
+ coverFile: 'mentalnyy-debag.webp',
  excerptFile: 'mentalnyy-debag-otryvok.txt',
  title: 'Ментальный дебаг',
  subtitle: 'Как перезагрузить мозг за 5 минут в день',
@@ -499,7 +499,7 @@ window.POL_GREK = {
  },
  {
  slug: 'ostorozhnyy-biohaker',
- coverFile: 'ostorozhnyy-biohaker.jpg',
+ coverFile: 'ostorozhnyy-biohaker.webp',
  excerptFile: 'ostorozhnyy-biohaker-otryvok.txt',
  title: 'Осторожный биохакер',
  subtitle: 'Манифест подхода «сначала не навреди»',
@@ -528,7 +528,7 @@ window.POL_GREK = {
  },
  {
  slug: 'svyashchennye-chasy',
- coverFile: 'svyashchennye-chasy.jpg',
+ coverFile: 'svyashchennye-chasy.webp',
  excerptFile: 'svyashchennye-chasy-otryvok.txt',
  title: 'Священные часы',
  subtitle: 'Нейроинженерия сознания · сон, циклы, свет',
@@ -559,7 +559,7 @@ window.POL_GREK = {
  },
  {
  slug: 'zhenskiy-mozg',
- coverFile: 'zhenskiy-mozg.jpg',
+ coverFile: 'zhenskiy-mozg.webp',
  excerptFile: 'zhenskiy-mozg-otryvok.txt',
  title: 'Женский мозг',
  subtitle: 'Научный гид по гормонам, циклам и когнитивному здоровью',
@@ -591,7 +591,7 @@ window.POL_GREK = {
  },
  {
  slug: 'muzhskoy-mozg',
- coverFile: 'muzhskoy-mozg.jpg',
+ coverFile: 'muzhskoy-mozg.webp',
  excerptFile: 'muzhskoy-mozg-otryvok.txt',
  title: 'Мужской мозг',
  subtitle: 'Сила, фокус и характер после сорока',
@@ -622,7 +622,7 @@ window.POL_GREK = {
  },
  {
  slug: 'ei-2',
- coverFile: 'ei-2.jpg',
+ coverFile: 'ei-2.webp',
  excerptFile: 'ei-2-otryvok.txt',
  title: 'Эмоциональный интеллект 2.0',
  subtitle: 'Амигдала, дофамин, стыд — вместо «просто успокойся»',

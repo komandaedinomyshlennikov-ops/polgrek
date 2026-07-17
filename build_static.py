@@ -37,7 +37,7 @@ def esc(s: str) -> str:
 
 
 def cover_path(book: dict, prefix: str = "") -> str:
-    return f"{prefix}../assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}"
+    return f"{prefix}../assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
 
 
 def book_url(slug: str, prefix: str = "") -> str:
@@ -321,15 +321,15 @@ def book_card(
     slug = book["slug"]
     href = book_url(slug, "") if books_dir else f"books/{slug}.html"
     if lang == "en" and books_dir:
-        cover = f"../../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+        cover = f"../../assets/covers/{book.get('coverFile', slug + '.webp')}"
     elif books_dir:
-        cover = f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+        cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
     elif lang == "en":
         href = f"books/{slug}.html"
-        cover = f"../assets/covers/{book.get('coverFile', slug + '.jpg')}"
+        cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
     else:
         href = f"books/{slug}.html"
-        cover = f"assets/covers/{book.get('coverFile', slug + '.jpg')}"
+        cover = f"assets/covers/{book.get('coverFile', slug + '.webp')}"
 
     badges = []
     if book.get("flagship"):
@@ -402,7 +402,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260716buy2"
+CSS_VER = "20260717pre1"
 
 
 def abs_url(path: str) -> str:
@@ -498,8 +498,6 @@ def shell(
   <meta name="twitter:title" content="{esc(title)}" />
   <meta name="twitter:description" content="{esc(desc)}" />
   <meta name="twitter:image" content="{esc(og_img)}" />{hreflang_block}
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.litres.ru" />
   <link rel="icon" href="{fav}" type="image/svg+xml" />
   <link rel="icon" href="{fav2}" type="image/png" />
@@ -703,7 +701,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     authors = ", ".join(authors_list)
     series = book.get("series") or "Научпоп о мозге"
     excerpt_file = f"../excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
-    cover = f"../assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}"
+    cover = f"../assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
     amz = amazon_product_url(book)
 
     # Highlights (MIF "О книге" bullets): takeaways first, else forWhom
@@ -728,7 +726,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     if mates:
         thumbs = []
         for b in mates:
-            c = f"../assets/covers/{b.get('coverFile', b['slug'] + '.jpg')}"
+            c = f"../assets/covers/{b.get('coverFile', b['slug'] + '.webp')}"
             thumbs.append(
                 f'<a class="book-series-thumb" href="{b["slug"]}.html" title="{esc(b["title"])}">'
                 f'<img src="{c}" alt="{esc(b["title"])}" width="96" height="144" loading="lazy" />'
@@ -1000,7 +998,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     desc = f"{book['title']}: {book.get('subtitle') or book.get('promise') or ''}. Отрывок бесплатно, покупка на Литрес."
     can = abs_url(f"/books/{book['slug']}.html")
     can_en = abs_url(f"/en/books/{book['slug']}.html")
-    cover_abs = abs_url(f"/assets/covers/{book.get('coverFile', book['slug'] + '.jpg')}")
+    cover_abs = abs_url(f"/assets/covers/{book.get('coverFile', book['slug'] + '.webp')}")
     authors_ld = book.get("authors") or ["Пол Грэк"]
     book_ld = {
         "@context": "https://schema.org",

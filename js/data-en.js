@@ -197,7 +197,7 @@ window.POL_GREK = {
   books: [
     {
       slug: 'mozg-na-100',
-      coverFile: 'mozg-na-100.jpg',
+      coverFile: 'mozg-na-100.webp',
       excerptFile: 'en/mozg-na-100-excerpt.txt',
       flagship: true,
       featured: true,
@@ -232,7 +232,7 @@ window.POL_GREK = {
     },
     {
       slug: 'biohacking-mozga',
-      coverFile: 'biohacking-mozga.jpg',
+      coverFile: 'biohacking-mozga.webp',
       excerptFile: 'en/biohacking-mozga-excerpt.txt',
       flagship: true,
       featured: true,
@@ -266,7 +266,7 @@ window.POL_GREK = {
     },
     {
       slug: 'anatomiya-energii',
-      coverFile: 'anatomiya-energii.jpg',
+      coverFile: 'anatomiya-energii.webp',
       excerptFile: 'en/anatomiya-energii-excerpt.txt',
       title: 'Anatomy of Energy',
       subtitle: 'Three systems that decide whether you have enough gas in the tank',
@@ -297,7 +297,7 @@ window.POL_GREK = {
     },
     {
       slug: 'mozg-i-dengi',
-      coverFile: 'mozg-i-dengi-en.jpg',
+      coverFile: 'mozg-i-dengi-en.webp',
       excerptFile: 'en/mozg-i-dengi-excerpt.txt',
       title: 'Wired for Wealth',
       subtitle: 'How your brain shapes money — and what to do about it',
@@ -329,7 +329,7 @@ window.POL_GREK = {
     },
     {
       slug: 'snachala-dengi-potom-soznanie',
-      coverFile: 'snachala-dengi-potom-soznanie.jpg',
+      coverFile: 'snachala-dengi-potom-soznanie.webp',
       excerptFile: 'en/snachala-dengi-potom-soznanie-excerpt.txt',
       title: 'Money First, Then Consciousness',
       subtitle: 'How external order rewires the mind',
@@ -362,7 +362,7 @@ window.POL_GREK = {
     },
     {
       slug: 'stress-i-mozg',
-      coverFile: 'stress-i-mozg.jpg',
+      coverFile: 'stress-i-mozg.webp',
       excerptFile: 'en/stress-i-mozg-excerpt.txt',
       title: 'Stress and the Brain',
       subtitle: 'Stop burning out — start using stress as fuel',
@@ -393,7 +393,7 @@ window.POL_GREK = {
     },
     {
       slug: 'reset',
-      coverFile: 'reset.jpg',
+      coverFile: 'reset.webp',
       excerptFile: 'en/reset-excerpt.txt',
       flagship: true,
       featured: true,
@@ -426,7 +426,7 @@ window.POL_GREK = {
     },
     {
       slug: 'mentalnyy-debag',
-      coverFile: 'mentalnyy-debag.jpg',
+      coverFile: 'mentalnyy-debag.webp',
       excerptFile: 'en/mentalnyy-debag-excerpt.txt',
       title: 'Mental Debug',
       subtitle: 'Reboot your brain in five minutes a day',
@@ -456,7 +456,7 @@ window.POL_GREK = {
     },
     {
       slug: 'ostorozhnyy-biohaker',
-      coverFile: 'ostorozhnyy-biohaker.jpg',
+      coverFile: 'ostorozhnyy-biohaker.webp',
       excerptFile: 'en/ostorozhnyy-biohaker-excerpt.txt',
       title: 'The Careful Biohacker',
       subtitle: 'A “first, do no harm” manifesto',
@@ -484,7 +484,7 @@ window.POL_GREK = {
     },
     {
       slug: 'svyashchennye-chasy',
-      coverFile: 'svyashchennye-chasy.jpg',
+      coverFile: 'svyashchennye-chasy.webp',
       excerptFile: 'en/svyashchennye-chasy-excerpt.txt',
       title: 'Sacred Hours',
       subtitle: 'Sleep, cycles, light — without the mysticism',
@@ -514,7 +514,7 @@ window.POL_GREK = {
     },
     {
       slug: 'zhenskiy-mozg',
-      coverFile: 'zhenskiy-mozg.jpg',
+      coverFile: 'zhenskiy-mozg.webp',
       excerptFile: 'en/zhenskiy-mozg-excerpt.txt',
       title: 'The Female Brain',
       subtitle: 'Hormones, cycles, and cognitive health — without the myths',
@@ -545,7 +545,7 @@ window.POL_GREK = {
     },
     {
       slug: 'muzhskoy-mozg',
-      coverFile: 'muzhskoy-mozg.jpg',
+      coverFile: 'muzhskoy-mozg.webp',
       excerptFile: 'en/muzhskoy-mozg-excerpt.txt',
       title: 'The Male Brain',
       subtitle: 'Strength, focus, and character after forty',
@@ -575,7 +575,7 @@ window.POL_GREK = {
     },
     {
       slug: 'ei-2',
-      coverFile: 'ei-2.jpg',
+      coverFile: 'ei-2.webp',
       excerptFile: 'en/ei-2-excerpt.txt',
       title: 'Emotional Intelligence 2.0',
       subtitle: 'Amygdala, dopamine, shame — instead of “just calm down”',

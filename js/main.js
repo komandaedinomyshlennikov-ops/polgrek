@@ -835,10 +835,16 @@
     });
   }
 
-  /* Neural canvas for hero */
+  /* Neural canvas for hero — skip on reduced-motion, save-data, low cores, narrow screens */
   function initNeuralCanvas(canvas) {
-    if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    const cores = navigator.hardwareConcurrency || 4;
+    if (cores <= 2) return;
+    if (window.matchMedia('(max-width: 520px)').matches && cores <= 4) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     let w, h, nodes, raf;
     const count = 42;
 
