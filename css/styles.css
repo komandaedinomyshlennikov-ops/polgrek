@@ -1573,7 +1573,7 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   box-shadow: 0 4px 14px rgba(11, 31, 51, 0.12);
 }
 .book-badge-key {
-  background: linear-gradient(135deg, var(--amber), var(--amber-deep));
+  background: var(--amber);
   color: #1a1205;
 }
 .book-badge-co {
