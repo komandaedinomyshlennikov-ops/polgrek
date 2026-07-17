@@ -63,3 +63,16 @@ window.POL_GREK_METRIKA_ID = 110711984; // активный счётчик polgr
 ## 6. RU / EN
 
 Один счётчик на весь сайт. Язык уходит параметром `lang=ru|en` и в visit params.
+
+
+## 7. Воронка (отчёты)
+
+Рекомендуемая цепочка в Метрике (цели + параметры):
+
+1. `book_view` / просмотр home / catalog (`filter_books`, `catalog_search`)
+2. `excerpt_download` — интерес к тексту
+3. `litres` (параметр `book`) — конверсия в покупку
+
+Срезы: `lang=ru|en`, `book=<slug>`, `path`.
+
+Baseline: 7 дней после деплоя Stage 3–4 → сравнить долю `litres` / визит catalog.

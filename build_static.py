@@ -227,19 +227,21 @@ def store_actions_html(
     </div>"""
 
 
-def book_card_meta(book: dict) -> str:
+def book_card_meta(book: dict, lang: str = "ru") -> str:
     """One soft line under promise: format + primary topic (MIF meta under title)."""
+    is_en = lang == "en"
+    tag_map = TAG_RU  # may be swapped to EN labels when building EN pages
     topic = ""
     for t in book.get("tags") or []:
         if t in ("лора", "laura"):
             continue
-        topic = TAG_RU.get(t, t)
+        topic = tag_map.get(t, t)
         break
-    bits = ["Электронная"]
+    bits = ["Ebook" if is_en else "Электронная"]
     if topic:
         bits.append(topic)
     if len(book.get("authors") or []) > 1:
-        bits.append("с Лорой")
+        bits.append("with Laura" if is_en else "с Лорой")
     return " · ".join(bits)
 
 
@@ -350,8 +352,9 @@ def book_card(
   </a>
   <div class="book-body">
     <h3 class="book-title"><a href="{href}">{esc(book['title'])}</a></h3>
+    {f'<p class="book-card-chip">{esc(str((book.get("forWhom") or [""])[0])[:90])}</p>' if (book.get("forWhom") or [None])[0] else ""}
     <p class="book-card-promise">{esc(book['promise'])}</p>
-    <p class="book-card-meta">{esc(book_card_meta(book))}</p>
+    <p class="book-card-meta">{esc(book_card_meta(book, lang=lang))}</p>
   </div>
   {store_actions_html(book, href, compact=True, G=G, lang=lang)}
 </article>"""
@@ -402,7 +405,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260717pre3"
+CSS_VER = "20260717pre4"
 
 
 def abs_url(path: str) -> str:
@@ -505,6 +508,7 @@ def shell(
   <link rel="stylesheet" href="{css}" />{ld_scripts}
 {extra_head}</head>
 <body data-page="{page}" data-base="{base}"{data_lang}{data_assets}>
+  <a class="skip-link" href="#main-content">{('Skip to content' if lang == 'en' else 'К содержанию')}</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
       <div class="nav-inner">
@@ -1560,13 +1564,17 @@ def main() -> None:
                 ("Разделы о книге", "Book sections"),
                 ("Купить", "Buy"),
                 ("Главная", "Home"),
+                ("Лаборатория", "Lab"),
                 ("Книги", "Books"),
                 ("Автор", "Author"),
+                ("с Лорой", "with Laura"),
                 ("с Лорой Грэк", "with Laura Grek"),
                 ("Обложка:", "Cover:"),
                 ("Литрес", "LitRes"),
                 (" — Пол Грэк", " — Pol Grek"),
                 ("Отрывок", "Excerpt"),
+                ('content="Пол Грэк"', 'content="Pol Grek"'),
+                ("og:site_name\" content=\"Пол Грэк\"", "og:site_name\" content=\"Pol Grek\""),
                 ("Если эта тема откликнулась", "If this topic resonates"),
                 ("Быстрые действия", "Quick actions"),
                 ("Аннотация и отрывок →", "Blurb & excerpt →"),
@@ -1641,8 +1649,14 @@ def main() -> None:
             )
             reps = [
                 ("Статья открыта без JavaScript.", "Article loaded without JavaScript."),
+                ("Основная навигация", "Primary"),
+                ("Пол Грэк — на главную", "Pol Grek — home"),
+                ("Пол Грэк<span>нейробиология</span>", "Pol Grek<span>brain science</span>"),
+                ("Пол Грэк<span>Pol Grek · нейробиология</span>", "Pol Grek<span>brain science</span>"),
                 ("Главная", "Home"),
                 ("Лаборатория", "Lab"),
+                ("Об авторе", "About"),
+                ("Книги", "Books"),
                 ("мин · отрывок и книга →", "min · excerpt & book →"),
                 (" мин", " min"),
                 ("Книга:", "Book:"),
@@ -1655,6 +1669,8 @@ def main() -> None:
                 ("К книге", "To the book"),
                 ("Вы здесь", "You are here"),
                 ("aria-label=\"Вы здесь\"", "aria-label=\"You are here\""),
+                ('content="Пол Грэк"', 'content="Pol Grek"'),
+                ('og:site_name" content="Пол Грэк"', 'og:site_name" content="Pol Grek"'),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)

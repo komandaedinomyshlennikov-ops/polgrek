@@ -743,12 +743,22 @@
   }
 
   function articleCardHTML(a) {
+    const meta = isEn
+      ? `${a.readMin} min · excerpt & book →`
+      : `${a.readMin} мин · отрывок и книга →`;
+    const cat = escapeAttr(a.category || '');
+    const catSlug = String(a.category || '')
+      .toLowerCase()
+      .replace(/ё/g, 'е')
+      .replace(/[^a-zа-я0-9]+/gi, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 32);
     return `
-      <a class="article-card" href="${articlePageUrl(a.slug)}">
-        <div class="cat">${a.category}</div>
+      <a class="article-card" href="${articlePageUrl(a.slug)}" data-cat="${catSlug}">
+        <div class="cat">${cat}</div>
         <h3>${a.title}</h3>
         <p>${a.hook}</p>
-        <div class="meta">${a.readMin} мин · отрывок и книга →</div>
+        <div class="meta">${meta}</div>
       </a>`;
   }
 
@@ -780,14 +790,25 @@
       backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // Desktop dropdown
+    // Desktop dropdown — click + keyboard (Escape / ArrowDown focus first link)
     document.querySelectorAll('[data-dropdown]').forEach((drop) => {
       const btn = drop.querySelector('[data-drop-toggle]');
       if (!btn) return;
+      const menu =
+        drop.querySelector('[data-drop-menu]') ||
+        drop.querySelector('.nav-drop-panel') ||
+        drop.querySelector('.nav-drop-menu');
+      const setOpen = (open) => {
+        drop.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open && menu) {
+          const first = menu.querySelector('a');
+          if (first) first.focus();
+        }
+      };
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const open = drop.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        const willOpen = !drop.classList.contains('open');
         document.querySelectorAll('[data-dropdown].open').forEach((other) => {
           if (other !== drop) {
             other.classList.remove('open');
@@ -795,7 +816,37 @@
             if (b) b.setAttribute('aria-expanded', 'false');
           }
         });
+        setOpen(willOpen);
       });
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setOpen(true);
+        }
+      });
+      if (menu) {
+        menu.addEventListener('keydown', (e) => {
+          const links = [...menu.querySelectorAll('a')];
+          const i = links.indexOf(document.activeElement);
+          if (e.key === 'ArrowDown' && i >= 0 && i < links.length - 1) {
+            e.preventDefault();
+            links[i + 1].focus();
+          } else if (e.key === 'ArrowUp' && i > 0) {
+            e.preventDefault();
+            links[i - 1].focus();
+          } else if (e.key === 'ArrowUp' && i === 0) {
+            e.preventDefault();
+            btn.focus();
+            setOpen(false);
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            setOpen(false);
+            btn.focus();
+          } else if (e.key === 'Tab' && !e.shiftKey && i === links.length - 1) {
+            setOpen(false);
+          }
+        });
+      }
     });
     document.addEventListener('click', () => {
       document.querySelectorAll('[data-dropdown].open').forEach((drop) => {

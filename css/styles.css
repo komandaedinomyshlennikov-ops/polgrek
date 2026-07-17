@@ -57,7 +57,7 @@
   --teal: #2A9D8F;
   --teal-deep: #1F7A6F;
   --graphite: #3D4A57;
-  --muted: #6B7682;
+  --muted: #5A6570; /* AA contrast ≥ 4.5 on --paper */
   --line: rgba(11, 31, 51, 0.1);
   --line-strong: rgba(11, 31, 51, 0.18);
   --coral: #D16666;
@@ -269,6 +269,34 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   top: 0.75rem;
   outline: 2px solid var(--amber);
   outline-offset: 2px;
+}
+/* Keyboard focus: doors, filters, buy, cards */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.door:focus-visible,
+.book-card-buy:focus-visible,
+.article-card:focus-visible,
+.rating-card:focus-visible,
+.nav-drop-btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--amber-deep);
+  outline-offset: 3px;
+}
+.book-card:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--amber-deep) 55%, transparent);
+  outline-offset: 3px;
+}
+.filters label:focus-within {
+  outline: 2px solid var(--amber-deep);
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+.btn:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Home page jump links (IA / orientation) */
@@ -2272,23 +2300,62 @@ html:not(.js) .nsf-labels {
   border-radius: var(--radius);
   background: var(--panel-bg);
   border: 1px solid var(--line);
+  border-top: 3px solid var(--teal);
   box-shadow: var(--shadow);
   transition: transform 0.3s var(--ease), box-shadow 0.3s;
   display: flex;
   flex-direction: column;
   min-height: 260px;
+  text-decoration: none;
+  color: inherit;
 }
 .article-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
 }
+/* Category accent (lab visual hierarchy) */
+.article-card[data-cat*="стресс"],
+.article-card[data-cat*="stress"],
+.article-card[data-cat*="vygoranie"],
+.article-card[data-cat*="выгоран"] {
+  border-top-color: #C9841F;
+}
+.article-card[data-cat*="сон"],
+.article-card[data-cat*="энерг"],
+.article-card[data-cat*="sleep"],
+.article-card[data-cat*="energy"] {
+  border-top-color: #2A9D8F;
+}
+.article-card[data-cat*="деньг"],
+.article-card[data-cat*="money"],
+.article-card[data-cat*="решен"] {
+  border-top-color: #3D6B9A;
+}
+.article-card[data-cat*="биохак"],
+.article-card[data-cat*="biohack"] {
+  border-top-color: #6B5B95;
+}
+.article-card[data-cat*="когнит"],
+.article-card[data-cat*="cognit"] {
+  border-top-color: #1F7A6F;
+}
+.article-card[data-cat*="поведен"],
+.article-card[data-cat*="behav"],
+.article-card[data-cat*="мозг"] {
+  border-top-color: #2A9D8F;
+}
 .article-card .cat {
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--teal-deep);
   margin-bottom: 0.7rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--teal) 12%, transparent);
 }
 .article-card h3 {
   font-size: 1.2rem;
