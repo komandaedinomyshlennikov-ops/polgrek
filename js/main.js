@@ -497,7 +497,10 @@
   /** Direct LitRes URL (for schema / non-buy references). Strip tracking query. */
   function litresDirect(bookOrUrl) {
     if (!bookOrUrl) return '';
-    let u = typeof bookOrUrl === 'string' ? bookOrUrl : bookOrUrl.litres || '';
+    let u =
+      typeof bookOrUrl === 'string'
+        ? bookOrUrl
+        : bookOrUrl.buyUrl || bookOrUrl.litres || bookOrUrl.buy || '';
     return String(u).replace(/\?[\s\S]*$/, '').trim();
   }
 

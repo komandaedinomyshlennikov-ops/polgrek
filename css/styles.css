@@ -1504,7 +1504,13 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   align-items: start;
 }
 .books-grid--catalog {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* 3 cols on desktop: room for title + buy CTA (4 cols squeezed buttons off perception) */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 1200px) {
+  .books-grid--catalog {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 .book-card {
   display: block;
@@ -1679,23 +1685,46 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   opacity: 1 !important;
 }
 
+/* Catalog tile: always stack cover → text → buy (never clip CTA) */
+.book-card.book-card--tile {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+.book-card--tile .book-body {
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+}
+
 /* Actions under each catalog card: affiliate Buy + text links */
 .book-card--tile .book-actions,
 .book-actions--tile,
-.book-card-cta {
+.book-card-cta,
+.books-grid .book-card-cta,
+html.js .books-grid .book-card-cta {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   margin: 0.85rem 0 0 !important;
   padding: 0.75rem 0 0 !important;
   border-top: 1px solid var(--line);
-  flex: none !important;
+  flex: 0 0 auto !important;
   width: 100% !important;
   max-width: 100% !important;
+  min-height: 48px !important;
+  height: auto !important;
+  max-height: none !important;
   box-sizing: border-box;
-  position: relative;
-  z-index: 2;
+  position: relative !important;
+  z-index: 6 !important;
   overflow: visible !important;
+  clip: auto !important;
+  clip-path: none !important;
+  transform: none !important;
 }
 .book-card-buy,
 .book-actions--tile .btn,
@@ -1703,33 +1732,49 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
 .book-actions--tile .btn-primary,
 .book-actions--tile .btn-outline,
 .book-card--tile .book-actions .btn,
-.book-card-cta .book-card-buy {
+.book-card-cta .book-card-buy,
+.books-grid .book-card-buy,
+html.js .books-grid .book-card-buy,
+html.js .books-grid-flagship .book-card-buy {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  align-items: center;
-  justify-content: center;
-  flex: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
   width: 100% !important;
   max-width: 100% !important;
   min-height: 48px !important;
   height: auto !important;
+  max-height: none !important;
   margin: 0 0 0.5rem !important;
   padding: 0.7rem 1rem !important;
   font-size: 0.95rem !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   line-height: 1.25 !important;
   white-space: normal !important;
   text-align: center !important;
-  box-sizing: border-box;
-  box-shadow: 0 1px 2px rgba(10, 25, 41, 0.08), 0 8px 22px rgba(10, 25, 41, 0.1) !important;
-  background: var(--ink) !important;
-  color: var(--btn-primary-text, #F3EEE4) !important;
+  box-sizing: border-box !important;
+  /* Hard hex: never invisible cream-on-cream / var() failure */
+  box-shadow: 0 1px 2px rgba(10, 25, 41, 0.1), 0 8px 22px rgba(10, 25, 41, 0.12) !important;
+  background: #0a1929 !important;
+  color: #ffffff !important;
   border: none !important;
-  border-radius: var(--radius-btn, 12px) !important;
+  border-radius: 12px !important;
   pointer-events: auto !important;
   cursor: pointer !important;
   text-decoration: none !important;
+  position: relative !important;
+  z-index: 7 !important;
+  clip: auto !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+[data-theme="dark"] .book-card-cta .book-card-buy,
+[data-theme="dark"] .books-grid .book-card-buy,
+[data-theme="dark"] html.js .books-grid .book-card-buy {
+  background: #e8eef4 !important;
+  color: #0a1929 !important;
 }
 .book-card-cta .book-card-links,
 .book-actions--tile .book-card-links,
