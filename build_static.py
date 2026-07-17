@@ -225,12 +225,15 @@ def store_actions_html(
     rel = litres_rel(G)
     buy_label = "Buy on LitRes" if lang == "en" else "Купить на Литрес"
     more_label = "About the book" if lang == "en" else "О книге"
+    mark = AFFILIATE_MARK_EN if lang == "en" else AFFILIATE_MARK_RU
+    mark = mark.replace('class="affiliate-mark"', 'class="affiliate-mark affiliate-mark--card"')
     return f"""<div class="book-card-cta">
       <a class="btn btn-primary book-card-buy" href="{esc(buy)}" target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
       <div class="book-card-links">
         <a class="book-more" href="{href}">{more_label}</a>
         {amz_link}
       </div>
+      {mark}
     </div>"""
 
 
@@ -412,7 +415,14 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260717pre5"
+CSS_VER = "20260717pre6"
+AFFILIATE_ERID = "2VfnxyNkZrY"
+AFFILIATE_MARK_RU = (
+    f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес (AdvCake)</p>'
+)
+AFFILIATE_MARK_EN = (
+    f'<p class="affiliate-mark">Ad · erid: {AFFILIATE_ERID} · LitRes partner link (AdvCake)</p>'
+)
 
 
 def abs_url(path: str) -> str:
@@ -895,9 +905,10 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
               <a class="btn btn-outline" href="#excerpt">Читать на странице</a>
             </div>
             <div class="book-buy-actions book-buy-actions--store">
-              <a class="btn btn-primary" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Купить на Литрес</a>
+              <a class="btn btn-outline" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Купить на Литрес</a>
               {amz_btn}
             </div>
+            {AFFILIATE_MARK_RU}
             <p class="book-aside-hint">{pay_hint}</p>
           </div>
 
@@ -1004,7 +1015,8 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
       </div>
     </div>
     <div class="sticky-buy" aria-label="Быстрые действия">
-      <a class="btn btn-primary" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>
+      <a class="btn btn-primary" href="#excerpt">Отрывок</a>
+      <a class="btn btn-outline" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>
       {amz_sticky}
       <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
@@ -1762,6 +1774,9 @@ def main() -> None:
                 ("с Лорой", "with Laura"),
                 ("с Лорой Грэк", "with Laura Grek"),
                 ("Обложка:", "Cover:"),
+                ("О книге", "About the book"),
+                ("Реклама · erid:", "Ad · erid:"),
+                ("партнёрская ссылка Литрес (AdvCake)", "LitRes partner link (AdvCake)"),
                 ("Литрес", "LitRes"),
                 (" — Пол Грэк", " — Pol Grek"),
                 ("Отрывок", "Excerpt"),

@@ -3110,6 +3110,23 @@ a.book-tag-chip:hover {
   border-top: 1px solid var(--line);
 }
 
+/* FZ-38 / AdvCake visible mark near partner buys */
+.affiliate-mark {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted);
+  font-weight: 500;
+  max-width: 42rem;
+}
+.affiliate-mark--card {
+  margin-top: 0.45rem;
+  font-size: 0.68rem;
+}
+.footer-legal .affiliate-mark {
+  margin-top: 0.65rem;
+}
+
 /* Sticky mobile buy bar — sits ABOVE tabbar (not under it) */
 .sticky-buy {
   display: none;

@@ -74,7 +74,7 @@ window.POL_GREK = {
   faq: [
     {
       q: 'Is this just another biohacking grift?',
-      a: 'No “become superhuman” course, no miracle stack, no secret club. You’ll see evidence grades [A]–[D], clear “what doesn’t work,” and free excerpts. Buy on LitRes or Amazon — not a paywall on this site.',
+      a: 'No “become superhuman” course, no miracle stack, no secret club. In the books, key claims use evidence grades A–D where it fits, plus clear “what doesn’t work.” Free excerpts first; buy on LitRes or Amazon — not a paywall here.',
     },
     {
       q: 'Why write in Russian if he was born in England?',
@@ -82,7 +82,7 @@ window.POL_GREK = {
     },
     {
       q: 'Who owns the science voice?',
-      a: 'Pol writes applied neuropsychology with A–D evidence labels. Laura co-authors selected titles (anxiety, hormones, EI) from clinical practice. This is popular science, not a treatment plan — health decisions stay with your clinician.',
+      a: 'Pol writes applied neuropsychology as popular science: A–D labels where claims warrant them — not “everything is proven.” Laura co-authors selected titles (anxiety, hormones, EI) from clinical practice. Not a treatment plan — health decisions stay with your clinician.',
     },
     {
       q: 'Where do I buy — and how do I know it’s real?',

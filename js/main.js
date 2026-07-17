@@ -76,6 +76,7 @@
         privacy: 'Privacy',
         buyLitres: 'Buy on LitRes',
         fullLitres: 'All titles on LitRes',
+        affiliateMark: 'Ad · erid: 2VfnxyNkZrY · LitRes partner link (AdvCake)',
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Language',
@@ -151,6 +152,7 @@
         privacy: 'Конфиденциальность',
         buyLitres: 'Купить на Литрес',
         fullLitres: 'Литрес · все книги автора',
+        affiliateMark: 'Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес (AdvCake)',
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Язык',
@@ -438,6 +440,7 @@
         <div class="container footer-legal">
           <p>${legal.disclaimer || ''}</p>
           <p>${legal.privacy || ''}</p>
+          <p class="affiliate-mark">${UI.affiliateMark || ''}</p>
         </div>
         <div class="container footer-bottom">
           <span>© ${new Date().getFullYear()} Pol Grek / Пол Грэк</span>
@@ -625,6 +628,7 @@
           <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
           ${amzLink}
         </div>
+        <p class="affiliate-mark affiliate-mark--card">${UI.affiliateMark || ''}</p>
       </div>`;
   }
 
