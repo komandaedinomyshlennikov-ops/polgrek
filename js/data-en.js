@@ -101,7 +101,7 @@ window.POL_GREK = {
     role: 'Applied neuropsychology · popular-science author',
     tagline: 'No woo. No hype. What actually works — with evidence grades attached.',
     bioShort:
-      'Born in England. Writes brain science without the mysticism — for people under real load. Russian from age 35 with his wife Laura (clinical psychologist, MSU). Lived burnout first; books second. Public shelf: LitRes + Amazon.',
+      'English-born, writing in Russian from age 35 for wife Laura (clinical psychologist, MSU) and family. Brain science without woo or superhuman promises — lived first, books second. A–D grades where they fit. Best check: LitRes author page.',
     bioFull: [
       'Pol Grek was born in England. His work sits at the intersection of cognitive science and how people actually burn out inside high-pressure teams.',
       'He consults on stress resilience and cognitive performance in tech and finance environments — not “success coaching,” but protocols you can stress-test.',
