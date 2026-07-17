@@ -161,6 +161,15 @@ def apply_affiliate_template(tpl: str, direct: str, sub1: str = "") -> str:
     return out
 
 
+def litres_direct_url(book: dict | str) -> str:
+    """Clean LitRes product URL (no tracking query). Prefer buyUrl → litres → buy."""
+    if isinstance(book, str):
+        return _litres_base(book)
+    return _litres_base(
+        book.get("buyUrl") or book.get("litres") or book.get("buy") or ""
+    )
+
+
 def litres_buy_url(G: dict | None, book: dict | str, slug: str | None = None) -> str:
     """Partner deep link (AdvCake) when affiliate.enabled, else plain LitRes URL.
 
@@ -171,7 +180,7 @@ def litres_buy_url(G: dict | None, book: dict | str, slug: str | None = None) ->
         direct = _litres_base(book)
         s = slug or ""
     else:
-        direct = _litres_base(book.get("litres") or "")
+        direct = litres_direct_url(book)
         s = slug or (book.get("slug") or "")
 
     aff = affiliate_cfg(G)
@@ -214,21 +223,35 @@ def store_actions_html(
     *,
     lang: str = "ru",
 ) -> str:
-    """Catalog CTA under card: full-width affiliate Buy + «О книге» / Amazon."""
+    """Catalog CTA under card: clean LitRes Buy (adblock-safe) + «О книге» / Amazon.
+
+    Partner query is in data-aff; main.js applies it on click so filters that
+    strip advcake/utm links do not remove the visible «Купить» button.
+    """
     amz = amazon_product_url(book)
     amz_link = (
         f'<a class="book-amazon-link" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
         if amz
         else ""
     )
-    buy = litres_buy_url(G, book)
+    clean = litres_direct_url(book)
+    aff = litres_buy_url(G, book) or clean
+    buy_href = clean or aff
+    data_aff = f' data-aff="{esc(aff)}"' if aff and aff != clean else ""
     rel = litres_rel(G)
     buy_label = "Buy on LitRes" if lang == "en" else "Купить на Литрес"
     more_label = "About the book" if lang == "en" else "О книге"
     mark = AFFILIATE_MARK_EN if lang == "en" else AFFILIATE_MARK_RU
     mark = mark.replace('class="affiliate-mark"', 'class="affiliate-mark affiliate-mark--card"')
+    if not buy_href:
+        return f"""<div class="book-card-cta">
+      <div class="book-card-links">
+        <a class="book-more" href="{href}">{more_label}</a>
+        {amz_link}
+      </div>
+    </div>"""
     return f"""<div class="book-card-cta">
-      <a class="btn btn-primary book-card-buy" href="{esc(buy)}" target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
+      <a class="btn btn-primary book-card-buy" href="{esc(buy_href)}"{data_aff} target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
       <div class="book-card-links">
         <a class="book-more" href="{href}">{more_label}</a>
         {amz_link}
@@ -415,13 +438,13 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260717buyfix"
+CSS_VER = "20260717buy2"
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
-    f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес (AdvCake)</p>'
+    f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'
 )
 AFFILIATE_MARK_EN = (
-    f'<p class="affiliate-mark">Ad · erid: {AFFILIATE_ERID} · LitRes partner link (AdvCake)</p>'
+    f'<p class="affiliate-mark">Ad · erid: {AFFILIATE_ERID} · LitRes partner link</p>'
 )
 
 
@@ -555,7 +578,7 @@ def shell(
   <div id="site-footer"></div>
   <script src="{path_prefix}js/base-config.js"></script>
   <script src="{data_src}"></script>
-{articles_script}  <script src="{path_prefix}js/main.js"></script>
+{articles_script}  <script src="{path_prefix}js/main.js?v={CSS_VER}"></script>
 </body>
 </html>
 """
@@ -1912,25 +1935,16 @@ def main() -> None:
             (en_lab / f"{article['slug']}.html").write_text(build_article_en(GE, article), encoding="utf-8")
             print("en article", article["slug"])
 
-        # EN catalog: static cards with affiliate Buy (no-JS)
+        # EN catalog: static cards (same end marker as RU — never first inner </div>)
         en_books_html = "".join(
             book_card(b, books_dir=True, G=GE, lang="en") for b in GE.get("books") or []
         )
-        en_cat = SITE / "en" / "books" / "index.html"
-        if en_cat.exists():
-            raw = en_cat.read_text(encoding="utf-8")
-            start = 'id="booksGrid">'
-            a = raw.find(start)
-            if a >= 0:
-                # replace everything until closing </div> of booksGrid
-                # find matching close: first </div> after grid open that is alone-ish
-                b = raw.find("</div>", a + len(start))
-                if b >= 0:
-                    en_cat.write_text(
-                        raw[: a + len(start)] + en_books_html + raw[b:],
-                        encoding="utf-8",
-                    )
-                    print("inject en/books/index.html catalog cards")
+        inject_between(
+            SITE / "en" / "books" / "index.html",
+            'id="booksGrid">',
+            "</div>\n        <p class=\"catalog-hint\"",
+            en_books_html,
+        )
 
         TAG_RU.clear()
         TAG_RU.update(_tag_backup)
@@ -1940,7 +1954,27 @@ def main() -> None:
     if GE:
         inject_catalog_itemlist(GE, lang="en")
     sync_faq_and_timeline(G, GE)
+    bust_asset_cache()
     print("OK: static pages built")
+
+
+def bust_asset_cache() -> None:
+    """Point every page shell at current CSS_VER (hand-edited catalog shells included)."""
+    import re
+
+    css_re = re.compile(r'(href="[^"]*css/styles\.css)(?:\?v=[^"]*)?"')
+    js_re = re.compile(r'(src="[^"]*js/main\.js)(?:\?v=[^"]*)?"')
+    n = 0
+    for path in SITE.rglob("*.html"):
+        if "partials" in path.parts:
+            continue
+        raw = path.read_text(encoding="utf-8")
+        new = css_re.sub(rf'\1?v={CSS_VER}"', raw)
+        new = js_re.sub(rf'\1?v={CSS_VER}"', new)
+        if new != raw:
+            path.write_text(new, encoding="utf-8")
+            n += 1
+    print(f"cache bust CSS/JS on {n} html files → v={CSS_VER}")
 
 
 def inject_catalog_itemlist(G: dict, *, lang: str = "ru") -> None:

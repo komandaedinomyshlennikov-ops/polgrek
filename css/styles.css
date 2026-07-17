@@ -2049,7 +2049,9 @@ html.js .nsf-labels {
    (browsers may restore a non-all radio; then every card stays display:none). */
 html.js .books-grid .book-card,
 html.js .books-grid .book-card--tile {
-  display: block !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
   visibility: visible !important;
   opacity: 1 !important;
   height: auto !important;
@@ -2057,22 +2059,33 @@ html.js .books-grid .book-card--tile {
   overflow: visible !important;
 }
 html.js .books-grid .book-card-cta,
-html.js .books-grid .book-card-buy,
-html.js .books-grid-flagship .book-card-cta,
-html.js .books-grid-flagship .book-card-buy {
-  display: flex !important;
+html.js .books-grid-flagship .book-card-cta {
+  display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: relative !important;
-  z-index: 2 !important;
+  z-index: 6 !important;
   width: 100% !important;
   max-width: 100% !important;
   min-height: 48px !important;
   height: auto !important;
   pointer-events: auto !important;
+  margin-top: 0.85rem !important;
 }
-html.js .books-grid .book-card-cta {
-  display: block !important;
+html.js .books-grid .book-card-buy,
+html.js .books-grid-flagship .book-card-buy {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 7 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 48px !important;
+  height: auto !important;
+  pointer-events: auto !important;
+  background: #0a1929 !important;
+  color: #ffffff !important;
 }
 html:not(.js) .catalog-js-only {
   display: none !important;

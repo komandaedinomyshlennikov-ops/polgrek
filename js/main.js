@@ -76,7 +76,7 @@
         privacy: 'Privacy',
         buyLitres: 'Buy on LitRes',
         fullLitres: 'All titles on LitRes',
-        affiliateMark: 'Ad · erid: 2VfnxyNkZrY · LitRes partner link (AdvCake)',
+        affiliateMark: 'Ad · erid: 2VfnxyNkZrY · LitRes partner link',
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Language',
@@ -152,7 +152,7 @@
         privacy: 'Конфиденциальность',
         buyLitres: 'Купить на Литрес',
         fullLitres: 'Литрес · все книги автора',
-        affiliateMark: 'Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес (AdvCake)',
+        affiliateMark: 'Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес',
         langRu: 'RU',
         langEn: 'EN',
         langAria: 'Язык',
@@ -240,6 +240,17 @@
       (e) => {
         const a = e.target.closest('a');
         if (!a || !a.href) return;
+
+        // Catalog buy: href is clean LitRes (adblock-safe); swap to partner URL on click.
+        const aff = a.getAttribute('data-aff');
+        if (aff && /litres\.ru/i.test(aff)) {
+          try {
+            a.setAttribute('href', aff);
+          } catch (_) {
+            /* ignore */
+          }
+        }
+
         const params = {
           lang: isEn ? 'en' : 'ru',
           path: location.pathname,
@@ -617,16 +628,29 @@
 
   function storeButtons(book, compact) {
     const amzOk = hasAmazonProduct(book);
-    const buy = escapeAttr(litresBuyUrl(book));
+    // Clean LitRes in href so adblock doesn't strip the whole CTA (advcake query).
+    // Partner URL lives in data-aff and is applied on click (bindAnalytics).
+    const clean = litresDirect(book);
+    const aff = litresBuyUrl(book) || clean;
+    const href = escapeAttr(clean || aff);
+    const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
     const rel = litresRel();
     const buyLabel = UI.buyLitres || UI.buy;
-    // Under each catalog card: full-width affiliate Buy (LitRes AdvCake)
     const amzLink = amzOk
       ? `<a class="book-amazon-link" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
       : '';
+    if (!href) {
+      return `
+      <div class="book-card-cta">
+        <div class="book-card-links">
+          <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
+          ${amzLink}
+        </div>
+      </div>`;
+    }
     return `
       <div class="book-card-cta">
-        <a class="btn btn-primary book-card-buy" href="${buy}" target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${buyLabel}</a>
+        <a class="btn btn-primary book-card-buy" href="${href}"${dataAff} target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${buyLabel}</a>
         <div class="book-card-links">
           <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
           ${amzLink}
@@ -713,6 +737,37 @@
       }
     });
     return tokens.join(' ');
+  }
+
+  /** If adblock removed .book-card-buy, rebuild clean LitRes CTAs from data. */
+  function scheduleCatalogBuyHarden(grid, list) {
+    if (!grid || !list || !list.length) return;
+    const run = () => {
+      const cards = grid.querySelectorAll('.book-card--tile, .book-card');
+      if (!cards.length) return;
+      let missing = 0;
+      cards.forEach((card) => {
+        if (!card.querySelector('.book-card-buy')) missing += 1;
+      });
+      if (missing === 0) {
+        // Still force clean hrefs (in case static HTML had advcake query)
+        grid.querySelectorAll('a.book-card-buy').forEach((a) => {
+          const href = a.getAttribute('href') || '';
+          if (/advcake|utm_source=advcake/i.test(href)) {
+            const clean = href.replace(/\?[\s\S]*$/, '');
+            const aff = a.getAttribute('data-aff') || href;
+            if (clean) a.setAttribute('href', clean);
+            if (aff && !a.getAttribute('data-aff')) a.setAttribute('data-aff', aff);
+          }
+        });
+        return;
+      }
+      // Rebuild whole grid with clean-href cards
+      grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
+    };
+    run();
+    setTimeout(run, 50);
+    setTimeout(run, 400);
   }
 
   function bookCardHTML(book, opts = {}) {
@@ -1132,6 +1187,8 @@
         grid.innerHTML = list.map((b) => bookCardHTML(b)).join('');
         grid.hidden = false;
         if (emptyEl) emptyEl.hidden = true;
+        // Re-assert buy CTAs if an extension strips affiliate-looking nodes after paint.
+        scheduleCatalogBuyHarden(grid, list);
       } else {
         grid.innerHTML = '';
         grid.hidden = true;
