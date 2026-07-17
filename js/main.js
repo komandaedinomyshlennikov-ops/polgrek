@@ -895,94 +895,9 @@
     });
   }
 
-  /* Neural canvas for hero — skip on reduced-motion, save-data, low cores, narrow screens */
+  /* Neural canvas disabled — Quiet Lab premium direction */
   function initNeuralCanvas(canvas) {
-    if (!canvas) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (navigator.connection && navigator.connection.saveData) return;
-    const cores = navigator.hardwareConcurrency || 4;
-    if (cores <= 2) return;
-    if (window.matchMedia('(max-width: 520px)').matches && cores <= 4) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let w, h, nodes, raf;
-    const count = 42;
-
-    function resize() {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      w = canvas.width = rect.width * devicePixelRatio;
-      h = canvas.height = rect.height * devicePixelRatio;
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * rect.width,
-        y: Math.random() * rect.height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        r: 1.2 + Math.random() * 2.2,
-      }));
-    }
-
-    function step() {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      ctx.clearRect(0, 0, rect.width, rect.height);
-
-      // soft orbs
-      const g1 = ctx.createRadialGradient(rect.width * 0.3, rect.height * 0.3, 0, rect.width * 0.3, rect.height * 0.3, rect.width * 0.45);
-      g1.addColorStop(0, 'rgba(42,157,143,0.22)');
-      g1.addColorStop(1, 'transparent');
-      ctx.fillStyle = g1;
-      ctx.fillRect(0, 0, rect.width, rect.height);
-
-      const g2 = ctx.createRadialGradient(rect.width * 0.8, rect.height * 0.7, 0, rect.width * 0.8, rect.height * 0.7, rect.width * 0.4);
-      g2.addColorStop(0, 'rgba(232,162,58,0.18)');
-      g2.addColorStop(1, 'transparent');
-      ctx.fillStyle = g2;
-      ctx.fillRect(0, 0, rect.width, rect.height);
-
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > rect.width) n.vx *= -1;
-        if (n.y < 0 || n.y > rect.height) n.vy *= -1;
-      }
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i];
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < 120) {
-            ctx.strokeStyle = `rgba(246,241,232,${0.18 * (1 - d / 120)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      for (const n of nodes) {
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(246,241,232,0.85)';
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      raf = requestAnimationFrame(step);
-    }
-
-    resize();
-    step();
-    window.addEventListener('resize', () => {
-      cancelAnimationFrame(raf);
-      resize();
-      step();
-    });
+    if (canvas) canvas.style.display = 'none';
   }
 
   function renderHome() {

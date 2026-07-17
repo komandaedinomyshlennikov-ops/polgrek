@@ -220,15 +220,24 @@ Heavier art direction / photo work; easier to over-illustrate; slightly more imp
 
 ---
 
-## 7. Decision ask
+## 7. Decision
 
-**Recommend: Direction A — «Тихая лаборатория»** as the premium path that respects voice, audience skepticism, and static stack.
+**Chosen: Direction A — «Тихая лаборатория»** (2026-07-17)
 
-Reply with:
-- **A** — implement Quiet Lab (start P1 tokens + home/book), or  
-- **B** — develop Shelf & Study further (shelf hero mock in CSS), or  
-- **A+B hybrid** (Quiet Lab system + shelf only on catalog/home flagships).
+### Implemented (P1)
+- Tokens: flatter paper, quieter shadow, radius 12, no body glows
+- Primary CTA: solid ink (no amber gradient)
+- Hero: no canvas, open CTA row (no amber panel)
+- Page-jump / doors / lab cards / ratings: restrained elevation
+- Catalog buy buttons: ink solid, 12px radius
+- CSS cache: `?v=20260717quiet1`
+
+### Next (P2+)
+- Cyrillic display serif evaluation
+- Lab editorial list layout (optional)
+- Home beat reduction (optional)
+- Dark mode fine-tune after light QA
 
 ---
 
-*End of audit. No production CSS changed in this document phase.*
+*Audit + Direction A P1 implementation.*
