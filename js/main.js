@@ -163,33 +163,66 @@
 
   function peerLangUrl(target) {
     // Map current path between RU root and /en/ mirror
+    // RU books live at /knigi/{slug}/ ; EN at /en/books/{slug}.html
     let path = location.pathname || '/';
-    // Normalize trailing
-    if (path.endsWith('/')) path += 'index.html';
-    if (!/\.html?$/i.test(path) && !path.endsWith('/')) {
-      /* keep */
-    }
     const hash = location.hash || '';
     const search = location.search || '';
+
+    // Normalize: ensure trailing-slash dirs resolve for matching
+    const pathNoQuery = path.split('?')[0];
+
     if (target === 'en') {
-      if (path.includes('/en/')) return path + search + hash;
-      // insert /en before last segment group
-      if (path === '/' || path.endsWith('/index.html') && !path.includes('/books') && !path.includes('/lab')) {
-        return path.replace(/\/?(index\.html)?$/, '/en/index.html') + search + hash;
+      if (pathNoQuery.includes('/en/')) return pathNoQuery + search + hash;
+
+      // /knigi/ → /en/books/index.html
+      if (/\/knigi\/?$/.test(pathNoQuery) || /\/knigi\/index\.html$/.test(pathNoQuery)) {
+        return '/en/books/index.html' + search + hash;
       }
-      // /foo/bar.html -> /en/foo/bar.html ; /about.html -> /en/about.html
-      const m = path.match(/^(.*\/)([^/]+)$/);
-      if (!m) return '/en/index.html' + search + hash;
-      // if already at domain root file
-      if (!path.includes('/books/') && !path.includes('/knigi/') && !path.includes('/lab/') && path.match(/\/[^/]+\.html$/)) {
-        return path.replace(/\/([^/]+\.html)$/, '/en/$1') + search + hash;
+      // /knigi/{slug}/ or /knigi/{slug}/index.html → /en/books/{slug}.html
+      const km = pathNoQuery.match(/\/knigi\/([^/]+)\/?(?:index\.html)?$/);
+      if (km && km[1] && km[1] !== 'index.html') {
+        return '/en/books/' + km[1] + '.html' + search + hash;
       }
-      // books or lab under root
-      return path.replace(/(\/)(books|lab)\//, '$1en/$2/') + search + hash;
+
+      // Legacy /books/{slug}.html → /en/books/{slug}.html
+      if (pathNoQuery.includes('/books/')) {
+        return pathNoQuery.replace('/books/', '/en/books/') + search + hash;
+      }
+
+      // Home
+      if (pathNoQuery === '/' || /\/index\.html$/.test(pathNoQuery) && !pathNoQuery.includes('/lab/')) {
+        if (!pathNoQuery.includes('/lab/')) {
+          return '/en/index.html' + search + hash;
+        }
+      }
+
+      // Root pages: /about.html → /en/about.html
+      if (!pathNoQuery.includes('/lab/') && /\/[^/]+\.html$/.test(pathNoQuery)) {
+        return pathNoQuery.replace(/\/([^/]+\.html)$/, '/en/$1') + search + hash;
+      }
+
+      // Lab
+      if (pathNoQuery.includes('/lab/')) {
+        return pathNoQuery.replace('/lab/', '/en/lab/') + search + hash;
+      }
+
+      return '/en/index.html' + search + hash;
     }
+
     // to RU
-    if (!path.includes('/en/')) return path + search + hash;
-    return path.replace('/en/', '/') + search + hash;
+    if (!pathNoQuery.includes('/en/')) return pathNoQuery + search + hash;
+
+    // /en/books/index.html → /knigi/
+    if (/\/en\/books\/?(?:index\.html)?$/.test(pathNoQuery)) {
+      return '/knigi/' + search + hash;
+    }
+    // /en/books/{slug}.html → /knigi/{slug}/
+    const em = pathNoQuery.match(/\/en\/books\/([^/]+)\.html$/);
+    if (em) {
+      return '/knigi/' + em[1] + '/' + search + hash;
+    }
+
+    return pathNoQuery.replace('/en/', '/') + search + hash;
   }
 
   function langSwitcher() {

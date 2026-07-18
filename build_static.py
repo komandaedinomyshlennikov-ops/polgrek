@@ -95,7 +95,14 @@ def cover_alt_text(book: dict, *, lang: str = "ru") -> str:
     return f"Обложка книги Пол Грэк «{title}»"
 
 
-def clip_desc(text: str, max_len: int = 160, min_len: int = 150, cta: str = "") -> str:
+def clip_desc(
+    text: str,
+    max_len: int = 160,
+    min_len: int = 150,
+    cta: str = "",
+    *,
+    lang: str = "ru",
+) -> str:
     """Unique meta description: target 150–160 chars with optional CTA."""
     text = re.sub(r"\s+", " ", (text or "").strip())
     cta = re.sub(r"\s+", " ", (cta or "").strip())
@@ -125,7 +132,7 @@ def clip_desc(text: str, max_len: int = 160, min_len: int = 150, cta: str = "") 
         " No woo, no hype.",
         " Popular brain science.",
     ]
-    pads = pads_en if any(x in out for x in ("Free ", "Buy ", "Read ")) else pads_ru
+    pads = pads_en if lang == "en" else pads_ru
     i = 0
     while len(out) < min_len and i < len(pads):
         add = pads[i]
@@ -163,18 +170,18 @@ def seo_book_desc(book: dict, *, lang: str = "ru") -> str:
         core = f"{title}: {sub}." if sub else f"{title} — brain science without the woo."
         if ann:
             core = f"{core} {ann}"
-        return clip_desc(core, cta="Free excerpt · buy on LitRes.")
+        return clip_desc(core, cta="Free excerpt · buy on LitRes.", lang="en")
     core = f"{title}: {sub}." if sub else f"Книга «{title}» — научпоп о мозге без эзотерики."
     if ann and ann not in core:
         core = f"{core} {ann}"
-    return clip_desc(core, cta="Отрывок бесплатно → Литрес.")
+    return clip_desc(core, cta="Отрывок бесплатно → Литрес.", lang="ru")
 
 
 def seo_article_desc(article: dict, *, lang: str = "ru") -> str:
     hook = (article.get("hook") or article.get("title") or "").strip()
     if lang == "en":
-        return clip_desc(hook, cta="Read in the Lab · free.")
-    return clip_desc(hook, cta="Читать в Лаборатории — бесплатно.")
+        return clip_desc(hook, cta="Read in the Lab · free.", lang="en")
+    return clip_desc(hook, cta="Читать в Лаборатории — бесплатно.", lang="ru")
 
 
 def tags_html(book: dict) -> str:
@@ -815,7 +822,7 @@ def shell(
     body_class = ' class="has-sticky-buy page-book"' if page == "book" else ""
 
     return f"""<!DOCTYPE html>
-<html lang="{lang_attr}">
+<html lang="{lang_attr}" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -2507,12 +2514,12 @@ def main() -> None:
                 ("Подробнее об авторе", "More about the author"),
                 ("Из книги", "From the book"),
                 ("Описание", "Description"),
+                ("Электронная книга", "Ebook"),
                 ("Электронная", "Ebook"),
                 ("на Литрес · Amazon", "on LitRes · Amazon"),
                 ("на Литрес", "on LitRes"),
                 ("Где купить", "Where to buy"),
                 ("Формат", "Format"),
-                ("Электронная книга", "Ebook"),
                 ("Серия", "Series"),
                 ("Язык", "Language"),
                 ("Русский", "Russian"),
@@ -2530,14 +2537,21 @@ def main() -> None:
                 ("Лаборатория", "Lab"),
                 ("Книги", "Books"),
                 ("Автор", "Author"),
-                ("с Лорой", "with Laura"),
                 ("с Лорой Грэк", "with Laura Grek"),
+                ("с Лорой", "with Laura"),
+                ("Обложка книги Пол Грэк", "Cover of Pol Grek book"),
                 ("Обложка:", "Cover:"),
+                ("Пол Грэк — автор научпопа о мозге", "Pol Grek — brain science author"),
                 ("О книге", "About the book"),
                 ("Реклама · erid:", "Ad · erid:"),
                 ("партнёрская ссылка Литрес (AdvCake)", "LitRes partner link (AdvCake)"),
+                ("партнёрская ссылка Литрес", "LitRes partner link"),
+                ("партнёрская ссылка", "partner link"),
                 ("Литрес", "LitRes"),
                 (" — Пол Грэк", " — Pol Grek"),
+                ("книга Пола Грэка", "by Pol Grek"),
+                ("К содержанию", "Skip to content"),
+                ("Читать отрывок", "Read excerpt"),
                 ("Отрывок", "Excerpt"),
                 ('content="Пол Грэк"', 'content="Pol Grek"'),
                 ("og:site_name\" content=\"Пол Грэк\"", "og:site_name\" content=\"Pol Grek\""),
@@ -2548,26 +2562,52 @@ def main() -> None:
                 ("Excerpt и покупка на LitRes.", "Excerpt and purchase links included."),
                 ('aria-label="Вы здесь"', 'aria-label="You are here"'),
                 ("Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.", "This book is educational and does not replace a physician, therapist, or financial advisor."),
-                ("с Лорой Грэк", "with Laura Grek"),
                 ("Who it's for эта книга", "Who this book is for"),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)
+            html_out = html_out.replace('<html lang="ru">', '<html lang="en" dir="ltr">')
+            html_out = html_out.replace('<html lang="en">', '<html lang="en" dir="ltr">')
             return html_out
 
         def build_article_en(G, article):
             html_out = build_article_page(G, article)
             html_out = html_out.replace('href="../', 'href="../../')
             html_out = html_out.replace('src="../', 'src="../../')
-            html_out = html_out.replace('<html lang="ru">', '<html lang="en">')
-            html_out = html_out.replace('data-base=".."', 'data-base=".." data-lang="en" data-assets="../.."')
+            # Book links from lab: ../../knigi/slug/ → ../books/slug.html
+            html_out = re.sub(
+                rf'href="\.\./\.\./{RU_BOOKS_SEGMENT}/([a-z0-9-]+)/"',
+                r'href="../books/\1.html"',
+                html_out,
+            )
+            html_out = html_out.replace(
+                f'href="../../{RU_BOOKS_SEGMENT}/"',
+                'href="../books/index.html"',
+            )
+            html_out = re.sub(
+                r'<html\s+lang="ru"[^>]*>',
+                '<html lang="en" dir="ltr">',
+                html_out,
+                count=1,
+            )
+            html_out = html_out.replace(
+                'data-base=".."',
+                'data-base=".." data-lang="en" data-assets="../.."',
+            )
             html_out = html_out.replace('js/data-articles.js', 'js/data-articles-en.js')
             html_out = html_out.replace('js/data.js', 'js/data-en.js')
-            # Shorter EN document title
+            # Shorter EN document title + EN meta description
             en_title = clip_title(f"{article['title']} | Pol Grek", 60)
+            en_desc = seo_article_desc(article, lang="en")
             html_out = re.sub(
                 r"<title>[^<]*</title>",
                 f"<title>{esc(en_title)}</title>",
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'<meta name="description" content="[^"]*"\s*/?>',
+                f'<meta name="description" content="{esc(en_desc)}" />',
                 html_out,
                 count=1,
             )
@@ -2578,8 +2618,27 @@ def main() -> None:
                 count=1,
             )
             html_out = re.sub(
+                r'property="og:description" content="[^"]*"',
+                f'property="og:description" content="{esc(en_desc)}"',
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
                 r'name="twitter:title" content="[^"]*"',
                 f'name="twitter:title" content="{esc(en_title)}"',
+                html_out,
+                count=1,
+            )
+            html_out = re.sub(
+                r'name="twitter:description" content="[^"]*"',
+                f'name="twitter:description" content="{esc(en_desc)}"',
+                html_out,
+                count=1,
+            )
+            # Schema description (JSON)
+            html_out = re.sub(
+                r'"description":\s*"[^"]*"',
+                f'"description": {json.dumps(en_desc, ensure_ascii=False)}',
                 html_out,
                 count=1,
             )
@@ -2607,6 +2666,10 @@ def main() -> None:
             html_out = html_out.replace('"name": "Главная"', '"name": "Home"')
             html_out = html_out.replace('"name": "Лаборатория"', '"name": "Lab"')
             html_out = html_out.replace(
+                '"name": "Пол Грэк"',
+                '"name": "Pol Grek"',
+            )
+            html_out = html_out.replace(
                 '"item": "https://polgrek.site/"',
                 '"item": "https://polgrek.site/en/"',
             )
@@ -2614,7 +2677,15 @@ def main() -> None:
                 '"item": "https://polgrek.site/lab/index.html"',
                 '"item": "https://polgrek.site/en/lab/index.html"',
             )
+            # Book schema URLs: knigi → en/books
+            html_out = re.sub(
+                rf'https://polgrek\.site/{RU_BOOKS_SEGMENT}/([a-z0-9-]+)/',
+                r'https://polgrek.site/en/books/\1.html',
+                html_out,
+            )
             reps = [
+                ("К содержанию", "Skip to content"),
+                ("Каталог книг", "Book catalog"),
                 ("Статья открыта без JavaScript.", "Article loaded without JavaScript."),
                 ("Основная навигация", "Primary"),
                 ("Пол Грэк — на главную", "Pol Grek — home"),
@@ -2638,6 +2709,11 @@ def main() -> None:
                 ("aria-label=\"Вы здесь\"", "aria-label=\"You are here\""),
                 ('content="Пол Грэк"', 'content="Pol Grek"'),
                 ('og:site_name" content="Пол Грэк"', 'og:site_name" content="Pol Grek"'),
+                ("Пол Грэк — автор научпопа о мозге", "Pol Grek — brain science author"),
+                ("Читать в Лаборатории — бесплатно", "Read in the Lab · free"),
+                ("Уровни доказательности A–D", "Evidence grades A–D"),
+                ("Без эзотерики и хайпа", "No woo, no hype"),
+                ("Научпоп о мозге", "Popular brain science"),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)

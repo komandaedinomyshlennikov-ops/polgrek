@@ -4660,6 +4660,11 @@ a.book-tag-chip:hover {
 
 html {
   background: var(--paper, #F2EDE3);
+  direction: ltr;
+}
+html[lang="en"],
+html[lang="ru"] {
+  direction: ltr;
 }
 
 /* —— 14.5 Page loader (no white flash) —— */
