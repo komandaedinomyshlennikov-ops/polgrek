@@ -1093,7 +1093,8 @@ body.has-sticky-buy .back-to-top {
   background:
     linear-gradient(165deg, #1a221c 0%, #2a3228 48%, #3d4a3a 100%);
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
+  /* visible so hovered covers can lift “out” of the stack */
+  overflow: visible;
   isolation: isolate;
   padding: 1.15rem 1rem 1rem;
   gap: 0.75rem;
@@ -1106,16 +1107,24 @@ body.has-sticky-buy .back-to-top {
   opacity: 0.45;
   pointer-events: none;
   z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
 }
-/* Hero covers: smaller (≤ ~140px) so art doesn’t dominate */
+/* Hero covers: fan stack — hover brings that book to the front */
+.hero-visual-stack {
+  overflow: visible;
+}
 .hero-visual-stack .hero-cover-stack {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   flex: 1 1 auto;
   min-height: clamp(220px, 32vw, 280px);
   width: 100%;
   display: block;
   pointer-events: none;
+  /* room so lift/scale isn’t clipped by the panel */
+  overflow: visible;
+  isolation: isolate;
 }
 .hero-cover {
   position: absolute;
@@ -1127,10 +1136,15 @@ body.has-sticky-buy .back-to-top {
   overflow: hidden;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
   pointer-events: auto;
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    filter 0.3s ease;
   border: 1px solid rgba(242, 237, 227, 0.35);
   will-change: transform;
   background: var(--paper-2);
+  /* z-index changes must be immediate so the book pops forward on hover */
+  transition-property: transform, box-shadow, filter;
 }
 .hero-cover img {
   width: 100%;
@@ -1138,6 +1152,7 @@ body.has-sticky-buy .back-to-top {
   object-fit: cover;
   display: block;
   filter: saturate(0.88) contrast(0.98);
+  pointer-events: none;
 }
 .hero-cover-0 {
   left: 6%;
@@ -1157,17 +1172,38 @@ body.has-sticky-buy .back-to-top {
   transform: translateY(-50%) rotate(9deg);
   z-index: 2;
 }
-.hero-cover-0:hover {
-  transform: translateY(calc(-50% - 8px)) rotate(-9deg) scale(1.04);
-  z-index: 5;
+/* Bring hovered/focused book to front + lift toward the reader */
+.hero-cover:hover,
+.hero-cover:focus-visible,
+.hero-cover.is-front {
+  z-index: 40 !important;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
+  outline: none;
 }
-.hero-cover-1:hover {
-  transform: translate(-50%, calc(-50% - 8px)) rotate(0deg) scale(1.12);
-  z-index: 5;
+.hero-cover-0:hover,
+.hero-cover-0:focus-visible,
+.hero-cover-0.is-front {
+  transform: translateY(calc(-50% - 16px)) rotate(-4deg) scale(1.16);
+  box-shadow: 0 28px 48px rgba(0, 0, 0, 0.5);
 }
-.hero-cover-2:hover {
-  transform: translateY(calc(-50% - 8px)) rotate(9deg) scale(1.04);
-  z-index: 5;
+.hero-cover-1:hover,
+.hero-cover-1:focus-visible,
+.hero-cover-1.is-front {
+  transform: translate(-50%, calc(-50% - 18px)) rotate(0deg) scale(1.18);
+  box-shadow: 0 32px 56px rgba(0, 0, 0, 0.55);
+}
+.hero-cover-2:hover,
+.hero-cover-2:focus-visible,
+.hero-cover-2.is-front {
+  transform: translateY(calc(-50% - 16px)) rotate(4deg) scale(1.16);
+  box-shadow: 0 28px 48px rgba(0, 0, 0, 0.5);
+}
+/* Dim siblings while one is front (optional polish) */
+.hero-cover-stack:has(.hero-cover:hover) .hero-cover:not(:hover),
+.hero-cover-stack:has(.hero-cover:focus-visible) .hero-cover:not(:focus-visible) {
+  opacity: 0.82;
+  filter: saturate(0.75) brightness(0.92);
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 
 /* Ratings / social proof */
@@ -4898,25 +4934,22 @@ section {
   }
 }
 
-/* —— 14.2 Cover tilt / soft 3D —— */
-.hero-cover,
+/* —— 14.2 Cover tilt / soft 3D (catalog + product; hero uses CSS fan hover) —— */
 .book-cover.has-image,
 .book-product-cover {
   transform-style: preserve-3d;
   perspective: 800px;
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
-.hero-cover img,
 .book-cover.has-image img,
 .book-product-cover img {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-.hero-cover.is-tilting,
 .book-cover.has-image.is-tilting,
 .book-product-cover.is-tilting {
   transition: transform 0.08s linear;
-  z-index: 2;
+  z-index: 6;
 }
 @media (hover: hover) and (pointer: fine) {
   .hero-cover:hover,
@@ -5094,7 +5127,27 @@ section {
   .hero-cover:not(.is-loaded) {
     animation: none !important;
   }
-  .hero-cover,
+  /* Keep hero fan resting poses; only disable lift scale for motion-sensitive users */
+  .hero-cover:hover,
+  .hero-cover:focus-visible,
+  .hero-cover.is-front {
+    transform: none; /* overridden per-class below if needed */
+  }
+  .hero-cover-0:hover,
+  .hero-cover-0:focus-visible,
+  .hero-cover-0.is-front {
+    transform: translateY(-50%) rotate(-9deg);
+  }
+  .hero-cover-1:hover,
+  .hero-cover-1:focus-visible,
+  .hero-cover-1.is-front {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.08);
+  }
+  .hero-cover-2:hover,
+  .hero-cover-2:focus-visible,
+  .hero-cover-2.is-front {
+    transform: translateY(-50%) rotate(9deg);
+  }
   .book-cover.has-image,
   .book-product-cover {
     transform: none !important;

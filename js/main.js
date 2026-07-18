@@ -2193,9 +2193,11 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
+    // Hero fan stack uses pure CSS :hover bring-to-front — do NOT attach tilt
+    // (inline transform was killing the lift/z-index animation).
     const maxTilt = 8; // degrees — subtle
     const nodes = document.querySelectorAll(
-      '.hero-cover, .book-cover.has-image, .book-product-cover'
+      '.book-cover.has-image, .book-product-cover'
     );
     nodes.forEach((el) => {
       if (el.dataset.tiltBound) return;
@@ -2209,14 +2211,28 @@
         const ry = (px * maxTilt).toFixed(2);
         el.classList.add('is-tilting');
         el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
+        el.style.zIndex = '8';
       };
       const reset = () => {
         el.classList.remove('is-tilting');
         el.style.transform = '';
+        el.style.zIndex = '';
       };
       el.addEventListener('pointermove', onMove);
       el.addEventListener('pointerleave', reset);
       el.addEventListener('pointercancel', reset);
+    });
+
+    // Hero covers: ensure front class for keyboard + reliable z-index
+    document.querySelectorAll('.hero-cover').forEach((el) => {
+      if (el.dataset.frontBound) return;
+      el.dataset.frontBound = '1';
+      const front = () => el.classList.add('is-front');
+      const back = () => el.classList.remove('is-front');
+      el.addEventListener('pointerenter', front);
+      el.addEventListener('pointerleave', back);
+      el.addEventListener('focus', front);
+      el.addEventListener('blur', back);
     });
   }
 
