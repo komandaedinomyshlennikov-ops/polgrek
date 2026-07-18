@@ -344,6 +344,31 @@ def book_data_show(book: dict, filter_ids: list[str] | None = None) -> str:
     return " ".join(tokens)
 
 
+def _book_litres_rating(G: dict | None, slug: str) -> dict | None:
+    sp = (G or {}).get("socialProof") or {}
+    for item in sp.get("items") or []:
+        if item.get("slug") == slug:
+            return item
+    return None
+
+
+def _book_science_marks(book: dict, *, lang: str = "ru") -> str:
+    is_en = lang == "en"
+    marks = []
+    genre = book.get("genre") or ("Popular science" if is_en else "Научпоп")
+    marks.append(f'<span class="book-mark book-mark-genre">{esc(genre)}</span>')
+    if book.get("evidenceGrades") is not False:
+        ad = "Grades A–D" if is_en else "Уровни A–D"
+        marks.append(f'<span class="book-mark book-mark-ad">{ad}</span>')
+    if book.get("flagship"):
+        start = "Start here" if is_en else "С чего начать"
+        marks.append(f'<span class="book-mark book-mark-start">{start}</span>')
+    if len(book.get("authors") or []) > 1:
+        co = "with Laura" if is_en else "с Лорой"
+        marks.append(f'<span class="book-mark book-mark-co">{co}</span>')
+    return f'<div class="book-marks">{"".join(marks)}</div>'
+
+
 def book_card(
     book: dict,
     prefix: str = "",
@@ -352,7 +377,7 @@ def book_card(
     *,
     lang: str = "ru",
 ) -> str:
-    """Cover-first catalog tile: cover → title → pitch → affiliate Buy under card."""
+    """Text-first catalog tile: science marks + pitch, mini cover secondary."""
     slug = book["slug"]
     href = book_url(slug, "") if books_dir else f"books/{slug}.html"
     if lang == "en" and books_dir:
@@ -366,29 +391,77 @@ def book_card(
         href = f"books/{slug}.html"
         cover = f"assets/covers/{book.get('coverFile', slug + '.webp')}"
 
-    badges = []
-    if book.get("flagship"):
-        flag = "Start here" if lang == "en" else "С чего начать"
-        badges.append(f'<span class="book-badge book-badge-key">{flag}</span>')
-    if len(book.get("authors") or []) > 1:
-        co = "with Laura" if lang == "en" else "с Лорой"
-        badges.append(f'<span class="book-badge book-badge-co">{co}</span>')
-    badge_html = f'<div class="book-cover-badges">{"".join(badges)}</div>' if badges else ""
     show = book_data_show(book)
     cover_alt = ("Cover: " if lang == "en" else "Обложка: ") + book["title"]
+    is_en = lang == "en"
+    chip = ""
+    fw = (book.get("forWhom") or [None])[0]
+    if fw:
+        chip = f'<p class="book-card-chip">{esc(str(fw)[:90])}</p>'
+
+    take = ((book.get("takeaways") or [None])[0]) or ""
+    window = ""
+    if take:
+        lab = "Inside" if is_en else "В книге"
+        window = (
+            f'<p class="book-card-window"><span class="book-card-window-label">{lab}:</span> '
+            f"{esc(str(take)[:110])}</p>"
+        )
+
+    research = book.get("researchNote") or (
+        ""
+        if book.get("evidenceGrades") is False
+        else ("Evidence grades A–D" if is_en else "Уровни доказательности A–D")
+    )
+    research_html = (
+        f'<p class="book-card-evidence">{esc(research)}</p>' if research else ""
+    )
+
+    rating_html = ""
+    r = _book_litres_rating(G, slug)
+    if r and r.get("votes"):
+        try:
+            rating = float(r.get("rating") or 0)
+        except (TypeError, ValueError):
+            rating = 0.0
+        votes = int(r.get("votes") or 0)
+        stars_n = max(1, min(5, int(round(rating))))
+        stars = "★" * stars_n + "☆" * (5 - stars_n)
+        if is_en:
+            w = "rating" if votes == 1 else "ratings"
+            rating_html = (
+                f'<p class="book-card-rating"><span aria-hidden="true">{stars}</span> '
+                f"<strong>{rating:.1f}</strong> · {votes} {w} · LitRes</p>"
+            )
+        else:
+            n = abs(votes) % 100
+            n1 = n % 10
+            word = "оценок"
+            if not (10 < n < 20):
+                if n1 == 1:
+                    word = "оценка"
+                elif 2 <= n1 <= 4:
+                    word = "оценки"
+            rating_html = (
+                f'<p class="book-card-rating"><span aria-hidden="true">{stars}</span> '
+                f"<strong>{rating:.1f}</strong> · {votes} {word} · Литрес</p>"
+            )
 
     return f"""
-<article class="book-card book-card--tile{' is-flagship' if book.get('flagship') else ''}" data-show="{esc(show)}">
-  <a class="book-cover has-image clean" href="{href}" aria-label="{esc(book['title'])}">
-    <img src="{cover}" alt="{esc(cover_alt)}" loading="lazy" width="600" height="900" />
-    {badge_html}
-  </a>
+<article class="book-card book-card--tile book-card--window{' is-flagship' if book.get('flagship') else ''}" data-show="{esc(show)}">
   <div class="book-body">
+    {_book_science_marks(book, lang=lang)}
     <h3 class="book-title"><a href="{href}">{esc(book['title'])}</a></h3>
-    {f'<p class="book-card-chip">{esc(str((book.get("forWhom") or [""])[0])[:90])}</p>' if (book.get("forWhom") or [None])[0] else ""}
+    {chip}
     <p class="book-card-promise">{esc(book['promise'])}</p>
+    {window}
+    {research_html}
+    {rating_html}
     <p class="book-card-meta">{esc(book_card_meta(book, lang=lang))}</p>
   </div>
+  <a class="book-cover book-cover--mini has-image clean" href="{href}" aria-label="{esc(book['title'])}">
+    <img src="{cover}" alt="{esc(cover_alt)}" loading="lazy" width="200" height="300" />
+  </a>
   {store_actions_html(book, href, compact=True, G=G, lang=lang)}
 </article>"""
 
@@ -438,7 +511,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718design"
+CSS_VER = "20260718covers"
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
     f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'

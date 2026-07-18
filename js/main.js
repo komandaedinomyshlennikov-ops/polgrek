@@ -770,17 +770,76 @@
     setTimeout(run, 400);
   }
 
-  function bookCardHTML(book, opts = {}) {
-    const badges = [];
+  function bookLitresRating(slug) {
+    const items = (POL_GREK.socialProof && POL_GREK.socialProof.items) || [];
+    return items.find((x) => x.slug === slug) || null;
+  }
+
+  function bookScienceMarks(book) {
+    const marks = [];
+    const genre = book.genre || (isEn ? 'Popular science' : 'Научпоп');
+    marks.push(`<span class="book-mark book-mark-genre">${escapeAttr(genre)}</span>`);
+    if (book.evidenceGrades !== false) {
+      marks.push(
+        `<span class="book-mark book-mark-ad" title="${
+          isEn ? 'Evidence grades A–D in the book' : 'В книге — уровни доказательности A–D'
+        }">${isEn ? 'Grades A–D' : 'Уровни A–D'}</span>`
+      );
+    }
     if (book.flagship) {
-      badges.push(`<span class="book-badge book-badge-key">${UI.startHere}</span>`);
+      marks.push(`<span class="book-mark book-mark-start">${UI.startHere}</span>`);
     }
     if ((book.authors || []).length > 1) {
-      badges.push(`<span class="book-badge book-badge-co">${UI.withLauraShort}</span>`);
+      marks.push(`<span class="book-mark book-mark-co">${UI.withLauraShort}</span>`);
     }
-    const badgeHtml = badges.length
-      ? `<div class="book-cover-badges">${badges.join('')}</div>`
-      : '';
+    return `<div class="book-marks">${marks.join('')}</div>`;
+  }
+
+  function bookWindowLine(book) {
+    const take = (book.takeaways && book.takeaways[0]) || '';
+    if (!take) return '';
+    const label = isEn ? 'Inside' : 'В книге';
+    return `<p class="book-card-window"><span class="book-card-window-label">${label}:</span> ${escapeAttr(
+      String(take).slice(0, 110)
+    )}</p>`;
+  }
+
+  function bookResearchLine(book) {
+    const note =
+      book.researchNote ||
+      (book.evidenceGrades === false
+        ? ''
+        : isEn
+          ? 'Evidence grades A–D'
+          : 'Уровни доказательности A–D');
+    if (!note) return '';
+    return `<p class="book-card-evidence">${escapeAttr(note)}</p>`;
+  }
+
+  function bookRatingLine(book) {
+    const r = bookLitresRating(book.slug);
+    if (!r || !r.votes) return '';
+    const stars = Math.max(1, Math.min(5, Math.round(Number(r.rating) || 0)));
+    const starStr = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+    if (isEn) {
+      const w = r.votes === 1 ? 'rating' : 'ratings';
+      return `<p class="book-card-rating"><span aria-hidden="true">${starStr}</span> <strong>${Number(
+        r.rating
+      ).toFixed(1)}</strong> · ${r.votes} ${w} · LitRes</p>`;
+    }
+    const n = Math.abs(r.votes) % 100;
+    const n1 = n % 10;
+    let word = 'оценок';
+    if (!(n > 10 && n < 20)) {
+      if (n1 === 1) word = 'оценка';
+      else if (n1 >= 2 && n1 <= 4) word = 'оценки';
+    }
+    return `<p class="book-card-rating"><span aria-hidden="true">${starStr}</span> <strong>${Number(
+      r.rating
+    ).toFixed(1)}</strong> · ${r.votes} ${word} · Литрес</p>`;
+  }
+
+  function bookCardHTML(book, opts = {}) {
     const show = bookDataShow(book);
     const title = escapeAttr(book.title || '');
     const promise = escapeAttr(book.promise || '');
@@ -788,18 +847,25 @@
     const chip = whom
       ? `<p class="book-card-chip">${escapeAttr(String(whom).slice(0, 90))}</p>`
       : '';
+    const href = bookPageUrl(book.slug);
+    // Text-first “window into the book”: mini cover is secondary
     return `
-      <article class="book-card book-card--tile${book.flagship ? ' is-flagship' : ''}" data-show="${show}">
-        <a class="book-cover has-image clean" href="${bookPageUrl(book.slug)}" aria-label="${title}">
-          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" width="600" height="900" />
-          ${badgeHtml}
-        </a>
+      <article class="book-card book-card--tile book-card--window${
+        book.flagship ? ' is-flagship' : ''
+      }" data-show="${show}">
         <div class="book-body">
-          <h3 class="book-title"><a href="${bookPageUrl(book.slug)}">${title}</a></h3>
+          ${bookScienceMarks(book)}
+          <h3 class="book-title"><a href="${href}">${title}</a></h3>
           ${chip}
           <p class="book-card-promise">${promise}</p>
+          ${bookWindowLine(book)}
+          ${bookResearchLine(book)}
+          ${bookRatingLine(book)}
           <p class="book-card-meta">${escapeAttr(bookCardMeta(book))}</p>
         </div>
+        <a class="book-cover book-cover--mini has-image clean" href="${href}" aria-label="${title}">
+          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" width="200" height="300" />
+        </a>
         ${storeButtons(book, true)}
       </article>`;
   }

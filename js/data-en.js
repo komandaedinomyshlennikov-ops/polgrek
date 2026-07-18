@@ -221,6 +221,9 @@ window.POL_GREK = {
       cover: 'cover-1',
       series: 'Brain Series',
       tags: ['cognitive-health'],
+      genre: 'Popular science',
+      evidenceGrades: true,
+      researchNote: 'Based on 100+ studies · grades A–D',
       promise: 'A cognitive longevity protocol — with an honest grade on how solid each claim is.',
       annotation:
         'Brain at 100+ is a practical plan for cognitive longevity, not a bag of tricks. Pol Grek pulls together 100+ studies — including recent work — with A–D evidence labels. No miracle pills. No “genius in a week.”',
@@ -256,6 +259,9 @@ window.POL_GREK = {
       cover: 'cover-2',
       series: 'Brain Series',
       tags: ['biohacking', 'cognitive-health', 'energy'],
+      genre: 'Popular science',
+      evidenceGrades: true,
+      researchNote: 'Evidence grades A–D · no miracle protocols',
       promise: 'A straight guide to what actually works — base layer and minimum effective dose, no magic pills.',
       annotation:
         'How to improve memory, focus, and energy without torching your psyche in the name of “optimization.” Neuroplasticity, stress, dopamine, sleep, light, movement, and hard edges on “optimization.” The real skill: knowing when enough is enough.',
@@ -417,6 +423,9 @@ window.POL_GREK = {
       cover: 'cover-6',
       series: 'Recovery',
       tags: ['burnout', 'stress'],
+      genre: 'Popular science',
+      evidenceGrades: true,
+      researchNote: 'Evidence grades A–D · recovery after depletion',
       promise: 'When weekends don’t restore you: a protocol after systemic depletion.',
       annotation:
         'Written from lived burnout, not cheerleading. Why rest fails, how allostatic load works, and where recovery actually starts. Adaptive capacity and getting cognitive control back.',
