@@ -34,7 +34,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260718photos" />
+  <link rel="stylesheet" href="css/styles.css?v=20260718email" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -175,7 +175,7 @@
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Читать главу бесплатно</a>
             <a class="btn btn-outline" href="books/index.html">Все 13 книг</a>
           </div>
-          <p class="hero-trust">Без регистрации · отрывок на этом сайте · покупка на Литрес</p>
+          <p class="hero-trust">Отрывок бесплатно · email по желанию · покупка на Литрес</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
@@ -328,9 +328,9 @@
           <div>
             <p class="eyebrow" style="color:var(--amber)">Бесплатно</p>
             <h2>Скачайте главу</h2>
-            <p>Без email и подписки. Если стиль зайдёт — полный текст на Литрес.</p>
+            <p>Отрывок — сразу, без обязательной почты. Email по желанию: пришлём ссылку на файл (и изредка — о новых книгах, не чаще раза в месяц).</p>
           </div>
-          <form class="magnet-form" id="magnetForm">
+          <form class="magnet-form" id="magnetForm" novalidate>
             <div class="magnet-book-picks" id="magnetPicks">
 <label class="magnet-book-option">
   <input type="radio" name="flagPick" value="mozg-na-100" checked>
@@ -349,8 +349,19 @@
 </label></div>
             <label for="magnetBook" class="sr-only">Книга</label>
             <select id="magnetBook" name="book" class="sr-only" required></select>
-            <button type="submit" class="btn btn-primary btn-cta-lg">Скачать / открыть отрывок</button>
-            <p class="magnet-note">Файл .txt. Без рассылки.</p>
+            <div class="magnet-email-block">
+              <label for="magnetEmail">Email <span class="magnet-optional">(необязательно)</span></label>
+              <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+              <label class="magnet-check">
+                <input type="checkbox" id="magnetNews" name="news" value="1" />
+                <span>Можно писать о новых книгах (редко, без спама)</span>
+              </label>
+            </div>
+            <!-- honeypot -->
+            <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Скачать отрывок</button>
+            <p class="magnet-note" id="magnetNote">Файл .txt. Почта не нужна. Если оставите email — только для ссылки и редких писем о книгах. <a href="privacy.html">Конфиденциальность</a></p>
+            <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
           </form>
         </div>
       </div>
@@ -462,6 +473,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/main.js?v=20260718photos"></script>
+  <script src="js/main.js?v=20260718email"></script>
 </body>
 </html>

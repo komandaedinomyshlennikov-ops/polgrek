@@ -1072,13 +1072,82 @@
 
     const magnetForm = document.getElementById('magnetForm');
     if (magnetForm) {
-      magnetForm.addEventListener('submit', (e) => {
+      magnetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const radio = document.querySelector('input[name="flagPick"]:checked');
         const slug = (radio && radio.value) || (magnetSelect && magnetSelect.value) || 'mozg-na-100';
-        window.location.href = bookPageUrl(slug) + '#excerpt';
+        const book = POL_GREK.getBook(slug) || flagships[0];
+        if (!book) return;
+
+        const emailEl = document.getElementById('magnetEmail');
+        const newsEl = document.getElementById('magnetNews');
+        const gotcha = document.getElementById('magnetGotcha');
+        const status = document.getElementById('magnetStatus');
+        const submitBtn = document.getElementById('magnetSubmit');
+        const email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+        const wantsNews = !!(newsEl && newsEl.checked);
+
+        // Bot honeypot
+        if (gotcha && gotcha.value) return;
+
+        rememberLastBook(book.slug);
+        setMagnetStatus(status, isEn ? 'Preparing your excerpt…' : 'Готовим отрывок…', false);
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+          if (email) {
+            if (!isValidEmail(email)) {
+              setMagnetStatus(
+                status,
+                isEn ? 'Check the email address — or leave it blank and download.' : 'Проверьте email — или оставьте пустым и скачайте.',
+                true
+              );
+              if (submitBtn) submitBtn.disabled = false;
+              return;
+            }
+            const sent = await submitEmailCapture({
+              email,
+              book,
+              wantsNews,
+            });
+            if (sent.ok) {
+              setMagnetStatus(
+                status,
+                isEn
+                  ? 'Thanks — downloading now. If you asked for email, check your inbox (and spam).'
+                  : 'Спасибо — скачиваем. Если указали email, проверьте почту (и «Спам»).',
+                false
+              );
+            } else {
+              setMagnetStatus(
+                status,
+                isEn
+                  ? 'Downloading now. Email could not be sent from this browser — the file is still yours.'
+                  : 'Скачиваем. Письмо с этой страницы не ушло — файл всё равно ваш.',
+                false
+              );
+            }
+          } else {
+            setMagnetStatus(
+              status,
+              isEn ? 'Downloading…' : 'Скачиваем…',
+              false
+            );
+          }
+          await downloadExcerpt(book);
+          track('excerpt_magnet', {
+            book: book.slug,
+            email: email ? 'yes' : 'no',
+            news: wantsNews ? 'yes' : 'no',
+            lang: isEn ? 'en' : 'ru',
+          });
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
       });
     }
+
+    mountReturnBar();
 
     // Hero stack: fill only if empty (static HTML may already be present)
     const stack = document.getElementById('heroCoverStack');
@@ -1309,6 +1378,140 @@
     paint();
   }
 
+  function isValidEmail(s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
+  }
+
+  function setMagnetStatus(el, text, isError) {
+    if (!el) return;
+    el.hidden = !text;
+    el.textContent = text || '';
+    el.classList.toggle('is-error', !!isError);
+  }
+
+  const LAST_BOOK_KEY = 'polgrek_last_book';
+  const RETURN_DISMISS_KEY = 'polgrek_return_dismiss';
+
+  function rememberLastBook(slug) {
+    try {
+      localStorage.setItem(LAST_BOOK_KEY, String(slug || ''));
+      localStorage.removeItem(RETURN_DISMISS_KEY);
+    } catch (e) {
+      /* private mode */
+    }
+  }
+
+  function mountReturnBar() {
+    let slug = '';
+    try {
+      slug = localStorage.getItem(LAST_BOOK_KEY) || '';
+      if (localStorage.getItem(RETURN_DISMISS_KEY) === '1') return;
+    } catch (e) {
+      return;
+    }
+    if (!slug || !POL_GREK.getBook) return;
+    const book = POL_GREK.getBook(slug);
+    if (!book) return;
+    // Don't show on the book page itself
+    const page = document.body.dataset.page || '';
+    if (page === 'book') {
+      const m = (location.pathname || '').match(/\/books\/([^/]+)\.html/);
+      if (m && m[1] === slug) return;
+    }
+
+    let bar = document.getElementById('returnBar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'returnBar';
+      bar.className = 'return-bar';
+      bar.setAttribute('role', 'region');
+      bar.setAttribute('aria-label', isEn ? 'Continue reading' : 'Продолжить');
+      document.body.appendChild(bar);
+    }
+    const title = escapeAttr(book.title || slug);
+    const href = bookPageUrl(book.slug) + '#excerpt';
+    bar.innerHTML = `
+      <div class="return-bar-inner">
+        <p class="return-bar-text">${
+          isEn
+            ? `You were looking at <strong>${title}</strong>.`
+            : `Вы смотрели «<strong>${title}</strong>».`
+        }
+          <a href="${href}">${isEn ? 'Open excerpt' : 'К отрывку'}</a>
+        </p>
+        <button type="button" class="return-bar-close" aria-label="${isEn ? 'Dismiss' : 'Скрыть'}">×</button>
+      </div>`;
+    bar.hidden = false;
+    const close = bar.querySelector('.return-bar-close');
+    if (close) {
+      close.addEventListener('click', () => {
+        bar.hidden = true;
+        try {
+          localStorage.setItem(RETURN_DISMISS_KEY, '1');
+        } catch (e) {
+          /* ignore */
+        }
+      });
+    }
+  }
+
+  async function submitEmailCapture({ email, book, wantsNews }) {
+    const cfg = (POL_GREK && POL_GREK.emailCapture) || {};
+    if (!cfg.enabled || !cfg.endpoint) return { ok: false, reason: 'disabled' };
+    let excerptLink = excerptUrl(book);
+    try {
+      excerptLink = new URL(excerptUrl(book), location.href).href;
+    } catch (e) {
+      /* keep relative */
+    }
+    const bookLink = (() => {
+      try {
+        return new URL(bookPageUrl(book.slug), location.href).href;
+      } catch (e) {
+        return bookPageUrl(book.slug);
+      }
+    })();
+
+    const payload = {
+      email,
+      book: book.title || book.slug,
+      slug: book.slug,
+      excerpt_url: excerptLink,
+      book_url: bookLink,
+      news: wantsNews ? 'yes' : 'no',
+      lang: isEn ? 'en' : 'ru',
+      _subject: isEn
+        ? `polgrek.site excerpt request: ${book.slug}`
+        : `polgrek.site: запрос отрывка — ${book.slug}`,
+      _template: 'table',
+      _captcha: 'false',
+      _replyto: email,
+      message: isEn
+        ? `Reader email: ${email}\nBook: ${book.title}\nExcerpt: ${excerptLink}\nBook page: ${bookLink}\nOccasional book notes: ${wantsNews ? 'yes' : 'no'}`
+        : `Почта: ${email}\nКнига: ${book.title}\nОтрывок: ${excerptLink}\nСтраница: ${bookLink}\nРедкие письма о книгах: ${wantsNews ? 'да' : 'нет'}`,
+    };
+
+    try {
+      const res = await fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) return { ok: false, reason: 'http' };
+      track('email_capture', {
+        book: book.slug,
+        news: wantsNews ? 'yes' : 'no',
+        lang: isEn ? 'en' : 'ru',
+      });
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, reason: 'network' };
+    }
+  }
+
   async function downloadExcerpt(book) {
     track('excerpt_download', { book: book.slug, lang: isEn ? 'en' : 'ru' });
     const fileUrl = excerptUrl(book);
@@ -1507,6 +1710,9 @@
     if (page === 'lab') renderLabPage();
     if (page === 'article') renderArticlePage();
     if (page === 'about') renderAboutPage();
+
+    // Return-visitor bar works on any page (localStorage)
+    if (page !== 'home') mountReturnBar();
 
     // Home doors: flat 5-card grid; on narrow screens collapse 04–05 behind button
     const doorsGrid = document.getElementById('doorsGrid');

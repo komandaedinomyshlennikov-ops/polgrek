@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718photos" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260718email" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -170,7 +170,7 @@
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Read a free chapter</a>
             <a class="btn btn-outline" href="books/index.html">All 13 books</a>
           </div>
-          <p class="hero-trust">No signup · excerpt on this site · buy on Amazon / LitRes</p>
+          <p class="hero-trust">Free excerpt · email optional · buy on Amazon / LitRes</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
@@ -308,15 +308,15 @@
       </div>
     </section>
 
-    <section id="excerpt" class="excerpt-section">
+        <section id="excerpt" class="excerpt-section">
       <div class="container">
         <div class="magnet magnet-with-books magnet-cta-focus">
           <div>
             <p class="eyebrow" style="color:var(--amber)">Free</p>
             <h2>Download a chapter</h2>
-            <p>No email, no newsletter. If the voice clicks — full text on Amazon or LitRes.</p>
+            <p>The excerpt is instant — no email required. Optional: leave an address for a link (and rare book notes, at most monthly).</p>
           </div>
-          <form class="magnet-form" id="magnetForm">
+          <form class="magnet-form" id="magnetForm" novalidate>
             <div class="magnet-book-picks" id="magnetPicks">
 <label class="magnet-book-option">
   <input type="radio" name="flagPick" value="mozg-na-100" checked>
@@ -336,8 +336,18 @@
 </div>
             <label for="magnetBook" class="sr-only">Book</label>
             <select id="magnetBook" name="book" class="sr-only" required></select>
-            <button type="submit" class="btn btn-primary btn-cta-lg">Download / open excerpt</button>
-            <p class="magnet-note">Plain .txt. No mailing list.</p>
+            <div class="magnet-email-block">
+              <label for="magnetEmail">Email <span class="magnet-optional">(optional)</span></label>
+              <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+              <label class="magnet-check">
+                <input type="checkbox" id="magnetNews" name="news" value="1" />
+                <span>Occasional notes about new books (no spam)</span>
+              </label>
+            </div>
+            <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Download excerpt</button>
+            <p class="magnet-note" id="magnetNote">Plain .txt. Email is optional. If you leave one, it’s only for the link and rare book notes. <a href="privacy.html">Privacy</a></p>
+            <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
           </form>
         </div>
       </div>
@@ -450,6 +460,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260718photos"></script>
+  <script src="../js/main.js?v=20260718email"></script>
 </body>
 </html>

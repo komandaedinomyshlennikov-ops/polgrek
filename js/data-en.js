@@ -77,12 +77,16 @@ window.POL_GREK = {
     ],
     note: 'Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more. EN quote is a faithful translation of the Russian LitRes review.',
   },
+  emailCapture: {
+    enabled: true,
+    endpoint: 'https://formsubmit.co/ajax/hello@polgrek.site',
+  },
   legal: {
     email: 'hello@polgrek.site',
     disclaimer:
       'This site is for education only. It is not medical, psychological, or financial advice and does not replace a visit with a licensed professional. If you are in crisis, contact emergency services or a qualified clinician.',
     privacy:
-      'We do not collect personal data through registration forms. Yandex Metrika counter 110711984 always runs (including clickmap and Webvisor). Links to LitRes, Amazon, and social platforms follow their policies. Details: privacy page.',
+      'The excerpt downloads without email. If you leave an address, it is only for the chapter link and rare book notes (at most monthly), via FormSubmit to hello@polgrek.site. Metrika 110711984 always runs. Details: privacy page.',
   },
   faq: [
     {
