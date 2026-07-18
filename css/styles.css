@@ -4590,29 +4590,7 @@ a.book-tag-chip:hover {
   }
 }
 
-/* ---------- Hero 3-second strip + book quiz (stage 2) ---------- */
-.hero-3sec {
-  list-style: none;
-  margin: 0 0 1.15rem;
-  padding: 0.85rem 1rem;
-  max-width: 36rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--panel-bg);
-  display: grid;
-  gap: 0.35rem;
-}
-.hero-3sec li {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: var(--ink-soft);
-}
-.hero-3sec strong {
-  color: var(--ink);
-  font-weight: 750;
-}
-
+/* ---------- Book quiz (stage 2) ---------- */
 .book-quiz-section {
   background: linear-gradient(180deg, rgba(24, 90, 83, 0.04), transparent 70%);
 }
