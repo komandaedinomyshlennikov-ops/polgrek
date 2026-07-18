@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718covers" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260718stage2" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -120,6 +120,7 @@
 </head>
 
 <body data-page="home" data-base="" data-lang="en" data-assets="..">
+  <div class="read-progress" id="readProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Page reading progress"><span class="read-progress-bar" id="readProgressBar"></span></div>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -166,11 +167,17 @@
             <summary>What grades A–D mean</summary>
             <p class="grade-legend"><strong>A</strong> — strong data; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation, not a “law of nature.”</p>
           </details>
+          <ul class="hero-3sec" aria-label="In 3 seconds">
+            <li><strong>Who:</strong> Pol Grek — author of 13 books on the brain</li>
+            <li><strong>What:</strong> popular science without woo · buy on LitRes / Amazon</li>
+            <li><strong>Why trust:</strong> evidence grades A–D · free excerpt · open storefronts</li>
+          </ul>
           <div class="hero-cta-panel">
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Read a free chapter</a>
-            <a class="btn btn-outline" href="books/index.html">All 13 books</a>
+            <a class="btn btn-outline" href="#book-quiz">Find a book</a>
+            <a class="btn btn-ghost-link" href="books/index.html">All 13 books</a>
           </div>
-          <p class="hero-trust">Free excerpt · email optional · buy on Amazon / LitRes</p>
+          <p class="hero-trust">1 click to excerpt · ≤3 clicks to LitRes · email optional</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
@@ -191,6 +198,69 @@
         </div>
       </div>
     </section>
+
+<section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">As on LitRes · no fake scores</p>
+            <h2 id="social-proof-title">What readers write</h2>
+            <p class="section-lead">Titles are new: only one full review on LitRes so far. We show it as-is — we don’t invent more. Below: current scores from the book cards (also still few).</p>
+          </div>
+        </div>
+        <div class="social-reviews" id="socialReviews">
+          <figure class="reader-review">
+            <blockquote class="reader-review-text">«An excellent book. The material is clearly explained. There are medical terms that may be hard for a general reader, but that doesn’t get in the way. Very easy to read.»</blockquote>
+            <figcaption class="reader-review-meta">
+              <strong>Lyudmila</strong>
+              <span>· Brain at 100+</span>
+              <span class="reader-review-date">· 14 May 2026</span>
+              <span class="reader-review-flag">Translated from Russian LitRes review</span>
+            </figcaption>
+            <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Review on LitRes</a>
+          </figure>
+        </div>
+        <div class="ratings-row" id="socialProof">
+          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>3.7</strong>
+            <span class="rating-book">Brain at 100+</span>
+            <span class="rating-meta">3 ratings · LitRes</span>
+          </a>
+          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>4.2</strong>
+            <span class="rating-book">Brain Biohacking</span>
+            <span class="rating-meta">5 ratings · LitRes</span>
+          </a>
+          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="zhenskiy-mozg">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>3.8</strong>
+            <span class="rating-book">The Female Brain</span>
+            <span class="rating-meta">4 ratings · LitRes</span>
+          </a>
+        </div>
+        <p class="muted social-proof-note" id="socialProofNote">Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more.</p>
+      </div>
+    </section>
+
+    <section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">2–3 minutes</p>
+            <h2 id="book-quiz-title">Which book do you need?</h2>
+            <p class="section-lead">Three short steps — a recommendation with a free excerpt. No signup.</p>
+          </div>
+        </div>
+        <div class="book-quiz" id="bookQuiz" data-lang="en">
+          <div class="book-quiz-progress" aria-hidden="true"><span class="book-quiz-progress-fill" id="quizProgressFill"></span></div>
+          <p class="book-quiz-step-label" id="quizStepLabel">Step 1 of 3</p>
+          <div class="book-quiz-panel" id="quizPanel"></div>
+        </div>
+      </div>
+    </section>
+
 
     <section id="doors">
       <div class="container">
@@ -313,8 +383,8 @@
         <div class="magnet magnet-with-books magnet-cta-focus">
           <div>
             <p class="eyebrow" style="color:var(--amber)">Free</p>
-            <h2>Download a chapter</h2>
-            <p>The excerpt is instant — no email required. Optional: leave an address for a link (and rare book notes, at most monthly).</p>
+            <h2>Chapter by email — or instant file</h2>
+            <p>Download without email. Or leave an address: we send the chapter link and rare notes about new books.</p>
           </div>
           <form class="magnet-form" id="magnetForm" novalidate>
             <div class="magnet-book-picks" id="magnetPicks">
@@ -345,58 +415,15 @@
               </label>
             </div>
             <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Download excerpt</button>
-            <p class="magnet-note" id="magnetNote">Plain .txt. Email is optional. If you leave one, it’s only for the link and rare book notes. <a href="privacy.html">Privacy</a></p>
+            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Get the chapter</button>
+            <p class="magnet-note" id="magnetNote">At most once a month. Unsubscribe in one reply. <a href="privacy.html">Privacy</a></p>
             <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
           </form>
         </div>
       </div>
     </section>
 
-    <section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">As on LitRes · no fake scores</p>
-            <h2 id="social-proof-title">What readers write</h2>
-            <p class="section-lead">Titles are new: only one full review on LitRes so far. We show it as-is — we don’t invent more. Below: current scores from the book cards (also still few).</p>
-          </div>
-        </div>
-        <div class="social-reviews" id="socialReviews">
-          <figure class="reader-review">
-            <blockquote class="reader-review-text">«An excellent book. The material is clearly explained. There are medical terms that may be hard for a general reader, but that doesn’t get in the way. Very easy to read.»</blockquote>
-            <figcaption class="reader-review-meta">
-              <strong>Lyudmila</strong>
-              <span>· Brain at 100+</span>
-              <span class="reader-review-date">· 14 May 2026</span>
-              <span class="reader-review-flag">Translated from Russian LitRes review</span>
-            </figcaption>
-            <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Review on LitRes</a>
-          </figure>
-        </div>
-        <div class="ratings-row" id="socialProof">
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.7</strong>
-            <span class="rating-book">Brain at 100+</span>
-            <span class="rating-meta">3 ratings · LitRes</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>4.2</strong>
-            <span class="rating-book">Brain Biohacking</span>
-            <span class="rating-meta">5 ratings · LitRes</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="zhenskiy-mozg">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.8</strong>
-            <span class="rating-book">The Female Brain</span>
-            <span class="rating-meta">4 ratings · LitRes</span>
-          </a>
-        </div>
-        <p class="muted social-proof-note" id="socialProofNote">Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more.</p>
-      </div>
-    </section>
+    
 
     <section id="author-home">
       <div class="container trust-split trust-split-compact">
@@ -460,6 +487,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260718covers"></script>
+  <script src="../js/main.js?v=20260718stage2"></script>
 </body>
 </html>

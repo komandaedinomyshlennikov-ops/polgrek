@@ -250,9 +250,11 @@ def store_actions_html(
         {amz_link}
       </div>
     </div>"""
+    excerpt_label = "Excerpt" if lang == "en" else "Отрывок"
     return f"""<div class="book-card-cta">
       <a class="btn btn-primary book-card-buy" href="{esc(buy_href)}"{data_aff} target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
       <div class="book-card-links">
+        <a class="book-more book-more-excerpt" href="{href}#excerpt" data-track="excerpt_open" data-book="{esc(book.get('slug') or '')}">{excerpt_label}</a>
         <a class="book-more" href="{href}">{more_label}</a>
         {amz_link}
       </div>
@@ -511,7 +513,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718covers"
+CSS_VER = "20260718stage2"
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
     f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'

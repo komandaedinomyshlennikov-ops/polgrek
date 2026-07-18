@@ -34,7 +34,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260718covers" />
+  <link rel="stylesheet" href="css/styles.css?v=20260718stage2" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -124,6 +124,7 @@
   </script>
 </head>
 <body data-page="home" data-base="">
+  <div class="read-progress" id="readProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Прогресс чтения страницы"><span class="read-progress-bar" id="readProgressBar"></span></div>
   <a class="skip-link" href="#main-content">К содержанию</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -150,10 +151,11 @@
 
   <main id="main-content" tabindex="-1">
     <nav class="page-jump" aria-label="Разделы страницы">
+      <a href="#social-proof">Оценки</a>
+      <a href="#book-quiz">Тест</a>
       <a href="#doors">Ситуации</a>
       <a href="#flagships">Книги</a>
       <a href="#excerpt" class="page-jump-cta">Отрывок</a>
-      <a href="#social-proof">Оценки</a>
       <a href="#author-home">Автор</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -171,11 +173,17 @@
             <summary>Что значат уровни A–D</summary>
             <p class="grade-legend"><strong>A</strong> — данные крепкие; <strong>B</strong> — хорошие исследования; <strong>C</strong> — пока мало данных; <strong>D</strong> — наблюдения, не «закон природы».</p>
           </details>
+          <ul class="hero-3sec" aria-label="За 3 секунды">
+            <li><strong>Кто:</strong> Пол Грэк — автор 13 книг о мозге</li>
+            <li><strong>Что:</strong> научпоп без эзотерики, покупка на Литрес</li>
+            <li><strong>Почему доверять:</strong> уровни A–D · отрывок бесплатно · открытая площадка</li>
+          </ul>
           <div class="hero-cta-panel">
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Читать главу бесплатно</a>
-            <a class="btn btn-outline" href="books/index.html">Все 13 книг</a>
+            <a class="btn btn-outline" href="#book-quiz">Подобрать книгу</a>
+            <a class="btn btn-ghost-link" href="books/index.html">Все 13 книг</a>
           </div>
-          <p class="hero-trust">Отрывок бесплатно · email по желанию · покупка на Литрес</p>
+          <p class="hero-trust">1 клик до отрывка · до 3 кликов до Литрес · email не обязателен</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
@@ -196,6 +204,69 @@
         </div>
       </div>
     </section>
+
+<section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Как на Литрес · без накрутки</p>
+            <h2 id="social-proof-title">Что пишут читатели</h2>
+            <p class="section-lead">Книги вышли недавно: развёрнутый отзыв на Литрес пока один. Мы показываем его как есть — и не дописываем чужие. Рядом — актуальные оценки с карточек книг (их тоже пока мало).</p>
+          </div>
+        </div>
+        <div class="social-reviews" id="socialReviews">
+          <figure class="reader-review">
+            <blockquote class="reader-review-text">«Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.»</blockquote>
+            <figcaption class="reader-review-meta">
+              <strong>Людмила</strong>
+              <span>· Мозг на 100+</span>
+              <span class="reader-review-date">· 14 мая 2026</span>
+            </figcaption>
+            <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Отзыв на Литрес</a>
+          </figure>
+        </div>
+        <div class="ratings-row" id="socialProof">
+          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>3.7</strong>
+            <span class="rating-book">Мозг на 100+</span>
+            <span class="rating-meta">3 оценки · Литрес</span>
+          </a>
+          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>4.2</strong>
+            <span class="rating-book">Биохакинг мозга</span>
+            <span class="rating-meta">5 оценок · Литрес</span>
+          </a>
+          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="zhenskiy-mozg">
+            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
+            <strong>3.8</strong>
+            <span class="rating-book">Женский мозг</span>
+            <span class="rating-meta">4 оценки · Литрес</span>
+          </a>
+        </div>
+        <p class="muted social-proof-note" id="socialProofNote">Цифры и отзыв — с Литрес, 18.07.2026. Книги вышли недавно: развёрнутый отзыв пока один (под «Мозг на 100+»), оценок тоже мало — это нормально. Здесь ничего не дописываем и не «улучшаем».</p>
+      </div>
+    </section>
+
+    <section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">2–3 минуты</p>
+            <h2 id="book-quiz-title">Какая книга вам нужна?</h2>
+            <p class="section-lead">Три коротких шага — и рекомендация с бесплатным отрывком. Без регистрации.</p>
+          </div>
+        </div>
+        <div class="book-quiz" id="bookQuiz" data-lang="ru">
+          <div class="book-quiz-progress" aria-hidden="true"><span class="book-quiz-progress-fill" id="quizProgressFill"></span></div>
+          <p class="book-quiz-step-label" id="quizStepLabel">Шаг 1 из 3</p>
+          <div class="book-quiz-panel" id="quizPanel"></div>
+        </div>
+      </div>
+    </section>
+
+
 
     <section id="doors">
       <div class="container">
@@ -271,6 +342,7 @@
   <div class="book-card-cta">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">Купить на Литрес</a>
       <div class="book-card-links">
+        <a class="book-more book-more-excerpt" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Отрывок</a>
         <a class="book-more" href="books/mozg-na-100.html">О книге</a>
         <a class="book-amazon-link" href="https://www.amazon.com/dp/B0GTF2PQ21" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
@@ -294,6 +366,7 @@
   <div class="book-card-cta">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" data-aff="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">Купить на Литрес</a>
       <div class="book-card-links">
+        <a class="book-more book-more-excerpt" href="books/biohacking-mozga.html#excerpt" data-track="excerpt_open" data-book="biohacking-mozga">Отрывок</a>
         <a class="book-more" href="books/biohacking-mozga.html">О книге</a>
         <a class="book-amazon-link" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
@@ -317,6 +390,7 @@
   <div class="book-card-cta">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" data-aff="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=reset-&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="reset">Купить на Литрес</a>
       <div class="book-card-links">
+        <a class="book-more book-more-excerpt" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Отрывок</a>
         <a class="book-more" href="books/reset.html">О книге</a>
         <a class="book-amazon-link" href="https://www.amazon.com/dp/B0H6K6BG5Z" target="_blank" rel="noopener" data-track="amazon">Amazon</a>
       </div>
@@ -336,8 +410,8 @@
         <div class="magnet magnet-with-books magnet-cta-focus">
           <div>
             <p class="eyebrow" style="color:var(--amber)">Бесплатно</p>
-            <h2>Скачайте главу</h2>
-            <p>Отрывок — сразу, без обязательной почты. Email по желанию: пришлём ссылку на файл (и изредка — о новых книгах, не чаще раза в месяц).</p>
+            <h2>Глава на почту — или сразу файл</h2>
+            <p>Скачайте отрывок без email. Или укажите почту: пришлём ссылку на главу и изредка — о новых книгах.</p>
           </div>
           <form class="magnet-form" id="magnetForm" novalidate>
             <div class="magnet-book-picks" id="magnetPicks">
@@ -368,57 +442,15 @@
             </div>
             <!-- honeypot -->
             <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Скачать отрывок</button>
-            <p class="magnet-note" id="magnetNote">Файл .txt. Почта не нужна. Если оставите email — только для ссылки и редких писем о книгах. <a href="privacy.html">Конфиденциальность</a></p>
+            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Получить главу</button>
+            <p class="magnet-note" id="magnetNote">Не чаще раза в месяц. Отписка — ответом на письмо. <a href="privacy.html">Конфиденциальность</a></p>
             <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
           </form>
         </div>
       </div>
     </section>
 
-    <section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Как на Литрес · без накрутки</p>
-            <h2 id="social-proof-title">Что пишут читатели</h2>
-            <p class="section-lead">Книги вышли недавно: развёрнутый отзыв на Литрес пока один. Мы показываем его как есть — и не дописываем чужие. Рядом — актуальные оценки с карточек книг (их тоже пока мало).</p>
-          </div>
-        </div>
-        <div class="social-reviews" id="socialReviews">
-          <figure class="reader-review">
-            <blockquote class="reader-review-text">«Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.»</blockquote>
-            <figcaption class="reader-review-meta">
-              <strong>Людмила</strong>
-              <span>· Мозг на 100+</span>
-              <span class="reader-review-date">· 14 мая 2026</span>
-            </figcaption>
-            <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Отзыв на Литрес</a>
-          </figure>
-        </div>
-        <div class="ratings-row" id="socialProof">
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.7</strong>
-            <span class="rating-book">Мозг на 100+</span>
-            <span class="rating-meta">3 оценки · Литрес</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>4.2</strong>
-            <span class="rating-book">Биохакинг мозга</span>
-            <span class="rating-meta">5 оценок · Литрес</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener sponsored" data-track="litres" data-book="zhenskiy-mozg">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.8</strong>
-            <span class="rating-book">Женский мозг</span>
-            <span class="rating-meta">4 оценки · Литрес</span>
-          </a>
-        </div>
-        <p class="muted social-proof-note" id="socialProofNote">Цифры и отзыв — с Литрес, 18.07.2026. Книги вышли недавно: развёрнутый отзыв пока один (под «Мозг на 100+»), оценок тоже мало — это нормально. Здесь ничего не дописываем и не «улучшаем».</p>
-      </div>
-    </section>
+    
 
     <section id="author-home">
       <div class="container trust-split trust-split-compact">
@@ -482,6 +514,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/main.js?v=20260718covers"></script>
+  <script src="js/main.js?v=20260718stage2"></script>
 </body>
 </html>

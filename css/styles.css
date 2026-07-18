@@ -1,3 +1,22 @@
+/* Reading progress (stage 2.6) */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 200;
+  pointer-events: none;
+  background: transparent;
+}
+.read-progress-bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--teal-deep), var(--teal));
+  transition: width 0.08s linear;
+}
+
 /* =========================================================
    POL GREK — «Тихая лаборатория» (Quiet Lab · Direction A)
    Premium author showcase: air, paper, restraint
@@ -4211,4 +4230,136 @@ a.book-tag-chip:hover {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ---------- Hero 3-second strip + book quiz (stage 2) ---------- */
+.hero-3sec {
+  list-style: none;
+  margin: 0 0 1.15rem;
+  padding: 0.85rem 1rem;
+  max-width: 36rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--panel-bg);
+  display: grid;
+  gap: 0.35rem;
+}
+.hero-3sec li {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.hero-3sec strong {
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.book-quiz-section {
+  background: linear-gradient(180deg, rgba(24, 90, 83, 0.04), transparent 70%);
+}
+.book-quiz {
+  max-width: 40rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+}
+.book-quiz-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+.book-quiz-progress-fill {
+  display: block;
+  height: 100%;
+  width: 20%;
+  background: var(--teal);
+  border-radius: 999px;
+  transition: width 0.25s var(--ease);
+}
+.book-quiz-step-label {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.book-quiz-q {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+.book-quiz-options {
+  display: grid;
+  gap: 0.55rem;
+}
+.book-quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  min-height: 48px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.book-quiz-option:hover,
+.book-quiz-option:focus-visible {
+  border-color: var(--teal);
+  background: rgba(24, 90, 83, 0.06);
+  outline: none;
+}
+.book-quiz-result-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.book-quiz-result-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.45rem;
+}
+.book-quiz-result-promise {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  max-width: none;
+}
+.book-quiz-result-actions {
+  margin-bottom: 0.85rem;
+}
+.book-quiz-restart {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--teal-deep);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.35rem 0;
+}
+.book-quiz-restart:hover { color: var(--ink); }
+
+.book-more-excerpt {
+  font-weight: 800 !important;
+  color: var(--teal-deep) !important;
+}
+
+#social-proof {
+  scroll-margin-top: calc(var(--nav-h) + 3.25rem);
+}
+#book-quiz {
+  scroll-margin-top: calc(var(--nav-h) + 3.25rem);
 }

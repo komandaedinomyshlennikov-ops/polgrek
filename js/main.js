@@ -648,11 +648,15 @@
         </div>
       </div>`;
     }
+    const pageHref = bookPageUrl(book.slug);
+    const excerptHref = pageHref + '#excerpt';
+    const excerptLabel = UI.excerpt || (isEn ? 'Excerpt' : 'Отрывок');
     return `
       <div class="book-card-cta">
         <a class="btn btn-primary book-card-buy" href="${href}"${dataAff} target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${buyLabel}</a>
         <div class="book-card-links">
-          <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
+          <a class="book-more book-more-excerpt" href="${excerptHref}" data-track="excerpt_open" data-book="${book.slug}">${excerptLabel}</a>
+          <a class="book-more" href="${pageHref}">${UI.annotation}</a>
           ${amzLink}
         </div>
         <p class="affiliate-mark affiliate-mark--card">${UI.affiliateMark || ''}</p>
@@ -1448,6 +1452,202 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
   }
 
+  function mountReadProgress() {
+    let wrap = document.getElementById('readProgress');
+    let bar = document.getElementById('readProgressBar');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.id = 'readProgress';
+      wrap.className = 'read-progress';
+      wrap.setAttribute('role', 'progressbar');
+      wrap.setAttribute('aria-valuemin', '0');
+      wrap.setAttribute('aria-valuemax', '100');
+      wrap.setAttribute('aria-valuenow', '0');
+      wrap.setAttribute('aria-label', isEn ? 'Page reading progress' : 'Прогресс чтения страницы');
+      bar = document.createElement('span');
+      bar.id = 'readProgressBar';
+      bar.className = 'read-progress-bar';
+      wrap.appendChild(bar);
+      document.body.prepend(wrap);
+    }
+    if (!bar) return;
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop || 0;
+      const height = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const pct = Math.min(100, Math.max(0, (scrollTop / height) * 100));
+      bar.style.width = pct.toFixed(1) + '%';
+      wrap.setAttribute('aria-valuenow', String(Math.round(pct)));
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  }
+
+  function mountBookQuiz() {
+    const root = document.getElementById('bookQuiz');
+    const panel = document.getElementById('quizPanel');
+    const stepLabel = document.getElementById('quizStepLabel');
+    const fill = document.getElementById('quizProgressFill');
+    if (!root || !panel) return;
+
+    const steps = isEn
+      ? [
+          {
+            q: 'What bothers you most right now?',
+            options: [
+              { id: 'burnout', label: 'Burnout — rest doesn’t restore me', slug: 'reset' },
+              { id: 'fog', label: 'Brain fog / memory after 40', slug: 'mozg-na-100' },
+              { id: 'stress', label: 'Constant stress, hard to switch off', slug: 'stress-i-mozg' },
+              { id: 'bio', label: 'I tried “hacking” the brain and crashed', slug: 'biohacking-mozga' },
+              { id: 'money', label: 'Money and emotions feel out of control', slug: 'mozg-i-dengi' },
+            ],
+          },
+          {
+            q: 'What do you want first?',
+            options: [
+              { id: 'excerpt', label: 'A free chapter — then decide' },
+              { id: 'book', label: 'The full book on LitRes / Amazon' },
+              { id: 'catalog', label: 'See all titles first' },
+            ],
+          },
+          {
+            q: 'How deep do you want to go?',
+            options: [
+              { id: 'short', label: 'Short and practical' },
+              { id: 'deep', label: 'Full protocol with evidence grades' },
+            ],
+          },
+        ]
+      : [
+          {
+            q: 'Что беспокоит сильнее всего?',
+            options: [
+              { id: 'burnout', label: 'Выгорание — отдых не восстанавливает', slug: 'reset' },
+              { id: 'fog', label: 'Туман / память после 40', slug: 'mozg-na-100' },
+              { id: 'stress', label: 'Постоянный стресс, трудно выключиться', slug: 'stress-i-mozg' },
+              { id: 'bio', label: 'Пробовал «прокачать» мозг и выгорел', slug: 'biohacking-mozga' },
+              { id: 'money', label: 'Деньги и эмоции «плывут»', slug: 'mozg-i-dengi' },
+            ],
+          },
+          {
+            q: 'С чего хотите начать?',
+            options: [
+              { id: 'excerpt', label: 'С бесплатной главы — потом решу' },
+              { id: 'book', label: 'Сразу полная книга на Литрес' },
+              { id: 'catalog', label: 'Сначала весь каталог' },
+            ],
+          },
+          {
+            q: 'Какой формат ближе?',
+            options: [
+              { id: 'short', label: 'Коротко и по делу' },
+              { id: 'deep', label: 'Полный протокол с уровнями A–D' },
+            ],
+          },
+        ];
+
+    let step = 0;
+    const answers = {};
+
+    function setProgress() {
+      const pct = ((step + 1) / (steps.length + 1)) * 100;
+      if (fill) fill.style.width = Math.min(100, pct) + '%';
+      if (stepLabel) {
+        stepLabel.textContent = isEn
+          ? `Step ${Math.min(step + 1, steps.length)} of ${steps.length}`
+          : `Шаг ${Math.min(step + 1, steps.length)} из ${steps.length}`;
+      }
+    }
+
+    function paintQuestion() {
+      setProgress();
+      const s = steps[step];
+      panel.innerHTML = `
+        <h3 class="book-quiz-q">${escapeAttr(s.q)}</h3>
+        <div class="book-quiz-options" role="group" aria-label="${escapeAttr(s.q)}">
+          ${s.options
+            .map(
+              (o) =>
+                `<button type="button" class="book-quiz-option" data-id="${escapeAttr(o.id)}" data-slug="${escapeAttr(
+                  o.slug || ''
+                )}">${escapeAttr(o.label)}</button>`
+            )
+            .join('')}
+        </div>`;
+      panel.querySelectorAll('.book-quiz-option').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          answers[step] = {
+            id: btn.getAttribute('data-id'),
+            slug: btn.getAttribute('data-slug') || '',
+          };
+          if (step < steps.length - 1) {
+            step += 1;
+            paintQuestion();
+          } else {
+            paintResult();
+          }
+        });
+      });
+    }
+
+    function paintResult() {
+      if (fill) fill.style.width = '100%';
+      if (stepLabel) {
+        stepLabel.textContent = isEn ? 'Your match' : 'Ваш вариант';
+      }
+      let slug = (answers[0] && answers[0].slug) || 'mozg-na-100';
+      // Deep protocol preference nudges longevity / stress books
+      if (answers[2] && answers[2].id === 'deep' && slug === 'biohacking-mozga') {
+        slug = 'mozg-na-100';
+      }
+      const book = POL_GREK.getBook(slug) || POL_GREK.books[0];
+      const want = (answers[1] && answers[1].id) || 'excerpt';
+      const title = escapeAttr(book.title || '');
+      const promise = escapeAttr(book.promise || '');
+      const page = bookPageUrl(book.slug);
+      const excerpt = page + '#excerpt';
+      const buy = litresBuyUrl(book) || litresDirect(book);
+      let primary = '';
+      let secondary = '';
+      if (want === 'book' && buy) {
+        primary = `<a class="btn btn-primary btn-cta-lg" href="${escapeAttr(buy)}" target="_blank" rel="${litresRel()}" data-track="litres" data-book="${book.slug}">${UI.buyLitres || (isEn ? 'Buy on LitRes' : 'Купить на Литрес')}</a>`;
+        secondary = `<a class="btn btn-outline" href="${excerpt}">${isEn ? 'Or free excerpt' : 'Или бесплатный отрывок'}</a>`;
+      } else if (want === 'catalog') {
+        primary = `<a class="btn btn-primary btn-cta-lg" href="${url('/books/index.html')}">${isEn ? 'Open catalog' : 'Открыть каталог'}</a>`;
+        secondary = `<a class="btn btn-outline" href="${excerpt}">${isEn ? 'Excerpt of this book' : 'Отрывок этой книги'}</a>`;
+      } else {
+        primary = `<a class="btn btn-primary btn-cta-lg" href="${excerpt}" data-track="excerpt_open" data-book="${book.slug}">${isEn ? 'Read free excerpt' : 'Читать отрывок бесплатно'}</a>`;
+        secondary = buy
+          ? `<a class="btn btn-outline" href="${escapeAttr(buy)}" target="_blank" rel="${litresRel()}" data-track="litres" data-book="${book.slug}">${UI.buyLitres || (isEn ? 'Buy on LitRes' : 'Купить на Литрес')}</a>`
+          : '';
+      }
+      panel.innerHTML = `
+        <div class="book-quiz-result">
+          <p class="book-quiz-result-label">${isEn ? 'Start with' : 'Начните с'}</p>
+          <h3 class="book-quiz-result-title">${title}</h3>
+          <p class="book-quiz-result-promise">${promise}</p>
+          <div class="btn-row book-quiz-result-actions">
+            ${primary}
+            ${secondary}
+            <a class="btn btn-ghost-link" href="${page}">${UI.annotation || (isEn ? 'About the book' : 'О книге')}</a>
+          </div>
+          <button type="button" class="book-quiz-restart" id="quizRestart">${isEn ? 'Start over' : 'Пройти ещё раз'}</button>
+        </div>`;
+      track('book_quiz_complete', { book: book.slug, want, lang: isEn ? 'en' : 'ru' });
+      const restart = document.getElementById('quizRestart');
+      if (restart) {
+        restart.addEventListener('click', () => {
+          step = 0;
+          Object.keys(answers).forEach((k) => delete answers[k]);
+          paintQuestion();
+        });
+      }
+    }
+
+    paintQuestion();
+  }
+
   function setMagnetStatus(el, text, isError) {
     if (!el) return;
     el.hidden = !text;
@@ -1779,6 +1979,9 @@
 
     // Return-visitor bar works on any page (localStorage)
     if (page !== 'home') mountReturnBar();
+
+    mountReadProgress();
+    if (page === 'home') mountBookQuiz();
 
     // Home doors: flat 5-card grid; on narrow screens collapse 04–05 behind button
     const doorsGrid = document.getElementById('doorsGrid');
