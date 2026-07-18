@@ -1,6 +1,15 @@
 /* =========================================================
    POL GREK — «Тихая лаборатория» (Quiet Lab · Direction A)
    Premium author showcase: air, paper, restraint
+   Custom static site — not Tilda / Webflow.
+
+   —— Brand palette (1 primary + 1 accent + 2 neutrals) ——
+   Primary   --ink     #0A1929  deep indigo (text / solid CTAs)
+   Accent    --teal    #185A53  deep teal (links, emphasis)
+   Neutral 1 --paper   #F2EDE3  warm paper (page bg)
+   Neutral 2 --paper-2 #E8E0D2  paper elevated (panels, chips)
+   Supporting: --muted for secondary text (≥ 7:1 on paper where used for body)
+   Accent soft: --amber matte brass only for hairlines / eyebrows, not CTA fills
    ========================================================= */
 
 /* Self-hosted Manrope (body, cyrillic+latin) + Fraunces (display, latin; Cyrillic → Georgia) */
@@ -55,46 +64,53 @@
 }
 
 :root {
-  /* —— Light · Quiet Lab —— */
-  --ink: #0A1929;
-  --ink-soft: #16324A;
-  --paper: #F3EEE4;
-  --paper-2: #EBE4D8;
-  --paper-3: #E0D7C8;
-  --amber: #C9A227; /* matte brass accent only */
-  --amber-deep: #A8861C;
-  --teal: #1F6F66;
-  --teal-deep: #185A53;
-  --graphite: #3A4652;
-  --muted: #5A6570; /* AA ≥ 4.5 on paper */
-  --line: rgba(10, 25, 41, 0.09);
-  --line-strong: rgba(10, 25, 41, 0.16);
-  --coral: #C45C5C;
+  /* —— Light · Quiet Lab brand system —— */
+  --ink: #0A1929;          /* primary */
+  --ink-soft: #132A3F;
+  --paper: #F2EDE3;        /* neutral 1 */
+  --paper-2: #E8E0D2;      /* neutral 2 */
+  --paper-3: #DDD3C2;
+  --teal: #185A53;         /* accent */
+  --teal-deep: #124842;
+  --amber: #A67C1A;        /* secondary accent: matte brass hairlines only */
+  --amber-deep: #8A6614;
+  --graphite: #2C3640;     /* body-adjacent, high contrast on paper */
+  --muted: #3A4550;        /* secondary text ≈ 7:1 on --paper */
+  --line: rgba(10, 25, 41, 0.1);
+  --line-strong: rgba(10, 25, 41, 0.18);
+  --coral: #B84A4A;
   --white: #FCFAF6;
   --shadow: 0 1px 2px rgba(10, 25, 41, 0.05), 0 10px 28px rgba(10, 25, 41, 0.06);
   --shadow-lg: 0 1px 2px rgba(10, 25, 41, 0.05), 0 16px 40px rgba(10, 25, 41, 0.08);
-  --header-bg: rgba(243, 238, 228, 0.92);
-  --header-bg-scrolled: rgba(243, 238, 228, 0.97);
+  --header-bg: rgba(242, 237, 227, 0.92);
+  --header-bg-scrolled: rgba(242, 237, 227, 0.97);
   --body-glow-1: transparent;
   --body-glow-2: transparent;
-  --btn-outline-bg: rgba(252, 250, 246, 0.85);
-  --btn-primary-text: #F3EEE4;
+  --btn-outline-bg: rgba(252, 250, 246, 0.88);
+  --btn-primary-text: #F2EDE3;
   --nav-hover: rgba(10, 25, 41, 0.05);
-  --nav-active: rgba(31, 111, 102, 0.12);
-  --chip-bg: rgba(10, 25, 41, 0.04);
+  --nav-active: rgba(24, 90, 83, 0.12);
+  --chip-bg: rgba(10, 25, 41, 0.045);
   --overlay: rgba(10, 25, 41, 0.42);
-  --tabbar-bg: rgba(243, 238, 228, 0.97);
+  --tabbar-bg: rgba(242, 237, 227, 0.97);
   --drawer-bg: var(--paper);
   --panel-bg: var(--white);
   --footer-bg: #0A1929;
-  --footer-fg: rgba(243, 238, 228, 0.72);
+  --footer-fg: rgba(242, 237, 227, 0.78);
+  /* Component system */
   --radius: 12px;
   --radius-sm: 8px;
+  --radius-lg: 20px;
   --radius-btn: 12px;
-  --max: 1120px;
+  --radius-card: 14px;
+  --space-section: clamp(5rem, 9vw, 10rem);      /* ~80–160px desktop air */
+  --space-section-sm: clamp(4rem, 8vw, 6.25rem); /* mobile ~64–100px */
+  --space-block: clamp(1.5rem, 3vw, 2.25rem);
+  --grid-gutter: clamp(1rem, 2.2vw, 1.5rem);
+  --max: 1120px; /* ~12-col content width */
+  --col: calc((var(--max) - 11 * var(--grid-gutter)) / 12);
   --nav-h: 72px;
-  /* Mobile chrome: bottom tab bar + optional sticky buy (excl. safe-area) */
-  --mobile-tabbar-h: 4rem; /* row of 48px targets + padding (safe-area added separately) */
+  --mobile-tabbar-h: 4rem;
   --mobile-sticky-buy-h: 3.75rem;
   --serif: 'Source Serif 4', 'Literata', Georgia, 'Times New Roman', serif;
   --sans: 'Manrope', system-ui, -apple-system, sans-serif;
@@ -149,11 +165,12 @@ html {
 body {
   margin: 0;
   font-family: var(--sans);
-  font-size: 17px;
+  font-size: 18px; /* readable for 45+ */
   line-height: 1.7;
   color: var(--graphite);
   background: var(--paper);
   min-height: 100vh;
+  text-align: left;
   transition: background-color 0.25s var(--ease), color 0.2s var(--ease);
 }
 
@@ -165,6 +182,8 @@ ul { padding: 0; margin: 0; list-style: none; }
 .container {
   width: min(var(--max), calc(100% - 2.5rem));
   margin-inline: auto;
+  /* 12-col mental model: full content column, gutters via gap on grids */
+  text-align: left;
 }
 
 /* ---------- Typography ---------- */
@@ -371,14 +390,20 @@ a:focus:not(:focus-visible) {
   font-size: 1.05rem;
   margin-bottom: 0.65rem;
 }
-/* Home: quieter rhythm · fewer visual beats */
+/* Home: section air (desktop ~120–160px, mobile ~80–100px) */
 body[data-page="home"] section {
-  padding-top: clamp(2rem, 4.5vw, 3.25rem);
-  padding-bottom: clamp(2rem, 4.5vw, 3.25rem);
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-section);
 }
 body[data-page="home"] .hero {
-  padding-top: clamp(1.75rem, 4vw, 2.75rem);
-  padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: clamp(2.25rem, 5vw, 3.5rem);
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+@media (max-width: 800px) {
+  body[data-page="home"] section {
+    padding-top: var(--space-section-sm);
+    padding-bottom: var(--space-section-sm);
+  }
 }
 body[data-page="home"] .final-cta {
   margin-bottom: 0.5rem;
@@ -919,19 +944,28 @@ body.has-sticky-buy .back-to-top {
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 7fr 5fr; /* 12-col: 7 + 5 */
   gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
+  text-align: left;
+}
+.hero-grid > div:first-child {
+  text-align: left;
+}
+.hero h1,
+.hero .lead,
+.hero .hero-person,
+.hero .hero-trust {
+  text-align: left;
 }
 .hero-visual {
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 460px;
-  border-radius: 28px;
+  border-radius: var(--radius-lg);
   background:
-    linear-gradient(160deg, rgba(11, 31, 51, 0.96), rgba(22, 50, 74, 0.92)),
-    var(--ink);
+    linear-gradient(165deg, #0A1929 0%, #132A3F 55%, #185A53 160%);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   isolation: isolate;
@@ -1137,10 +1171,12 @@ body.has-sticky-buy .back-to-top {
   max-width: 360px;
   aspect-ratio: 1;
   object-fit: cover;
-  object-position: center top;
-  border-radius: 24px;
+  object-position: center 28%;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--line);
+  /* Soft grade toward brand paper/ink (studio polish) */
+  filter: contrast(1.04) saturate(0.88) brightness(0.98);
 }
 .photo-caption {
   font-size: 0.8rem;
@@ -1152,13 +1188,14 @@ body.has-sticky-buy .back-to-top {
   margin: 0 0 1.5rem;
 }
 .about-photo img {
-  width: min(220px, 40vw);
+  width: min(240px, 42vw);
   aspect-ratio: 1;
   object-fit: cover;
-  object-position: center top;
-  border-radius: 20px;
-  box-shadow: var(--shadow);
+  object-position: center 28%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   border: 1px solid var(--line);
+  filter: contrast(1.04) saturate(0.88) brightness(0.98);
 }
 .about-work-photo {
   margin: 1.5rem 0 1.75rem;
@@ -1379,22 +1416,46 @@ body.has-sticky-buy .back-to-top {
 .chip-dot.amber { background: var(--amber); }
 
 /* ---------- Sections ---------- */
-section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
+section {
+  padding: var(--space-section) 0;
+  text-align: left;
+}
+@media (max-width: 800px) {
+  section { padding: var(--space-section-sm) 0; }
+}
 .section-head {
   display: flex;
   justify-content: space-between;
   align-items: end;
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-block);
   flex-wrap: wrap;
+  text-align: left;
 }
-.section-head p { margin: 0.4rem 0 0; color: var(--muted); max-width: 38rem; }
+.section-head > div { text-align: left; max-width: min(42rem, 100%); }
+.section-head h2 { text-align: left; max-width: 22ch; }
+.section-head p { margin: 0.4rem 0 0; color: var(--muted); max-width: 38rem; text-align: left; }
 
 .panel {
-  background: var(--btn-outline-bg);
+  background: var(--panel-bg);
   border: 1px solid var(--line);
-  border-radius: calc(var(--radius) + 6px);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow);
+}
+
+/* Shared card surface (doors, ratings, methods, articles) */
+.door,
+.rating-card,
+.method-card,
+.article-card,
+.quote-card,
+.faq-item,
+.reader-review {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: none;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
 /* ---------- Problem doors ---------- */
