@@ -20,11 +20,11 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/index.html</loc>
+    <loc>https://polgrek.site/knigi/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/index.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/index.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -47,119 +47,119 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/mozg-na-100.html</loc>
+    <loc>https://polgrek.site/knigi/mozg-na-100/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/mozg-na-100.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/mozg-na-100/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/mozg-na-100.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/mozg-na-100.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/mozg-na-100/"/>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/biohacking-mozga.html</loc>
+    <loc>https://polgrek.site/knigi/biohacking-mozga/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/biohacking-mozga.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/biohacking-mozga/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/biohacking-mozga.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/biohacking-mozga.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/biohacking-mozga/"/>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/anatomiya-energii.html</loc>
+    <loc>https://polgrek.site/knigi/anatomiya-energii/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/anatomiya-energii.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/anatomiya-energii/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/anatomiya-energii.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/anatomiya-energii.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/anatomiya-energii/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/mozg-i-dengi.html</loc>
+    <loc>https://polgrek.site/knigi/mozg-i-dengi/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/mozg-i-dengi.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/mozg-i-dengi/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/mozg-i-dengi.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/mozg-i-dengi.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/mozg-i-dengi/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/snachala-dengi-potom-soznanie.html</loc>
+    <loc>https://polgrek.site/knigi/snachala-dengi-potom-soznanie/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/snachala-dengi-potom-soznanie.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/snachala-dengi-potom-soznanie/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/snachala-dengi-potom-soznanie.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/snachala-dengi-potom-soznanie.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/snachala-dengi-potom-soznanie/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/stress-i-mozg.html</loc>
+    <loc>https://polgrek.site/knigi/stress-i-mozg/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/stress-i-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/stress-i-mozg/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/stress-i-mozg.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/stress-i-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/stress-i-mozg/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/reset.html</loc>
+    <loc>https://polgrek.site/knigi/reset/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/reset.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/reset/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/reset.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/reset.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/reset/"/>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/mentalnyy-debag.html</loc>
+    <loc>https://polgrek.site/knigi/mentalnyy-debag/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/mentalnyy-debag.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/mentalnyy-debag/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/mentalnyy-debag.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/mentalnyy-debag.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/mentalnyy-debag/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/ostorozhnyy-biohaker.html</loc>
+    <loc>https://polgrek.site/knigi/ostorozhnyy-biohaker/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/ostorozhnyy-biohaker.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/ostorozhnyy-biohaker/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/ostorozhnyy-biohaker.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/ostorozhnyy-biohaker.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/ostorozhnyy-biohaker/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/svyashchennye-chasy.html</loc>
+    <loc>https://polgrek.site/knigi/svyashchennye-chasy/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/svyashchennye-chasy.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/svyashchennye-chasy/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/svyashchennye-chasy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/svyashchennye-chasy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/svyashchennye-chasy/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/zhenskiy-mozg.html</loc>
+    <loc>https://polgrek.site/knigi/zhenskiy-mozg/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/zhenskiy-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/zhenskiy-mozg/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/zhenskiy-mozg.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/zhenskiy-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/zhenskiy-mozg/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/muzhskoy-mozg.html</loc>
+    <loc>https://polgrek.site/knigi/muzhskoy-mozg/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/muzhskoy-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/muzhskoy-mozg/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/muzhskoy-mozg.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/muzhskoy-mozg.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/muzhskoy-mozg/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://polgrek.site/books/ei-2.html</loc>
+    <loc>https://polgrek.site/knigi/ei-2/</loc>
     <lastmod>2026-07-18</lastmod>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/books/ei-2.html"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://polgrek.site/knigi/ei-2/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://polgrek.site/en/books/ei-2.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/books/ei-2.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://polgrek.site/knigi/ei-2/"/>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>

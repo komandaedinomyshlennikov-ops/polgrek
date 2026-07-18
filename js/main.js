@@ -181,7 +181,7 @@
       const m = path.match(/^(.*\/)([^/]+)$/);
       if (!m) return '/en/index.html' + search + hash;
       // if already at domain root file
-      if (!path.includes('/books/') && !path.includes('/lab/') && path.match(/\/[^/]+\.html$/)) {
+      if (!path.includes('/books/') && !path.includes('/knigi/') && !path.includes('/lab/') && path.match(/\/[^/]+\.html$/)) {
         return path.replace(/\/([^/]+\.html)$/, '/en/$1') + search + hash;
       }
       // books or lab under root
@@ -315,11 +315,12 @@
 
   function headerHTML(active) {
     const S = siteLinks();
-    const d1 = url('/books/reset.html');
-    const d2 = url('/books/mozg-na-100.html');
-    const d3 = url('/books/stress-i-mozg.html');
-    const d4 = url('/books/mozg-na-100.html');
-    const d5 = url('/books/mozg-i-dengi.html');
+    const booksHub = isEn ? '/books/index.html' : '/knigi/';
+    const d1 = isEn ? url('/books/reset.html') : url('/knigi/reset/');
+    const d2 = isEn ? url('/books/mozg-na-100.html') : url('/knigi/mozg-na-100/');
+    const d3 = isEn ? url('/books/stress-i-mozg.html') : url('/knigi/stress-i-mozg/');
+    const d4 = d2;
+    const d5 = isEn ? url('/books/mozg-i-dengi.html') : url('/knigi/mozg-i-dengi/');
     const doors = `
       <div class="nav-dropdown" data-dropdown>
         <button type="button" class="nav-drop-btn" aria-expanded="false" aria-haspopup="true" data-drop-toggle>
@@ -332,7 +333,7 @@
           <a role="menuitem" href="${d3}"><strong>${UI.door3t}</strong><span>${UI.door3s}</span></a>
           <a role="menuitem" href="${d4}"><strong>${UI.door4t}</strong><span>${UI.door4s}</span></a>
           <a role="menuitem" href="${d5}"><strong>${UI.door5t}</strong><span>${UI.door5s}</span></a>
-          <a role="menuitem" class="nav-drop-all" href="${url('/books/index.html')}">${UI.allBooks}</a>
+          <a role="menuitem" class="nav-drop-all" href="${url(booksHub)}">${UI.allBooks}</a>
         </div>
       </div>`;
 
@@ -348,7 +349,7 @@
           <nav class="nav-links" id="navLinks" aria-label="${UI.navAria}">
             <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}">${UI.home}</a>
             ${doors}
-            <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}">${UI.books}</a>
+            <a href="${url(booksHub)}" class="${active === 'books' ? 'active' : ''}">${UI.books}</a>
             <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}">${UI.lab}</a>
             <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}">${UI.about}</a>
             <a href="${url('/index.html')}#faq" class="nav-soft">${UI.faq}</a>
@@ -361,7 +362,7 @@
               <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
             </div>
             <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
-            <a class="btn btn-primary nav-cta" href="${url('/books/index.html')}">${UI.books}</a>
+            <a class="btn btn-primary nav-cta" href="${url(booksHub)}">${UI.books}</a>
           </div>
           <div class="nav-mobile-tools">
             ${langSwitcher()}
@@ -382,7 +383,7 @@
           <div class="mobile-lang-row">${langSwitcher()}${themeToggleBtn()}</div>
           <nav class="mobile-drawer-nav" aria-label="${UI.mobileNavAria}">
             <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}">🏠 ${UI.home}</a>
-            <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}">📚 ${UI.books}</a>
+            <a href="${url(booksHub)}" class="${active === 'books' ? 'active' : ''}">📚 ${UI.books}</a>
             <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}">🧪 ${UI.lab}</a>
             <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}">👤 ${UI.about}</a>
             <a href="${url('/index.html')}#faq">❓ ${UI.faq}</a>
@@ -396,7 +397,7 @@
             <a href="${d5}"><strong>${UI.mobileDoor5t}</strong><span>${UI.mobileDoor5s}</span></a>
           </div>
           <div class="mobile-drawer-cta">
-            <a class="btn btn-primary" href="${url('/books/index.html')}">${UI.catalog}</a>
+            <a class="btn btn-primary" href="${url(booksHub)}">${UI.catalog}</a>
             <a class="btn btn-outline" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
             <a class="btn btn-outline" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
             <a class="btn btn-outline" href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads}</a>
@@ -405,7 +406,7 @@
       </div>
       <nav class="mobile-tabbar" aria-label="${UI.tabAria}">
         <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span aria-hidden="true">🏠</span>${UI.home}</a>
-        <a href="${url('/books/index.html')}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>${UI.books}</a>
+        <a href="${url(booksHub)}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>${UI.books}</a>
         <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span aria-hidden="true">🧪</span>${isEn ? 'Lab' : 'Лаб'}</a>
         <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" aria-label="${UI.telegram}"><span aria-hidden="true">✈️</span>TG</a>
         <a href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
@@ -430,10 +431,11 @@
           </div>
           <div>
             <h4>${UI.footerSections}</h4>
-            <a href="${url('/books/index.html')}">${UI.books}</a>
+            <a href="${url(isEn ? '/books/index.html' : '/knigi/')}">${UI.books}</a>
             <a href="${url('/lab/index.html')}">${UI.lab}</a>
             <a href="${url('/about.html')}">${UI.about}</a>
             <a href="${url('/index.html')}#faq">${UI.faq}</a>
+            <a href="${url('/index.html')}#social-proof">${isEn ? 'Reviews' : 'Отзывы'}</a>
             <a href="${url('/privacy.html')}">${UI.privacy}</a>
           </div>
           <div>
@@ -472,6 +474,11 @@
     }
     if (path.includes('/en/')) return '..';
     if (path.includes('/books/') || path.includes('/lab/')) return pathPrefix || '..';
+    // /knigi/{slug}/ is two levels deep
+    if (/\/knigi\/[^/]+\/?$/.test(path) || /\/knigi\/[^/]+\//.test(path)) {
+      if (path.match(/\/knigi\/[^/]+\/?(?:index\.html)?$/)) return pathPrefix || '../..';
+    }
+    if (path.includes('/knigi')) return pathPrefix || '..';
     return pathPrefix || '';
   }
 
@@ -493,7 +500,8 @@
   }
 
   function bookPageUrl(slug) {
-    return url('/books/' + slug + '.html');
+    if (isEn) return url('/books/' + slug + '.html');
+    return url('/knigi/' + slug + '/');
   }
 
   function articlePageUrl(slug) {
@@ -1034,24 +1042,70 @@
       socialReviews.innerHTML = sp.reviews
         .map((r) => {
           const book = POL_GREK.getBook(r.slug);
-          const href = escapeAttr(r.url || (book ? litresDirect(book) : sp.sourceUrl) || '#');
-          const trans = r.translated
-            ? `<span class="reader-review-flag">${isEn ? 'Translated from Russian LitRes review' : 'Перевод'}</span>`
+          const store = String(r.store || r.source || 'litres').toLowerCase();
+          const isAmazon = store === 'amazon';
+          const href = escapeAttr(
+            r.url ||
+              (isAmazon && book && book.amazon
+                ? String(book.amazon).split('?')[0]
+                : book
+                  ? litresDirect(book)
+                  : sp.sourceUrl) ||
+              '#'
+          );
+          const storeLabel =
+            r.storeLabel ||
+            (isAmazon ? 'Amazon' : isEn ? 'LitRes' : 'Литрес');
+          const linkLabel = isEn
+            ? isAmazon
+              ? 'Review on Amazon'
+              : 'Review on LitRes'
+            : isAmazon
+              ? 'Отзыв на Amazon'
+              : 'Отзыв на Литрес';
+          const flags = [];
+          if (r.translated) {
+            flags.push(
+              isEn ? 'Translated from Russian LitRes review' : 'Перевод с Литрес'
+            );
+          }
+          if (r.lang === 'en' && !isEn) {
+            flags.push('оригинал на английском');
+          }
+          if (r.verified && isAmazon) {
+            flags.push(isEn ? 'Verified Purchase' : 'Verified Purchase');
+          }
+          const flagHtml = flags.length
+            ? flags
+                .map((f) => `<span class="reader-review-flag">${escapeAttr(f)}</span>`)
+                .join('')
             : '';
+          let starsHtml = '';
+          if (r.rating != null && Number(r.rating) > 0) {
+            const n = Math.max(1, Math.min(5, Math.round(Number(r.rating))));
+            starsHtml = `<div class="reader-review-stars" aria-label="${n} / 5"><span aria-hidden="true">${'★'.repeat(n)}${'☆'.repeat(5 - n)}</span></div>`;
+          }
+          const titleHtml = r.title
+            ? `<p class="reader-review-title">${escapeAttr(r.title)}</p>`
+            : '';
+          const storeChip = `<span class="reader-review-store reader-review-store--${isAmazon ? 'amazon' : 'litres'}">${escapeAttr(storeLabel)}</span>`;
           return `
-          <figure class="reader-review">
+          <figure class="reader-review reader-review--${isAmazon ? 'amazon' : 'litres'}">
+            <div class="reader-review-top">${storeChip}${starsHtml}</div>
+            ${titleHtml}
             <blockquote class="reader-review-text">«${escapeAttr(r.text || '')}»</blockquote>
             <figcaption class="reader-review-meta">
               <strong>${escapeAttr(r.author || '')}</strong>
               <span>· ${escapeAttr(r.book || '')}</span>
               <span class="reader-review-date">· ${escapeAttr(r.dateLabel || '')}</span>
-              ${trans}
+              ${flagHtml}
             </figcaption>
-            <a class="reader-review-link" href="${href}" target="_blank" rel="noopener">${isEn ? 'Review on LitRes' : 'Отзыв на Литрес'}</a>
+            <a class="reader-review-link" href="${href}" target="_blank" rel="noopener">${linkLabel}</a>
           </figure>`;
         })
         .join('');
       socialReviews.hidden = false;
+      socialReviews.classList.toggle('social-reviews--multi', sp.reviews.length > 1);
     } else if (socialReviews) {
       socialReviews.innerHTML = '';
       socialReviews.hidden = true;
@@ -1641,7 +1695,7 @@
         primary = `<a class="btn btn-primary btn-cta-lg" href="${escapeAttr(buy)}" target="_blank" rel="${litresRel()}" data-track="litres" data-book="${book.slug}">${UI.buyLitres || (isEn ? 'Buy on LitRes' : 'Купить на Литрес')}</a>`;
         secondary = `<a class="btn btn-outline" href="${excerpt}">${isEn ? 'Or free excerpt' : 'Или бесплатный отрывок'}</a>`;
       } else if (want === 'catalog') {
-        primary = `<a class="btn btn-primary btn-cta-lg" href="${url('/books/index.html')}">${isEn ? 'Open catalog' : 'Открыть каталог'}</a>`;
+        primary = `<a class="btn btn-primary btn-cta-lg" href="${url(isEn ? '/books/index.html' : '/knigi/')}">${isEn ? 'Open catalog' : 'Открыть каталог'}</a>`;
         secondary = `<a class="btn btn-outline" href="${excerpt}">${isEn ? 'Excerpt of this book' : 'Отрывок этой книги'}</a>`;
       } else {
         primary = `<a class="btn btn-primary btn-cta-lg" href="${excerpt}" data-track="excerpt_open" data-book="${book.slug}">${isEn ? 'Read free excerpt' : 'Читать отрывок бесплатно'}</a>`;
@@ -1967,7 +2021,160 @@
     }
   }
 
+  /* ---------- Stage 14: loader, cursor, cover tilt ---------- */
+  function ensurePageLoader() {
+    if (document.getElementById('pageLoader')) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('is-ready');
+      return;
+    }
+    const el = document.createElement('div');
+    el.id = 'pageLoader';
+    el.className = 'page-loader';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML =
+      '<div class="page-loader-inner">' +
+      '<div class="page-loader-mark"></div>' +
+      '<div class="page-loader-bar"><span></span></div>' +
+      '</div>';
+    document.body.prepend(el);
+  }
+
+  function dismissPageLoader() {
+    document.documentElement.classList.add('is-ready');
+    const el = document.getElementById('pageLoader');
+    if (!el) return;
+    el.classList.add('is-done');
+    window.setTimeout(() => {
+      try {
+        el.remove();
+      } catch (e) {}
+    }, 500);
+  }
+
+  function markMediaLoaded() {
+    document.querySelectorAll('.hero-cover, .book-cover.has-image, .book-product-cover').forEach((wrap) => {
+      const img = wrap.querySelector('img');
+      if (!img) {
+        wrap.classList.add('is-loaded');
+        return;
+      }
+      const done = () => wrap.classList.add('is-loaded');
+      if (img.complete && img.naturalWidth) done();
+      else {
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      }
+    });
+  }
+
+  function initCustomCursor() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    // Touch / coarse already filtered; skip if reduced data
+    if (navigator.connection && navigator.connection.saveData) return;
+
+    const dot = document.createElement('div');
+    const ring = document.createElement('div');
+    dot.className = 'cursor-dot';
+    ring.className = 'cursor-ring';
+    dot.setAttribute('aria-hidden', 'true');
+    ring.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+    document.documentElement.classList.add('has-custom-cursor');
+
+    let x = 0;
+    let y = 0;
+    let rx = 0;
+    let ry = 0;
+    let raf = 0;
+
+    const tick = () => {
+      rx += (x - rx) * 0.22;
+      ry += (y - ry) * 0.22;
+      dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        x = e.clientX;
+        y = e.clientY;
+      },
+      { passive: true }
+    );
+
+    const hoverSel = 'a, button, .btn, summary, input, textarea, select, label, .book-cover, .hero-cover, .filter-btn, .door';
+    document.addEventListener(
+      'pointerover',
+      (e) => {
+        if (e.target.closest && e.target.closest(hoverSel)) {
+          document.documentElement.classList.add('is-cursor-hover');
+        }
+      },
+      true
+    );
+    document.addEventListener(
+      'pointerout',
+      (e) => {
+        if (e.target.closest && e.target.closest(hoverSel)) {
+          document.documentElement.classList.remove('is-cursor-hover');
+        }
+      },
+      true
+    );
+    window.addEventListener('pointerdown', () => document.documentElement.classList.add('is-cursor-down'));
+    window.addEventListener('pointerup', () => document.documentElement.classList.remove('is-cursor-down'));
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else raf = requestAnimationFrame(tick);
+    });
+  }
+
+  function initCoverTilt() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const maxTilt = 8; // degrees — subtle
+    const nodes = document.querySelectorAll(
+      '.hero-cover, .book-cover.has-image, .book-product-cover'
+    );
+    nodes.forEach((el) => {
+      if (el.dataset.tiltBound) return;
+      el.dataset.tiltBound = '1';
+
+      const onMove = (e) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        const rx = (-py * maxTilt).toFixed(2);
+        const ry = (px * maxTilt).toFixed(2);
+        el.classList.add('is-tilting');
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
+      };
+      const reset = () => {
+        el.classList.remove('is-tilting');
+        el.style.transform = '';
+      };
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerleave', reset);
+      el.addEventListener('pointercancel', reset);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    ensurePageLoader();
+    // Dismiss quickly once DOM is painted — max wait on full load
+    requestAnimationFrame(() => {
+      window.setTimeout(dismissPageLoader, 180);
+    });
+    window.addEventListener('load', dismissPageLoader, { once: true });
+    window.setTimeout(dismissPageLoader, 1400);
+
     const page = document.body.dataset.page || 'home';
     const activeMap = {
       home: 'home',
@@ -1979,10 +2186,19 @@
     };
     mountShell(activeMap[page] || 'home');
     bindAnalytics();
+    markMediaLoaded();
+    initCustomCursor();
+    initCoverTilt();
+    // Re-bind tilt after async grids fill
+    window.setTimeout(initCoverTilt, 400);
+    window.setTimeout(markMediaLoaded, 400);
 
     // Page-level goals for Metrika reports
     if (page === 'book') {
-      const m = (location.pathname || '').match(/\/books\/([^/]+)\.html/);
+      const path = location.pathname || '';
+      const m =
+        path.match(/\/knigi\/([^/]+)\/?$/) ||
+        path.match(/\/books\/([^/]+)\.html/);
       const slug = m ? m[1] : '';
       track('book_view', { book: slug, lang: isEn ? 'en' : 'ru' });
     }

@@ -47,8 +47,134 @@ def cover_path(book: dict, prefix: str = "") -> str:
     return f"{prefix}../assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
 
 
-def book_url(slug: str, prefix: str = "") -> str:
-    return f"{prefix}{slug}.html"
+# RU books: clean URLs under /knigi/{slug}/ (GitHub Pages directory index).
+# Legacy /books/{slug}.html stays as a redirect stub (noindex).
+RU_BOOKS_SEGMENT = "knigi"
+
+
+def book_url(slug: str, prefix: str = "", *, lang: str = "ru", from_depth: str = "catalog") -> str:
+    """Relative href to a book page.
+
+    from_depth:
+      - catalog: page lives in knigi/ or books/ (or en/books/)
+      - book: nested knigi/{slug}/index.html
+      - root: site root (index, about)
+      - lab: lab/*.html
+      - en_root: en/*.html
+    """
+    if lang == "en":
+        if from_depth == "catalog":
+            return f"{prefix}{slug}.html"
+        if from_depth == "book":
+            return f"{prefix}{slug}.html"
+        if from_depth == "lab":
+            return f"{prefix}../books/{slug}.html"
+        if from_depth in ("root", "en_root"):
+            return f"{prefix}books/{slug}.html"
+        return f"{prefix}{slug}.html"
+    # RU → /knigi/{slug}/
+    if from_depth == "catalog":
+        return f"{prefix}{slug}/"
+    if from_depth == "book":
+        return f"{prefix}../{slug}/"
+    if from_depth == "lab":
+        return f"{prefix}../{RU_BOOKS_SEGMENT}/{slug}/"
+    if from_depth == "root":
+        return f"{prefix}{RU_BOOKS_SEGMENT}/{slug}/"
+    return f"{prefix}{RU_BOOKS_SEGMENT}/{slug}/"
+
+
+def ru_book_canonical(slug: str) -> str:
+    return abs_url(f"/{RU_BOOKS_SEGMENT}/{slug}/")
+
+
+def cover_alt_text(book: dict, *, lang: str = "ru") -> str:
+    title = book.get("title") or book.get("slug") or "book"
+    if lang == "en":
+        return f'Cover of Pol Grek book “{title}”'
+    return f"Обложка книги Пол Грэк «{title}»"
+
+
+def clip_desc(text: str, max_len: int = 160, min_len: int = 150, cta: str = "") -> str:
+    """Unique meta description: target 150–160 chars with optional CTA."""
+    text = re.sub(r"\s+", " ", (text or "").strip())
+    cta = re.sub(r"\s+", " ", (cta or "").strip())
+    # Build base + cta within max_len
+    if cta and cta not in text:
+        room = max_len - len(cta) - 1
+        if room < 48:
+            cta = ""
+            room = max_len
+        if len(text) > room:
+            cut = text[:room].rsplit(" ", 1)[0].rstrip(" .,—–-;:")
+            text = cut + "…"
+        out = f"{text} {cta}".strip() if cta else text
+    else:
+        out = text
+    if len(out) > max_len:
+        out = out[: max_len - 1].rsplit(" ", 1)[0].rstrip(" .,—–-;:") + "…"
+    # Pad short descriptions with neutral, non-spammy filler keywords
+    pads_ru = [
+        " Уровни доказательности A–D.",
+        " Без эзотерики и хайпа.",
+        " Научпоп о мозге.",
+        " Для взрослых, кто устал от советов «просто успокойся».",
+    ]
+    pads_en = [
+        " Evidence grades A–D.",
+        " No woo, no hype.",
+        " Popular brain science.",
+    ]
+    pads = pads_en if any(x in out for x in ("Free ", "Buy ", "Read ")) else pads_ru
+    i = 0
+    while len(out) < min_len and i < len(pads):
+        add = pads[i]
+        i += 1
+        if add.strip() in out:
+            continue
+        if len(out) + len(add) <= max_len:
+            out = out + add
+        else:
+            need = max_len - len(out)
+            if need > 12:
+                out = (out + add[:need]).rstrip() + "…"
+            break
+    if len(out) > max_len:
+        out = out[:max_len].rstrip(" .,…") + "…"
+    return out
+
+
+def seo_book_title(book: dict, *, lang: str = "ru") -> str:
+    title = (book.get("title") or "").strip()
+    if lang == "en":
+        return clip_title(f"{title} — Pol Grek", 60)
+    # Keywords + brand, ≤60
+    base = f"{title} — Пол Грэк"
+    if len(base) <= 48:
+        return clip_title(f"{base} | научпоп", 60)
+    return clip_title(base, 60)
+
+
+def seo_book_desc(book: dict, *, lang: str = "ru") -> str:
+    sub = (book.get("subtitle") or book.get("promise") or "").strip()
+    title = (book.get("title") or "").strip()
+    ann = re.sub(r"\s+", " ", (book.get("annotation") or "")[:120]).strip()
+    if lang == "en":
+        core = f"{title}: {sub}." if sub else f"{title} — brain science without the woo."
+        if ann:
+            core = f"{core} {ann}"
+        return clip_desc(core, cta="Free excerpt · buy on LitRes.")
+    core = f"{title}: {sub}." if sub else f"Книга «{title}» — научпоп о мозге без эзотерики."
+    if ann and ann not in core:
+        core = f"{core} {ann}"
+    return clip_desc(core, cta="Отрывок бесплатно → Литрес.")
+
+
+def seo_article_desc(article: dict, *, lang: str = "ru") -> str:
+    hook = (article.get("hook") or article.get("title") or "").strip()
+    if lang == "en":
+        return clip_desc(hook, cta="Read in the Lab · free.")
+    return clip_desc(hook, cta="Читать в Лаборатории — бесплатно.")
 
 
 def tags_html(book: dict) -> str:
@@ -362,23 +488,32 @@ def book_card(
     G: dict | None = None,
     *,
     lang: str = "ru",
+    from_depth: str | None = None,
 ) -> str:
-    """Text-first catalog tile: science marks + pitch, mini cover secondary."""
+    """Text-first catalog tile: science marks + pitch, mini cover secondary.
+
+    from_depth overrides path logic: catalog | book | root | lab | en_root
+    """
     slug = book["slug"]
-    href = book_url(slug, "") if books_dir else f"books/{slug}.html"
-    if lang == "en" and books_dir:
+    if from_depth is None:
+        if lang == "en":
+            from_depth = "catalog" if books_dir else "en_root"
+        else:
+            from_depth = "catalog" if books_dir else "root"
+
+    href = book_url(slug, prefix, lang=lang, from_depth=from_depth)
+    # Cover asset path by depth of the page that embeds the card
+    if from_depth == "book":
         cover = f"../../assets/covers/{book.get('coverFile', slug + '.webp')}"
-    elif books_dir:
+    elif from_depth in ("catalog", "lab"):
         cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
-    elif lang == "en":
-        href = f"books/{slug}.html"
+    elif from_depth == "en_root":
         cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
     else:
-        href = f"books/{slug}.html"
         cover = f"assets/covers/{book.get('coverFile', slug + '.webp')}"
 
     show = book_data_show(book)
-    cover_alt = ("Cover: " if lang == "en" else "Обложка: ") + book["title"]
+    cover_alt = cover_alt_text(book, lang=lang)
     is_en = lang == "en"
     chip = ""
     fw = (book.get("forWhom") or [None])[0]
@@ -513,7 +648,79 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718stage3"
+CSS_VER = "20260718mobile11"
+USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
+
+
+def pick_asset(min_rel: str, src_rel: str) -> str:
+    """Prefer minified file when it exists and is not larger than source."""
+    if not USE_MINIFIED_ASSETS:
+        return src_rel
+    min_p = SITE / min_rel
+    src_p = SITE / src_rel
+    if min_p.exists() and src_p.exists() and min_p.stat().st_size <= src_p.stat().st_size:
+        return min_rel
+    if min_p.exists() and not src_p.exists():
+        return min_rel
+    return src_rel
+
+
+def pick_js(rel: str) -> str:
+    """js/foo.js → js/foo.min.js if smaller."""
+    rel = rel.replace("\\", "/")
+    if not rel.startswith("js/"):
+        rel = f"js/{rel}"
+    if rel.endswith(".min.js"):
+        return rel
+    min_rel = rel[:-3] + ".min.js"
+    return pick_asset(min_rel, rel)
+
+
+def minify_static_assets() -> None:
+    """Build css/*.min.css and js/*.min.js via esbuild when available."""
+    import shutil
+    import subprocess
+
+    esbuild = shutil.which("esbuild")
+    npx = shutil.which("npx")
+    pairs = [
+        ("css/styles.css", "css/styles.min.css"),
+        ("js/main.js", "js/main.min.js"),
+        ("js/base-config.js", "js/base-config.min.js"),
+    ]
+    # data-*.js: min often larger (unicode escapes) — skip
+    for src_rel, out_rel in pairs:
+        src = SITE / src_rel
+        out = SITE / out_rel
+        if not src.exists():
+            continue
+        try:
+            if esbuild:
+                subprocess.run(
+                    [esbuild, str(src), "--minify", f"--outfile={out}"],
+                    check=True,
+                    cwd=SITE,
+                    capture_output=True,
+                    text=True,
+                )
+            elif npx:
+                subprocess.run(
+                    ["npx", "--yes", "esbuild", str(src), "--minify", f"--outfile={out}"],
+                    check=True,
+                    cwd=SITE,
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                )
+            else:
+                print("skip minify: no esbuild/npx")
+                return
+            print(
+                f"minify {src_rel}: {src.stat().st_size} → {out.stat().st_size} "
+                f"({100 * out.stat().st_size / max(1, src.stat().st_size):.0f}%)"
+            )
+        except Exception as e:
+            print("minify failed", src_rel, e)
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
     f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'
@@ -558,24 +765,30 @@ def shell(
     extra_head: str = "",
 ) -> str:
     # path_prefix: relative to page for assets (e.g. '../../' for en/books)
-    css = f"{path_prefix}css/styles.css?v={CSS_VER}"
+    css_name = pick_asset("css/styles.min.css", "css/styles.css")
+    css = f"{path_prefix}{css_name}?v={CSS_VER}"
     fav = f"{path_prefix}assets/favicon.svg"
     fav2 = f"{path_prefix}assets/favicon.png"
-    data_src = f"{path_prefix}{data_js}"
+    data_src = f"{path_prefix}{pick_js(data_js)}"
+    main_js = pick_asset("js/main.min.js", "js/main.js")
+    base_js = pick_asset("js/base-config.min.js", "js/base-config.js")
     articles_script = ""
     if page in ("article", "lab"):
         art_name = "data-articles-en.js" if lang == "en" else "data-articles.js"
-        articles_script = f'  <script src="{path_prefix}js/{art_name}"></script>\n'
+        art_name = pick_js(f"js/{art_name}").replace("js/", "", 1)
+        articles_script = (
+            f'  <script src="{path_prefix}js/{art_name}" defer></script>\n'
+        )
     lang_attr = "en" if lang == "en" else "ru"
     data_lang = ' data-lang="en"' if lang == "en" else ""
-    data_assets = ' data-assets="../.."' if "/en/" in (canonical or "") and page in ("book", "article") else (
-        ' data-assets=".."' if lang == "en" and page in ("book", "article") else ""
-    )
-    # en books use path_prefix ../../ and data-assets set by post-process; keep simple here
-    if lang == "en" and path_prefix.count("../") >= 2:
+    # Nested pages need explicit asset root for JS cover/excerpt URLs
+    if page == "book":
+        # RU: /knigi/{slug}/ ; EN: /en/books/{slug}.html
         data_assets = ' data-assets="../.."'
-    elif lang == "en" and path_prefix.startswith(".."):
+    elif page == "article":
         data_assets = ' data-assets=".."'
+    else:
+        data_assets = ""
 
     desc = (description or "")[:160]
     og_img = og_image or OG_IMAGE
@@ -599,6 +812,8 @@ def shell(
             + "\n  </script>"
         )
 
+    body_class = ' class="has-sticky-buy page-book"' if page == "book" else ""
+
     return f"""<!DOCTYPE html>
 <html lang="{lang_attr}">
 <head>
@@ -607,6 +822,9 @@ def shell(
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="{'Pol Grek' if lang == 'en' else 'Пол Грэк'}" />
   <meta name="theme-color" content="#0B1F33" />
+  <script>
+  (function(){{try{{var k='pol-grek-theme',t=localStorage.getItem(k);if(t!=='dark'&&t!=='light'){{t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}}catch(e){{}}}})();
+  </script>
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(desc)}" />{canonical_tag}
   <meta property="og:site_name" content="{'Pol Grek' if lang == 'en' else 'Пол Грэк'}" />
@@ -626,7 +844,7 @@ def shell(
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{SITE_ORIGIN}/sitemap.xml" />
   <link rel="stylesheet" href="{css}" />{ld_scripts}
 {extra_head}</head>
-<body data-page="{page}" data-base="{base}"{data_lang}{data_assets}>
+<body data-page="{page}" data-base="{base}"{data_lang}{data_assets}{body_class}>
   <a class="skip-link" href="#main-content">{('Skip to content' if lang == 'en' else 'К содержанию')}</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -637,12 +855,12 @@ def shell(
         </a>
         <nav class="nav-links" aria-label="{('Primary' if lang == 'en' else 'Основная навигация')}">
           <a href="{path_prefix}index.html">{('Home' if lang == 'en' else 'Главная')}</a>
-          <a href="{path_prefix}books/index.html">{('Books' if lang == 'en' else 'Книги')}</a>
+          <a href="{path_prefix}{'books/index.html' if lang == 'en' else RU_BOOKS_SEGMENT + '/'}">{('Books' if lang == 'en' else 'Книги')}</a>
           <a href="{path_prefix}lab/index.html">{('Lab' if lang == 'en' else 'Лаборатория')}</a>
           <a href="{path_prefix}about.html">{('About' if lang == 'en' else 'Об авторе')}</a>
         </nav>
         <div class="nav-actions">
-          <a class="btn btn-primary nav-cta" href="{path_prefix}books/index.html">{('Books' if lang == 'en' else 'Книги')}</a>
+          <a class="btn btn-primary nav-cta" href="{path_prefix}{'books/index.html' if lang == 'en' else RU_BOOKS_SEGMENT + '/'}">{('Books' if lang == 'en' else 'Книги')}</a>
         </div>
       </div>
     </header>
@@ -651,9 +869,9 @@ def shell(
 {body}
   </main>
   <div id="site-footer"></div>
-  <script src="{path_prefix}js/base-config.js"></script>
-  <script src="{data_src}"></script>
-{articles_script}  <script src="{path_prefix}js/main.js?v={CSS_VER}"></script>
+  <script src="{path_prefix}{base_js}" defer></script>
+  <script src="{data_src}" defer></script>
+{articles_script}  <script src="{path_prefix}{main_js}?v={CSS_VER}" defer></script>
 </body>
 </html>
 """
@@ -806,8 +1024,43 @@ def series_mates(G: dict, book: dict, n: int = 6) -> list:
     return mates[:n]
 
 
-def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False) -> str:
-    """Product page inspired by MIF catalog product layout."""
+def build_book_page(
+    G: dict,
+    book: dict,
+    *,
+    prefer_inline_excerpt: bool = False,
+    lang: str = "ru",
+) -> str:
+    """Product page inspired by MIF catalog product layout.
+
+    RU pages are written to knigi/{slug}/index.html (path_prefix ../../).
+    EN pages stay at en/books/{slug}.html (path_prefix ../ via separate builder).
+    """
+    is_en = lang == "en"
+    # Asset depth from page file
+    if is_en:
+        asset_up = ".."
+        catalog_href = "index.html"
+        about_href = "../about.html"
+        home_href = "../index.html"
+        lab_href = "../lab/index.html"
+        faq_href = "../index.html#faq"
+        path_prefix = "../"
+        shell_base = ".."
+        from_depth = "catalog"  # en books are flat *.html next to catalog
+        book_href = lambda s: f"{s}.html"
+    else:
+        asset_up = "../.."
+        catalog_href = "../"
+        about_href = "../../about.html"
+        home_href = "../../index.html"
+        lab_href = "../../lab/index.html"
+        faq_href = "../../index.html#faq"
+        path_prefix = "../../"
+        shell_base = "../.."
+        from_depth = "book"
+        book_href = lambda s: f"../{s}/"
+
     all_books = G["books"]
     idx = next(i for i, b in enumerate(all_books) if b["slug"] == book["slug"])
     prev_b = all_books[idx - 1] if idx > 0 else None
@@ -819,13 +1072,18 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         "",
     )
     topic = TAG_RU.get(primary, primary)
-    topic_href = f"index.html?filter={html.escape(primary)}" if primary else "index.html"
+    topic_href = (
+        f"{catalog_href}?filter={html.escape(primary)}"
+        if primary
+        else catalog_href
+    )
     authors_list = book.get("authors") or []
     authors = ", ".join(authors_list)
-    series = book.get("series") or "Научпоп о мозге"
-    excerpt_file = f"../excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
-    cover = f"../assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
+    series = book.get("series") or ("Brain science" if is_en else "Научпоп о мозге")
+    excerpt_file = f"{asset_up}/excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
+    cover = f"{asset_up}/assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
     amz = amazon_product_url(book)
+    img_alt = cover_alt_text(book, lang="en" if is_en else "ru")
 
     # Highlights (MIF "О книге" bullets): takeaways first, else forWhom
     highlights = (book.get("takeaways") or book.get("forWhom") or [])[:3]
@@ -838,7 +1096,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
             continue
         label = TAG_RU.get(t, t)
         tag_chips.append(
-            f'<a class="book-tag-chip" href="index.html?filter={html.escape(t)}">{esc(label)}</a>'
+            f'<a class="book-tag-chip" href="{catalog_href}?filter={html.escape(t)}">{esc(label)}</a>'
         )
     if len(authors_list) > 1:
         tag_chips.insert(0, '<span class="book-tag-chip is-co">с Лорой Грэк</span>')
@@ -849,17 +1107,17 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     if mates:
         thumbs = []
         for b in mates:
-            c = f"../assets/covers/{b.get('coverFile', b['slug'] + '.webp')}"
+            c = f"{asset_up}/assets/covers/{b.get('coverFile', b['slug'] + '.webp')}"
             thumbs.append(
-                f'<a class="book-series-thumb" href="{b["slug"]}.html" title="{esc(b["title"])}">'
-                f'<img src="{c}" alt="{esc(b["title"])}" width="96" height="144" loading="lazy" />'
+                f'<a class="book-series-thumb" href="{book_href(b["slug"])}" title="{esc(b["title"])}">'
+                f'<img src="{c}" alt="{esc(cover_alt_text(b, lang="en" if is_en else "ru"))}" width="96" height="144" loading="lazy" />'
                 f"<span>{esc(b['title'])}</span></a>"
             )
         series_html = f"""
       <section class="book-series-shelf" aria-label="Серия">
         <div class="book-series-head">
           <p class="eyebrow">{esc(series)}</p>
-          <a class="btn btn-ghost-link" href="index.html">Все книги серии →</a>
+          <a class="btn btn-ghost-link" href="{catalog_href}">Все книги серии →</a>
         </div>
         <div class="book-series-track">{"".join(thumbs)}</div>
       </section>"""
@@ -903,16 +1161,24 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         pull_html = ""
 
     prev_html = (
-        f'<a class="book-pn prev" href="{prev_b["slug"]}.html"><span class="book-pn-label">← Предыдущая</span><strong>{esc(prev_b["title"])}</strong></a>'
+        f'<a class="book-pn prev" href="{book_href(prev_b["slug"])}"><span class="book-pn-label">← Предыдущая</span><strong>{esc(prev_b["title"])}</strong></a>'
         if prev_b
         else '<span class="book-pn prev empty"></span>'
     )
     next_html = (
-        f'<a class="book-pn next" href="{next_b["slug"]}.html"><span class="book-pn-label">Следующая →</span><strong>{esc(next_b["title"])}</strong></a>'
+        f'<a class="book-pn next" href="{book_href(next_b["slug"])}"><span class="book-pn-label">Следующая →</span><strong>{esc(next_b["title"])}</strong></a>'
         if next_b
         else '<span class="book-pn next empty"></span>'
     )
-    related_cards = "".join(book_card(b, books_dir=True, G=G) for b in related)
+    related_cards = "".join(
+        book_card(
+            b,
+            G=G,
+            lang="en" if is_en else "ru",
+            from_depth="catalog" if is_en else "book",
+        )
+        for b in related
+    )
 
     for_whom_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("forWhom") or []))
     takeaway_items = "".join(f"<li>{esc(x)}</li>" for x in (book.get("takeaways") or []))
@@ -940,9 +1206,9 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         else ""
     )
     amz_sticky = (
-        f'<a class="btn btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        f'<a class="btn btn-outline sticky-buy-amazon" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
         if amz
-        else '<a class="btn btn-outline" href="#excerpt">Отрывок</a>'
+        else ""
     )
     pay_hint = (
         "Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи."
@@ -980,9 +1246,9 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
     <div class="container book-page">
       <noscript><div class="noscript-banner">Страница книги открыта без JavaScript: описание и отрывок ниже.</div></noscript>
       <nav class="breadcrumb" aria-label="Вы здесь">
-        <a href="../index.html">Главная</a>
+        <a href="{home_href}">Главная</a>
         <span class="bc-sep" aria-hidden="true">/</span>
-        <a href="index.html">Книги</a>
+        <a href="{catalog_href}">Книги</a>
         {f'<span class="bc-sep" aria-hidden="true">/</span><a href="{topic_href}">{esc(topic)}</a>' if topic else ''}
         <span class="bc-sep" aria-hidden="true">/</span>
         <span aria-current="page">{esc(book["title"])}</span>
@@ -991,15 +1257,15 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
       <!-- MIF-style product hero: cover + info + buy -->
       <div class="book-product">
         <div class="book-product-cover">
-          <img src="{cover}" alt="Обложка: {esc(book["title"])}" width="640" height="960" />
+          <img src="{cover}" alt="{esc(img_alt)}" width="640" height="960" decoding="async" fetchpriority="high" sizes="(max-width: 720px) 70vw, 320px" />
         </div>
         <div class="book-product-info">
           <p class="eyebrow">{esc(series)}</p>
-          <h1 class="book-h1">{esc(book["title"])}</h1>
+          <h1 class="book-h1">{esc(book["title"])}{" — Pol Grek" if is_en else " — книга Пола Грэка"}</h1>
           <p class="book-subtitle">{esc(book.get("subtitle") or "")}</p>
           <p class="book-authors">
             <span class="book-authors-label">Автор</span>
-            <a href="../about.html">{esc(authors)}</a>
+            <a href="{about_href}">{esc(authors)}</a>
           </p>
 
           {highlights_block}
@@ -1078,18 +1344,29 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
           <h2>Об авторе</h2>
           <div class="book-author-card">
             <div class="book-author-photo">
-              <img src="../assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="88" height="88" />
+              <img src="{asset_up}/assets/pol-grek-portrait.jpg" alt="Пол Грэк — автор научпопа о мозге" width="88" height="88" />
             </div>
             <div>
               <h3>{esc(authors)}</h3>
               <p>{esc(author_note)}</p>
               <div class="btn-row">
-                <a class="btn btn-outline" href="../about.html">Подробнее об авторе</a>
+                <a class="btn btn-outline" href="{about_href}">Подробнее об авторе</a>
                 <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener">Telegram</a>
               </div>
             </div>
           </div>
         </section>
+
+        <nav class="seo-internal-links book-section" aria-label="{"More on this site" if is_en else "Ещё на сайте"}">
+          <h2 class="sr-only">{"Internal links" if is_en else "Перелинковка"}</h2>
+          <ul class="checklist">
+            <li><a href="{catalog_href}">{"All Pol Grek books" if is_en else "Все книги Пола Грэка"}</a></li>
+            <li><a href="{about_href}">{"About the author" if is_en else "Об авторе"}</a></li>
+            <li><a href="{faq_href}">{"FAQ" if is_en else "FAQ — научпоп без хайпа"}</a></li>
+            <li><a href="{lab_href}">{"Lab notes" if is_en else "Лаборатория: короткие заметки"}</a></li>
+            <li><a href="{home_href}#social-proof">{"Reader reviews" if is_en else "Отзывы читателей"}</a></li>
+          </ul>
+        </nav>
 
         <section id="specs" class="book-section book-specs">
           <h2>Выходные данные</h2>
@@ -1108,7 +1385,7 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
 
         <nav class="book-prev-next" aria-label="Соседние книги">
           {prev_html}
-          <a class="book-pn catalog" href="index.html">Весь каталог</a>
+          <a class="book-pn catalog" href="{catalog_href}">Весь каталог</a>
           {next_html}
         </nav>
 
@@ -1124,19 +1401,23 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         </section>
       </div>
     </div>
-    <div class="sticky-buy" aria-label="Быстрые действия">
-      <a class="btn btn-primary" href="#excerpt">Отрывок</a>
-      <a class="btn btn-outline" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">Литрес</a>
+    <div class="sticky-buy" aria-label="{'Quick actions' if is_en else 'Быстрые действия'}">
+      <a class="btn btn-primary sticky-buy-excerpt" href="#excerpt">{('Read excerpt' if is_en else 'Читать отрывок')}</a>
+      <a class="btn btn-outline sticky-buy-store" href="{esc(buy_url)}" target="_blank" rel="{buy_rel}">{('LitRes' if is_en else 'Литрес')}</a>
       {amz_sticky}
-      <a class="btn btn-ghost-link" href="index.html">Каталог</a>
     </div>
 """
-    title = clip_title(f"{book['title']} — Пол Грэк", 60)
-    desc = f"{book['title']}: {book.get('subtitle') or book.get('promise') or ''}. Отрывок бесплатно, покупка на Литрес."
-    can = abs_url(f"/books/{book['slug']}.html")
+    title = seo_book_title(book, lang="en" if is_en else "ru")
+    desc = seo_book_desc(book, lang="en" if is_en else "ru")
+    can = (
+        abs_url(f"/en/books/{book['slug']}.html")
+        if is_en
+        else ru_book_canonical(book["slug"])
+    )
     can_en = abs_url(f"/en/books/{book['slug']}.html")
+    can_ru = ru_book_canonical(book["slug"])
     cover_abs = abs_url(f"/assets/covers/{book.get('coverFile', book['slug'] + '.webp')}")
-    authors_ld = book.get("authors") or ["Пол Грэк"]
+    authors_ld = book.get("authors") or (["Pol Grek"] if is_en else ["Пол Грэк"])
     book_ld = {
         "@context": "https://schema.org",
         "@type": "Book",
@@ -1144,8 +1425,15 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         "description": (book.get("annotation") or book.get("promise") or desc)[:300],
         "url": can,
         "image": cover_abs,
-        "inLanguage": "ru",
-        "author": [{"@type": "Person", "name": a} for a in authors_ld],
+        "inLanguage": "en" if is_en else "ru",
+        "author": [
+            {
+                "@type": "Person",
+                "name": a,
+                "url": abs_url("/en/about.html" if is_en else "/about.html"),
+            }
+            for a in authors_ld
+        ],
         "bookFormat": "https://schema.org/EBook",
         "workExample": {
             "@type": "Book",
@@ -1161,28 +1449,109 @@ def build_book_page(G: dict, book: dict, *, prefer_inline_excerpt: bool = False)
         book_ld["sameAs"] = [book["litres"]]
     if amz := amazon_product_url(book):
         book_ld.setdefault("sameAs", []).append(amz)
+
+    # AggregateRating from LitRes public figures (real only)
+    r = _book_litres_rating(G, book["slug"])
+    if r and int(r.get("votes") or 0) >= 1:
+        try:
+            book_ld["aggregateRating"] = {
+                "@type": "AggregateRating",
+                "ratingValue": f"{float(r.get('rating') or 0):.1f}",
+                "reviewCount": str(int(r.get("votes") or 0)),
+                "bestRating": "5",
+                "worstRating": "1",
+            }
+        except (TypeError, ValueError):
+            pass
+
+    # Real text reviews only (do not invent)
+    sp = G.get("socialProof") or {}
+    reviews_ld = []
+    for rev in sp.get("reviews") or []:
+        if rev.get("slug") != book["slug"]:
+            continue
+        body_txt = (rev.get("text") or "").strip()
+        if not body_txt:
+            continue
+        store = str(rev.get("store") or "litres").lower()
+        pub_name = (
+            rev.get("storeLabel")
+            or ("Amazon" if store == "amazon" else ("LitRes" if is_en else "Литрес"))
+        )
+        item = {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": rev.get("author") or ("Reader" if is_en else "Читатель")},
+            "reviewBody": body_txt,
+            "publisher": {"@type": "Organization", "name": pub_name},
+        }
+        if rev.get("title"):
+            item["name"] = rev["title"]
+        if rev.get("url"):
+            item["url"] = rev["url"]
+        # Known real dates from store labels
+        dl = str(rev.get("dateLabel") or "")
+        dl_l = dl.lower()
+        if store == "amazon" and ("june" in dl_l or "июня" in dl_l or "июн" in dl_l):
+            item["datePublished"] = "2026-06-29"
+        elif "мая" in dl_l or "may" in dl_l:
+            item["datePublished"] = "2026-05-14"
+        if rev.get("rating") is not None:
+            try:
+                item["reviewRating"] = {
+                    "@type": "Rating",
+                    "ratingValue": str(int(round(float(rev["rating"])))),
+                    "bestRating": "5",
+                    "worstRating": "1",
+                }
+            except (TypeError, ValueError):
+                pass
+        reviews_ld.append(item)
+    if reviews_ld:
+        book_ld["review"] = reviews_ld
+
     crumbs = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Главная", "item": abs_url("/")},
-            {"@type": "ListItem", "position": 2, "name": "Книги", "item": abs_url("/books/index.html")},
+            {"@type": "ListItem", "position": 1, "name": "Home" if is_en else "Главная", "item": abs_url("/en/" if is_en else "/")},
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Books" if is_en else "Книги",
+                "item": abs_url("/en/books/index.html" if is_en else f"/{RU_BOOKS_SEGMENT}/"),
+            },
             {"@type": "ListItem", "position": 3, "name": book["title"], "item": can},
+        ],
+    }
+    person_ld = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Pol Grek" if is_en else "Пол Грэк",
+        "alternateName": "Пол Грэк" if is_en else "Pol Grek",
+        "url": abs_url("/en/about.html" if is_en else "/about.html"),
+        "image": abs_url("/assets/pol-grek-portrait.jpg"),
+        "jobTitle": "Author" if is_en else "Автор научпопа о мозге",
+        "sameAs": [
+            "https://www.litres.ru/author/pol-grek/",
+            "https://t.me/+KGQgs6MVHHYwZGVi",
+            "https://www.threads.net/@pol.grek",
         ],
     }
     return shell(
         title,
-        desc[:160],
+        desc,
         body,
         "book",
-        "..",
-        "../",
+        shell_base,
+        path_prefix,
+        lang="en" if is_en else "ru",
+        data_js="js/data-en.js" if is_en else "js/data.js",
         canonical=can,
         og_type="book",
         og_image=cover_abs,
-        hreflang_ru=can,
+        hreflang_ru=can_ru,
         hreflang_en=can_en,
-        json_ld=[book_ld, crumbs],
+        json_ld=[book_ld, crumbs, person_ld],
     )
 
 
@@ -1199,7 +1568,7 @@ def build_article_page(G: dict, article: dict) -> str:
           <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
           <h3>{esc(book["title"])}</h3>
           <p>{esc(book["promise"])}</p>
-          <a class="btn btn-primary" href="../books/{book["slug"]}.html">К книге</a>
+          <a class="btn btn-primary" href="{book_url(book['slug'], lang='ru', from_depth='lab')}">К книге</a>
           <a class="btn btn-outline" href="{esc(book_buy)}" target="_blank" rel="{book_rel}">Купить на Литрес</a>
         </div>"""
     more = "".join(
@@ -1224,8 +1593,10 @@ def build_article_page(G: dict, article: dict) -> str:
           <div class="pull-quote">{esc(article["hook"])}</div>
           {body_html}
           <div class="btn-row" style="margin-top:2rem">
-            {f'<a class="btn btn-primary" href="../books/{book["slug"]}.html">Книга: {esc(book["title"])}</a>' if book else ""}
+            {f'<a class="btn btn-primary" href="{book_url(book["slug"], lang="ru", from_depth="lab")}">Книга: {esc(book["title"])}</a>' if book else ""}
             <a class="btn btn-outline" href="index.html">Все материалы</a>
+            <a class="btn btn-ghost-link" href="../about.html">Об авторе</a>
+            <a class="btn btn-ghost-link" href="../{RU_BOOKS_SEGMENT}/">Каталог книг</a>
           </div>
         </article>
         <aside class="article-side">
@@ -1240,7 +1611,7 @@ def build_article_page(G: dict, article: dict) -> str:
 """
     raw_title = article["title"]
     title = clip_title(f"{raw_title} — Пол Грэк", 60)
-    desc = (article.get("hook") or article["title"])[:160]
+    desc = seo_article_desc(article, lang="ru")
     can = abs_url(f"/lab/{article['slug']}.html")
     can_en = abs_url(f"/en/lab/{article['slug']}.html")
     article_ld = {
@@ -1264,7 +1635,7 @@ def build_article_page(G: dict, article: dict) -> str:
         article_ld["isPartOf"] = {
             "@type": "Book",
             "name": book["title"],
-            "url": abs_url(f"/books/{book['slug']}.html"),
+            "url": ru_book_canonical(book["slug"]),
         }
     crumbs = {
         "@context": "https://schema.org",
@@ -1507,15 +1878,276 @@ def sync_faq_and_timeline(G: dict, GE: dict | None) -> None:
         )
 
 
+def write_redirect_page(*, title: str, target_url: str, target_rel: str) -> str:
+    """Legacy URL stub: noindex + meta refresh + link (GitHub Pages has no server 301)."""
+    return f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, follow" />
+  <title>{esc(title)}</title>
+  <link rel="canonical" href="{esc(target_url)}" />
+  <meta http-equiv="refresh" content="0; url={esc(target_rel)}" />
+  <script>location.replace({json.dumps(target_rel)});</script>
+</head>
+<body>
+  <p>Страница переехала: <a href="{esc(target_rel)}">{esc(target_url)}</a></p>
+</body>
+</html>
+"""
+
+
+def publish_knigi_catalog() -> None:
+    """Copy RU catalog shell to /knigi/ with path + URL rewrites; leave books/index as redirect."""
+    knigi = SITE / RU_BOOKS_SEGMENT
+    knigi.mkdir(parents=True, exist_ok=True)
+    books_idx = SITE / "books" / "index.html"
+    knigi_idx = knigi / "index.html"
+    src = None
+    for candidate in (knigi_idx, books_idx):
+        if candidate.exists() and 'id="booksGrid"' in candidate.read_text(encoding="utf-8"):
+            src = candidate
+            break
+    if not src:
+        print("skip knigi catalog: no booksGrid source")
+        return
+    raw = src.read_text(encoding="utf-8")
+    # Paths stay ../ for assets when catalog is at knigi/index.html (same depth as books/)
+    raw = raw.replace("https://polgrek.site/books/index.html", f"https://polgrek.site/{RU_BOOKS_SEGMENT}/")
+    raw = raw.replace("https://polgrek.site/books/", f"https://polgrek.site/{RU_BOOKS_SEGMENT}/")
+    # Card/book links: mozg-na-100.html → mozg-na-100/
+    raw = re.sub(
+        r'href="([a-z0-9-]+)\.html"',
+        lambda m: f'href="{m.group(1)}/"'
+        if m.group(1) not in ("index", "book", "about", "privacy")
+        else m.group(0),
+        raw,
+    )
+    # Absolute schema URLs already rewritten above; fix remaining .html book locs
+    raw = re.sub(
+        rf'https://polgrek\.site/{RU_BOOKS_SEGMENT}/([a-z0-9-]+)\.html',
+        rf"https://polgrek.site/{RU_BOOKS_SEGMENT}/\1/",
+        raw,
+    )
+    # Title/desc polish for catalog
+    raw = re.sub(
+        r"<title>[^<]*</title>",
+        "<title>Книги Пола Грэка о мозге — каталог без хайпа</title>",
+        raw,
+        count=1,
+    )
+    cat_desc = clip_desc(
+        "13 книг Пола и Лоры Грэк: выгорание, туман в голове, стресс, энергия, деньги и гормоны. Научпоп о мозге с уровнями A–D, без эзотерики.",
+        cta="Отрывок бесплатно →",
+    )
+    raw = re.sub(
+        r'<meta name="description" content="[^"]*"\s*/?>',
+        f'<meta name="description" content="{esc(cat_desc)}" />',
+        raw,
+        count=1,
+    )
+    raw = re.sub(
+        r'property="og:description" content="[^"]*"',
+        f'property="og:description" content="{esc(cat_desc)}"',
+        raw,
+        count=1,
+    )
+    raw = re.sub(
+        r'name="twitter:description" content="[^"]*"',
+        f'name="twitter:description" content="{esc(cat_desc)}"',
+        raw,
+        count=1,
+    )
+    # H1 keywords
+    raw = re.sub(
+        r"(<h1[^>]*>)([\s\S]*?)(</h1>)",
+        r"\1Книги о мозге и нейробиологии — каталог Пола Грэка\3",
+        raw,
+        count=1,
+    )
+    (knigi / "index.html").write_text(raw, encoding="utf-8")
+    # Legacy catalog → knigi
+    (SITE / "books" / "index.html").write_text(
+        write_redirect_page(
+            title="Каталог книг — Пол Грэк",
+            target_url=abs_url(f"/{RU_BOOKS_SEGMENT}/"),
+            target_rel=f"../{RU_BOOKS_SEGMENT}/",
+        ),
+        encoding="utf-8",
+    )
+    print(f"knigi catalog → /{RU_BOOKS_SEGMENT}/ (+ books/index redirect)")
+
+
+def apply_hub_seo(G: dict) -> None:
+    """Patch hand-authored hub pages: title ≤60, desc 150–160, OG sync, alts."""
+    home_title = "Пол Грэк — книги о мозге и нейробиологии | Научпоп без хайпа"
+    assert len(home_title) <= 60, len(home_title)
+    home_desc = clip_desc(
+        "Пол Грэк — 13 книг о мозге: уровни доказательности A–D, без эзотерики и хайпа. Глава бесплатно, без обязательной почты. Каталог, FAQ и отзывы с Литрес.",
+        cta="Читать отрывок →",
+    )
+    patches: list[tuple[Path, dict]] = [
+        (
+            SITE / "index.html",
+            {
+                "title": home_title,
+                "description": home_desc,
+                "h1": "Пол Грэк — книги по нейробиологии и мозгу без хайпа",
+            },
+        ),
+        (
+            SITE / "about.html",
+            {
+                "title": "Пол Грэк — автор книг о мозге | Об авторе",
+                "description": clip_desc(
+                    "Пол Грэк — научпоп о мозге без эзотерики. Прикладная нейропсихология, 13 книг на Литрес. Соавтор — Лора Грэк, клинический психолог (МГУ).",
+                    cta="Каталог и отрывки →",
+                ),
+                "h1": "Пол Грэк — автор научпопа о мозге",
+            },
+        ),
+        (
+            SITE / "lab" / "index.html",
+            {
+                "title": "Лаборатория — короткие заметки о мозге | Пол Грэк",
+                "description": clip_desc(
+                    "Лаборатория Пола Грэка: короткие тексты о стрессе, сне, дофамине и выгорании. Без хайпа — с опорой на механизмы мозга.",
+                    cta="Читать бесплатно →",
+                ),
+                "h1": "Лаборатория — научпоп о мозге без хайпа",
+            },
+        ),
+        (
+            SITE / "privacy.html",
+            {
+                "title": "Конфиденциальность — polgrek.site | Пол Грэк",
+                "description": clip_desc(
+                    "Конфиденциальность polgrek.site: отрывок без email, опциональная почта для ссылки, Метрика, партнёрские ссылки Литрес. Образовательный контент.",
+                    cta="Связаться: hello@polgrek.site",
+                ),
+            },
+        ),
+    ]
+    for path, meta in patches:
+        if not path.exists():
+            continue
+        raw = path.read_text(encoding="utf-8")
+        if "title" in meta:
+            t = clip_title(meta["title"], 60)
+            raw = re.sub(r"<title>[^<]*</title>", f"<title>{esc(t)}</title>", raw, count=1)
+            raw = re.sub(
+                r'property="og:title" content="[^"]*"',
+                f'property="og:title" content="{esc(t)}"',
+                raw,
+                count=1,
+            )
+            raw = re.sub(
+                r'name="twitter:title" content="[^"]*"',
+                f'name="twitter:title" content="{esc(t)}"',
+                raw,
+                count=1,
+            )
+        if "description" in meta:
+            d = meta["description"]
+            raw = re.sub(
+                r'<meta name="description" content="[^"]*"\s*/?>',
+                f'<meta name="description" content="{esc(d)}" />',
+                raw,
+                count=1,
+            )
+            raw = re.sub(
+                r'property="og:description" content="[^"]*"',
+                f'property="og:description" content="{esc(d)}"',
+                raw,
+                count=1,
+            )
+            raw = re.sub(
+                r'name="twitter:description" content="[^"]*"',
+                f'name="twitter:description" content="{esc(d)}"',
+                raw,
+                count=1,
+            )
+        if "h1" in meta:
+            raw = re.sub(
+                r"(<h1[^>]*>)([\s\S]*?)(</h1>)",
+                rf"\1{esc(meta['h1'])}\3",
+                raw,
+                count=1,
+            )
+        # Ensure canonical exists
+        if 'rel="canonical"' not in raw:
+            raw = raw.replace(
+                "</title>",
+                f'</title>\n  <link rel="canonical" href="{esc(abs_url("/" + str(path.relative_to(SITE)).as_posix().replace("index.html", "")))}" />',
+                1,
+            )
+        # Descriptive portrait alts
+        raw = raw.replace(
+            'alt="Пол Грэк"',
+            'alt="Пол Грэк — автор научпопа о мозге"',
+        )
+        raw = raw.replace(
+            'alt="Pol Grek"',
+            'alt="Pol Grek — brain science author"',
+        )
+        path.write_text(raw, encoding="utf-8")
+        print("hub seo", path.relative_to(SITE))
+
+    # Home: SearchAction + Person already present; ensure WebSite points to knigi catalog
+    home = SITE / "index.html"
+    if home.exists():
+        raw = home.read_text(encoding="utf-8")
+        raw = raw.replace(
+            "https://polgrek.site/books/index.html?q={search_term_string}",
+            f"https://polgrek.site/{RU_BOOKS_SEGMENT}/?q={{search_term_string}}",
+        )
+        # Internal links in body: books/ → knigi/
+        raw = raw.replace('href="books/', f'href="{RU_BOOKS_SEGMENT}/')
+        raw = raw.replace("href='books/", f"href='{RU_BOOKS_SEGMENT}/")
+        # book cards may use books/slug.html
+        raw = re.sub(
+            rf'href="{RU_BOOKS_SEGMENT}/([a-z0-9-]+)\.html"',
+            rf'href="{RU_BOOKS_SEGMENT}/\1/"',
+            raw,
+        )
+        home.write_text(raw, encoding="utf-8")
+
+    # About: link to knigi + faq
+    about = SITE / "about.html"
+    if about.exists():
+        raw = about.read_text(encoding="utf-8")
+        raw = raw.replace('href="books/', f'href="{RU_BOOKS_SEGMENT}/')
+        raw = re.sub(
+            rf'href="{RU_BOOKS_SEGMENT}/([a-z0-9-]+)\.html"',
+            rf'href="{RU_BOOKS_SEGMENT}/\1/"',
+            raw,
+        )
+        about.write_text(raw, encoding="utf-8")
+
+
 def main() -> None:
     G = load_data()
 
-    # Generate book pages
+    # Generate RU book pages at /knigi/{slug}/ + legacy redirects under /books/
+    knigi_dir = SITE / RU_BOOKS_SEGMENT
+    knigi_dir.mkdir(parents=True, exist_ok=True)
     books_dir = SITE / "books"
     for book in G["books"]:
-        html_out = build_book_page(G, book)
-        (books_dir / f"{book['slug']}.html").write_text(html_out, encoding="utf-8")
-        print("book", book["slug"])
+        html_out = build_book_page(G, book, lang="ru")
+        dest = knigi_dir / book["slug"]
+        dest.mkdir(parents=True, exist_ok=True)
+        (dest / "index.html").write_text(html_out, encoding="utf-8")
+        # Legacy URL stub
+        (books_dir / f"{book['slug']}.html").write_text(
+            write_redirect_page(
+                title=f"{book['title']} — Пол Грэк",
+                target_url=ru_book_canonical(book["slug"]),
+                target_rel=f"../{RU_BOOKS_SEGMENT}/{book['slug']}/",
+            ),
+            encoding="utf-8",
+        )
+        print("book", book["slug"], "→", f"/{RU_BOOKS_SEGMENT}/{book['slug']}/")
 
     # Generate article pages
     lab_dir = SITE / "lab"
@@ -1564,8 +2196,19 @@ def main() -> None:
         "</div>\n        <p class=\"catalog-hint\">",
         flagships_html,
     )
+    # RU catalog may already live under /knigi/ after first migration
+    ru_catalog_path = SITE / "books" / "index.html"
+    knigi_catalog = SITE / RU_BOOKS_SEGMENT / "index.html"
+    if knigi_catalog.exists() and 'id="booksGrid"' in knigi_catalog.read_text(encoding="utf-8"):
+        ru_catalog_path = knigi_catalog
+    elif ru_catalog_path.exists() and 'id="booksGrid"' not in ru_catalog_path.read_text(
+        encoding="utf-8"
+    ):
+        # books/index already a redirect — inject into knigi if present
+        if knigi_catalog.exists():
+            ru_catalog_path = knigi_catalog
     inject_between(
-        SITE / "books" / "index.html",
+        ru_catalog_path,
         'id="booksGrid">',
         "</div>\n        <p class=\"catalog-hint\"",
         books_all_html,
@@ -1783,20 +2426,16 @@ def main() -> None:
         import build_static as _self  # noqa — not needed
 
         def build_book_en(G, book):
-            # reuse build_book_page but post-process Russian chrome to English
-            html_out = build_book_page(G, book, prefer_inline_excerpt=True)
-            # Fix paths: was ../ for books/ — need ../../ for en/books/
-            html_out = html_out.replace('href="../', 'href="../../')
-            html_out = html_out.replace('src="../', 'src="../../')
-            html_out = html_out.replace('href="../../index.html"', 'href="../index.html"')
-            html_out = html_out.replace(
-                '<html lang="ru">', '<html lang="en">'
-            ).replace(
-                'data-base=".."',
-                'data-base=".." data-lang="en" data-assets="../.."',
-            ).replace(
-                'js/data.js', 'js/data-en.js'
+            # EN product page (flat en/books/{slug}.html)
+            html_out = build_book_page(
+                G, book, prefer_inline_excerpt=True, lang="en"
             )
+            # Ensure data-assets for nested EN book shells
+            if "data-assets=" not in html_out:
+                html_out = html_out.replace(
+                    'data-lang="en"',
+                    'data-lang="en" data-assets="../.."',
+                )
             # Force EN excerpt download targets
             en_ex = f'../../excerpts/en/{book["slug"]}-excerpt.txt'
             html_out = re.sub(
@@ -1827,35 +2466,9 @@ def main() -> None:
                 html_out,
                 count=1,
             )
-            # SEO: EN canonical/og:url + schema language (keep hreflang ru on /books/)
-            html_out = re.sub(
-                rf'(<link rel="canonical" href=")https://polgrek\.site/books/{re.escape(slug)}\.html(")',
-                rf"\1https://polgrek.site/en/books/{slug}.html\2",
-                html_out,
-            )
-            html_out = re.sub(
-                rf'(property="og:url" content=")https://polgrek\.site/books/{re.escape(slug)}\.html(")',
-                rf"\1https://polgrek.site/en/books/{slug}.html\2",
-                html_out,
-            )
+            # Canonical already set by build_book_page(lang=en); keep hreflang to /knigi/
             html_out = html_out.replace(
-                f'"url": "https://polgrek.site/books/{slug}.html"',
-                f'"url": "https://polgrek.site/en/books/{slug}.html"',
-            )
-            html_out = html_out.replace(
-                f'"item": "https://polgrek.site/books/{slug}.html"',
-                f'"item": "https://polgrek.site/en/books/{slug}.html"',
-            )
-            html_out = html_out.replace('"inLanguage": "ru"', '"inLanguage": "en"')
-            html_out = html_out.replace('content="ru_RU"', 'content="en_US"')
-            html_out = html_out.replace('"name": "Главная"', '"name": "Home"')
-            html_out = html_out.replace('"name": "Книги"', '"name": "Books"')
-            html_out = html_out.replace(
-                '"item": "https://polgrek.site/"',
-                '"item": "https://polgrek.site/en/"',
-            )
-            html_out = html_out.replace(
-                '"item": "https://polgrek.site/books/index.html"',
+                f'"item": "https://polgrek.site/{RU_BOOKS_SEGMENT}/"',
                 '"item": "https://polgrek.site/en/books/index.html"',
             )
             # UI chrome replacements (order matters — longer phrases first)
@@ -2060,32 +2673,150 @@ def main() -> None:
         TAG_RU.clear()
         TAG_RU.update(_tag_backup)
 
+    publish_knigi_catalog()
+    apply_hub_seo(G)
     write_sitemap(G, GE)
     inject_catalog_itemlist(G, lang="ru")
     if GE:
         inject_catalog_itemlist(GE, lang="en")
     sync_faq_and_timeline(G, GE)
+    write_robots_txt()
+    minify_static_assets()
+    apply_perf_hub_tweaks()
     bust_asset_cache()
     print("OK: static pages built")
 
 
 def bust_asset_cache() -> None:
-    """Point every page shell at current CSS_VER (hand-edited catalog shells included)."""
+    """Point every page shell at minified assets + current CSS_VER."""
     import re
 
-    css_re = re.compile(r'(href="[^"]*css/styles\.css)(?:\?v=[^"]*)?"')
-    js_re = re.compile(r'(src="[^"]*js/main\.js)(?:\?v=[^"]*)?"')
+    css_file = pick_asset("css/styles.min.css", "css/styles.css")
+    main_file = pick_asset("js/main.min.js", "js/main.js")
+    base_file = pick_asset("js/base-config.min.js", "js/base-config.js")
+
+    css_re = re.compile(r'href="([^"]*?css/)styles(?:\.min)?\.css(?:\?v=[^"]*)?"')
+    main_re = re.compile(r'src="([^"]*?js/)main(?:\.min)?\.js(?:\?v=[^"]*)?"')
+    base_re = re.compile(r'src="([^"]*?js/)base-config(?:\.min)?\.js"')
+    data_re = re.compile(r'src="([^"]*?js/)(data(?:-en)?|data-articles(?:-en)?)(?:\.min)?\.js"')
     n = 0
     for path in SITE.rglob("*.html"):
         if "partials" in path.parts:
             continue
         raw = path.read_text(encoding="utf-8")
-        new = css_re.sub(rf'\1?v={CSS_VER}"', raw)
-        new = js_re.sub(rf'\1?v={CSS_VER}"', new)
+        new = css_re.sub(rf'href="\1{css_file.split("/")[-1]}?v={CSS_VER}"', raw)
+        new = main_re.sub(rf'src="\1{main_file.split("/")[-1]}?v={CSS_VER}"', new)
+        new = base_re.sub(rf'src="\1{base_file.split("/")[-1]}"', new)
+
+        def data_sub(m: re.Match) -> str:
+            prefix, name = m.group(1), m.group(2)
+            chosen = pick_js(f"js/{name}.js").split("/")[-1]
+            return f'src="{prefix}{chosen}"'
+
+        new = data_re.sub(data_sub, new)
+        # Ensure defer on site scripts (not JSON-LD)
+        new = re.sub(
+            r'(<script src="[^"]*js/(?:base-config|main|data)[^"]*")(?![^>]*\bdefer\b)(\s*>)',
+            r"\1 defer\2",
+            new,
+        )
         if new != raw:
             path.write_text(new, encoding="utf-8")
             n += 1
-    print(f"cache bust CSS/JS on {n} html files → v={CSS_VER}")
+    print(f"cache bust CSS/JS on {n} html files → v={CSS_VER} ({css_file}, {main_file})")
+
+
+def apply_perf_hub_tweaks() -> None:
+    """LCP/CLS/font preloads on hand-authored hubs (index, about, catalog)."""
+    # Home: critical font + LCP image only (≤2 font families already in CSS)
+    home = SITE / "index.html"
+    if home.exists():
+        raw = home.read_text(encoding="utf-8")
+        # Replace multi font preloads with Manrope only (body) + LCP cover
+        raw = re.sub(
+            r'(?:  <link rel="preload" as="font"[^>]+/>\n)+'
+            r'(?:  <link rel="preload" as="image"[^>]+/>\n)?',
+            (
+                '  <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" '
+                'type="font/woff2" crossorigin />\n'
+                '  <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" '
+                'type="font/woff2" crossorigin />\n'
+                '  <link rel="preload" as="image" href="assets/covers/mozg-na-100.webp" '
+                'fetchpriority="high" />\n'
+            ),
+            raw,
+            count=1,
+        )
+        # LCP hero cover: high priority, not lazy
+        raw = raw.replace(
+            'href="knigi/mozg-na-100/" aria-label="Мозг на 100+">\n'
+            '              <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" width="280" height="420" decoding="async" />',
+            'href="knigi/mozg-na-100/" aria-label="Мозг на 100+">\n'
+            '              <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" width="280" height="420" decoding="async" fetchpriority="high" />',
+        )
+        # Secondary hero covers: lazy
+        for slug, title in (
+            ("biohacking-mozga", "Биохакинг мозга"),
+            ("reset", "RESET"),
+        ):
+            raw = raw.replace(
+                f'href="knigi/{slug}/" aria-label="{title}">\n'
+                f'              <img src="assets/covers/{slug}.webp" alt="Обложка книги Пол Грэк «{title}»" width="280" height="420" decoding="async" />',
+                f'href="knigi/{slug}/" aria-label="{title}">\n'
+                f'              <img src="assets/covers/{slug}.webp" alt="Обложка книги Пол Грэк «{title}»" width="280" height="420" decoding="async" loading="lazy" />',
+            )
+        # Inline theme bootstrap (before paint) — pairs with base-config
+        if "PolTheme-boot" not in raw:
+            boot = (
+                '  <script id="PolTheme-boot">\n'
+                "  (function(){try{var k='pol-grek-theme',t=localStorage.getItem(k);"
+                "if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}"
+                "document.documentElement.setAttribute('data-theme',t);"
+                "document.documentElement.style.colorScheme=t;}catch(e){}})();\n"
+                "  </script>\n"
+            )
+            raw = raw.replace("<head>", "<head>\n" + boot, 1) if "<head>\n" + boot not in raw else raw
+            if "PolTheme-boot" not in raw:
+                raw = raw.replace("</title>", "</title>\n" + boot, 1)
+        home.write_text(raw, encoding="utf-8")
+        print("perf tweaks index.html")
+
+    # Book pages: product cover is LCP — no lazy (already in generator)
+    # Portrait: prefer webp path in about if jpg referenced without picture
+    about = SITE / "about.html"
+    if about.exists():
+        raw = about.read_text(encoding="utf-8")
+        raw = raw.replace(
+            'src="assets/pol-grek-portrait.jpg"',
+            'src="assets/pol-grek-portrait.webp"',
+        )
+        if "PolTheme-boot" not in raw:
+            boot = (
+                '  <script id="PolTheme-boot">'
+                "(function(){try{var k='pol-grek-theme',t=localStorage.getItem(k);"
+                "if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}"
+                "document.documentElement.setAttribute('data-theme',t);"
+                "document.documentElement.style.colorScheme=t;}catch(e){}})();"
+                "</script>\n"
+            )
+            raw = raw.replace("</title>", "</title>\n" + boot, 1)
+        about.write_text(raw, encoding="utf-8")
+
+
+def write_robots_txt() -> None:
+    text = f"""User-agent: *
+Allow: /
+
+# Legacy /books/* redirects (canonical lives under /knigi/)
+Disallow: /books/
+Disallow: /lab/article.html
+Disallow: /en/books/book.html
+Disallow: /en/lab/article.html
+
+Sitemap: {SITE_ORIGIN}/sitemap.xml
+"""
+    (SITE / "robots.txt").write_text(text, encoding="utf-8")
+    print("robots.txt updated")
 
 
 def inject_catalog_itemlist(G: dict, *, lang: str = "ru") -> None:
@@ -2093,20 +2824,31 @@ def inject_catalog_itemlist(G: dict, *, lang: str = "ru") -> None:
     import json as _json
 
     is_en = lang == "en"
-    prefix = "/en/books/" if is_en else "/books/"
     name = "Books by Pol Grek" if is_en else "Книги Пола Грэка"
-    path = SITE / ("en/books/index.html" if is_en else "books/index.html")
-    if not path.exists():
-        return
+    path = SITE / (
+        "en/books/index.html" if is_en else f"{RU_BOOKS_SEGMENT}/index.html"
+    )
+    if not path.exists() or 'id="booksGrid"' not in path.read_text(encoding="utf-8"):
+        # Fallback for pre-migration / EN-only
+        alt = SITE / ("en/books/index.html" if is_en else "books/index.html")
+        if alt.exists() and 'id="booksGrid"' in alt.read_text(encoding="utf-8"):
+            path = alt
+        else:
+            return
 
     items = []
     for i, b in enumerate(G.get("books") or [], 1):
+        url = (
+            abs_url(f"/en/books/{b['slug']}.html")
+            if is_en
+            else ru_book_canonical(b["slug"])
+        )
         items.append(
             {
                 "@type": "ListItem",
                 "position": i,
                 "name": b["title"],
-                "url": abs_url(f"{prefix}{b['slug']}.html"),
+                "url": url,
             }
         )
     block = {
@@ -2151,14 +2893,19 @@ def write_sitemap(G: dict, GE: dict | None = None) -> None:
 
     add(f"{SITE_ORIGIN}/", "weekly", "1.0", f"{SITE_ORIGIN}/en/")
     add(f"{SITE_ORIGIN}/about.html", "monthly", "0.8", f"{SITE_ORIGIN}/en/about.html")
-    add(f"{SITE_ORIGIN}/books/index.html", "weekly", "0.9", f"{SITE_ORIGIN}/en/books/index.html")
+    add(
+        f"{SITE_ORIGIN}/{RU_BOOKS_SEGMENT}/",
+        "weekly",
+        "0.9",
+        f"{SITE_ORIGIN}/en/books/index.html",
+    )
     add(f"{SITE_ORIGIN}/lab/index.html", "weekly", "0.8", f"{SITE_ORIGIN}/en/lab/index.html")
     add(f"{SITE_ORIGIN}/privacy.html", "yearly", "0.3", f"{SITE_ORIGIN}/en/privacy.html")
 
     for b in G.get("books") or []:
         slug = b["slug"]
         add(
-            f"{SITE_ORIGIN}/books/{slug}.html",
+            f"{SITE_ORIGIN}/{RU_BOOKS_SEGMENT}/{slug}/",
             "monthly",
             "0.75" if b.get("flagship") else "0.65",
             f"{SITE_ORIGIN}/en/books/{slug}.html",

@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <script id="PolTheme-boot">
+  (function(){try{var k='pol-grek-theme',t=localStorage.getItem(k);if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}catch(e){}})();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Пол Грэк — нейробиология без эзотерики и хайпа</title>
-  <meta name="description" content="Пол Грэк — автор 13 книг о мозге. Уровни доказательности A–D, без эзотерики. Сначала глава бесплатно, покупка на Литрес." />
+  <title>Пол Грэк — книги о мозге и нейробиологии | Научпоп без хайпа</title>
+  <meta name="description" content="Пол Грэк — 13 книг о мозге: уровни доказательности A–D, без эзотерики и хайпа. Глава бесплатно, без обязательной почты. Каталог, FAQ и отзывы… Читать отрывок →" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Пол Грэк" />
   <meta name="theme-color" content="#0B1F33" />
   <meta property="og:site_name" content="Пол Грэк" />
-  <meta property="og:title" content="Пол Грэк — нейробиология без эзотерики и хайпа" />
-  <meta property="og:description" content="13 книг о мозге с уровнями A–D. Глава бесплатно, без почты. Покупка на Литрес." />
+  <meta property="og:title" content="Пол Грэк — книги о мозге и нейробиологии | Научпоп без хайпа" />
+  <meta property="og:description" content="Пол Грэк — 13 книг о мозге: уровни доказательности A–D, без эзотерики и хайпа. Глава бесплатно, без обязательной почты. Каталог, FAQ и отзывы… Читать отрывок →" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://polgrek.site/" />
   <meta property="og:image" content="https://polgrek.site/assets/og-image.jpg" />
@@ -19,13 +23,12 @@
   <meta property="og:locale:alternate" content="en_US" />
   <link rel="canonical" href="https://polgrek.site/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Пол Грэк — нейробиология без эзотерики и хайпа" />
-  <meta name="twitter:description" content="13 книг о мозге с уровнями A–D. Глава бесплатно — без почты." />
+  <meta name="twitter:title" content="Пол Грэк — книги о мозге и нейробиологии | Научпоп без хайпа" />
+  <meta name="twitter:description" content="Пол Грэк — 13 книг о мозге: уровни доказательности A–D, без эзотерики и хайпа. Глава бесплатно, без обязательной почты. Каталог, FAQ и отзывы… Читать отрывок →" />
   <meta name="twitter:image" content="https://polgrek.site/assets/og-image.jpg" />
   <link rel="dns-prefetch" href="https://www.litres.ru" />
   <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
-  <link rel="preload" as="font" href="assets/fonts/sourceserif4-cyrillic.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/favicon.png" type="image/png" />
@@ -34,7 +37,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260718stage3" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260718mobile11" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -76,7 +79,7 @@
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://polgrek.site/books/index.html?q={search_term_string}"
+        "urlTemplate": "https://polgrek.site/knigi/?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }
@@ -135,7 +138,7 @@
         </a>
         <nav class="nav-links" aria-label="Основная навигация">
           <a href="index.html" class="active">Главная</a>
-          <a href="books/index.html">Книги</a>
+          <a href="knigi/index/">Книги</a>
           <a href="lab/index.html">Лаборатория</a>
           <a href="about.html">Об авторе</a>
           <a href="#faq" class="nav-soft">FAQ</a>
@@ -164,7 +167,7 @@
       <div class="container hero-grid">
         <div>
           <p class="eyebrow">Автор 13 книг · уровни доказательности A–D</p>
-          <h1>Пол Грэк — нейробиология без эзотерики и хайпа</h1>
+          <h1>Пол Грэк — книги по нейробиологии и мозгу без хайпа</h1>
           <p class="hero-person">Без мотивационных лозунгов и «волшебных» протоколов. Только то, что опирается на исследования — с честной оценкой надёжности каждого утверждения.</p>
           <p class="lead lead-short">
             Сначала <strong>глава бесплатно</strong> — без почты и подписок. Не понравится — просто закроете. Подойдёт — полный текст на Литрес.
@@ -181,20 +184,20 @@
           <div class="hero-cta-panel">
             <a class="btn btn-primary btn-cta-lg" href="#excerpt">Читать главу бесплатно</a>
             <a class="btn btn-outline" href="#book-quiz">Подобрать книгу</a>
-            <a class="btn btn-ghost-link" href="books/index.html">Все 13 книг</a>
+            <a class="btn btn-ghost-link" href="knigi/index/">Все 13 книг</a>
           </div>
           <p class="hero-trust">1 клик до отрывка · до 3 кликов до Литрес · email не обязателен</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
-            <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html" aria-label="Мозг на 100+">
-              <img src="assets/covers/mozg-na-100.webp" alt="Обложка: Мозг на 100+" width="280" height="420" decoding="async" />
+            <a class="hero-cover hero-cover-0" href="knigi/mozg-na-100/" aria-label="Мозг на 100+">
+              <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" width="280" height="420" decoding="async" fetchpriority="high" />
             </a>
-            <a class="hero-cover hero-cover-1" href="books/biohacking-mozga.html" aria-label="Биохакинг мозга">
-              <img src="assets/covers/biohacking-mozga.webp" alt="Обложка: Биохакинг мозга" width="280" height="420" decoding="async" />
+            <a class="hero-cover hero-cover-1" href="knigi/biohacking-mozga/" aria-label="Биохакинг мозга">
+              <img src="assets/covers/biohacking-mozga.webp" alt="Обложка книги Пол Грэк «Биохакинг мозга»" width="280" height="420" decoding="async" loading="lazy" />
             </a>
-            <a class="hero-cover hero-cover-2" href="books/reset.html" aria-label="RESET">
-              <img src="assets/covers/reset.webp" alt="Обложка: RESET" width="280" height="420" decoding="async" />
+            <a class="hero-cover hero-cover-2" href="knigi/reset/" aria-label="RESET">
+              <img src="assets/covers/reset.webp" alt="Обложка книги Пол Грэк «RESET»" width="280" height="420" decoding="async" loading="lazy" />
             </a>
           </div>
           <div class="hero-card">
@@ -209,13 +212,14 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Как на Литрес · без накрутки</p>
+            <p class="eyebrow">Литрес · Amazon · без накрутки</p>
             <h2 id="social-proof-title">Что пишут читатели</h2>
-            <p class="section-lead">Книги вышли недавно: развёрнутый отзыв на Литрес пока один. Мы показываем его как есть — и не дописываем чужие. Рядом — актуальные оценки с карточек книг (их тоже пока мало).</p>
+            <p class="section-lead">Два реальных отзыва: Литрес (RU) и Amazon US. Показываем как есть — без дописок. Рядом — оценки с карточек на Литрес (их пока мало: книги вышли недавно).</p>
           </div>
         </div>
-        <div class="social-reviews" id="socialReviews">
-          <figure class="reader-review">
+        <div class="social-reviews social-reviews--multi" id="socialReviews">
+          <figure class="reader-review reader-review--litres">
+            <div class="reader-review-top"><span class="reader-review-store reader-review-store--litres">Литрес</span></div>
             <blockquote class="reader-review-text">«Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.»</blockquote>
             <figcaption class="reader-review-meta">
               <strong>Людмила</strong>
@@ -223,6 +227,22 @@
               <span class="reader-review-date">· 14 мая 2026</span>
             </figcaption>
             <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Отзыв на Литрес</a>
+          </figure>
+          <figure class="reader-review reader-review--amazon">
+            <div class="reader-review-top">
+              <span class="reader-review-store reader-review-store--amazon">Amazon</span>
+              <div class="reader-review-stars" aria-label="4 / 5"><span aria-hidden="true">★★★★☆</span></div>
+            </div>
+            <p class="reader-review-title">Helps answer the questions you never ask</p>
+            <blockquote class="reader-review-text">«This book is great for explaining issues that everybody goes through and pushes on the side as normal when they may not be.»</blockquote>
+            <figcaption class="reader-review-meta">
+              <strong>Bobbie’s playlist</strong>
+              <span>· Анатомия энергии</span>
+              <span class="reader-review-date">· 29 июня 2026</span>
+              <span class="reader-review-flag">оригинал на английском</span>
+              <span class="reader-review-flag">Verified Purchase</span>
+            </figcaption>
+            <a class="reader-review-link" href="https://www.amazon.com/dp/B0GTLMCS4N/" target="_blank" rel="noopener">Отзыв на Amazon</a>
           </figure>
         </div>
         <div class="ratings-row" id="socialProof">
@@ -245,7 +265,7 @@
             <span class="rating-meta">4 оценки · Литрес</span>
           </a>
         </div>
-        <p class="muted social-proof-note" id="socialProofNote">Цифры и отзыв — с Литрес, 18.07.2026. Книги вышли недавно: развёрнутый отзыв пока один (под «Мозг на 100+»), оценок тоже мало — это нормально. Здесь ничего не дописываем и не «улучшаем».</p>
+        <p class="muted social-proof-note" id="socialProofNote">Оценки с Литрес (18.07.2026). Тексты: один отзыв на Литрес («Мозг на 100+») и один на Amazon US — «Anatomy of Energy» / «Анатомия энергии», Verified Purchase, 4★, 29.06.2026. Оригинал на английском — не переводим и не «улучшаем».</p>
       </div>
     </section>
 
@@ -278,31 +298,31 @@
           </div>
         </div>
         <div class="doors doors--situations" id="doorsGrid">
-          <a class="door" href="books/reset.html">
+          <a class="door" href="knigi/reset/">
             <div class="num">01</div>
             <h3>Я выгорел и не могу восстановиться</h3>
             <p>Выходные не помогают. Нужен протокол восстановления — не мотивация, а план после системного истощения.</p>
             <span class="link">Открыть книгу · <strong>RESET</strong> <span class="link-hint">(отрывок на сайте)</span></span>
           </a>
-          <a class="door" href="books/mozg-na-100.html">
+          <a class="door" href="knigi/mozg-na-100/">
             <div class="num">02</div>
             <h3>После 40 — туман в голове, хуже соображаю</h3>
             <p>Память, фокус, «ватность». План сохранения ясности ума с честной оценкой каждого совета (уровни A–D).</p>
             <span class="link">Открыть книгу · <strong>Мозг на 100+</strong> <span class="link-hint">(отрывок на сайте)</span></span>
           </a>
-          <a class="door" href="books/stress-i-mozg.html">
+          <a class="door" href="knigi/stress-i-mozg/">
             <div class="num">03</div>
             <h3>Постоянный стресс, трудно расслабиться</h3>
             <p>Напряжение стало фоном. Как устроен стресс в мозге и что реально снижает нагрузку — без советов просто успокоиться.</p>
             <span class="link">Открыть книгу · <strong>Стресс и мозг</strong> <span class="link-hint">(отрывок на сайте)</span></span>
           </a>
-          <a class="door door--extra" href="books/mozg-na-100.html">
+          <a class="door door--extra" href="knigi/mozg-na-100/">
             <div class="num">04</div>
             <h3>Хочу устойчивую энергию и ясность</h3>
             <p>Не разовый буст, а база: сон, движение, нагрузка с усилием. Плюс честный разбор биохакинга без хайпа.</p>
             <span class="link">Открыть · <strong>Мозг на 100+</strong> и «Биохакинг мозга» <span class="link-hint">(отрывок на сайте)</span></span>
           </a>
-          <a class="door door--extra" href="books/mozg-i-dengi.html">
+          <a class="door door--extra" href="knigi/mozg-i-dengi/">
             <div class="num">05</div>
             <h3>Деньги, эмоции и отношения «плывут»</h3>
             <p>Сила воли часто не спасает: мешают стресс, импульсы и состояние мозга, а не «слабый характер».</p>
@@ -322,65 +342,65 @@
             <p class="eyebrow">Книги</p>
             <h2>Три книги, с которых начать</h2>
           </div>
-          <a class="btn btn-outline" href="books/index.html">Все 13 книг</a>
+          <a class="btn btn-outline" href="knigi/index/">Все 13 книг</a>
         </div>
         <div class="books-grid books-grid-flagship" id="featuredBooks">
 <article class="book-card book-card--tile book-card--window is-flagship" data-show="all cog">
   <div class="book-body">
     <div class="book-marks"><span class="book-mark book-mark-genre">Научпоп</span><span class="book-mark book-mark-ad">Уровни A–D</span><span class="book-mark book-mark-start">С чего начать</span></div>
-    <h3 class="book-title"><a href="books/mozg-na-100.html">Мозг на 100+</a></h3>
+    <h3 class="book-title"><a href="knigi/mozg-na-100/">Мозг на 100+</a></h3>
     <p class="book-card-subtitle">Научный план сохранения когнитивных функций до глубокой старости</p>
     <p class="book-card-evidence">По данным 100+ исследований · уровни A–D</p>
     <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>3.7</strong> · 3 оценки · Литрес</p>
     <p class="book-card-price">Цена на Литрес / Amazon</p>
   </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/mozg-na-100.html" aria-label="Мозг на 100+">
-    <img src="assets/covers/mozg-na-100.webp" alt="Обложка: Мозг на 100+" loading="lazy" width="200" height="300" />
+  <a class="book-cover book-cover--mini has-image clean" href="knigi/mozg-na-100/" aria-label="Мозг на 100+">
+    <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" loading="lazy" width="200" height="300" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">Купить на Литрес</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Отрывок</a>
+      <a class="btn btn-outline book-card-excerpt" href="knigi/mozg-na-100/#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Отрывок</a>
       <p class="affiliate-mark affiliate-mark--card">Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес</p>
     </div>
 </article>
 <article class="book-card book-card--tile book-card--window is-flagship" data-show="all stress cog bio">
   <div class="book-body">
     <div class="book-marks"><span class="book-mark book-mark-genre">Научпоп</span><span class="book-mark book-mark-ad">Уровни A–D</span><span class="book-mark book-mark-start">С чего начать</span></div>
-    <h3 class="book-title"><a href="books/biohacking-mozga.html">Биохакинг мозга</a></h3>
+    <h3 class="book-title"><a href="knigi/biohacking-mozga/">Биохакинг мозга</a></h3>
     <p class="book-card-subtitle">Как улучшить память, фокус и энергию — и не сломать психику</p>
     <p class="book-card-evidence">Уровни доказательности A–D · без «волшебных» протоколов</p>
     <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>4.2</strong> · 5 оценок · Литрес</p>
     <p class="book-card-price">Цена на Литрес / Amazon</p>
   </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/biohacking-mozga.html" aria-label="Биохакинг мозга">
-    <img src="assets/covers/biohacking-mozga.webp" alt="Обложка: Биохакинг мозга" loading="lazy" width="200" height="300" />
+  <a class="book-cover book-cover--mini has-image clean" href="knigi/biohacking-mozga/" aria-label="Биохакинг мозга">
+    <img src="assets/covers/biohacking-mozga.webp" alt="Обложка книги Пол Грэк «Биохакинг мозга»" loading="lazy" width="200" height="300" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" data-aff="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="biohacking-mozga">Купить на Литрес</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/biohacking-mozga.html#excerpt" data-track="excerpt_open" data-book="biohacking-mozga">Отрывок</a>
+      <a class="btn btn-outline book-card-excerpt" href="knigi/biohacking-mozga/#excerpt" data-track="excerpt_open" data-book="biohacking-mozga">Отрывок</a>
       <p class="affiliate-mark affiliate-mark--card">Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес</p>
     </div>
 </article>
 <article class="book-card book-card--tile book-card--window is-flagship" data-show="all stress burnout">
   <div class="book-body">
     <div class="book-marks"><span class="book-mark book-mark-genre">Научпоп</span><span class="book-mark book-mark-ad">Уровни A–D</span><span class="book-mark book-mark-start">С чего начать</span></div>
-    <h3 class="book-title"><a href="books/reset.html">RESET</a></h3>
+    <h3 class="book-title"><a href="knigi/reset/">RESET</a></h3>
     <p class="book-card-subtitle">Нейробиология выгорания и восстановление адаптационного ресурса</p>
     <p class="book-card-evidence">Уровни доказательности A–D · протокол после истощения</p>
     
     <p class="book-card-price">Цена на Литрес / Amazon</p>
   </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/reset.html" aria-label="RESET">
-    <img src="assets/covers/reset.webp" alt="Обложка: RESET" loading="lazy" width="200" height="300" />
+  <a class="book-cover book-cover--mini has-image clean" href="knigi/reset/" aria-label="RESET">
+    <img src="assets/covers/reset.webp" alt="Обложка книги Пол Грэк «RESET»" loading="lazy" width="200" height="300" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
       <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" data-aff="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=reset-&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="reset">Купить на Литрес</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Отрывок</a>
+      <a class="btn btn-outline book-card-excerpt" href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset">Отрывок</a>
       <p class="affiliate-mark affiliate-mark--card">Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес</p>
     </div>
 </article></div>
         <p class="catalog-hint">
-          <a class="btn btn-outline" href="books/index.html">Все 13 книг</a>
+          <a class="btn btn-outline" href="knigi/index/">Все 13 книг</a>
           <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Профиль на Литрес</a>
         </p>
         <p class="affiliate-mark">Реклама · erid: 2VfnxyNkZrY · партнёрские ссылки Литрес</p>
@@ -488,7 +508,7 @@
           <p>Отрывок на сайте. Покупка — на Литрес.</p>
           <div class="btn-row">
             <a class="btn btn-primary" href="#excerpt">Скачать отрывок</a>
-            <a class="btn btn-outline" href="books/index.html">Каталог</a>
+            <a class="btn btn-outline" href="knigi/index/">Каталог</a>
             <a class="btn btn-ghost-link" href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Литрес</a>
           </div>
         </div>
@@ -497,8 +517,8 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="js/base-config.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/main.js?v=20260718stage3"></script>
+  <script src="js/base-config.min.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/main.min.js?v=20260718mobile11" defer></script>
 </body>
 </html>

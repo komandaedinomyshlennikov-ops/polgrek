@@ -54,20 +54,37 @@ window.POL_GREK = {
   },
 
   socialProof: {
-    source: 'LitRes',
+    source: 'LitRes / Amazon',
     sourceUrl: 'https://www.litres.ru/author/pol-grek/',
     checkedAt: '2026-07-18',
-    // Only one public text review on LitRes so far (new titles). Do not invent more.
+    // Real public reviews only. Do not invent more.
     reviews: [
       {
         author: 'Lyudmila',
         book: 'Brain at 100+',
         slug: 'mozg-na-100',
         dateLabel: '14 May 2026',
+        store: 'litres',
+        storeLabel: 'LitRes',
         text:
           'An excellent book. The material is clearly explained. There are medical terms that may be hard for a general reader, but that doesn’t get in the way. Very easy to read.',
         url: 'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/',
         translated: true,
+      },
+      {
+        author: "Bobbie's playlist",
+        book: 'Anatomy of Energy',
+        slug: 'anatomiya-energii',
+        dateLabel: '29 June 2026',
+        store: 'amazon',
+        storeLabel: 'Amazon',
+        rating: 4,
+        title: 'Helps answer the questions you never ask',
+        text:
+          'This book is great for explaining issues that everybody goes through and pushes on the side as normal when they may not be.',
+        url: 'https://www.amazon.com/dp/B0GTLMCS4N/',
+        lang: 'en',
+        verified: true,
       },
     ],
     items: [
@@ -75,7 +92,7 @@ window.POL_GREK = {
       { book: 'Brain Biohacking', rating: 4.2, votes: 5, slug: 'biohacking-mozga' },
       { book: 'The Female Brain', rating: 3.8, votes: 4, slug: 'zhenskiy-mozg' },
     ],
-    note: 'Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more. EN quote is a faithful translation of the Russian LitRes review.',
+    note: 'LitRes scores as of 18 Jul 2026. Texts: one LitRes review (Brain at 100+; EN is a faithful translation) and one Amazon US review for Anatomy of Energy — Verified Purchase, 4★, 29 Jun 2026. Amazon quote is the original English; we don’t invent more.',
   },
   emailCapture: {
     enabled: true,

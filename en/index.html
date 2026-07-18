@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718stage3" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260718mobile11" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -182,13 +182,13 @@
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
             <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html" aria-label="Brain at 100+">
-              <img src="../assets/covers/mozg-na-100.webp" alt="Cover: Brain at 100+" width="280" height="420" decoding="async" />
+              <img src="../assets/covers/mozg-na-100.webp" alt="Cover of Pol Grek book “Brain at 100+”" width="280" height="420" decoding="async" />
             </a>
             <a class="hero-cover hero-cover-1" href="books/biohacking-mozga.html" aria-label="Brain Biohacking">
-              <img src="../assets/covers/biohacking-mozga.webp" alt="Cover: Brain Biohacking" width="280" height="420" decoding="async" />
+              <img src="../assets/covers/biohacking-mozga.webp" alt="Cover of Pol Grek book “Brain Biohacking”" width="280" height="420" decoding="async" />
             </a>
             <a class="hero-cover hero-cover-2" href="books/reset.html" aria-label="RESET">
-              <img src="../assets/covers/reset.webp" alt="Cover: RESET" width="280" height="420" decoding="async" />
+              <img src="../assets/covers/reset.webp" alt="Cover of Pol Grek book “RESET”" width="280" height="420" decoding="async" />
             </a>
           </div>
           <div class="hero-card">
@@ -203,13 +203,14 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">As on LitRes · no fake scores</p>
+            <p class="eyebrow">LitRes · Amazon · no fake scores</p>
             <h2 id="social-proof-title">What readers write</h2>
-            <p class="section-lead">Titles are new: only one full review on LitRes so far. We show it as-is — we don’t invent more. Below: current scores from the book cards (also still few).</p>
+            <p class="section-lead">Two real reviews: LitRes (RU, translated) and Amazon US (original English). We show them as-is. Below: current LitRes scores from the book cards (still few — titles are new).</p>
           </div>
         </div>
-        <div class="social-reviews" id="socialReviews">
-          <figure class="reader-review">
+        <div class="social-reviews social-reviews--multi" id="socialReviews">
+          <figure class="reader-review reader-review--litres">
+            <div class="reader-review-top"><span class="reader-review-store reader-review-store--litres">LitRes</span></div>
             <blockquote class="reader-review-text">«An excellent book. The material is clearly explained. There are medical terms that may be hard for a general reader, but that doesn’t get in the way. Very easy to read.»</blockquote>
             <figcaption class="reader-review-meta">
               <strong>Lyudmila</strong>
@@ -218,6 +219,21 @@
               <span class="reader-review-flag">Translated from Russian LitRes review</span>
             </figcaption>
             <a class="reader-review-link" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/" target="_blank" rel="noopener">Review on LitRes</a>
+          </figure>
+          <figure class="reader-review reader-review--amazon">
+            <div class="reader-review-top">
+              <span class="reader-review-store reader-review-store--amazon">Amazon</span>
+              <div class="reader-review-stars" aria-label="4 / 5"><span aria-hidden="true">★★★★☆</span></div>
+            </div>
+            <p class="reader-review-title">Helps answer the questions you never ask</p>
+            <blockquote class="reader-review-text">«This book is great for explaining issues that everybody goes through and pushes on the side as normal when they may not be.»</blockquote>
+            <figcaption class="reader-review-meta">
+              <strong>Bobbie’s playlist</strong>
+              <span>· Anatomy of Energy</span>
+              <span class="reader-review-date">· 29 June 2026</span>
+              <span class="reader-review-flag">Verified Purchase</span>
+            </figcaption>
+            <a class="reader-review-link" href="https://www.amazon.com/dp/B0GTLMCS4N/" target="_blank" rel="noopener">Review on Amazon</a>
           </figure>
         </div>
         <div class="ratings-row" id="socialProof">
@@ -240,7 +256,7 @@
             <span class="rating-meta">4 ratings · LitRes</span>
           </a>
         </div>
-        <p class="muted social-proof-note" id="socialProofNote">Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more.</p>
+        <p class="muted social-proof-note" id="socialProofNote">LitRes scores as of 18 Jul 2026. Texts: one LitRes review (Brain at 100+; EN is a faithful translation) and one Amazon US review for Anatomy of Energy — Verified Purchase, 4★, 29 Jun 2026. Amazon quote is the original English; we don’t invent more.</p>
       </div>
     </section>
 
@@ -320,7 +336,7 @@
         </div>
         <div class="books-grid books-grid-flagship" id="featuredBooks"><article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/mozg-na-100.html" aria-label="Brain at 100+">
-    <img src="../assets/covers/mozg-na-100.webp" alt="Cover: Brain at 100+" loading="lazy" width="600" height="900" />
+    <img src="../assets/covers/mozg-na-100.webp" alt="Cover of Pol Grek book “Brain at 100+”" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
   </a>
   <div class="book-body">
@@ -337,7 +353,7 @@
   </div>
 </article><article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/biohacking-mozga.html" aria-label="Brain Biohacking">
-    <img src="../assets/covers/biohacking-mozga.webp" alt="Cover: Brain Biohacking" loading="lazy" width="600" height="900" />
+    <img src="../assets/covers/biohacking-mozga.webp" alt="Cover of Pol Grek book “Brain Biohacking”" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
   </a>
   <div class="book-body">
@@ -354,7 +370,7 @@
   </div>
 </article><article class="book-card book-card--tile is-flagship">
   <a class="book-cover has-image clean" href="books/reset.html" aria-label="RESET">
-    <img src="../assets/covers/reset.webp" alt="Cover: RESET" loading="lazy" width="600" height="900" />
+    <img src="../assets/covers/reset.webp" alt="Cover of Pol Grek book “RESET”" loading="lazy" width="600" height="900" />
     <div class="book-cover-badges"><span class="book-badge book-badge-key">Flagship</span></div>
   </a>
   <div class="book-body">
@@ -488,8 +504,8 @@
   </main>
 
   <div id="site-footer"></div>
-  <script src="../js/base-config.js"></script>
-  <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260718stage3"></script>
+  <script src="../js/base-config.min.js" defer></script>
+  <script src="../js/data-en.min.js" defer></script>
+  <script src="../js/main.min.js?v=20260718mobile11" defer></script>
 </body>
 </html>

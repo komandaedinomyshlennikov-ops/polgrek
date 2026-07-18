@@ -91,13 +91,13 @@
   --paper-3: #DDD3C2;
   --teal: #185A53;         /* accent */
   --teal-deep: #124842;
-  --amber: #A67C1A;        /* secondary accent: matte brass hairlines only */
-  --amber-deep: #8A6614;
-  --graphite: #2C3640;     /* body-adjacent, high contrast on paper */
-  --muted: #3A4550;        /* secondary text ≈ 7:1 on --paper */
+  --amber: #A67C1A;        /* decorative hairlines only — not small text */
+  --amber-deep: #5A480E;   /* text-safe brass on paper (AAA) */
+  --graphite: #2C3640;     /* body text, AAA on paper */
+  --muted: #3A4550;        /* secondary text AAA on paper */
   --line: rgba(10, 25, 41, 0.1);
   --line-strong: rgba(10, 25, 41, 0.18);
-  --coral: #B84A4A;
+  --coral: #7A3830;        /* error / myth labels AAA on paper */
   --white: #FCFAF6;
   --shadow: 0 1px 2px rgba(10, 25, 41, 0.05), 0 10px 28px rgba(10, 25, 41, 0.06);
   --shadow-lg: 0 1px 2px rgba(10, 25, 41, 0.05), 0 16px 40px rgba(10, 25, 41, 0.08);
@@ -129,8 +129,9 @@
   --max: 1120px; /* ~12-col content width */
   --col: calc((var(--max) - 11 * var(--grid-gutter)) / 12);
   --nav-h: 72px;
-  --mobile-tabbar-h: 4rem;
-  --mobile-sticky-buy-h: 3.75rem;
+  --mobile-tabbar-h: 4rem; /* 64px — tab hits ≥48 */
+  --mobile-sticky-buy-h: 4.25rem; /* bar + 48px buttons + padding */
+  --touch-min: 48px;
   --serif: 'Source Serif 4', 'Literata', Georgia, 'Times New Roman', serif;
   --sans: 'Manrope', system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -155,10 +156,10 @@
   --teal: #3DB8A8;
   --teal-deep: #6AD4C4;
   --graphite: #B4C0CC;
-  --muted: #8B98A8;
+  --muted: #A3AFBF; /* AAA on dark paper */
   --line: rgba(232, 238, 244, 0.1);
   --line-strong: rgba(232, 238, 244, 0.18);
-  --coral: #E07A7A;
+  --coral: #E88A8A;        /* error / myth labels AAA on dark paper */
   --white: #151F2C;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 32px rgba(0, 0, 0, 0.28);
   --shadow-lg: 0 1px 2px rgba(0, 0, 0, 0.25), 0 18px 44px rgba(0, 0, 0, 0.35);
@@ -199,7 +200,19 @@ body {
   transition: background-color 0.25s var(--ease), color 0.2s var(--ease);
 }
 
-img { max-width: 100%; display: block; }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+/* Below-fold sections: paint when near viewport (helps INP/LCP main-thread) */
+main > section:not(.hero),
+.social-proof-section,
+.magnet,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
+}
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 ul { padding: 0; margin: 0; list-style: none; }
@@ -626,15 +639,16 @@ body[data-page="home"] .final-cta {
   background: var(--btn-outline-bg);
 }
 .lang-btn {
-  min-width: 2.1rem;
-  min-height: 32px;
-  padding: 0.25rem 0.55rem;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  padding: 0.35rem 0.65rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.04em;
   color: var(--muted);
   text-align: center;
+  touch-action: manipulation;
 }
 .lang-btn.active {
   background: var(--ink);
@@ -644,8 +658,10 @@ body[data-page="home"] .final-cta {
   color: var(--ink);
 }
 .theme-toggle {
-  width: 42px;
-  height: 42px;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
   border-radius: 12px;
   border: 1.5px solid var(--line-strong);
   background: var(--btn-outline-bg);
@@ -680,17 +696,18 @@ body[data-page="home"] .final-cta {
 }
 .mobile-lang-row .lang-btn {
   flex: 1;
-  min-height: 40px;
+  min-height: var(--touch-min);
 }
 .mobile-lang-row .theme-toggle {
-  width: 44px;
-  height: 44px;
+  width: var(--touch-min);
+  height: var(--touch-min);
 }
 .nav-cta { margin-left: 0; min-height: 48px; min-width: 48px; padding-inline: 1.1rem; font-size: var(--fs-body); }
 .nav-cta-secondary {
-  min-height: 42px;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
   padding-inline: 0.95rem;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 }
 .nav-social {
   display: inline-flex;
@@ -701,17 +718,18 @@ body[data-page="home"] .final-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  min-height: 36px;
-  padding: 0.35rem 0.5rem;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  padding: 0.35rem 0.65rem;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--ink-soft);
   border: 1px solid var(--line-strong);
   background: var(--btn-outline-bg);
   transition: background 0.2s, color 0.2s, border-color 0.2s;
+  touch-action: manipulation;
 }
 .nav-social-link:hover {
   color: var(--ink);
@@ -794,8 +812,10 @@ body[data-page="home"] .final-cta {
 }
 .nav-toggle {
   display: none;
-  width: 44px;
-  height: 44px;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
   border-radius: 12px;
   border: 1.5px solid var(--line-strong);
   align-items: center;
@@ -803,6 +823,7 @@ body[data-page="home"] .final-cta {
   flex-direction: column;
   gap: 5px;
   background: var(--panel-bg);
+  touch-action: manipulation;
 }
 .nav-toggle span {
   display: block;
@@ -1163,23 +1184,88 @@ body.has-sticky-buy .back-to-top {
 .social-proof-section { padding-block: clamp(3rem, 7vw, 5.5rem); }
 .social-reviews {
   margin: 0 0 1.35rem;
+  display: grid;
+  gap: 1rem;
+}
+.social-reviews--multi {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 800px) {
+  .social-reviews--multi {
+    grid-template-columns: 1fr;
+  }
 }
 .reader-review {
   margin: 0;
-  max-width: 40rem;
+  max-width: none;
   padding: 1.25rem 1.35rem;
   border-radius: var(--radius);
   background: var(--panel-bg);
   border: 1px solid var(--line);
   border-left: 3px solid var(--teal);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.reader-review--amazon {
+  border-left-color: #C9841F;
+}
+.reader-review-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.55rem;
+}
+.reader-review-store {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-soft);
+  background: var(--chip-bg);
+}
+.reader-review-store--amazon {
+  border-color: color-mix(in srgb, #C9841F 45%, transparent);
+  color: #8a5a12;
+  background: color-mix(in srgb, #C9841F 12%, transparent);
+}
+[data-theme="dark"] .reader-review-store--amazon {
+  color: #f0c27a;
+  background: color-mix(in srgb, #C9841F 18%, transparent);
+}
+.reader-review-store--litres {
+  border-color: color-mix(in srgb, var(--teal) 40%, transparent);
+  color: var(--teal-deep);
+  background: color-mix(in srgb, var(--teal) 10%, transparent);
+}
+.reader-review-stars {
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--amber-deep);
+  line-height: 1;
+}
+.reader-review-title {
+  margin: 0 0 0.45rem;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
 }
 .reader-review-text {
   margin: 0 0 0.85rem;
   font-family: var(--serif);
-  font-size: 1.12rem;
+  font-size: 1.08rem;
   line-height: 1.5;
   color: var(--ink);
   font-weight: 500;
+  flex: 1;
 }
 .reader-review-meta {
   margin: 0 0 0.55rem;
@@ -1203,6 +1289,7 @@ body.has-sticky-buy .back-to-top {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--teal-deep);
+  margin-top: auto;
 }
 .reader-review-link:hover { color: var(--ink); }
 .ratings-row {
@@ -1377,6 +1464,11 @@ body.has-sticky-buy .back-to-top {
   font-weight: 700;
   color: var(--ink);
   cursor: pointer;
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+  touch-action: manipulation;
 }
 .faq-item p {
   margin: 0.65rem 0 0;
@@ -1433,7 +1525,7 @@ body.has-sticky-buy .back-to-top {
   padding-top: 1rem;
   margin-bottom: 1rem;
   font-size: 0.82rem;
-  color: rgba(246,241,232,0.45);
+  color: rgba(246,241,232,0.65); /* AAA on footer bg */
   max-width: var(--max);
 }
 .footer-legal p { max-width: 70ch; margin: 0 0 0.5rem; }
@@ -1892,7 +1984,7 @@ section {
 }
 .book-badge-key {
   background: var(--amber);
-  color: #1a1205;
+  color: #0a0802; /* max dark on brass chip (AA+) */
 }
 .book-badge-co {
   background: rgba(24, 90, 83, 0.95);
@@ -1932,9 +2024,9 @@ section {
   font-weight: 800;
 }
 .book-mark-start {
-  background: rgba(166, 124, 26, 0.14);
-  border-color: rgba(166, 124, 26, 0.35);
-  color: var(--amber-deep);
+  background: rgba(90, 72, 14, 0.1);
+  border-color: rgba(90, 72, 14, 0.28);
+  color: #4a3c0c; /* AAA on paper / paper-2 chips */
 }
 .book-mark-co {
   background: rgba(24, 90, 83, 0.1);
@@ -2021,7 +2113,7 @@ section {
   top: 50%;
   transform: translateY(-50%);
   margin: 0;
-  color: #5a6570;
+  color: #3a4550; /* AAA on field white */
   font-size: var(--fs-body);
   font-weight: 600;
   pointer-events: none;
@@ -2053,7 +2145,7 @@ section {
 }
 .field-error:empty { display: none; }
 .magnet .field-error { color: #ffc9a8; }
-.magnet .field-float label { color: #4a5560; }
+.magnet .field-float label { color: #3a4550; }
 
 /* Body under cover — block flow only (no flex:1 on paragraphs) */
 .book-card--tile .book-body {
@@ -2308,7 +2400,7 @@ html.js .books-grid-flagship .book-card-buy {
   justify-content: center;
   align-items: center;
 }
-.catalog-hint .btn { min-height: 44px; }
+.catalog-hint .btn { min-height: var(--touch-min); min-width: var(--touch-min); }
 .catalog-hint a:not(.btn) { color: var(--teal-deep); }
 .catalog-hint a:not(.btn):hover { color: var(--ink); }
 
@@ -2349,7 +2441,7 @@ html.js .books-grid-flagship .book-card-buy {
 }
 .catalog-search {
   width: 100%;
-  min-height: 44px;
+  min-height: var(--touch-min);
   padding: 0.55rem 2.4rem 0.55rem 0.95rem;
   border-radius: 999px;
   border: 1px solid var(--line-strong);
@@ -2578,15 +2670,23 @@ html:not(.js) .nsf-labels {
   background: rgba(255, 252, 247, 0.25);
   color: inherit;
 }
-.btn-sm { min-height: 40px; font-size: 0.85rem; padding-inline: 0.85rem; }
+.btn-sm {
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  font-size: 0.9rem;
+  padding-inline: 0.95rem;
+}
 .btn-ghost-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-weight: 700;
   font-size: 0.92rem;
   color: var(--muted);
-  padding: 0.5rem 0.25rem;
-  min-height: 44px;
+  padding: 0.55rem 0.5rem;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  touch-action: manipulation;
 }
 .btn-ghost-link:hover { color: var(--ink); transform: none; }
 .lead-short { max-width: 36rem; font-size: 1.12rem; }
@@ -2665,9 +2765,11 @@ html:not(.js) .nsf-labels {
   font-weight: 600;
   color: var(--teal-deep);
   list-style: none;
-  min-height: 44px;
+  min-height: var(--touch-min);
   display: inline-flex;
   align-items: center;
+  padding-inline: 0.15rem;
+  touch-action: manipulation;
 }
 .grade-legend-details summary::-webkit-details-marker { display: none; }
 .grade-legend-details summary::before {
@@ -2701,8 +2803,8 @@ html:not(.js) .nsf-labels {
 /* Only non-tile (legacy) cards use flex grow on buttons */
 .book-card:not(.book-card--tile) .book-actions .btn {
   flex: 1 1 calc(50% - 0.25rem);
-  min-height: 44px;
-  font-size: 0.85rem;
+  min-height: var(--touch-min);
+  font-size: 0.9rem;
   padding-inline: 0.7rem;
   touch-action: manipulation;
 }
@@ -2738,15 +2840,16 @@ html:not(.js) .nsf-labels {
   margin-bottom: 1.5rem;
 }
 .filter-btn {
-  padding: 0.45rem 0.85rem;
+  padding: 0.55rem 0.95rem;
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   background: var(--btn-outline-bg);
   font-weight: 600;
-  font-size: 0.86rem;
+  font-size: 0.9rem;
   color: var(--ink-soft);
   transition: all 0.2s;
-  min-height: 40px;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   display: inline-flex;
@@ -3081,7 +3184,7 @@ body[data-page="lab"] .article-card:first-child p,
   box-shadow: var(--shadow-lg);
 }
 .magnet h2 { color: #F6F1E8; }
-.magnet p { color: rgba(246,241,232,0.78); max-width: 38rem; }
+.magnet p { color: #D4CFC4; max-width: 38rem; } /* ≥ AA/AAA on ink panel */
 .magnet-form {
   display: flex;
   flex-direction: column;
@@ -3123,7 +3226,7 @@ body[data-page="lab"] .article-card:first-child p,
   gap: 0.5rem;
   font-size: 0.82rem !important;
   font-weight: 500 !important;
-  color: rgba(246,241,232,0.78) !important;
+  color: #D4CFC4 !important;
   cursor: pointer;
   line-height: 1.35;
 }
@@ -3143,15 +3246,15 @@ body[data-page="lab"] .article-card:first-child p,
   opacity: 0 !important;
   pointer-events: none !important;
 }
-.magnet-note { font-size: 0.8rem; color: rgba(246,241,232,0.55); margin: 0; }
-.magnet-note a { color: rgba(246,241,232,0.85); text-decoration: underline; }
+.magnet-note { font-size: var(--fs-body); color: #C8C2B6; margin: 0; }
+.magnet-note a { color: #F6F1E8; text-decoration: underline; }
 .magnet-status {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: var(--fs-body);
   font-weight: 600;
-  color: rgba(246, 241, 232, 0.92);
+  color: #F6F1E8;
 }
-.magnet-status.is-error { color: #ffc9a8; }
+.magnet-status.is-error { color: #FFC9A8; }
 .magnet-form .btn:disabled { opacity: 0.65; cursor: wait; }
 
 /* Return visitor bar (localStorage — no email required) */
@@ -3361,7 +3464,8 @@ body:has(.return-bar:not([hidden])) {
   align-items: center;
   justify-content: center;
   margin-top: 0.75rem;
-  min-height: 44px;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
   padding: 0.55rem 1rem;
   border-radius: 12px;
   font-size: 0.92rem;
@@ -3402,14 +3506,17 @@ body:has(.return-bar:not([hidden])) {
 .book-tag-chip {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.75rem;
+  justify-content: center;
+  padding: 0.55rem 0.85rem;
+  min-height: var(--touch-min);
   border-radius: 999px;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   font-weight: 600;
   background: var(--chip-bg);
   color: var(--ink-soft);
   border: 1px solid var(--line);
   transition: background 0.15s, color 0.15s;
+  touch-action: manipulation;
 }
 a.book-tag-chip:hover {
   background: var(--nav-active);
@@ -3833,13 +3940,15 @@ a.book-tag-chip:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  min-height: 44px;
-  padding: 0.35rem 0.15rem;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  padding: 0.45rem 0.25rem;
   font-family: var(--sans, system-ui, sans-serif);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--teal-deep);
   user-select: none;
+  touch-action: manipulation;
 }
 .excerpt-more summary::-webkit-details-marker { display: none; }
 .excerpt-more summary::before {
@@ -3915,7 +4024,7 @@ a.book-tag-chip:hover {
   margin-top: 0.65rem;
 }
 
-/* Sticky mobile buy bar — sits ABOVE tabbar (not under it) */
+/* Sticky mobile buy bar — sits ABOVE tabbar (not under it) · stage 11.3 */
 .sticky-buy {
   display: none;
   position: fixed;
@@ -3923,25 +4032,36 @@ a.book-tag-chip:hover {
   right: 0;
   bottom: calc(var(--mobile-tabbar-h) + env(safe-area-inset-bottom, 0px));
   z-index: 95;
-  padding: 0.55rem 0.75rem;
+  padding: 0.55rem 0.75rem calc(0.55rem);
   background: var(--tabbar-bg);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid var(--line);
-  gap: 0.45rem;
+  gap: 0.5rem;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
   align-items: stretch;
 }
 .sticky-buy .btn {
-  flex: 1;
-  min-height: 46px;
-  font-size: 0.82rem;
-  padding-inline: 0.55rem;
+  flex: 1 1 0;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  font-size: 0.92rem;
+  padding-inline: 0.65rem;
   touch-action: manipulation;
+  white-space: nowrap;
+}
+.sticky-buy-excerpt {
+  flex: 1.45 1 0 !important;
+  font-weight: 750;
+}
+.sticky-buy-store {
+  flex: 0.9 1 0 !important;
+}
+.sticky-buy-amazon {
+  flex: 0.75 1 0 !important;
 }
 .sticky-buy .btn-ghost-link {
-  flex: 0 0 auto;
-  min-width: 4.5rem;
-  font-size: 0.8rem;
+  display: none; /* catalog lives in tabbar — free space for excerpt CTA */
 }
 
 /* ---------- Article detail ---------- */
@@ -4088,9 +4208,9 @@ a.book-tag-chip:hover {
   color: rgba(246,241,232,0.7);
   font-size: 0.92rem;
 }
-.site-footer a:hover { color: var(--amber); }
+.site-footer a:hover { color: #F2EDE3; }
 .footer-brand .logo-text { color: var(--paper); }
-.footer-brand p { font-size: 0.9rem; color: rgba(246,241,232,0.55); max-width: 28ch; }
+.footer-brand p { font-size: 0.9rem; color: rgba(246,241,232,0.65); max-width: 28ch; } /* AAA on footer */
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 1.25rem;
@@ -4099,7 +4219,7 @@ a.book-tag-chip:hover {
   gap: 1rem;
   justify-content: space-between;
   font-size: 0.82rem;
-  color: rgba(246,241,232,0.45);
+  color: rgba(246,241,232,0.65); /* was 0.45 → FAIL AA; 0.65 ≈ AAA */
 }
 
 /* ---------- Utilities ---------- */
@@ -4233,8 +4353,12 @@ a.book-tag-chip:hover {
     padding-bottom: 0.15rem;
   }
   .site-header--static .nav-links a {
-    padding: 0.4rem 0.65rem;
-    font-size: 0.82rem;
+    padding: 0.55rem 0.75rem;
+    min-height: var(--touch-min);
+    min-width: var(--touch-min);
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
   }
   .site-header--static .nav-actions {
     display: flex !important;
@@ -4505,4 +4629,569 @@ a.book-tag-chip:hover {
 }
 #book-quiz {
   scroll-margin-top: calc(var(--nav-h) + 3.25rem);
+}
+
+
+/* Text links: teal-deep for AAA on paper (not pure teal) */
+.bio-prose a,
+.section-lead a,
+.lead a,
+.hero-person a,
+.magnet-note a,
+.book-card-links a,
+.reader-review-link,
+.catalog-hint a:not(.btn),
+.verify-author-list a,
+.breadcrumb a {
+  color: var(--teal-deep);
+}
+.bio-prose a:hover,
+.section-lead a:hover,
+.lead a:hover,
+.verify-author-list a:hover,
+.breadcrumb a:hover,
+.reader-review-link:hover {
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Stage 14 — premium polish (Quiet Lab)
+   ========================================================================== */
+
+html {
+  background: var(--paper, #F2EDE3);
+}
+
+/* —— 14.5 Page loader (no white flash) —— */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  transition: opacity 0.45s var(--ease), visibility 0.45s;
+}
+.page-loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.page-loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.page-loader-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, var(--ink) 0%, var(--teal-deep) 100%);
+  box-shadow: 0 8px 28px rgba(10, 25, 41, 0.12);
+  animation: loader-breathe 1.1s var(--ease) infinite alternate;
+}
+.page-loader-bar {
+  width: 72px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  overflow: hidden;
+}
+.page-loader-bar > span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, var(--teal-deep), var(--amber));
+  animation: loader-slide 0.9s ease-in-out infinite alternate;
+}
+@keyframes loader-breathe {
+  from { transform: scale(0.94); opacity: 0.85; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes loader-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(150%); }
+}
+html.is-ready .page-loader {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Skeleton shimmer for covers while decoding */
+.book-cover.has-image,
+.hero-cover,
+.book-product-cover {
+  background:
+    linear-gradient(110deg, var(--paper-2) 25%, var(--paper-3) 37%, var(--paper-2) 63%);
+  background-size: 200% 100%;
+}
+.book-cover.has-image:not(.is-loaded),
+.hero-cover:not(.is-loaded),
+.book-product-cover:not(.is-loaded) {
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* —— 14.1 Details: hairlines, rhythm, “expensive” micro —— */
+.section-head {
+  position: relative;
+}
+.section-head::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, var(--amber), transparent);
+  opacity: 0.85;
+}
+.eyebrow {
+  letter-spacing: 0.14em;
+}
+hr.hairline,
+.divider-hairline {
+  border: 0;
+  height: 1px;
+  margin: var(--space-block) 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ink) 14%, transparent) 20%,
+    color-mix(in srgb, var(--ink) 14%, transparent) 80%,
+    transparent
+  );
+}
+.card,
+.book-card,
+.pro-card,
+.side-card,
+.reader-review,
+.method-card,
+.door {
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--ink) 4%, transparent),
+    var(--shadow);
+}
+.book-card:hover,
+.door:hover,
+.method-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Refined vertical rhythm */
+section {
+  scroll-margin-top: calc(var(--nav-h) + 1.25rem);
+}
+.page-hero .lead {
+  max-width: 38rem;
+  text-wrap: pretty;
+}
+
+/* Custom cursor — fine pointer only, optional class from JS */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 500;
+    border-radius: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform, width, height, opacity;
+  }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--ink);
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 28px;
+    height: 28px;
+    border: 1px solid color-mix(in srgb, var(--ink) 45%, transparent);
+    transition:
+      width 0.2s var(--ease),
+      height 0.2s var(--ease),
+      border-color 0.2s,
+      background 0.2s;
+  }
+  html.has-custom-cursor.is-cursor-hover .cursor-ring {
+    width: 44px;
+    height: 44px;
+    border-color: var(--teal-deep);
+    background: color-mix(in srgb, var(--teal) 8%, transparent);
+  }
+  html.has-custom-cursor.is-cursor-down .cursor-ring {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* —— 14.2 Cover tilt / soft 3D —— */
+.hero-cover,
+.book-cover.has-image,
+.book-product-cover {
+  transform-style: preserve-3d;
+  perspective: 800px;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.hero-cover img,
+.book-cover.has-image img,
+.book-product-cover img {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.hero-cover.is-tilting,
+.book-cover.has-image.is-tilting,
+.book-product-cover.is-tilting {
+  transition: transform 0.08s linear;
+  z-index: 2;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-cover:hover,
+  .book-cover.has-image:hover {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* —— 14.4 404 —— */
+.page-404 {
+  padding-block: clamp(3rem, 8vw, 5.5rem) clamp(4rem, 10vw, 7rem);
+}
+.page-404 .error-code {
+  font-family: var(--serif);
+  font-size: clamp(4rem, 12vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--ink) 12%, transparent);
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+.page-404 .error-suggest {
+  margin-top: 2.75rem;
+}
+.page-404 .error-suggest h2 {
+  font-size: var(--fs-h2);
+  margin: 0 0 1rem;
+}
+.page-404 .error-books {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 720px) {
+  .page-404 .error-books {
+    grid-template-columns: 1fr;
+  }
+}
+.error-book {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease);
+}
+.error-book:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.error-book img {
+  width: 64px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(10, 25, 41, 0.1);
+}
+.error-book strong {
+  display: block;
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+.error-book span {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* —— 14.3 Print —— */
+@media print {
+  :root {
+    --paper: #fff;
+    --ink: #000;
+    --graphite: #111;
+    --muted: #333;
+    --line: #ccc;
+  }
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+  main > section,
+  .social-proof-section,
+  .magnet,
+  .site-footer {
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
+  }
+  .page-loader,
+  .cursor-dot,
+  .cursor-ring,
+  .site-header,
+  .site-header--static,
+  #site-header,
+  .mobile-tabbar,
+  .mobile-drawer,
+  .nav-toggle,
+  .sticky-buy,
+  .return-bar,
+  .read-progress,
+  .back-to-top,
+  .skip-link,
+  .book-tabs,
+  .book-prev-next,
+  .magnet,
+  .final-cta,
+  .nav-actions,
+  .btn-row .btn-outline[href*="litres"],
+  .btn-row .btn-primary[href*="litres"],
+  .affiliate-mark,
+  .site-footer .footer-grid > div:not(.footer-brand),
+  noscript {
+    display: none !important;
+  }
+  .site-footer {
+    background: transparent !important;
+    color: #333 !important;
+    border-top: 1px solid #ccc;
+    padding: 1rem 0;
+    margin-top: 2rem;
+  }
+  a[href]::after {
+    content: none;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+    word-break: break-all;
+  }
+  .container {
+    width: 100%;
+    max-width: none;
+  }
+  .book-product,
+  .hero-grid,
+  .article-layout {
+    display: block !important;
+  }
+  .book-product-cover img,
+  .hero-cover img {
+    max-width: 180px;
+    box-shadow: none;
+  }
+  .hero-cover-stack {
+    display: none !important;
+  }
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  h1, h2, h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .excerpt-prose {
+    font-size: 10.5pt;
+  }
+  body {
+    padding: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader-mark,
+  .page-loader-bar > span,
+  .book-cover.has-image:not(.is-loaded),
+  .hero-cover:not(.is-loaded) {
+    animation: none !important;
+  }
+  .hero-cover,
+  .book-cover.has-image,
+  .book-product-cover {
+    transform: none !important;
+  }
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Stage 11 — mobile-first: SE / 14 / Galaxy · touch · sticky · outdoor
+   ========================================================================== */
+
+/* 11.4 iOS no-zoom on inputs (must be ≥16px) */
+input,
+select,
+textarea {
+  font-size: max(16px, 1em);
+}
+
+/* Sticky padding without JS (book pages) */
+@media (max-width: 720px) {
+  body[data-page="book"] {
+    padding-bottom: calc(
+      var(--mobile-tabbar-h) + var(--mobile-sticky-buy-h) + env(safe-area-inset-bottom, 0px) + 0.85rem
+    );
+  }
+}
+
+/* 11.1 Mobile-first layout polish */
+@media (max-width: 720px) {
+  .container {
+    width: min(var(--max), calc(100% - 1.5rem));
+  }
+  body {
+    font-size: 17px; /* ≥16, slightly denser on small screens */
+    line-height: 1.65;
+    /* 11.5 Outdoor: slightly stronger body than graphite-on-paper alone */
+    color: var(--ink-soft);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  .muted,
+  .section-lead,
+  .book-card p,
+  .door p {
+    color: var(--muted);
+  }
+  h1, .book-h1 {
+    font-size: clamp(1.55rem, 6.2vw, 2rem);
+    line-height: 1.18;
+    overflow-wrap: anywhere;
+  }
+  h2 {
+    font-size: clamp(1.3rem, 5vw, 1.65rem);
+    line-height: 1.22;
+  }
+  .hero-grid,
+  .book-product {
+    gap: 1.25rem;
+  }
+  .hero-cover-stack {
+    max-width: min(100%, 280px);
+    margin-inline: auto;
+  }
+  .hero-cta-panel .btn,
+  .book-buy-actions .btn,
+  .btn-row .btn {
+    width: 100%;
+    min-height: var(--touch-min);
+  }
+  .btn-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* Overflow guards */
+  main, .container, .book-body-col, .article-content {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+  .book-tabs {
+    gap: 0.25rem;
+  }
+  .book-tabs a {
+    min-height: var(--touch-min);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.65rem;
+  }
+  .breadcrumb a,
+  .breadcrumb span {
+    min-height: var(--touch-min);
+    display: inline-flex;
+    align-items: center;
+  }
+  .breadcrumb a {
+    padding: 0.35rem 0.35rem;
+  }
+  /* Filters scroll without tiny chips */
+  .filters .filter-btn {
+    flex: 0 0 auto;
+  }
+  /* Magnets / forms */
+  .magnet-form input[type="email"],
+  .field-float input {
+    min-height: var(--touch-min);
+    font-size: 16px !important;
+  }
+  /* Return bar close */
+  .return-bar-close {
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+  }
+  /* iPhone SE: sticky = excerpt + one store */
+  .sticky-buy-amazon {
+    display: none;
+  }
+  .sticky-buy {
+    padding-inline: 0.65rem;
+  }
+  .sticky-buy-excerpt {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Wider phones (iPhone 14 / Galaxy): show Amazon again if present */
+@media (min-width: 390px) and (max-width: 720px) {
+  .sticky-buy-amazon {
+    display: inline-flex;
+  }
+}
+
+/* Very narrow SE-class */
+@media (max-width: 380px) {
+  .container {
+    width: calc(100% - 1.15rem);
+  }
+  .sticky-buy .btn {
+    font-size: 0.86rem;
+    padding-inline: 0.45rem;
+  }
+  .logo-text span {
+    display: none; /* free header width */
+  }
+}
+
+/* Desktop: sticky bar stays hidden (already display:none default) */
+@media (min-width: 721px) {
+  body[data-page="book"] {
+    padding-bottom: 0;
+  }
+  body[data-page="book"].has-sticky-buy {
+    padding-bottom: 0;
+  }
 }

@@ -65,19 +65,37 @@ window.POL_GREK = {
  },
 
  socialProof: {
- source: 'Литрес',
+ source: 'Литрес / Amazon',
  sourceUrl: 'https://www.litres.ru/author/pol-grek/',
  checkedAt: '2026-07-18',
- // One public text review on LitRes so far (books are new). Do not invent more.
+ // Real public reviews only. Do not invent more.
  reviews: [
   {
    author: 'Людмила',
    book: 'Мозг на 100+',
    slug: 'mozg-na-100',
    dateLabel: '14 мая 2026',
+   store: 'litres',
+   storeLabel: 'Литрес',
    text:
     'Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.',
    url: 'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/',
+  },
+  {
+   author: "Bobbie's playlist",
+   book: 'Анатомия энергии',
+   slug: 'anatomiya-energii',
+   dateLabel: '29 июня 2026',
+   store: 'amazon',
+   storeLabel: 'Amazon',
+   rating: 4,
+   title: 'Helps answer the questions you never ask',
+   // Original English review on Amazon (US, Verified Purchase, Kindle)
+   text:
+    'This book is great for explaining issues that everybody goes through and pushes on the side as normal when they may not be.',
+   url: 'https://www.amazon.com/dp/B0GTLMCS4N/',
+   lang: 'en',
+   verified: true,
   },
  ],
  items: [
@@ -85,7 +103,7 @@ window.POL_GREK = {
   { book: 'Биохакинг мозга', rating: 4.2, votes: 5, slug: 'biohacking-mozga' },
   { book: 'Женский мозг', rating: 3.8, votes: 4, slug: 'zhenskiy-mozg' },
  ],
- note: 'Цифры и отзыв — с Литрес, 18.07.2026. Книги вышли недавно: развёрнутый отзыв пока один (под «Мозг на 100+»), оценок тоже мало — это нормально. Здесь ничего не дописываем и не «улучшаем».',
+ note: 'Оценки с Литрес (18.07.2026). Тексты: один отзыв на Литрес («Мозг на 100+») и один на Amazon US — «Anatomy of Energy» / «Анатомия энергии», Verified Purchase, 4★, 29.06.2026. Оригинал на английском — не переводим и не «улучшаем».',
  },
  // Optional email for excerpt link (FormSubmit → legal.email). Empty endpoint = download only.
  emailCapture: {

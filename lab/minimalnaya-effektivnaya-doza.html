@@ -6,12 +6,15 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Пол Грэк" />
   <meta name="theme-color" content="#0B1F33" />
+  <script>
+  (function(){try{var k='pol-grek-theme',t=localStorage.getItem(k);if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}catch(e){}})();
+  </script>
   <title>Минимальная эффективная доза — не лень, а фильтр — Пол Грэк</title>
-  <meta name="description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго." />
+  <meta name="description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго. Читать в Лаборатории — бесплатно. Уровни доказательности A–D." />
   <link rel="canonical" href="https://polgrek.site/lab/minimalnaya-effektivnaya-doza.html" />
   <meta property="og:site_name" content="Пол Грэк" />
   <meta property="og:title" content="Минимальная эффективная доза — не лень, а фильтр — Пол Грэк" />
-  <meta property="og:description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго." />
+  <meta property="og:description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго. Читать в Лаборатории — бесплатно. Уровни доказательности A–D." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://polgrek.site/lab/minimalnaya-effektivnaya-doza.html" />
   <meta property="og:image" content="https://polgrek.site/assets/og-image.jpg" />
@@ -19,7 +22,7 @@
   <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Минимальная эффективная доза — не лень, а фильтр — Пол Грэк" />
-  <meta name="twitter:description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго." />
+  <meta name="twitter:description" content="Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго. Читать в Лаборатории — бесплатно. Уровни доказательности A–D." />
   <meta name="twitter:image" content="https://polgrek.site/assets/og-image.jpg" />
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/lab/minimalnaya-effektivnaya-doza.html" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/lab/minimalnaya-effektivnaya-doza.html" />
@@ -28,13 +31,13 @@
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="../assets/favicon.png" type="image/png" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718stage3" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260718mobile11" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Минимальная эффективная доза — не лень, а фильтр",
-  "description": "Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго.",
+  "description": "Если протоколу нужен шкаф с банками, чтобы «работать» — он, скорее всего, не работает долго. Читать в Лаборатории — бесплатно. Уровни доказательности A–D.",
   "url": "https://polgrek.site/lab/minimalnaya-effektivnaya-doza.html",
   "image": [
     "https://polgrek.site/assets/og-image.jpg"
@@ -58,7 +61,7 @@
   "isPartOf": {
     "@type": "Book",
     "name": "Биохакинг мозга",
-    "url": "https://polgrek.site/books/biohacking-mozga.html"
+    "url": "https://polgrek.site/knigi/biohacking-mozga/"
   }
 }
   </script>
@@ -89,7 +92,7 @@
 }
   </script>
 </head>
-<body data-page="article" data-base="..">
+<body data-page="article" data-base=".." data-assets="..">
   <a class="skip-link" href="#main-content">К содержанию</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -100,12 +103,12 @@
         </a>
         <nav class="nav-links" aria-label="Основная навигация">
           <a href="../index.html">Главная</a>
-          <a href="../books/index.html">Книги</a>
+          <a href="../knigi/">Книги</a>
           <a href="../lab/index.html">Лаборатория</a>
           <a href="../about.html">Об авторе</a>
         </nav>
         <div class="nav-actions">
-          <a class="btn btn-primary nav-cta" href="../books/index.html">Книги</a>
+          <a class="btn btn-primary nav-cta" href="../knigi/">Книги</a>
         </div>
       </div>
     </header>
@@ -133,8 +136,10 @@
 <p>Один рычаг → измеримый эффект → следующий. Не десять параллельно. В «Биохакинге мозга» — почему быстрые методы выгорают и где граница у ноотропов.</p>
 <div class="experiment"><strong>Один рычаг на 7 дней</strong><p style="margin:0;max-width:none">Одно: сон стабильнее ±30 мин, или 20 минут ходьбы, или экран off за 30 мин до сна. Остальное не трогайте. В конце недели: что реально сдвинулось? Только это оставляете.</p></div>
           <div class="btn-row" style="margin-top:2rem">
-            <a class="btn btn-primary" href="../books/biohacking-mozga.html">Книга: Биохакинг мозга</a>
+            <a class="btn btn-primary" href="../knigi/biohacking-mozga/">Книга: Биохакинг мозга</a>
             <a class="btn btn-outline" href="index.html">Все материалы</a>
+            <a class="btn btn-ghost-link" href="../about.html">Об авторе</a>
+            <a class="btn btn-ghost-link" href="../knigi/">Каталог книг</a>
           </div>
         </article>
         <aside class="article-side">
@@ -143,7 +148,7 @@
           <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
           <h3>Биохакинг мозга</h3>
           <p>Честный гид: что реально работает — база и минимальная эффективная доза, без «волшебных» таблеток.</p>
-          <a class="btn btn-primary" href="../books/biohacking-mozga.html">К книге</a>
+          <a class="btn btn-primary" href="../knigi/biohacking-mozga/">К книге</a>
           <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Купить на Литрес</a>
         </div>
           <div class="side-card" style="margin-top:1rem">
@@ -156,9 +161,9 @@
 
   </main>
   <div id="site-footer"></div>
-  <script src="../js/base-config.js"></script>
-  <script src="../js/data.js"></script>
-  <script src="../js/data-articles.js"></script>
-  <script src="../js/main.js?v=20260718stage3"></script>
+  <script src="../js/base-config.min.js" defer></script>
+  <script src="../js/data.js" defer></script>
+  <script src="../js/data-articles.js" defer></script>
+  <script src="../js/main.min.js?v=20260718mobile11" defer></script>
 </body>
 </html>

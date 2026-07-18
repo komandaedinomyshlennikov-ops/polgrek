@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Stub redirects — not for indexing
-Disallow: /books/book.html
+# Legacy /books/* redirects (canonical lives under /knigi/)
+Disallow: /books/
 Disallow: /lab/article.html
 Disallow: /en/books/book.html
 Disallow: /en/lab/article.html

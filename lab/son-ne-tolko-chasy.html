@@ -6,12 +6,15 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Пол Грэк" />
   <meta name="theme-color" content="#0B1F33" />
+  <script>
+  (function(){try{var k='pol-grek-theme',t=localStorage.getItem(k);if(t!=='dark'&&t!=='light'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);document.documentElement.style.colorScheme=t;}catch(e){}})();
+  </script>
   <title>Считайте циклы сна, а не только «8 часов» — Пол Грэк</title>
-  <meta name="description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока." />
+  <meta name="description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока. Читать в Лаборатории — бесплатно. Уровни доказате" />
   <link rel="canonical" href="https://polgrek.site/lab/son-ne-tolko-chasy.html" />
   <meta property="og:site_name" content="Пол Грэк" />
   <meta property="og:title" content="Считайте циклы сна, а не только «8 часов» — Пол Грэк" />
-  <meta property="og:description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока." />
+  <meta property="og:description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока. Читать в Лаборатории — бесплатно. Уровни доказате" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://polgrek.site/lab/son-ne-tolko-chasy.html" />
   <meta property="og:image" content="https://polgrek.site/assets/og-image.jpg" />
@@ -19,7 +22,7 @@
   <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Считайте циклы сна, а не только «8 часов» — Пол Грэк" />
-  <meta name="twitter:description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока." />
+  <meta name="twitter:description" content="Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока. Читать в Лаборатории — бесплатно. Уровни доказате" />
   <meta name="twitter:image" content="https://polgrek.site/assets/og-image.jpg" />
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/lab/son-ne-tolko-chasy.html" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/lab/son-ne-tolko-chasy.html" />
@@ -28,13 +31,13 @@
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="../assets/favicon.png" type="image/png" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718stage3" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260718mobile11" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Считайте циклы сна, а не только «8 часов»",
-  "description": "Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока.",
+  "description": "Восемь часов в кровати с телефоном — не то же, что восстановление. Мозгу важны циклы и обрыв входящего потока. Читать в Лаборатории — бесплатно. Уровни доказате…",
   "url": "https://polgrek.site/lab/son-ne-tolko-chasy.html",
   "image": [
     "https://polgrek.site/assets/og-image.jpg"
@@ -58,7 +61,7 @@
   "isPartOf": {
     "@type": "Book",
     "name": "Священные часы",
-    "url": "https://polgrek.site/books/svyashchennye-chasy.html"
+    "url": "https://polgrek.site/knigi/svyashchennye-chasy/"
   }
 }
   </script>
@@ -89,7 +92,7 @@
 }
   </script>
 </head>
-<body data-page="article" data-base="..">
+<body data-page="article" data-base=".." data-assets="..">
   <a class="skip-link" href="#main-content">К содержанию</a>
   <div id="site-header">
     <header class="site-header site-header--static" id="siteHeader">
@@ -100,12 +103,12 @@
         </a>
         <nav class="nav-links" aria-label="Основная навигация">
           <a href="../index.html">Главная</a>
-          <a href="../books/index.html">Книги</a>
+          <a href="../knigi/">Книги</a>
           <a href="../lab/index.html">Лаборатория</a>
           <a href="../about.html">Об авторе</a>
         </nav>
         <div class="nav-actions">
-          <a class="btn btn-primary nav-cta" href="../books/index.html">Книги</a>
+          <a class="btn btn-primary nav-cta" href="../knigi/">Книги</a>
         </div>
       </div>
     </header>
@@ -133,8 +136,10 @@
 <p>Свет утром, тусклее вечером, телефон не в последних 15 минутах, подъём ближе к завершённым циклам (~90 мин), а не к магической «восьмёрке». Остальное — после базы.</p>
 <div class="experiment"><strong>15 минут без потока</strong><p style="margin:0;max-width:none">Перед сном: 15 минут без экрана. Книга, душ, просто лежать. Утром ясность 1–10. Пять вечеров — уже эксперимент, не совет из рилса.</p></div>
           <div class="btn-row" style="margin-top:2rem">
-            <a class="btn btn-primary" href="../books/svyashchennye-chasy.html">Книга: Священные часы</a>
+            <a class="btn btn-primary" href="../knigi/svyashchennye-chasy/">Книга: Священные часы</a>
             <a class="btn btn-outline" href="index.html">Все материалы</a>
+            <a class="btn btn-ghost-link" href="../about.html">Об авторе</a>
+            <a class="btn btn-ghost-link" href="../knigi/">Каталог книг</a>
           </div>
         </article>
         <aside class="article-side">
@@ -143,7 +148,7 @@
           <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
           <h3>Священные часы</h3>
           <p>Если главная проблема — разбитость с утра и сбитый режим.</p>
-          <a class="btn btn-primary" href="../books/svyashchennye-chasy.html">К книге</a>
+          <a class="btn btn-primary" href="../knigi/svyashchennye-chasy/">К книге</a>
           <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=svyaschennye-chasy&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Купить на Литрес</a>
         </div>
           <div class="side-card" style="margin-top:1rem">
@@ -156,9 +161,9 @@
 
   </main>
   <div id="site-footer"></div>
-  <script src="../js/base-config.js"></script>
-  <script src="../js/data.js"></script>
-  <script src="../js/data-articles.js"></script>
-  <script src="../js/main.js?v=20260718stage3"></script>
+  <script src="../js/base-config.min.js" defer></script>
+  <script src="../js/data.js" defer></script>
+  <script src="../js/data-articles.js" defer></script>
+  <script src="../js/main.min.js?v=20260718mobile11" defer></script>
 </body>
 </html>

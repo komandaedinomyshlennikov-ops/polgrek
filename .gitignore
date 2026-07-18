@@ -4,5 +4,7 @@
 .vscode/
 node_modules/
 
-# Full-resolution cover archives (not needed for web)
+# Full-resolution archives (not needed for web delivery)
 assets/covers/*-full.*
+assets/*-full.jpg
+assets/*-full.png
