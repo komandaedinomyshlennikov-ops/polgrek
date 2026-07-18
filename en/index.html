@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718audit13" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260718photos" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -391,7 +391,10 @@
     <section id="author-home">
       <div class="container trust-split trust-split-compact">
         <div class="trust-photo">
-          <img src="../assets/pol-grek-portrait.jpg" alt="Pol Grek" width="400" height="400" loading="lazy" />
+          <picture>
+            <source srcset="../assets/pol-grek-portrait.webp" type="image/webp" />
+            <img src="../assets/pol-grek-portrait.jpg" alt="Pol Grek — author of books on the brain" width="400" height="400" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div>
           <p class="eyebrow">About the author</p>
@@ -447,6 +450,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260718audit13"></script>
+  <script src="../js/main.js?v=20260718photos"></script>
 </body>
 </html>

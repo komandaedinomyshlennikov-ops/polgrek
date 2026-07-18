@@ -34,7 +34,7 @@
   <link rel="alternate" hreflang="ru" href="https://polgrek.site/" />
   <link rel="alternate" hreflang="en" href="https://polgrek.site/en/" />
   <link rel="alternate" hreflang="x-default" href="https://polgrek.site/" />
-  <link rel="stylesheet" href="css/styles.css?v=20260718audit13" />
+  <link rel="stylesheet" href="css/styles.css?v=20260718photos" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -403,7 +403,10 @@
     <section id="author-home">
       <div class="container trust-split trust-split-compact">
         <div class="trust-photo">
-          <img src="assets/pol-grek-portrait.jpg" alt="Пол Грэк" width="400" height="400" loading="lazy" />
+          <picture>
+            <source srcset="assets/pol-grek-portrait.webp" type="image/webp" />
+            <img src="assets/pol-grek-portrait.jpg" alt="Пол Грэк — автор книг о мозге" width="400" height="400" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div>
           <p class="eyebrow">Об авторе</p>
@@ -459,6 +462,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/main.js?v=20260718audit13"></script>
+  <script src="js/main.js?v=20260718photos"></script>
 </body>
 </html>

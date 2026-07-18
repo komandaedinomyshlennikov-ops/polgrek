@@ -1160,6 +1160,31 @@ body.has-sticky-buy .back-to-top {
   box-shadow: var(--shadow);
   border: 1px solid var(--line);
 }
+.about-work-photo {
+  margin: 1.5rem 0 1.75rem;
+  max-width: 28rem;
+}
+.about-work-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.about-work-photo figcaption {
+  margin: 0.55rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.trust-photo picture,
+.about-photo picture {
+  display: block;
+}
 .person .avatar.has-photo {
   background: none;
   padding: 0;
