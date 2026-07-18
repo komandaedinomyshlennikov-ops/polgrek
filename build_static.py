@@ -2635,6 +2635,12 @@ def main() -> None:
                 html_out,
                 count=1,
             )
+            html_out = re.sub(
+                r'property="og:image:alt" content="[^"]*"',
+                f'property="og:image:alt" content="{esc(en_title)}"',
+                html_out,
+                count=1,
+            )
             # Schema description (JSON)
             html_out = re.sub(
                 r'"description":\s*"[^"]*"',
