@@ -134,6 +134,12 @@
   --serif: 'Source Serif 4', 'Literata', Georgia, 'Times New Roman', serif;
   --sans: 'Manrope', system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Type scale 1.25 from 18px body (stage 3.1) */
+  --fs-body: 1.125rem;
+  --fs-h2: 1.7578125rem;
+  --fs-h1: 2.197265625rem;
+  --lh-body: 1.65;
+  --lh-title: 1.2;
   color-scheme: light;
 }
 
@@ -205,29 +211,51 @@ ul { padding: 0; margin: 0; list-style: none; }
   text-align: left;
 }
 
-/* ---------- Typography ---------- */
-h1, h2, h3, h4, .display {
+/* ---------- Typography (stage 3.1–3.2) ----------
+   Modular scale 1.25 from body 18px — only --fs-h1 / --fs-h2 / --fs-body
+   Serif (Source Serif 4) for titles · Sans (Manrope) for body
+*/
+h1, h2, h3, h4, .display, .book-title {
   font-family: var(--serif);
   color: var(--ink);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: var(--lh-title);
   letter-spacing: -0.02em;
   margin: 0 0 0.75rem;
 }
 
-h1, .display { font-size: clamp(2.4rem, 5vw, 4rem); }
-h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); }
-h3 { font-size: clamp(1.25rem, 2vw, 1.55rem); }
-p { margin: 0 0 1rem; max-width: 68ch; }
-.lead { font-size: 1.15rem; color: var(--ink-soft); line-height: 1.7; max-width: 46rem; }
+/* Exactly three type sizes */
+h1, .display { font-size: var(--fs-h1); }
+h2, h3, h4,
+.book-title,
+.book-quiz-q,
+.book-quiz-result-title,
+.final-cta h2 { font-size: var(--fs-h2); }
+
+body, p, li, label, input, select, textarea, button, .btn,
+.lead, .muted, .eyebrow, .book-card-promise, .book-card-chip,
+.book-card-meta, .book-card-evidence, .book-card-rating,
+.book-card-window, .section-lead, .hero-person, .hero-trust,
+.magnet-note, .nav-links a, .page-jump a {
+  font-size: var(--fs-body);
+}
+
+p { margin: 0 0 1rem; max-width: 68ch; line-height: var(--lh-body); }
+.lead {
+  font-size: var(--fs-body);
+  color: var(--ink-soft);
+  line-height: var(--lh-body);
+  max-width: 46rem;
+  font-weight: 500;
+}
 .muted { color: var(--muted); }
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.78rem;
+  font-size: var(--fs-body);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--teal-deep);
   margin-bottom: 0.9rem;
@@ -242,8 +270,8 @@ p { margin: 0 0 1rem; max-width: 68ch; }
 
 .pull-quote {
   font-family: var(--serif);
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-  line-height: 1.35;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-title);
   color: var(--ink);
   border-left: 3px solid var(--amber);
   padding: 0.2rem 0 0.2rem 1.25rem;
@@ -251,23 +279,40 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   max-width: 36rem;
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons (stage 3.4) — ≥48×48, shared states ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   min-height: 48px;
+  min-width: 48px;
   padding: 0.75rem 1.3rem;
   border-radius: var(--radius-btn, 12px);
+  font-family: var(--sans);
   font-weight: 650;
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   letter-spacing: 0.01em;
-  transition: background 0.2s var(--ease), color 0.2s, border-color 0.2s, box-shadow 0.2s var(--ease);
+  line-height: 1.25;
+  border: 1.5px solid transparent;
+  transition: background 0.2s var(--ease), color 0.2s, border-color 0.2s, box-shadow 0.2s var(--ease), opacity 0.2s;
   white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
 }
 .btn:hover { transform: none; }
-.btn:active { transform: none; }
+.btn:active {
+  transform: none;
+  opacity: 0.92;
+}
+.btn:disabled,
+.btn.is-disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
 .btn-primary {
   background: var(--ink);
   color: var(--btn-primary-text);
@@ -277,10 +322,16 @@ p { margin: 0 0 1rem; max-width: 68ch; }
   background: var(--ink-soft);
   box-shadow: 0 1px 2px rgba(10, 25, 41, 0.1), 0 10px 26px rgba(10, 25, 41, 0.12);
 }
+.btn-primary:active {
+  background: var(--ink);
+}
 .btn-secondary {
   background: var(--teal);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(31, 111, 102, 0.12), 0 8px 20px rgba(31, 111, 102, 0.15);
+  box-shadow: 0 1px 2px rgba(24, 90, 83, 0.12), 0 8px 20px rgba(24, 90, 83, 0.15);
+}
+.btn-secondary:hover {
+  background: var(--teal-deep);
 }
 .btn-outline {
   border: 1px solid var(--line-strong);
@@ -434,11 +485,18 @@ body[data-page="home"] .final-cta {
   }
 }
 .btn-cta-lg {
-  min-height: 52px;
+  min-height: 48px;
+  min-width: 48px;
   padding-inline: 1.35rem;
-  font-size: 1.02rem;
+  font-size: var(--fs-body);
   font-weight: 650;
   box-shadow: 0 1px 2px rgba(10, 25, 41, 0.08), 0 8px 22px rgba(10, 25, 41, 0.1);
+}
+.btn-sm {
+  min-height: 48px; /* keep touch target even for “sm” */
+  min-width: 48px;
+  font-size: var(--fs-body);
+  padding-inline: 1rem;
 }
 .magnet-cta-focus {
   outline: 1px solid var(--line-strong);
@@ -628,7 +686,7 @@ body[data-page="home"] .final-cta {
   width: 44px;
   height: 44px;
 }
-.nav-cta { margin-left: 0; min-height: 42px; padding-inline: 1.1rem; font-size: 0.88rem; }
+.nav-cta { margin-left: 0; min-height: 48px; min-width: 48px; padding-inline: 1.1rem; font-size: var(--fs-body); }
 .nav-cta-secondary {
   min-height: 42px;
   padding-inline: 0.95rem;
@@ -1911,6 +1969,91 @@ section {
   font-weight: 700;
   color: var(--ink);
 }
+.book-card-subtitle {
+  margin: 0 0 0.5rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-weight: 500;
+  max-width: none;
+}
+.book-card-price {
+  margin: 0 0 0.35rem;
+  font-size: var(--fs-body);
+  font-weight: 700;
+  color: var(--ink);
+  max-width: none;
+}
+.book-card-cta--duo {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+.book-card-cta--duo .btn {
+  width: 100%;
+  margin: 0 !important;
+}
+.book-card-cta--duo .affiliate-mark {
+  grid-column: 1 / -1;
+  margin: 0.15rem 0 0;
+}
+
+/* Floating field + live validation (stage 3.6) */
+.field-float {
+  position: relative;
+  margin: 0 0 0.35rem;
+}
+.field-float input {
+  width: 100%;
+  min-height: 52px;
+  padding: 1.15rem 0.9rem 0.45rem;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(252, 250, 246, 0.96);
+  color: #0a1929;
+  font: inherit;
+  font-size: var(--fs-body);
+}
+.field-float label {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  color: #5a6570;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  pointer-events: none;
+  transition: top 0.15s, transform 0.15s, font-size 0.15s, color 0.15s;
+}
+.field-float input:focus + label,
+.field-float input:not(:placeholder-shown) + label,
+.field-float.is-filled label {
+  top: 0.45rem;
+  transform: none;
+  font-size: 0.75rem; /* exception: floating micro-label for a11y pattern */
+  color: var(--teal-deep);
+}
+.field-float input:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+  border-color: var(--teal);
+}
+.field-float.is-invalid input {
+  border-color: var(--coral);
+  outline-color: var(--coral);
+}
+.field-error {
+  margin: 0.25rem 0 0.35rem;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: #ffc9a8;
+  min-height: 1.35em;
+}
+.field-error:empty { display: none; }
+.magnet .field-error { color: #ffc9a8; }
+.magnet .field-float label { color: #4a5560; }
 
 /* Body under cover — block flow only (no flex:1 on paragraphs) */
 .book-card--tile .book-body {
@@ -2058,7 +2201,7 @@ html.js .books-grid-flagship .book-card-buy {
   max-height: none !important;
   margin: 0 0 0.5rem !important;
   padding: 0.7rem 1rem !important;
-  font-size: 0.95rem !important;
+  font-size: var(--fs-body) !important;
   font-weight: 700 !important;
   line-height: 1.25 !important;
   white-space: normal !important;

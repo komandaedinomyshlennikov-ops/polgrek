@@ -627,38 +627,27 @@
   }
 
   function storeButtons(book, compact) {
-    const amzOk = hasAmazonProduct(book);
-    // Clean LitRes in href so adblock doesn't strip the whole CTA (advcake query).
-    // Partner URL lives in data-aff and is applied on click (bindAnalytics).
+    // Unified card actions: exactly 2 buttons (Buy + Excerpt) — stage 3.5
     const clean = litresDirect(book);
     const aff = litresBuyUrl(book) || clean;
     const href = escapeAttr(clean || aff);
     const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
     const rel = litresRel();
     const buyLabel = UI.buyLitres || UI.buy;
-    const amzLink = amzOk
-      ? `<a class="book-amazon-link" href="${escapeAttr(book.amazon)}" target="_blank" rel="noopener" data-track="amazon" data-book="${book.slug}">${UI.amazon}</a>`
-      : '';
-    if (!href) {
-      return `
-      <div class="book-card-cta">
-        <div class="book-card-links">
-          <a class="book-more" href="${bookPageUrl(book.slug)}">${UI.annotation}</a>
-          ${amzLink}
-        </div>
-      </div>`;
-    }
     const pageHref = bookPageUrl(book.slug);
     const excerptHref = pageHref + '#excerpt';
     const excerptLabel = UI.excerpt || (isEn ? 'Excerpt' : 'Отрывок');
+    if (!href) {
+      return `
+      <div class="book-card-cta book-card-cta--duo">
+        <a class="btn btn-outline" href="${excerptHref}" data-track="excerpt_open" data-book="${book.slug}">${excerptLabel}</a>
+        <a class="btn btn-primary" href="${pageHref}">${UI.annotation}</a>
+      </div>`;
+    }
     return `
-      <div class="book-card-cta">
+      <div class="book-card-cta book-card-cta--duo">
         <a class="btn btn-primary book-card-buy" href="${href}"${dataAff} target="_blank" rel="${rel}" data-track="litres" data-book="${book.slug}">${buyLabel}</a>
-        <div class="book-card-links">
-          <a class="book-more book-more-excerpt" href="${excerptHref}" data-track="excerpt_open" data-book="${book.slug}">${excerptLabel}</a>
-          <a class="book-more" href="${pageHref}">${UI.annotation}</a>
-          ${amzLink}
-        </div>
+        <a class="btn btn-outline book-card-excerpt" href="${excerptHref}" data-track="excerpt_open" data-book="${book.slug}">${excerptLabel}</a>
         <p class="affiliate-mark affiliate-mark--card">${UI.affiliateMark || ''}</p>
       </div>`;
   }
@@ -843,16 +832,20 @@
     ).toFixed(1)}</strong> · ${r.votes} ${word} · Литрес</p>`;
   }
 
+  function bookPriceLine(book) {
+    // No fixed price on site — honest pointer to LitRes / Amazon
+    if (isEn) {
+      return `<p class="book-card-price">${hasAmazonProduct(book) ? 'Price on LitRes / Amazon' : 'Price on LitRes'}</p>`;
+    }
+    return `<p class="book-card-price">${hasAmazonProduct(book) ? 'Цена на Литрес / Amazon' : 'Цена на Литрес'}</p>`;
+  }
+
   function bookCardHTML(book, opts = {}) {
     const show = bookDataShow(book);
     const title = escapeAttr(book.title || '');
-    const promise = escapeAttr(book.promise || '');
-    const whom = (book.forWhom && book.forWhom[0]) || book.problem || '';
-    const chip = whom
-      ? `<p class="book-card-chip">${escapeAttr(String(whom).slice(0, 90))}</p>`
-      : '';
+    const subtitle = escapeAttr(book.subtitle || book.promise || '');
     const href = bookPageUrl(book.slug);
-    // Text-first “window into the book”: mini cover is secondary
+    // Unified template: cover · title · subtitle · tags · rating · price · 2 buttons
     return `
       <article class="book-card book-card--tile book-card--window${
         book.flagship ? ' is-flagship' : ''
@@ -860,12 +853,10 @@
         <div class="book-body">
           ${bookScienceMarks(book)}
           <h3 class="book-title"><a href="${href}">${title}</a></h3>
-          ${chip}
-          <p class="book-card-promise">${promise}</p>
-          ${bookWindowLine(book)}
+          ${subtitle ? `<p class="book-card-subtitle">${subtitle}</p>` : ''}
           ${bookResearchLine(book)}
           ${bookRatingLine(book)}
-          <p class="book-card-meta">${escapeAttr(bookCardMeta(book))}</p>
+          ${bookPriceLine(book)}
         </div>
         <a class="book-cover book-cover--mini has-image clean" href="${href}" aria-label="${title}">
           <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" width="200" height="300" />
@@ -1142,6 +1133,7 @@
 
     const magnetForm = document.getElementById('magnetForm');
     if (magnetForm) {
+      bindMagnetEmailField();
       magnetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const radio = document.querySelector('input[name="flagPick"]:checked');
@@ -1160,6 +1152,11 @@
         // Bot honeypot
         if (gotcha && gotcha.value) return;
 
+        if (email && !validateMagnetEmail(true)) {
+          if (submitBtn) submitBtn.disabled = false;
+          return;
+        }
+
         rememberLastBook(book.slug);
         setMagnetStatus(status, isEn ? 'Preparing your excerpt…' : 'Готовим отрывок…', false);
         if (submitBtn) submitBtn.disabled = true;
@@ -1167,11 +1164,7 @@
         try {
           if (email) {
             if (!isValidEmail(email)) {
-              setMagnetStatus(
-                status,
-                isEn ? 'Check the email address — or leave it blank and download.' : 'Проверьте email — или оставьте пустым и скачайте.',
-                true
-              );
+              validateMagnetEmail(true);
               if (submitBtn) submitBtn.disabled = false;
               return;
             }
@@ -1446,6 +1439,40 @@
     }
 
     paint();
+  }
+
+
+  function validateMagnetEmail(showError) {
+    const emailEl = document.getElementById('magnetEmail');
+    const field = document.getElementById('magnetEmailField');
+    const err = document.getElementById('magnetEmailError');
+    if (!emailEl) return true;
+    const v = (emailEl.value || '').trim();
+    const empty = !v;
+    const ok = empty || isValidEmail(v);
+    if (field) {
+      field.classList.toggle('is-filled', !empty);
+      field.classList.toggle('is-invalid', !ok && !!showError);
+    }
+    if (err) {
+      if (!ok && showError) {
+        err.textContent = isEn
+          ? 'Invalid format. Example: name@mail.com'
+          : 'Неверный формат. Пример: name@mail.ru';
+      } else {
+        err.textContent = '';
+      }
+    }
+    return ok;
+  }
+
+  function bindMagnetEmailField() {
+    const emailEl = document.getElementById('magnetEmail');
+    if (!emailEl || emailEl.dataset.bound === '1') return;
+    emailEl.dataset.bound = '1';
+    const on = () => validateMagnetEmail(!!(emailEl.value || '').trim());
+    emailEl.addEventListener('input', on);
+    emailEl.addEventListener('blur', () => validateMagnetEmail(true));
   }
 
   function isValidEmail(s) {

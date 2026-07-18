@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="../assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin />
   <link rel="preload" as="image" href="../assets/covers/mozg-na-100.webp" fetchpriority="high" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="https://polgrek.site/sitemap.xml" />
-  <link rel="stylesheet" href="../css/styles.css?v=20260718stage2" />
+  <link rel="stylesheet" href="../css/styles.css?v=20260718stage3" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -407,8 +407,11 @@
             <label for="magnetBook" class="sr-only">Book</label>
             <select id="magnetBook" name="book" class="sr-only" required></select>
             <div class="magnet-email-block">
-              <label for="magnetEmail">Email <span class="magnet-optional">(optional)</span></label>
-              <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+              <div class="field-float" id="magnetEmailField">
+                <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder=" " aria-describedby="magnetEmailError" />
+                <label for="magnetEmail">Email <span class="magnet-optional">(optional)</span></label>
+              </div>
+              <p class="field-error" id="magnetEmailError" role="alert"></p>
               <label class="magnet-check">
                 <input type="checkbox" id="magnetNews" name="news" value="1" />
                 <span>Occasional notes about new books (no spam)</span>
@@ -487,6 +490,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.js"></script>
   <script src="../js/data-en.js"></script>
-  <script src="../js/main.js?v=20260718stage2"></script>
+  <script src="../js/main.js?v=20260718stage3"></script>
 </body>
 </html>

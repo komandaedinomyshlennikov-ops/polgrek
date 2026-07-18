@@ -223,41 +223,25 @@ def store_actions_html(
     *,
     lang: str = "ru",
 ) -> str:
-    """Catalog CTA under card: clean LitRes Buy (adblock-safe) + «О книге» / Amazon.
-
-    Partner query is in data-aff; main.js applies it on click so filters that
-    strip advcake/utm links do not remove the visible «Купить» button.
-    """
-    amz = amazon_product_url(book)
-    amz_link = (
-        f'<a class="book-amazon-link" href="{esc(amz)}" target="_blank" rel="noopener" data-track="amazon">Amazon</a>'
-        if amz
-        else ""
-    )
+    """Catalog CTA: exactly two buttons — Buy + Excerpt (stage 3.5)."""
     clean = litres_direct_url(book)
     aff = litres_buy_url(G, book) or clean
     buy_href = clean or aff
     data_aff = f' data-aff="{esc(aff)}"' if aff and aff != clean else ""
     rel = litres_rel(G)
     buy_label = "Buy on LitRes" if lang == "en" else "Купить на Литрес"
+    excerpt_label = "Excerpt" if lang == "en" else "Отрывок"
     more_label = "About the book" if lang == "en" else "О книге"
     mark = AFFILIATE_MARK_EN if lang == "en" else AFFILIATE_MARK_RU
     mark = mark.replace('class="affiliate-mark"', 'class="affiliate-mark affiliate-mark--card"')
     if not buy_href:
-        return f"""<div class="book-card-cta">
-      <div class="book-card-links">
-        <a class="book-more" href="{href}">{more_label}</a>
-        {amz_link}
-      </div>
+        return f"""<div class="book-card-cta book-card-cta--duo">
+      <a class="btn btn-outline" href="{href}#excerpt" data-track="excerpt_open">{excerpt_label}</a>
+      <a class="btn btn-primary" href="{href}">{more_label}</a>
     </div>"""
-    excerpt_label = "Excerpt" if lang == "en" else "Отрывок"
-    return f"""<div class="book-card-cta">
+    return f"""<div class="book-card-cta book-card-cta--duo">
       <a class="btn btn-primary book-card-buy" href="{esc(buy_href)}"{data_aff} target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
-      <div class="book-card-links">
-        <a class="book-more book-more-excerpt" href="{href}#excerpt" data-track="excerpt_open" data-book="{esc(book.get('slug') or '')}">{excerpt_label}</a>
-        <a class="book-more" href="{href}">{more_label}</a>
-        {amz_link}
-      </div>
+      <a class="btn btn-outline book-card-excerpt" href="{href}#excerpt" data-track="excerpt_open" data-book="{esc(book.get('slug') or '')}">{excerpt_label}</a>
       {mark}
     </div>"""
 
@@ -449,17 +433,33 @@ def book_card(
                 f"<strong>{rating:.1f}</strong> · {votes} {word} · Литрес</p>"
             )
 
+    subtitle = book.get("subtitle") or book.get("promise") or ""
+    subtitle_html = (
+        f'<p class="book-card-subtitle">{esc(subtitle)}</p>' if subtitle else ""
+    )
+    price_html = (
+        '<p class="book-card-price">Price on LitRes / Amazon</p>'
+        if is_en and amazon_product_url(book)
+        else (
+            '<p class="book-card-price">Price on LitRes</p>'
+            if is_en
+            else (
+                '<p class="book-card-price">Цена на Литрес / Amazon</p>'
+                if amazon_product_url(book)
+                else '<p class="book-card-price">Цена на Литрес</p>'
+            )
+        )
+    )
+
     return f"""
 <article class="book-card book-card--tile book-card--window{' is-flagship' if book.get('flagship') else ''}" data-show="{esc(show)}">
   <div class="book-body">
     {_book_science_marks(book, lang=lang)}
     <h3 class="book-title"><a href="{href}">{esc(book['title'])}</a></h3>
-    {chip}
-    <p class="book-card-promise">{esc(book['promise'])}</p>
-    {window}
+    {subtitle_html}
     {research_html}
     {rating_html}
-    <p class="book-card-meta">{esc(book_card_meta(book, lang=lang))}</p>
+    {price_html}
   </div>
   <a class="book-cover book-cover--mini has-image clean" href="{href}" aria-label="{esc(book['title'])}">
     <img src="{cover}" alt="{esc(cover_alt)}" loading="lazy" width="200" height="300" />
@@ -513,7 +513,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718stage2"
+CSS_VER = "20260718stage3"
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
     f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'
