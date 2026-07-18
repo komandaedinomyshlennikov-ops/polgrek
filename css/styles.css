@@ -641,7 +641,7 @@ body[data-page="home"] .final-cta {
 .lang-btn {
   min-width: var(--touch-min);
   min-height: var(--touch-min);
-  padding: 0.35rem 0.65rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 800;
@@ -649,6 +649,23 @@ body[data-page="home"] .final-cta {
   color: var(--muted);
   text-align: center;
   touch-action: manipulation;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  line-height: 1;
+}
+.lang-flag {
+  font-size: 1.05rem;
+  line-height: 1;
+  /* keep flag emoji from looking “off-center” on some OS */
+  display: inline-block;
+  transform: translateY(0.5px);
+}
+.lang-code {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
 }
 .lang-btn.active {
   background: var(--ink);
@@ -656,6 +673,17 @@ body[data-page="home"] .final-cta {
 }
 .lang-btn:hover:not(.active) {
   color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+/* On very narrow screens keep flag + short code readable */
+@media (max-width: 380px) {
+  .lang-btn {
+    padding-inline: 0.55rem;
+    gap: 0.25rem;
+  }
+  .lang-code {
+    font-size: 0.72rem;
+  }
 }
 .theme-toggle {
   width: var(--touch-min);

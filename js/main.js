@@ -227,8 +227,14 @@
 
   function langSwitcher() {
     return `<div class="lang-switch" role="group" aria-label="${UI.langAria}">
-      <a class="lang-btn${!isEn ? ' active' : ''}" href="${peerLangUrl('ru')}" hreflang="ru" lang="ru" data-track="lang_ru">${UI.langRu}</a>
-      <a class="lang-btn${isEn ? ' active' : ''}" href="${peerLangUrl('en')}" hreflang="en" lang="en" data-track="lang_en">${UI.langEn}</a>
+      <a class="lang-btn${!isEn ? ' active' : ''}" href="${peerLangUrl('ru')}" hreflang="ru" lang="ru" data-track="lang_ru" title="Русский" aria-label="${isEn ? 'Switch to Russian' : 'Русский'}">
+        <span class="lang-flag" aria-hidden="true">🇷🇺</span>
+        <span class="lang-code">${UI.langRu}</span>
+      </a>
+      <a class="lang-btn${isEn ? ' active' : ''}" href="${peerLangUrl('en')}" hreflang="en" lang="en" data-track="lang_en" title="English" aria-label="${isEn ? 'English' : 'Переключить на English'}">
+        <span class="lang-flag" aria-hidden="true">🇬🇧</span>
+        <span class="lang-code">${UI.langEn}</span>
+      </a>
     </div>`;
   }
 
