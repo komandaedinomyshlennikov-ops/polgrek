@@ -1464,6 +1464,13 @@ section { padding: clamp(3.75rem, 8vw, 6.5rem) 0; }
   color: var(--teal-deep);
   font-size: 0.92rem;
 }
+.door .link-hint {
+  display: block;
+  margin-top: 0.2rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
 
 /* ---------- Method ---------- */
 .method {
@@ -1869,9 +1876,15 @@ html.js .books-grid-flagship .book-card-buy {
   text-align: center;
   margin: 1.75rem 0 0;
   font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  align-items: center;
 }
-.catalog-hint a { color: var(--teal-deep); }
-.catalog-hint a:hover { color: var(--ink); }
+.catalog-hint .btn { min-height: 44px; }
+.catalog-hint a:not(.btn) { color: var(--teal-deep); }
+.catalog-hint a:not(.btn):hover { color: var(--ink); }
 
 /* Legacy title styles for non-tile contexts */
 .book-title {

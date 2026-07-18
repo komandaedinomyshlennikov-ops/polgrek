@@ -368,7 +368,7 @@ def book_card(
 
     badges = []
     if book.get("flagship"):
-        flag = "Flagship" if lang == "en" else "Флагман"
+        flag = "Start here" if lang == "en" else "С чего начать"
         badges.append(f'<span class="book-badge book-badge-key">{flag}</span>')
     if len(book.get("authors") or []) > 1:
         co = "with Laura" if lang == "en" else "с Лорой"
@@ -438,7 +438,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260717doors"
+CSS_VER = "20260718audit12"
 AFFILIATE_ERID = "2VfnxyNkZrY"
 AFFILIATE_MARK_RU = (
     f'<p class="affiliate-mark">Реклама · erid: {AFFILIATE_ERID} · партнёрская ссылка Литрес</p>'

@@ -204,11 +204,11 @@ window.POL_GREK = {
       cover: 'cover-1',
       series: 'Brain Series',
       tags: ['cognitive-health'],
-      promise: 'Not life hacks — a cognitive longevity protocol grounded in evidence grades.',
+      promise: 'A cognitive longevity protocol — with an honest grade on how solid each claim is.',
       annotation:
         'Brain at 100+ is a practical plan for cognitive longevity, not a bag of tricks. Pol Grek pulls together 100+ studies — including recent work — with A–D evidence labels. No miracle pills. No “genius in a week.”',
       forWhom: [
-        'You want memory and focus that last',
+        'Keep memory and focus for the long run',
         'You’re done with “miracle brain pill” ads',
         'You want a honest protocol, not motivational slogans',
         'You’re ready for sleep, movement, and hard thinking as a system',
@@ -239,11 +239,11 @@ window.POL_GREK = {
       cover: 'cover-2',
       series: 'Brain Series',
       tags: ['biohacking', 'cognitive-health', 'energy'],
-      promise: 'A straight guide. No magic pills. Minimum effective dose.',
+      promise: 'A straight guide to what actually works — base layer and minimum effective dose, no magic pills.',
       annotation:
         'How to improve memory, focus, and energy without torching your psyche in the name of “optimization.” Neuroplasticity, stress, dopamine, sleep, light, movement, and hard edges on “optimization.” The real skill: knowing when enough is enough.',
       forWhom: [
-        'You already “optimized” yourself into burnout',
+        'Tried to “hack” your brain and burned out?',
         'You want science without guru theater',
         'Only what has real evidence',
         'You need rhythm, not a war with yourself',
@@ -404,7 +404,7 @@ window.POL_GREK = {
       annotation:
         'Written from lived burnout, not cheerleading. Why rest fails, how allostatic load works, and where recovery actually starts. Adaptive capacity and getting cognitive control back.',
       forWhom: [
-        'Rest doesn’t help',
+        'Weekends don’t help — you need a plan, not slogans',
         'Nothing feels rewarding',
         'You’re fried — and want the mechanism',
       ],
