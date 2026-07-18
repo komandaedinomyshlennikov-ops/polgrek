@@ -1048,6 +1048,50 @@ body.has-sticky-buy .back-to-top {
 .rating-meta { font-size: 0.8rem; color: var(--muted); }
 .social-note { margin-top: 1rem; font-size: 0.88rem; max-width: 48rem; }
 .social-proof-section { padding-block: clamp(3rem, 7vw, 5.5rem); }
+.social-reviews {
+  margin: 0 0 1.35rem;
+}
+.reader-review {
+  margin: 0;
+  max-width: 40rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--panel-bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--teal);
+}
+.reader-review-text {
+  margin: 0 0 0.85rem;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--ink);
+  font-weight: 500;
+}
+.reader-review-meta {
+  margin: 0 0 0.55rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.35rem;
+  align-items: baseline;
+}
+.reader-review-meta strong { color: var(--ink-soft); font-weight: 700; }
+.reader-review-date { white-space: nowrap; }
+.reader-review-flag {
+  display: inline-block;
+  margin-left: 0.15rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.reader-review-link {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+}
+.reader-review-link:hover { color: var(--ink); }
 .ratings-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

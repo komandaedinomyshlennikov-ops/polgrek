@@ -967,17 +967,50 @@
       featured.classList.add('books-grid-flagship');
     }
 
+    const sp = POL_GREK.socialProof;
+    const socialReviews = document.getElementById('socialReviews');
+    if (socialReviews && sp && Array.isArray(sp.reviews) && sp.reviews.length) {
+      socialReviews.innerHTML = sp.reviews
+        .map((r) => {
+          const book = POL_GREK.getBook(r.slug);
+          const href = escapeAttr(r.url || (book ? litresDirect(book) : sp.sourceUrl) || '#');
+          const trans = r.translated
+            ? `<span class="reader-review-flag">${isEn ? 'Translated from Russian LitRes review' : 'Перевод'}</span>`
+            : '';
+          return `
+          <figure class="reader-review">
+            <blockquote class="reader-review-text">«${escapeAttr(r.text || '')}»</blockquote>
+            <figcaption class="reader-review-meta">
+              <strong>${escapeAttr(r.author || '')}</strong>
+              <span>· ${escapeAttr(r.book || '')}</span>
+              <span class="reader-review-date">· ${escapeAttr(r.dateLabel || '')}</span>
+              ${trans}
+            </figcaption>
+            <a class="reader-review-link" href="${href}" target="_blank" rel="noopener">${isEn ? 'Review on LitRes' : 'Отзыв на Литрес'}</a>
+          </figure>`;
+        })
+        .join('');
+      socialReviews.hidden = false;
+    } else if (socialReviews) {
+      socialReviews.innerHTML = '';
+      socialReviews.hidden = true;
+    }
+
     const social = document.getElementById('socialProof');
-    if (social && POL_GREK.socialProof && !social.querySelector('.rating-card')) {
-      const sp = POL_GREK.socialProof;
+    if (social && sp && Array.isArray(sp.items)) {
+      // Always paint from data so scores stay honest (static HTML may be stale).
       social.innerHTML = sp.items
         .map((item) => {
           const book = POL_GREK.getBook(item.slug);
+          const clean = book ? litresDirect(book) : sp.sourceUrl;
+          const aff = book ? litresBuyUrl(book) : '';
+          const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
+          const stars = Math.max(1, Math.min(5, Math.round(Number(item.rating) || 0)));
           return `
-            <a class="rating-card" href="${book ? litresBuyUrl(book) : sp.sourceUrl}" target="_blank" rel="${book ? litresRel() : 'noopener'}">
-              <div class="rating-stars" aria-label="Оценка ${item.rating}">${'★'.repeat(5)}</div>
-              <strong>${item.rating.toFixed(1)}</strong>
-              <span class="rating-book">${item.book}</span>
+            <a class="rating-card" href="${escapeAttr(clean || '#')}"${dataAff} target="_blank" rel="${book ? litresRel() : 'noopener'}" data-track="litres" data-book="${escapeAttr(item.slug || '')}">
+              <div class="rating-stars" aria-hidden="true">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</div>
+              <strong>${Number(item.rating).toFixed(1)}</strong>
+              <span class="rating-book">${escapeAttr(item.book)}</span>
               <span class="rating-meta">${(function (n) {
                 n = Math.abs(n) % 100;
                 const n1 = n % 10;
@@ -988,16 +1021,16 @@
                 }
                 if (isEn) {
                   const w = n === 1 ? 'rating' : 'ratings';
-                  return item.votes + ' ' + w + ' · view on LitRes →';
+                  return item.votes + ' ' + w + ' · LitRes';
                 }
-                return item.votes + ' ' + word + ' · смотреть на Литрес →';
+                return item.votes + ' ' + word + ' · Литрес';
               })(item.votes)}</span>
             </a>`;
         })
         .join('');
     }
     const note = document.getElementById('socialProofNote');
-    if (note && POL_GREK.socialProof) note.textContent = POL_GREK.socialProof.note;
+    if (note && sp) note.textContent = sp.note || '';
 
     const articles = document.getElementById('homeArticles');
     if (articles && !articles.querySelector('.article-card')) {

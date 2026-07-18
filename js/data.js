@@ -67,13 +67,25 @@ window.POL_GREK = {
  socialProof: {
  source: 'Литрес',
  sourceUrl: 'https://www.litres.ru/author/pol-grek/',
- checkedAt: '2026-07-13',
- items: [
- { book: 'Биохакинг мозга', rating: 5.0, votes: 4, slug: 'biohacking-mozga' },
- { book: 'Мозг на 100+', rating: 5.0, votes: 2, slug: 'mozg-na-100' },
- { book: 'Женский мозг', rating: 4.7, votes: 3, slug: 'zhenskiy-mozg' },
+ checkedAt: '2026-07-18',
+ // One public text review on LitRes so far (books are new). Do not invent more.
+ reviews: [
+  {
+   author: 'Людмила',
+   book: 'Мозг на 100+',
+   slug: 'mozg-na-100',
+   dateLabel: '14 мая 2026',
+   text:
+    'Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.',
+   url: 'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/',
+  },
  ],
- note: 'Снято с профиля автора на Литрес, 13.07.2026. Книги вышли недавно — оценок мало, и это нормально. Без выдуманных цитат: только публичные оценки. Живые отзывы — на странице книги на Литрес.',
+ items: [
+  { book: 'Мозг на 100+', rating: 3.7, votes: 3, slug: 'mozg-na-100' },
+  { book: 'Биохакинг мозга', rating: 4.2, votes: 5, slug: 'biohacking-mozga' },
+  { book: 'Женский мозг', rating: 3.8, votes: 4, slug: 'zhenskiy-mozg' },
+ ],
+ note: 'Цифры и отзыв — с Литрес, 18.07.2026. Книги вышли недавно: развёрнутый отзыв пока один (под «Мозг на 100+»), оценок тоже мало — это нормально. Здесь ничего не дописываем и не «улучшаем».',
  },
  legal: {
  email: 'hello@polgrek.site',

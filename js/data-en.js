@@ -56,13 +56,26 @@ window.POL_GREK = {
   socialProof: {
     source: 'LitRes',
     sourceUrl: 'https://www.litres.ru/author/pol-grek/',
-    checkedAt: '2026-07-13',
-    items: [
-      { book: 'Brain Biohacking', rating: 5.0, votes: 4, slug: 'biohacking-mozga' },
-      { book: 'Brain at 100+', rating: 5.0, votes: 2, slug: 'mozg-na-100' },
-      { book: 'The Female Brain', rating: 4.7, votes: 3, slug: 'zhenskiy-mozg' },
+    checkedAt: '2026-07-18',
+    // Only one public text review on LitRes so far (new titles). Do not invent more.
+    reviews: [
+      {
+        author: 'Lyudmila',
+        book: 'Brain at 100+',
+        slug: 'mozg-na-100',
+        dateLabel: '14 May 2026',
+        text:
+          'An excellent book. The material is clearly explained. There are medical terms that may be hard for a general reader, but that doesn’t get in the way. Very easy to read.',
+        url: 'https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/',
+        translated: true,
+      },
     ],
-    note: 'From the LitRes author page, 13 Jul 2026. Titles are new — few ratings yet, and that’s fine. No invented quotes — public scores only. Real reviews are on each book page on LitRes.',
+    items: [
+      { book: 'Brain at 100+', rating: 3.7, votes: 3, slug: 'mozg-na-100' },
+      { book: 'Brain Biohacking', rating: 4.2, votes: 5, slug: 'biohacking-mozga' },
+      { book: 'The Female Brain', rating: 3.8, votes: 4, slug: 'zhenskiy-mozg' },
+    ],
+    note: 'Scores and review from LitRes, 18 Jul 2026. Titles are new: only one full review so far (on Brain at 100+), and few ratings — we don’t invent more. EN quote is a faithful translation of the Russian LitRes review.',
   },
   legal: {
     email: 'hello@polgrek.site',
