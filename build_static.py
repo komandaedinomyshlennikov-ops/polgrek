@@ -1346,20 +1346,56 @@ def sync_faq_and_timeline(G: dict, GE: dict | None) -> None:
             timeline_html(auto_en), encoding="utf-8"
         )
 
-    # About timeline: inject if #autoTimeline empty or missing block
+    def _replace_div_inner_by_id(raw: str, div_id: str, inner_html: str) -> str | None:
+        """Replace contents of <div id="...">…</div> with balanced nested divs."""
+        needle = f'id="{div_id}"'
+        pos = raw.find(needle)
+        if pos < 0:
+            return None
+        # walk back to opening <div
+        open_start = raw.rfind("<div", 0, pos)
+        if open_start < 0:
+            return None
+        gt = raw.find(">", pos)
+        if gt < 0:
+            return None
+        open_tag_end = gt + 1
+        i = open_tag_end
+        depth = 1
+        close = -1
+        while i < len(raw) and depth:
+            nxt_open = raw.find("<div", i)
+            nxt_close = raw.find("</div>", i)
+            if nxt_close < 0:
+                return None
+            if nxt_open >= 0 and nxt_open < nxt_close:
+                depth += 1
+                i = nxt_open + 4
+            else:
+                depth -= 1
+                if depth == 0:
+                    close = nxt_close
+                    break
+                i = nxt_close + 6
+        if close < 0:
+            return None
+        return raw[:open_tag_end] + inner_html + raw[close:]
+
+    # About timeline: replace the whole timeline block (and any orphan items after a bad inject)
     def ensure_about_timeline(path: Path, html_block: str, heading: str) -> None:
         if not path.exists():
             return
         raw = path.read_text(encoding="utf-8")
-        if 'id="autoTimeline"' in raw:
-            # replace inner
-            m = re.search(
-                r'(<div[^>]*id="autoTimeline"[^>]*>)([\s\S]*?)(</div>)', raw
-            )
-            if m:
-                raw = raw[: m.start(1)] + m.group(1) + html_block + m.group(3) + raw[m.end(3) :]
-                path.write_text(raw, encoding="utf-8")
-                print("update timeline", path)
+        replacement = f'<div class="timeline" id="autoTimeline">{html_block}</div>\n'
+        # Wipe from autoTimeline open through any leftover timeline-item siblings until next <h2
+        m = re.search(
+            r'<div[^>]*\bid=["\']autoTimeline["\'][^>]*>[\s\S]*?(?=\s*<h2\b)',
+            raw,
+        )
+        if m:
+            raw = raw[: m.start()] + replacement + raw[m.end() :]
+            path.write_text(raw, encoding="utf-8")
+            print("update timeline", path)
             return
         # insert before first Laura section or before books/verify
         marker = 'id="laura"'

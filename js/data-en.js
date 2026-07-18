@@ -155,24 +155,24 @@ window.POL_GREK = {
     ],
     autobiography: [
       {
-        checkpoint: '1. Brain science + real work',
-        text: 'Cognitive science and applied neuropsychology. Protocols with mechanisms — sleep, stress, attention, cognitive reserve — and evidence grades.',
+        checkpoint: '1. Foundation: brain science and real work',
+        text: 'How attention, sleep, stress, and habits actually work. Books are not woo or “become superhuman” — clear protocols with honest grades (A–D) for how solid each claim is.',
       },
       {
-        checkpoint: '2. High-load teams',
-        text: 'Stress and focus consulting for tech, finance, and other high-context-switch environments.',
+        checkpoint: '2. People under heavy load',
+        text: 'Consults teams in tech, finance, and other high-pressure fields — success on the outside, fog and insomnia inside. Builds resilience, not heroics until burnout.',
       },
       {
-        checkpoint: '3. Personal burnout',
-        text: 'He burned out. “Just rest” failed. He rebuilt a base, then turned it into books.',
+        checkpoint: '3. Personal burnout — not a slogan',
+        text: 'He burned out. “Just rest on the weekend” did not restore clarity. He fixed what worked for him first, then turned it into readable popular science.',
       },
       {
-        checkpoint: '4. Public shelf',
-        text: 'LitRes + Amazon: longevity, careful biohacking, RESET, stress, energy, money; with Laura — female/male brain and EI.',
+        checkpoint: '4. Books on LitRes (and Amazon)',
+        text: 'Open shelf: longevity, careful biohacking, RESET and burnout, stress, energy, money; with Laura — female and male brain, emotional intelligence. Ratings and reviews live on the stores, not a private club.',
       },
       {
-        checkpoint: '5. Laura · Russian at 35 · live channel',
-        text: 'Co-author Laura Grek (clinical psychologist, MSU). Russian from age 35 for family. Threads @pol.grek: no shame → mechanism → one step → soft book CTA.',
+        checkpoint: '5. Family, Russian at 35, live channel',
+        text: 'Co-author Laura Grek, clinical psychologist (Moscow State University). He started Russian at 35 for family. On Threads @pol.grek: short notes — no shame, a mechanism, one step; a book link only when it fits.',
       },
     ],
     threadsQuote: {
