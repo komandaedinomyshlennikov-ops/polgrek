@@ -2413,10 +2413,37 @@ html.js .books-grid-flagship .book-card-buy {
   max-width: 52rem;
 }
 .books-grid-flagship .book-card--window {
-  grid-template-columns: minmax(0, 1fr) min(22%, 160px);
+  grid-template-columns: minmax(0, 1fr) min(22%, 140px);
+  align-items: stretch;
 }
 .books-grid-flagship .book-card--tile .book-title {
   font-size: 1.22rem;
+}
+/* Mini covers in “Three books to start with” — consistent 2:3, not full-bleed */
+.books-grid-flagship .book-cover--mini {
+  max-width: 140px;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  justify-self: end;
+  align-self: start;
+  box-shadow: 0 8px 20px rgba(10, 25, 41, 0.12);
+}
+.books-grid-flagship .book-cover--mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+@media (max-width: 520px) {
+  .books-grid-flagship .book-card--window {
+    grid-template-columns: minmax(0, 1fr) 104px;
+  }
+  .books-grid-flagship .book-cover--mini {
+    max-width: 104px;
+  }
 }
 .catalog-hint {
   text-align: center;

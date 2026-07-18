@@ -655,7 +655,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718langflags"
+CSS_VER = "20260718enflagships"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -2751,6 +2751,49 @@ def main() -> None:
             "</div>\n        <p class=\"catalog-hint\"",
             en_books_html,
         )
+
+        # EN home flagships: text-first window cards + mini covers (same layout as RU)
+        en_flagships = [b for b in GE.get("books") or [] if b.get("flagship")]
+        en_flagships_html = "".join(
+            book_card(b, books_dir=False, G=GE, lang="en", from_depth="en_root")
+            for b in en_flagships
+        )
+        inject_between(
+            SITE / "en" / "index.html",
+            'id="featuredBooks">',
+            "</div>\n        <p class=\"catalog-hint\">",
+            en_flagships_html,
+        )
+        # Hero stack: ensure correct relative cover paths + LCP attrs on EN home
+        en_home = SITE / "en" / "index.html"
+        if en_home.exists() and en_flagships:
+            raw = en_home.read_text(encoding="utf-8")
+            stack_parts = []
+            for i, b in enumerate(en_flagships[:3]):
+                slug = b["slug"]
+                title = esc(b["title"])
+                cover = f"../assets/covers/{b.get('coverFile', slug + '.webp')}"
+                alt = esc(cover_alt_text(b, lang="en"))
+                prio = (
+                    ' fetchpriority="high"'
+                    if i == 0
+                    else ' loading="lazy"'
+                )
+                stack_parts.append(
+                    f'            <a class="hero-cover hero-cover-{i}" href="books/{slug}.html" aria-label="{title}">\n'
+                    f'              <img src="{cover}" alt="{alt}" width="280" height="420" decoding="async"{prio} />\n'
+                    f"            </a>"
+                )
+            new_stack = "\n".join(stack_parts)
+            raw2 = re.sub(
+                r'(id="heroCoverStack"[^>]*>)([\s\S]*?)(</div>\s*<div class="hero-card")',
+                r"\1\n" + new_stack + r"\n          \3",
+                raw,
+                count=1,
+            )
+            if raw2 != raw:
+                en_home.write_text(raw2, encoding="utf-8")
+                print("en hero cover stack refreshed")
 
         TAG_RU.clear()
         TAG_RU.update(_tag_backup)

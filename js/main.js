@@ -1069,8 +1069,13 @@
   function renderHome() {
     const flagships = POL_GREK.books.filter((b) => b.flagship || b.featured).slice(0, 3);
     const featured = document.getElementById('featuredBooks');
-    // Keep static HTML if present (SEO / no-JS); only fill if empty
-    if (featured && !featured.querySelector('.book-card')) {
+    // Keep static HTML if present (SEO / no-JS); refresh if empty OR legacy non-window cards
+    const needsFeaturedRefresh =
+      featured &&
+      (!featured.querySelector('.book-card') ||
+        !featured.querySelector('.book-card--window') ||
+        featured.querySelectorAll('.book-card').length < Math.min(3, flagships.length));
+    if (needsFeaturedRefresh && flagships.length) {
       featured.innerHTML = flagships.map((b) => bookCardHTML(b)).join('');
       featured.classList.add('books-grid-flagship');
     }
@@ -1307,15 +1312,25 @@
 
     // Hero stack: fill only if empty (static HTML may already be present)
     const stack = document.getElementById('heroCoverStack');
-    if (stack && !stack.querySelector('img')) {
+    if (stack && !stack.querySelector('img') && flagships.length) {
       stack.innerHTML = flagships
+        .slice(0, 3)
         .map(
           (b, i) =>
-            `<a class="hero-cover hero-cover-${i}" href="${bookPageUrl(b.slug)}" aria-label="${b.title}">
-              <img src="${coverUrl(b)}" alt="" width="280" height="420" />
+            `<a class="hero-cover hero-cover-${i}" href="${bookPageUrl(b.slug)}" aria-label="${escapeAttr(b.title)}">
+              <img src="${coverUrl(b)}" alt="${isEn ? 'Cover of Pol Grek book' : 'Обложка книги Пол Грэк'} “${escapeAttr(b.title)}”" width="280" height="420" decoding="async"${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'} />
             </a>`
         )
         .join('');
+    } else if (stack) {
+      // Normalize broken absolute-looking sizes / missing decoding on existing stack
+      stack.querySelectorAll('img').forEach((img, i) => {
+        img.setAttribute('width', '280');
+        img.setAttribute('height', '420');
+        img.setAttribute('decoding', 'async');
+        if (i === 0) img.setAttribute('fetchpriority', 'high');
+        else if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+      });
     }
 
     initNeuralCanvas(document.getElementById('neuralCanvas'));
