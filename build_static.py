@@ -100,17 +100,30 @@ def cover_stem(book: dict) -> str:
     return Path(f).stem
 
 
-def cover_paths(book: dict, *, asset_prefix: str) -> tuple[str, str, str, str]:
-    """Return (full, w180, w280, srcset) relative paths for a book cover.
+def cover_paths(
+    book: dict, *, asset_prefix: str, mode: str = "card"
+) -> tuple[str, str, str]:
+    """Return (src, srcset, full) for a book cover.
 
+    mode:
+      - hero/card: max 360w (no full file — avoids DPR picking 70KB originals)
+      - product: include full as largest candidate
     asset_prefix examples: 'assets/', '../assets/', '../../assets/'
     """
     stem = cover_stem(book)
     full = f"{asset_prefix}covers/{stem}.webp"
     w180 = f"{asset_prefix}covers/thumbs/{stem}-w180.webp"
     w280 = f"{asset_prefix}covers/thumbs/{stem}-w280.webp"
-    srcset = f"{w180} 180w, {w280} 280w, {full} 800w"
-    return full, w180, w280, srcset
+    w360 = f"{asset_prefix}covers/thumbs/{stem}-w360.webp"
+    if mode == "product":
+        srcset = f"{w180} 180w, {w280} 280w, {w360} 360w, {full} 800w"
+    elif mode == "hero":
+        # displayed ~132–176 CSS px; at 3x DPR ≈ 528 → 360w is enough
+        srcset = f"{w180} 180w, {w280} 280w, {w360} 360w"
+    else:
+        # card mini ~104–140 CSS px
+        srcset = f"{w180} 180w, {w280} 280w, {w360} 360w"
+    return full, srcset, w180
 
 
 def cover_img_html(
@@ -124,23 +137,24 @@ def cover_img_html(
     loading: str = "lazy",
     fetchpriority: str | None = None,
     prefer: str = "280",
+    mode: str = "card",
 ) -> str:
     """Responsive <img> for covers (srcset + sizes)."""
-    full, w180, w280, srcset = cover_paths(book, asset_prefix=asset_prefix)
-    src = w180 if prefer == "180" else w280
-    # Fallback to full if thumbs missing at runtime (src still valid if generated)
-    if not (SITE / "assets" / "covers" / "thumbs" / f"{cover_stem(book)}-w{prefer}.webp").exists():
-        src = full
+    full, srcset, w180 = cover_paths(book, asset_prefix=asset_prefix, mode=mode)
+    stem = cover_stem(book)
+    prefer_path = f"{asset_prefix}covers/thumbs/{stem}-w{prefer}.webp"
+    if not (SITE / "assets" / "covers" / "thumbs" / f"{stem}-w{prefer}.webp").exists():
+        prefer_path = full if (SITE / "assets" / "covers" / f"{stem}.webp").exists() else w180
     alt = esc(cover_alt_text(book, lang=lang))
     extra = f' fetchpriority="{fetchpriority}"' if fetchpriority else ""
     load = f' loading="{loading}"' if loading else ""
     return (
-        f'<img src="{src}" srcset="{srcset}" sizes="{esc(sizes)}" '
+        f'<img src="{prefer_path}" srcset="{srcset}" sizes="{esc(sizes)}" '
         f'alt="{alt}" width="{width}" height="{height}" decoding="async"{load}{extra} />'
     )
 
 
-def generate_cover_thumbs(widths: tuple[int, ...] = (180, 280)) -> None:
+def generate_cover_thumbs(widths: tuple[int, ...] = (180, 280, 360)) -> None:
     """Resize delivery covers into assets/covers/thumbs/*-wNNN.webp for srcset."""
     try:
         from PIL import Image
@@ -165,10 +179,15 @@ def generate_cover_thumbs(widths: tuple[int, ...] = (180, 280)) -> None:
             # regenerate if missing or source newer
             if dest.exists() and dest.stat().st_mtime >= src.stat().st_mtime:
                 continue
+            # scale by width
             ratio = w / max(im.width, 1)
-            h = max(1, int(im.height * ratio))
-            resized = im.resize((w, h), Image.Resampling.LANCZOS)
-            resized.save(dest, "WEBP", quality=78, method=6)
+            nh = max(1, int(im.height * ratio))
+            nw = w
+            if im.width < w:
+                # don't upscale tiny sources
+                nw, nh = im.width, im.height
+            resized = im.resize((nw, nh), Image.Resampling.LANCZOS)
+            resized.save(dest, "WEBP", quality=76, method=6)
             n += 1
     print(f"cover thumbs generated/updated: {n} files → {out_dir}")
 
@@ -679,7 +698,7 @@ def book_card(
     {price_html}
   </div>
   <a class="book-cover book-cover--mini has-image clean" href="{href}" aria-label="{esc(book['title'])}">
-    {cover_img_html(book, asset_prefix=asset_prefix, sizes="(max-width:520px) 104px, 140px", width=200, height=300, lang=lang, loading="lazy", prefer="280")}
+    {cover_img_html(book, asset_prefix=asset_prefix, sizes="(max-width:520px) 104px, 140px", width=200, height=300, lang=lang, loading="lazy", prefer="280", mode="card")}
   </a>
   {store_actions_html(book, href, compact=True, G=G, lang=lang)}
 </article>"""
@@ -730,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718psi123"
+CSS_VER = "20260720srcset360"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -1186,7 +1205,8 @@ def build_book_page(
         lang="en" if is_en else "ru",
         loading="",
         fetchpriority="high",
-        prefer="280",
+        prefer="360",
+        mode="product",
     )
 
     # Highlights (MIF "О книге" bullets): takeaways first, else forWhom
@@ -1213,7 +1233,7 @@ def build_book_page(
         for b in mates:
             thumbs.append(
                 f'<a class="book-series-thumb" href="{book_href(b["slug"])}" title="{esc(b["title"])}">'
-                f'{cover_img_html(b, asset_prefix=cover_asset_prefix, sizes="96px", width=96, height=144, lang="en" if is_en else "ru", loading="lazy", prefer="180")}'
+                f'{cover_img_html(b, asset_prefix=cover_asset_prefix, sizes="96px", width=96, height=144, lang="en" if is_en else "ru", loading="lazy", prefer="180", mode="card")}'
                 f"<span>{esc(b['title'])}</span></a>"
             )
         series_html = f"""
@@ -2879,6 +2899,7 @@ def main() -> None:
                     loading="" if i == 0 else "lazy",
                     fetchpriority="high" if i == 0 else None,
                     prefer="180",
+                    mode="hero",
                 )
                 stack_parts.append(
                     f'            <a class="hero-cover hero-cover-{i}" href="books/{slug}.html" aria-label="{title}">\n'
@@ -3037,6 +3058,7 @@ def apply_perf_hub_tweaks() -> None:
                     loading="" if i == 0 else "lazy",
                     fetchpriority="high" if i == 0 else None,
                     prefer="180",
+                    mode="hero",
                 )
                 stack_parts.append(
                     f'            <a class="hero-cover hero-cover-{i}" href="knigi/{slug}/" aria-label="{title}">\n'

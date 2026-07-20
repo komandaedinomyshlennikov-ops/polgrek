@@ -536,7 +536,7 @@
   function coverUrl(book, width) {
     const stem = coverStem(book);
     const file = book.coverFile || `${book.slug}.webp`;
-    if (width === 180 || width === 280) {
+    if (width === 180 || width === 280 || width === 360) {
       return rootUrl(`assets/covers/thumbs/${stem}-w${width}.webp`);
     }
     // Prefer webp delivery even if legacy .jpg in data
@@ -544,13 +544,13 @@
     return rootUrl('assets/covers/' + webp);
   }
 
-  /** Responsive srcset for catalog/hero covers (thumbs + full). */
+  /** Responsive srcset — max 360w for cards/hero (no full 70KB originals for DPR). */
   function coverSrcset(book) {
     const stem = coverStem(book);
-    const full = coverUrl(book);
     const w180 = rootUrl(`assets/covers/thumbs/${stem}-w180.webp`);
     const w280 = rootUrl(`assets/covers/thumbs/${stem}-w280.webp`);
-    return `${w180} 180w, ${w280} 280w, ${full} 800w`;
+    const w360 = rootUrl(`assets/covers/thumbs/${stem}-w360.webp`);
+    return `${w180} 180w, ${w280} 280w, ${w360} 360w`;
   }
 
   function excerptUrl(book) {
@@ -1360,7 +1360,7 @@
           const prefix = src.replace(/assets\/covers\/.*$/i, '');
           img.setAttribute(
             'srcset',
-            `${prefix}assets/covers/thumbs/${stem}-w180.webp 180w, ${prefix}assets/covers/thumbs/${stem}-w280.webp 280w, ${prefix}assets/covers/${stem}.webp 800w`
+            `${prefix}assets/covers/thumbs/${stem}-w180.webp 180w, ${prefix}assets/covers/thumbs/${stem}-w280.webp 280w, ${prefix}assets/covers/thumbs/${stem}-w360.webp 360w`
           );
           img.setAttribute('src', `${prefix}assets/covers/thumbs/${stem}-w180.webp`);
         }
