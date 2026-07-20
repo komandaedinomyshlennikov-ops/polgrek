@@ -528,9 +528,29 @@
     return root + '/' + clean;
   }
 
-  function coverUrl(book) {
-    const file = book.coverFile || `${book.slug}.jpg`;
-    return rootUrl('assets/covers/' + file);
+  function coverStem(book) {
+    const file = book.coverFile || `${book.slug}.webp`;
+    return String(file).replace(/\.(webp|jpg|jpeg|png)$/i, '');
+  }
+
+  function coverUrl(book, width) {
+    const stem = coverStem(book);
+    const file = book.coverFile || `${book.slug}.webp`;
+    if (width === 180 || width === 280) {
+      return rootUrl(`assets/covers/thumbs/${stem}-w${width}.webp`);
+    }
+    // Prefer webp delivery even if legacy .jpg in data
+    const webp = file.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    return rootUrl('assets/covers/' + webp);
+  }
+
+  /** Responsive srcset for catalog/hero covers (thumbs + full). */
+  function coverSrcset(book) {
+    const stem = coverStem(book);
+    const full = coverUrl(book);
+    const w180 = rootUrl(`assets/covers/thumbs/${stem}-w180.webp`);
+    const w280 = rootUrl(`assets/covers/thumbs/${stem}-w280.webp`);
+    return `${w180} 180w, ${w280} 280w, ${full} 800w`;
   }
 
   function excerptUrl(book) {
@@ -906,7 +926,7 @@
           ${bookPriceLine(book)}
         </div>
         <a class="book-cover book-cover--mini has-image clean" href="${href}" aria-label="${title}">
-          <img src="${coverUrl(book)}" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" width="200" height="300" />
+          <img src="${coverUrl(book, 280)}" srcset="${coverSrcset(book)}" sizes="(max-width:520px) 104px, 140px" alt="${isEn ? 'Cover' : 'Обложка'}: ${title}" loading="lazy" decoding="async" width="200" height="300" />
         </a>
         ${storeButtons(book, true)}
       </article>`;
@@ -1318,18 +1338,32 @@
         .map(
           (b, i) =>
             `<a class="hero-cover hero-cover-${i}" href="${bookPageUrl(b.slug)}" aria-label="${escapeAttr(b.title)}">
-              <img src="${coverUrl(b)}" alt="${isEn ? 'Cover of Pol Grek book' : 'Обложка книги Пол Грэк'} “${escapeAttr(b.title)}”" width="280" height="420" decoding="async"${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'} />
+              <img src="${coverUrl(b, 180)}" srcset="${coverSrcset(b)}" sizes="(max-width:720px) 32vw, 176px" alt="${isEn ? 'Cover of Pol Grek book' : 'Обложка книги Пол Грэк'} “${escapeAttr(b.title)}”" width="280" height="420" decoding="async"${i === 0 ? ' fetchpriority="high"' : ' loading="lazy"'} />
             </a>`
         )
         .join('');
     } else if (stack) {
-      // Normalize broken absolute-looking sizes / missing decoding on existing stack
+      // Normalize sizes + attach srcset when thumbs exist
       stack.querySelectorAll('img').forEach((img, i) => {
         img.setAttribute('width', '280');
         img.setAttribute('height', '420');
         img.setAttribute('decoding', 'async');
+        img.setAttribute('sizes', '(max-width:720px) 32vw, 176px');
         if (i === 0) img.setAttribute('fetchpriority', 'high');
         else if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+        const src = img.getAttribute('src') || '';
+        const m = src.match(/covers\/(?:thumbs\/)?([^/]+?)(?:-w\d+)?\.webp/i);
+        if (m && !img.getAttribute('srcset')) {
+          const stem = m[1];
+          const root = src.includes('../') ? src.replace(/assets\/covers\/.*$/, '') : src.replace(/assets\/covers\/.*$/, '');
+          // rootUrl-like prefix from current src path
+          const prefix = src.replace(/assets\/covers\/.*$/i, '');
+          img.setAttribute(
+            'srcset',
+            `${prefix}assets/covers/thumbs/${stem}-w180.webp 180w, ${prefix}assets/covers/thumbs/${stem}-w280.webp 280w, ${prefix}assets/covers/${stem}.webp 800w`
+          );
+          img.setAttribute('src', `${prefix}assets/covers/thumbs/${stem}-w180.webp`);
+        }
       });
     }
 
@@ -2122,11 +2156,55 @@
     });
   }
 
+  let heavyUiStarted = false;
+
+  function canRunHeavyUI() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return false;
+    if (navigator.connection && navigator.connection.saveData) return false;
+    // Skip narrow “phone” layouts even if they report fine pointer (some hybrids)
+    if (window.matchMedia('(max-width: 720px)').matches) return false;
+    return true;
+  }
+
+  /** Cursor + tilt after idle / first pointermove — not on mobile. */
+  function scheduleHeavyUI() {
+    // Cheap hero front class always (CSS hover works; this helps keyboard)
+    initHeroFrontOnly();
+    if (!canRunHeavyUI()) return;
+    const run = () => {
+      if (heavyUiStarted || !canRunHeavyUI()) return;
+      heavyUiStarted = true;
+      initCustomCursor();
+      initCoverTilt();
+    };
+    window.addEventListener('pointermove', run, { passive: true, once: true });
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(run, { timeout: 4500 });
+    } else {
+      window.setTimeout(run, 2800);
+    }
+    // Re-bind tilt after late grid inject (only if already started)
+    window.setTimeout(() => {
+      if (heavyUiStarted) initCoverTilt();
+    }, 1200);
+  }
+
+  function initHeroFrontOnly() {
+    document.querySelectorAll('.hero-cover').forEach((el) => {
+      if (el.dataset.frontBound) return;
+      el.dataset.frontBound = '1';
+      const front = () => el.classList.add('is-front');
+      const back = () => el.classList.remove('is-front');
+      el.addEventListener('pointerenter', front);
+      el.addEventListener('pointerleave', back);
+      el.addEventListener('focus', front);
+      el.addEventListener('blur', back);
+    });
+  }
+
   function initCustomCursor() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    // Touch / coarse already filtered; skip if reduced data
-    if (navigator.connection && navigator.connection.saveData) return;
+    if (document.documentElement.classList.contains('has-custom-cursor')) return;
 
     const dot = document.createElement('div');
     const ring = document.createElement('div');
@@ -2223,17 +2301,7 @@
       el.addEventListener('pointercancel', reset);
     });
 
-    // Hero covers: ensure front class for keyboard + reliable z-index
-    document.querySelectorAll('.hero-cover').forEach((el) => {
-      if (el.dataset.frontBound) return;
-      el.dataset.frontBound = '1';
-      const front = () => el.classList.add('is-front');
-      const back = () => el.classList.remove('is-front');
-      el.addEventListener('pointerenter', front);
-      el.addEventListener('pointerleave', back);
-      el.addEventListener('focus', front);
-      el.addEventListener('blur', back);
-    });
+    initHeroFrontOnly();
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -2257,10 +2325,8 @@
     mountShell(activeMap[page] || 'home');
     bindAnalytics();
     markMediaLoaded();
-    initCustomCursor();
-    initCoverTilt();
-    // Re-bind tilt after async grids fill
-    window.setTimeout(initCoverTilt, 400);
+    // Cursor + tilt: idle / first pointer only, never on coarse/mobile (PSI TBT)
+    scheduleHeavyUI();
     window.setTimeout(markMediaLoaded, 400);
 
     // Page-level goals for Metrika reports

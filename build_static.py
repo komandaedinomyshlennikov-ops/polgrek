@@ -95,6 +95,84 @@ def cover_alt_text(book: dict, *, lang: str = "ru") -> str:
     return f"Обложка книги Пол Грэк «{title}»"
 
 
+def cover_stem(book: dict) -> str:
+    f = book.get("coverFile") or f"{book.get('slug', 'cover')}.webp"
+    return Path(f).stem
+
+
+def cover_paths(book: dict, *, asset_prefix: str) -> tuple[str, str, str, str]:
+    """Return (full, w180, w280, srcset) relative paths for a book cover.
+
+    asset_prefix examples: 'assets/', '../assets/', '../../assets/'
+    """
+    stem = cover_stem(book)
+    full = f"{asset_prefix}covers/{stem}.webp"
+    w180 = f"{asset_prefix}covers/thumbs/{stem}-w180.webp"
+    w280 = f"{asset_prefix}covers/thumbs/{stem}-w280.webp"
+    srcset = f"{w180} 180w, {w280} 280w, {full} 800w"
+    return full, w180, w280, srcset
+
+
+def cover_img_html(
+    book: dict,
+    *,
+    asset_prefix: str,
+    sizes: str,
+    width: int,
+    height: int,
+    lang: str = "ru",
+    loading: str = "lazy",
+    fetchpriority: str | None = None,
+    prefer: str = "280",
+) -> str:
+    """Responsive <img> for covers (srcset + sizes)."""
+    full, w180, w280, srcset = cover_paths(book, asset_prefix=asset_prefix)
+    src = w180 if prefer == "180" else w280
+    # Fallback to full if thumbs missing at runtime (src still valid if generated)
+    if not (SITE / "assets" / "covers" / "thumbs" / f"{cover_stem(book)}-w{prefer}.webp").exists():
+        src = full
+    alt = esc(cover_alt_text(book, lang=lang))
+    extra = f' fetchpriority="{fetchpriority}"' if fetchpriority else ""
+    load = f' loading="{loading}"' if loading else ""
+    return (
+        f'<img src="{src}" srcset="{srcset}" sizes="{esc(sizes)}" '
+        f'alt="{alt}" width="{width}" height="{height}" decoding="async"{load}{extra} />'
+    )
+
+
+def generate_cover_thumbs(widths: tuple[int, ...] = (180, 280)) -> None:
+    """Resize delivery covers into assets/covers/thumbs/*-wNNN.webp for srcset."""
+    try:
+        from PIL import Image
+    except ImportError:
+        print("skip cover thumbs: Pillow not installed")
+        return
+    covers = SITE / "assets" / "covers"
+    out_dir = covers / "thumbs"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for src in sorted(covers.glob("*.webp")):
+        if src.name.endswith("-full.webp"):
+            continue
+        stem = src.stem
+        try:
+            im = Image.open(src).convert("RGB")
+        except Exception as e:
+            print("thumb skip", src.name, e)
+            continue
+        for w in widths:
+            dest = out_dir / f"{stem}-w{w}.webp"
+            # regenerate if missing or source newer
+            if dest.exists() and dest.stat().st_mtime >= src.stat().st_mtime:
+                continue
+            ratio = w / max(im.width, 1)
+            h = max(1, int(im.height * ratio))
+            resized = im.resize((w, h), Image.Resampling.LANCZOS)
+            resized.save(dest, "WEBP", quality=78, method=6)
+            n += 1
+    print(f"cover thumbs generated/updated: {n} files → {out_dir}")
+
+
 def clip_desc(
     text: str,
     max_len: int = 160,
@@ -509,18 +587,15 @@ def book_card(
             from_depth = "catalog" if books_dir else "root"
 
     href = book_url(slug, prefix, lang=lang, from_depth=from_depth)
-    # Cover asset path by depth of the page that embeds the card
+    # Asset prefix by depth of the page that embeds the card
     if from_depth == "book":
-        cover = f"../../assets/covers/{book.get('coverFile', slug + '.webp')}"
-    elif from_depth in ("catalog", "lab"):
-        cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
-    elif from_depth == "en_root":
-        cover = f"../assets/covers/{book.get('coverFile', slug + '.webp')}"
+        asset_prefix = "../../assets/"
+    elif from_depth in ("catalog", "lab", "en_root"):
+        asset_prefix = "../assets/"
     else:
-        cover = f"assets/covers/{book.get('coverFile', slug + '.webp')}"
+        asset_prefix = "assets/"
 
     show = book_data_show(book)
-    cover_alt = cover_alt_text(book, lang=lang)
     is_en = lang == "en"
     chip = ""
     fw = (book.get("forWhom") or [None])[0]
@@ -604,7 +679,7 @@ def book_card(
     {price_html}
   </div>
   <a class="book-cover book-cover--mini has-image clean" href="{href}" aria-label="{esc(book['title'])}">
-    <img src="{cover}" alt="{esc(cover_alt)}" loading="lazy" width="200" height="300" />
+    {cover_img_html(book, asset_prefix=asset_prefix, sizes="(max-width:520px) 104px, 140px", width=200, height=300, lang=lang, loading="lazy", prefer="280")}
   </a>
   {store_actions_html(book, href, compact=True, G=G, lang=lang)}
 </article>"""
@@ -655,7 +730,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260718no3sec"
+CSS_VER = "20260718psi123"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -849,7 +924,16 @@ def shell(
   <link rel="icon" href="{fav}" type="image/svg+xml" />
   <link rel="icon" href="{fav2}" type="image/png" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{SITE_ORIGIN}/sitemap.xml" />
-  <link rel="stylesheet" href="{css}" />{ld_scripts}
+  <style id="critical-css">
+  html{{background:#F2EDE3;direction:ltr}}html[data-theme=dark]{{background:#0C121A}}
+  body{{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}}
+  [data-theme=dark] body{{color:#B4C0CC}}
+  .skip-link{{position:absolute;left:-9999px}}img{{max-width:100%;height:auto;display:block}}
+  .container{{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}}
+  </style>
+  <link rel="preload" href="{css}" as="style" />
+  <link rel="stylesheet" href="{css}" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="{css}" /></noscript>{ld_scripts}
 {extra_head}</head>
 <body data-page="{page}" data-base="{base}"{data_lang}{data_assets}{body_class}>
   <a class="skip-link" href="#main-content">{('Skip to content' if lang == 'en' else 'К содержанию')}</a>
@@ -1088,9 +1172,22 @@ def build_book_page(
     authors = ", ".join(authors_list)
     series = book.get("series") or ("Brain science" if is_en else "Научпоп о мозге")
     excerpt_file = f"{asset_up}/excerpts/{book.get('excerptFile', book['slug'] + '-otryvok.txt')}"
-    cover = f"{asset_up}/assets/covers/{book.get('coverFile', book['slug'] + '.webp')}"
+    # product cover uses larger display; still ship srcset
+    cover_asset_prefix = f"{asset_up}/assets/" if not asset_up.endswith("assets") else f"{asset_up}/"
+    if asset_up in ("..", "../.."):
+        cover_asset_prefix = f"{asset_up}/assets/"
     amz = amazon_product_url(book)
-    img_alt = cover_alt_text(book, lang="en" if is_en else "ru")
+    product_cover_img = cover_img_html(
+        book,
+        asset_prefix=cover_asset_prefix,
+        sizes="(max-width:720px) 70vw, 320px",
+        width=640,
+        height=960,
+        lang="en" if is_en else "ru",
+        loading="",
+        fetchpriority="high",
+        prefer="280",
+    )
 
     # Highlights (MIF "О книге" bullets): takeaways first, else forWhom
     highlights = (book.get("takeaways") or book.get("forWhom") or [])[:3]
@@ -1114,10 +1211,9 @@ def build_book_page(
     if mates:
         thumbs = []
         for b in mates:
-            c = f"{asset_up}/assets/covers/{b.get('coverFile', b['slug'] + '.webp')}"
             thumbs.append(
                 f'<a class="book-series-thumb" href="{book_href(b["slug"])}" title="{esc(b["title"])}">'
-                f'<img src="{c}" alt="{esc(cover_alt_text(b, lang="en" if is_en else "ru"))}" width="96" height="144" loading="lazy" />'
+                f'{cover_img_html(b, asset_prefix=cover_asset_prefix, sizes="96px", width=96, height=144, lang="en" if is_en else "ru", loading="lazy", prefer="180")}'
                 f"<span>{esc(b['title'])}</span></a>"
             )
         series_html = f"""
@@ -1264,7 +1360,7 @@ def build_book_page(
       <!-- MIF-style product hero: cover + info + buy -->
       <div class="book-product">
         <div class="book-product-cover">
-          <img src="{cover}" alt="{esc(img_alt)}" width="640" height="960" decoding="async" fetchpriority="high" sizes="(max-width: 720px) 70vw, 320px" />
+          {product_cover_img}
         </div>
         <div class="book-product-info">
           <p class="eyebrow">{esc(series)}</p>
@@ -2135,6 +2231,7 @@ def apply_hub_seo(G: dict) -> None:
 
 def main() -> None:
     G = load_data()
+    generate_cover_thumbs()
 
     # Generate RU book pages at /knigi/{slug}/ + legacy redirects under /books/
     knigi_dir = SITE / RU_BOOKS_SEGMENT
@@ -2772,16 +2869,20 @@ def main() -> None:
             for i, b in enumerate(en_flagships[:3]):
                 slug = b["slug"]
                 title = esc(b["title"])
-                cover = f"../assets/covers/{b.get('coverFile', slug + '.webp')}"
-                alt = esc(cover_alt_text(b, lang="en"))
-                prio = (
-                    ' fetchpriority="high"'
-                    if i == 0
-                    else ' loading="lazy"'
+                img = cover_img_html(
+                    b,
+                    asset_prefix="../assets/",
+                    sizes="(max-width:720px) 32vw, 176px",
+                    width=280,
+                    height=420,
+                    lang="en",
+                    loading="" if i == 0 else "lazy",
+                    fetchpriority="high" if i == 0 else None,
+                    prefer="180",
                 )
                 stack_parts.append(
                     f'            <a class="hero-cover hero-cover-{i}" href="books/{slug}.html" aria-label="{title}">\n'
-                    f'              <img src="{cover}" alt="{alt}" width="280" height="420" decoding="async"{prio} />\n'
+                    f"              {img}\n"
                     f"            </a>"
                 )
             new_stack = "\n".join(stack_parts)
@@ -2813,14 +2914,14 @@ def main() -> None:
 
 
 def bust_asset_cache() -> None:
-    """Point every page shell at minified assets + current CSS_VER."""
+    """Point every page shell at minified assets + current CSS_VER + async CSS."""
     import re
 
     css_file = pick_asset("css/styles.min.css", "css/styles.css")
+    css_name = css_file.split("/")[-1]
     main_file = pick_asset("js/main.min.js", "js/main.js")
     base_file = pick_asset("js/base-config.min.js", "js/base-config.js")
 
-    css_re = re.compile(r'href="([^"]*?css/)styles(?:\.min)?\.css(?:\?v=[^"]*)?"')
     main_re = re.compile(r'src="([^"]*?js/)main(?:\.min)?\.js(?:\?v=[^"]*)?"')
     base_re = re.compile(r'src="([^"]*?js/)base-config(?:\.min)?\.js"')
     data_re = re.compile(r'src="([^"]*?js/)(data(?:-en)?|data-articles(?:-en)?)(?:\.min)?\.js"')
@@ -2829,7 +2930,54 @@ def bust_asset_cache() -> None:
         if "partials" in path.parts:
             continue
         raw = path.read_text(encoding="utf-8")
-        new = css_re.sub(rf'href="\1{css_file.split("/")[-1]}?v={CSS_VER}"', raw)
+        new = raw
+
+        # Detect relative css path prefix from existing stylesheet/preload
+        m_css = re.search(
+            r'(?:href|href)=["\']([^"\']*?css/)styles(?:\.min)?\.css(?:\?v=[^"\']*)?["\']',
+            new,
+        )
+        if m_css:
+            css_prefix = m_css.group(1)
+            css_href = f"{css_prefix}{css_name}?v={CSS_VER}"
+            async_block = (
+                f'  <link rel="preload" href="{css_href}" as="style" />\n'
+                f'  <link rel="stylesheet" href="{css_href}" media="print" onload="this.media=\'all\'" />\n'
+                f'  <noscript><link rel="stylesheet" href="{css_href}" /></noscript>'
+            )
+            # Replace existing async block or single stylesheet link
+            if re.search(r'rel="preload"[^>]+as="style"', new) and "onload=" in new:
+                new = re.sub(
+                    r'  <link rel="preload" href="[^"]*css/styles[^"]*" as="style"\s*/?>\s*'
+                    r'<link rel="stylesheet" href="[^"]*css/styles[^"]*"[^>]*>\s*'
+                    r'(?:<noscript><link rel="stylesheet" href="[^"]*css/styles[^"]*"\s*/?></noscript>)?',
+                    async_block,
+                    new,
+                    count=1,
+                )
+            else:
+                new = re.sub(
+                    r'  <link rel="stylesheet" href="[^"]*css/styles(?:\.min)?\.css(?:\?v=[^"]*)?"\s*/?>',
+                    async_block,
+                    new,
+                    count=1,
+                )
+            # critical css if missing
+            if 'id="critical-css"' not in new:
+                crit = (
+                    '  <style id="critical-css">\n'
+                    "  html{background:#F2EDE3;direction:ltr}"
+                    "html[data-theme=dark]{background:#0C121A}"
+                    "body{margin:0;font-family:system-ui,-apple-system,sans-serif;"
+                    "font-size:18px;line-height:1.65;color:#2C3640;background:inherit}"
+                    "[data-theme=dark] body{color:#B4C0CC}"
+                    ".skip-link{position:absolute;left:-9999px}"
+                    "img{max-width:100%;height:auto;display:block}"
+                    ".container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}\n"
+                    "  </style>\n"
+                )
+                new = new.replace(async_block, crit + async_block, 1)
+
         new = main_re.sub(rf'src="\1{main_file.split("/")[-1]}?v={CSS_VER}"', new)
         new = base_re.sub(rf'src="\1{base_file.split("/")[-1]}"', new)
 
@@ -2853,11 +3001,11 @@ def bust_asset_cache() -> None:
 
 def apply_perf_hub_tweaks() -> None:
     """LCP/CLS/font preloads on hand-authored hubs (index, about, catalog)."""
-    # Home: critical font + LCP image only (≤2 font families already in CSS)
+    # Home: critical font + LCP thumb only (≤2 font families already in CSS)
     home = SITE / "index.html"
     if home.exists():
         raw = home.read_text(encoding="utf-8")
-        # Replace multi font preloads with Manrope only (body) + LCP cover
+        # Replace multi font preloads with Manrope only (body) + LCP cover thumb
         raw = re.sub(
             r'(?:  <link rel="preload" as="font"[^>]+/>\n)+'
             r'(?:  <link rel="preload" as="image"[^>]+/>\n)?',
@@ -2866,29 +3014,41 @@ def apply_perf_hub_tweaks() -> None:
                 'type="font/woff2" crossorigin />\n'
                 '  <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" '
                 'type="font/woff2" crossorigin />\n'
-                '  <link rel="preload" as="image" href="assets/covers/mozg-na-100.webp" '
+                '  <link rel="preload" as="image" href="assets/covers/thumbs/mozg-na-100-w180.webp" '
                 'fetchpriority="high" />\n'
             ),
             raw,
             count=1,
         )
-        # LCP hero cover: high priority, not lazy
-        raw = raw.replace(
-            'href="knigi/mozg-na-100/" aria-label="Мозг на 100+">\n'
-            '              <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" width="280" height="420" decoding="async" />',
-            'href="knigi/mozg-na-100/" aria-label="Мозг на 100+">\n'
-            '              <img src="assets/covers/mozg-na-100.webp" alt="Обложка книги Пол Грэк «Мозг на 100+»" width="280" height="420" decoding="async" fetchpriority="high" />',
-        )
-        # Secondary hero covers: lazy
-        for slug, title in (
-            ("biohacking-mozga", "Биохакинг мозга"),
-            ("reset", "RESET"),
-        ):
-            raw = raw.replace(
-                f'href="knigi/{slug}/" aria-label="{title}">\n'
-                f'              <img src="assets/covers/{slug}.webp" alt="Обложка книги Пол Грэк «{title}»" width="280" height="420" decoding="async" />',
-                f'href="knigi/{slug}/" aria-label="{title}">\n'
-                f'              <img src="assets/covers/{slug}.webp" alt="Обложка книги Пол Грэк «{title}»" width="280" height="420" decoding="async" loading="lazy" />',
+        # Refresh RU hero stack with srcset thumbs
+        flagships = [b for b in load_data().get("books") or [] if b.get("flagship")][:3]
+        if flagships and 'id="heroCoverStack"' in raw:
+            stack_parts = []
+            for i, b in enumerate(flagships):
+                slug = b["slug"]
+                title = esc(b["title"])
+                img = cover_img_html(
+                    b,
+                    asset_prefix="assets/",
+                    sizes="(max-width:720px) 32vw, 176px",
+                    width=280,
+                    height=420,
+                    lang="ru",
+                    loading="" if i == 0 else "lazy",
+                    fetchpriority="high" if i == 0 else None,
+                    prefer="180",
+                )
+                stack_parts.append(
+                    f'            <a class="hero-cover hero-cover-{i}" href="knigi/{slug}/" aria-label="{title}">\n'
+                    f"              {img}\n"
+                    f"            </a>"
+                )
+            new_stack = "\n".join(stack_parts)
+            raw = re.sub(
+                r'(id="heroCoverStack"[^>]*>)([\s\S]*?)(</div>\s*<div class="hero-card")',
+                r"\1\n" + new_stack + r"\n          \3",
+                raw,
+                count=1,
             )
         # Inline theme bootstrap (before paint) — pairs with base-config
         if "PolTheme-boot" not in raw:
