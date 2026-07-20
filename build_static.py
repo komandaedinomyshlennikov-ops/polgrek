@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720srcset360"
+CSS_VER = "20260720critcls"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -947,8 +947,22 @@ def shell(
   html{{background:#F2EDE3;direction:ltr}}html[data-theme=dark]{{background:#0C121A}}
   body{{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}}
   [data-theme=dark] body{{color:#B4C0CC}}
-  .skip-link{{position:absolute;left:-9999px}}img{{max-width:100%;height:auto;display:block}}
+  .skip-link{{position:absolute;left:-9999px}}
+  img{{max-width:100%;height:auto;display:block}}
   .container{{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}}
+  .site-header,.site-header--static{{height:72px;display:flex;align-items:center}}
+  .hero{{padding:2.5rem 0 3rem}}
+  .hero-grid{{display:grid;gap:2rem;align-items:center}}
+  @media(min-width:801px){{.hero-grid{{grid-template-columns:7fr 5fr}}}}
+  .hero-visual{{position:relative;min-height:360px;border-radius:20px;background:#1a221c}}
+  .hero-cover-stack{{position:relative;min-height:240px;width:100%}}
+  .hero-cover{{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}}
+  .hero-cover img{{width:100%;height:100%;object-fit:cover;max-width:none}}
+  .hero-cover-0{{left:6%;transform:translateY(-50%) rotate(-9deg)}}
+  .hero-cover-1{{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}}
+  .hero-cover-2{{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}}
+  h1{{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}}
+  [data-theme=dark] h1{{color:#E8EEF4}}
   </style>
   <link rel="preload" href="{css}" as="style" />
   <link rel="stylesheet" href="{css}" media="print" onload="this.media='all'" />
@@ -2984,20 +2998,42 @@ def bust_asset_cache() -> None:
                     count=1,
                 )
             # critical css if missing
+            crit = (
+                '  <style id="critical-css">\n'
+                "  html{background:#F2EDE3;direction:ltr}"
+                "html[data-theme=dark]{background:#0C121A}"
+                "body{margin:0;font-family:system-ui,-apple-system,sans-serif;"
+                "font-size:18px;line-height:1.65;color:#2C3640;background:inherit}"
+                "[data-theme=dark] body{color:#B4C0CC}"
+                ".skip-link{position:absolute;left:-9999px}"
+                "img{max-width:100%;height:auto;display:block}"
+                ".container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}"
+                ".site-header,.site-header--static{height:72px;display:flex;align-items:center}"
+                ".hero{padding:2.5rem 0 3rem}"
+                ".hero-grid{display:grid;gap:2rem;align-items:center}"
+                "@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}"
+                ".hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}"
+                ".hero-cover-stack{position:relative;min-height:240px;width:100%}"
+                ".hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;"
+                "border-radius:8px;overflow:hidden;background:#E8E0D2}"
+                ".hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}"
+                ".hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}"
+                ".hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}"
+                ".hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}"
+                "h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}"
+                "[data-theme=dark] h1{color:#E8EEF4}\n"
+                "  </style>\n"
+            )
             if 'id="critical-css"' not in new:
-                crit = (
-                    '  <style id="critical-css">\n'
-                    "  html{background:#F2EDE3;direction:ltr}"
-                    "html[data-theme=dark]{background:#0C121A}"
-                    "body{margin:0;font-family:system-ui,-apple-system,sans-serif;"
-                    "font-size:18px;line-height:1.65;color:#2C3640;background:inherit}"
-                    "[data-theme=dark] body{color:#B4C0CC}"
-                    ".skip-link{position:absolute;left:-9999px}"
-                    "img{max-width:100%;height:auto;display:block}"
-                    ".container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}\n"
-                    "  </style>\n"
-                )
                 new = new.replace(async_block, crit + async_block, 1)
+            else:
+                # keep critical CSS in sync on rebuild
+                new = re.sub(
+                    r'  <style id="critical-css">[\s\S]*?</style>\n',
+                    crit,
+                    new,
+                    count=1,
+                )
 
         new = main_re.sub(rf'src="\1{main_file.split("/")[-1]}?v={CSS_VER}"', new)
         new = base_re.sub(rf'src="\1{base_file.split("/")[-1]}"', new)
