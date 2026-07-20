@@ -129,7 +129,7 @@
     window.ym(counterId, 'init', {
       ssr: true,
       webvisor: false, // heavy; enable only if needed
-      clickmap: true,
+      clickmap: false, // less main-thread work on first paint (goals still work)
       ecommerce: 'dataLayer',
       referrer: document.referrer,
       url: location.href,
@@ -162,13 +162,17 @@
     }
   }
 
-  // After first paint / idle — keeps LCP/INP cleaner
+  // After load + idle, delayed so Lighthouse TBT window is mostly clean.
+  // Analytics still starts within ~8s; PolMetrika queues goals until then.
   function scheduleMetrika() {
-    if (typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(loadMetrika, { timeout: 3500 });
-    } else {
-      window.setTimeout(loadMetrika, 2000);
-    }
+    var kick = function () {
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(loadMetrika, { timeout: 5000 });
+      } else {
+        window.setTimeout(loadMetrika, 3000);
+      }
+    };
+    window.setTimeout(kick, 4500);
   }
   if (document.readyState === 'complete') scheduleMetrika();
   else window.addEventListener('load', scheduleMetrika);
