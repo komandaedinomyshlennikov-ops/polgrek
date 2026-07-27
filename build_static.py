@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720noeb"
+CSS_VER = "20260720hero3"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -2302,7 +2302,11 @@ def main() -> None:
         print("article", article["slug"])
 
     # Update catalog partials (no Amazon)
-    flagships = [b for b in G["books"] if b.get("flagship")]
+    _hero_order = ["zhenskiy-mozg", "biohacking-mozga", "ei-2"]
+    _by_slug = {b["slug"]: b for b in G["books"]}
+    flagships = [_by_slug[s] for s in _hero_order if s in _by_slug]
+    if len(flagships) < 3:
+        flagships = [b for b in G["books"] if b.get("flagship")]
     (SITE / "partials" / "flagships.html").write_text(
         "".join(
             book_card(b, books_dir=False, G=G)
@@ -2891,7 +2895,11 @@ def main() -> None:
         )
 
         # EN home flagships: text-first window cards + mini covers (same layout as RU)
-        en_flagships = [b for b in GE.get("books") or [] if b.get("flagship")]
+        _en_order = ["zhenskiy-mozg", "biohacking-mozga", "ei-2"]
+        _en_by = {b["slug"]: b for b in (GE.get("books") or [])}
+        en_flagships = [_en_by[s] for s in _en_order if s in _en_by]
+        if len(en_flagships) < 3:
+            en_flagships = [b for b in GE.get("books") or [] if b.get("flagship")]
         en_flagships_html = "".join(
             book_card(b, books_dir=False, G=GE, lang="en", from_depth="en_root")
             for b in en_flagships
@@ -3120,14 +3128,19 @@ def apply_perf_hub_tweaks() -> None:
                 'type="font/woff2" crossorigin />\n'
                 '  <link rel="preload" as="font" href="assets/fonts/geist-semibold.woff2" '
                 'type="font/woff2" crossorigin />\n'
-                '  <link rel="preload" as="image" href="assets/covers/thumbs/mozg-na-100-w180.webp" '
+                '  <link rel="preload" as="image" href="assets/covers/thumbs/zhenskiy-mozg-w180.webp" '
                 'fetchpriority="high" />\n'
             ),
             raw,
             count=1,
         )
-        # Refresh RU hero stack with srcset thumbs
-        flagships = [b for b in load_data().get("books") or [] if b.get("flagship")][:3]
+        # Refresh RU hero stack with srcset thumbs (fixed order)
+        _books = load_data().get("books") or []
+        _by = {b["slug"]: b for b in _books}
+        _order = ["zhenskiy-mozg", "biohacking-mozga", "ei-2"]
+        flagships = [ _by[s] for s in _order if s in _by ][:3]
+        if len(flagships) < 3:
+            flagships = [b for b in _books if b.get("flagship")][:3]
         if flagships and 'id="heroCoverStack"' in raw:
             stack_parts = []
             for i, b in enumerate(flagships):

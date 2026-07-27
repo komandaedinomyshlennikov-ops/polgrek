@@ -1096,8 +1096,25 @@
     if (canvas) canvas.style.display = 'none';
   }
 
+  /** Hero / mid-page picks: fixed order (Женский мозг · Биохакинг · EI 2.0). */
+  function homeFlagships() {
+    const preferred = ['zhenskiy-mozg', 'biohacking-mozga', 'ei-2'];
+    const bySlug = preferred.map((s) => POL_GREK.getBook && POL_GREK.getBook(s)).filter(Boolean);
+    if (bySlug.length >= 3) return bySlug.slice(0, 3);
+    const rest = (POL_GREK.books || []).filter((b) => b.flagship || b.featured);
+    const seen = new Set(bySlug.map((b) => b.slug));
+    for (const b of rest) {
+      if (!seen.has(b.slug)) {
+        bySlug.push(b);
+        seen.add(b.slug);
+      }
+      if (bySlug.length >= 3) break;
+    }
+    return bySlug.slice(0, 3);
+  }
+
   function renderHome() {
-    const flagships = POL_GREK.books.filter((b) => b.flagship || b.featured).slice(0, 3);
+    const flagships = homeFlagships();
     const featured = document.getElementById('featuredBooks');
     // Keep static HTML if present (SEO / no-JS); refresh if empty OR legacy non-window cards
     const needsFeaturedRefresh =
@@ -1261,7 +1278,7 @@
     }
     // Mid-page chapter reader (phase 3)
     if (document.getElementById('excerptPreview')) {
-      let startSlug = 'mozg-na-100';
+      let startSlug = (flagships[0] && flagships[0].slug) || 'zhenskiy-mozg';
       if (picks) {
         const ch = picks.querySelector('input[name="flagPick"]:checked');
         if (ch && ch.value) startSlug = ch.value;
@@ -1277,7 +1294,11 @@
       magnetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const radio = document.querySelector('input[name="flagPick"]:checked');
-        const slug = (radio && radio.value) || (magnetSelect && magnetSelect.value) || 'mozg-na-100';
+        const slug =
+          (radio && radio.value) ||
+          (magnetSelect && magnetSelect.value) ||
+          (flagships[0] && flagships[0].slug) ||
+          'zhenskiy-mozg';
         const book = POL_GREK.getBook(slug) || flagships[0];
         if (!book) return;
 
