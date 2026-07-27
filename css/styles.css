@@ -4903,6 +4903,32 @@ a.book-tag-chip:hover {
   box-shadow: var(--shadow);
   min-height: 100%;
 }
+.why-card.is-featured {
+  border-color: color-mix(in srgb, var(--teal) 45%, var(--line));
+  box-shadow: var(--shadow-lg);
+  background: color-mix(in srgb, var(--teal) 6%, var(--panel-bg));
+}
+.why-card.is-featured::before {
+  content: 'Под ваш заход';
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 0.55rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+  background: color-mix(in srgb, var(--teal) 14%, transparent);
+}
+.doors--problems .door.is-segment-match {
+  border-color: color-mix(in srgb, var(--teal) 40%, var(--line));
+  box-shadow: var(--shadow);
+}
+.doors--problems .door.is-segment-match .num {
+  color: var(--teal-deep);
+}
 .why-card-q {
   font-family: var(--serif);
   font-size: clamp(1.15rem, 2vw, 1.35rem);

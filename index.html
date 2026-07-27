@@ -40,9 +40,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="css/styles.min.css?v=20260720phase3" as="style" />
-  <link rel="stylesheet" href="css/styles.min.css?v=20260720phase3" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720phase3" /></noscript>
+  <link rel="preload" href="css/styles.min.css?v=20260720phase4" as="style" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260720phase4" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720phase4" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -167,25 +167,25 @@
       <a href="#faq">FAQ</a>
     </nav>
 
-    <section class="hero">
+    <section class="hero" id="hero" data-segment-default="default">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Сначала польза — потом, если захотите, книга</p>
-          <h1>Ваш мозг работает против вас чаще, чем вы думаете</h1>
-          <p class="hero-person">
+          <p class="eyebrow" id="heroEyebrow">Сначала польза — потом, если захотите, книга</p>
+          <h1 id="heroTitle">Ваш мозг работает против вас чаще, чем вы думаете</h1>
+          <p class="hero-person" id="heroPerson">
             Каждый день — десятки решений, которые незаметно бьют по памяти, фокусу, сну и энергии.
             Ниже — как это устроено: простым языком, без эзотерики и «волшебных» протоколов.
           </p>
-          <p class="lead lead-short">
+          <p class="lead lead-short" id="heroLead">
             Не продаём «нейробиологию». Даём <strong>маленькие победы</strong>: понять, что происходит → проверить себя → взять главу бесплатно.
           </p>
           <div class="hero-cta-panel">
-            <a class="btn btn-primary btn-cta-lg" href="#check">Понять, что происходит →</a>
-            <a class="btn btn-outline" href="#excerpt">Читать главу бесплатно</a>
+            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#check">Понять, что происходит →</a>
+            <a class="btn btn-outline" id="heroCtaExcerpt" href="#excerpt">Читать главу бесплатно</a>
             <a class="btn btn-ghost-link" href="#problems">Выбрать проблему</a>
           </div>
           <p class="hero-trust">Без обязательной почты · без хайпа · советы с уровнями надёжности A–D</p>
-          <p class="hero-byline muted">Пол Грэк · практическая библиотека решений для мозга</p>
+          <p class="hero-byline muted" id="heroByline">Пол Грэк · практическая библиотека решений для мозга</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
@@ -200,8 +200,8 @@
             </a>
           </div>
           <div class="hero-card">
-            <strong>Сначала глава, не касса</strong>
-            <p>Отрывок на сайте. Полный текст — на Литрес, только если зайдёт.</p>
+            <strong id="heroCardTitle">Сначала глава, не касса</strong>
+            <p id="heroCardBody">Отрывок на сайте. Полный текст — на Литрес, только если зайдёт.</p>
           </div>
         </div>
       </div>
@@ -346,7 +346,7 @@
           </div>
         </div>
         <div class="why-cards">
-          <article class="why-card">
+          <article class="why-card" data-segment="energy">
             <h3 class="why-card-q">Почему вы устаёте уже к обеду?</h3>
             <p class="why-card-label">Разбираем</p>
             <ul class="why-card-list">
@@ -360,7 +360,7 @@
               <a class="btn btn-outline" href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset">RESET · отрывок</a>
             </div>
           </article>
-          <article class="why-card">
+          <article class="why-card" data-segment="stress">
             <h3 class="why-card-q">Почему тревога сама себя усиливает?</h3>
             <p class="why-card-label">Разбираем</p>
             <ul class="why-card-list">
@@ -374,7 +374,7 @@
               <a class="btn btn-outline" href="knigi/stress-i-mozg/" data-track="problem_select" data-book="stress-i-mozg">О книге</a>
             </div>
           </article>
-          <article class="why-card">
+          <article class="why-card" data-segment="memory">
             <h3 class="why-card-q">Почему память «садится» и появляется туман?</h3>
             <p class="why-card-label">Разбираем</p>
             <ul class="why-card-list">
@@ -388,7 +388,7 @@
               <a class="btn btn-outline" href="knigi/mozg-na-100/" data-track="problem_select" data-book="mozg-na-100">О книге</a>
             </div>
           </article>
-          <article class="why-card">
+          <article class="why-card" data-segment="burnout">
             <h3 class="why-card-q">Почему выходные не восстанавливают?</h3>
             <p class="why-card-label">Разбираем</p>
             <ul class="why-card-list">
@@ -402,7 +402,7 @@
               <a class="btn btn-outline" href="knigi/reset/" data-track="problem_select" data-book="reset">О книге</a>
             </div>
           </article>
-          <article class="why-card">
+          <article class="why-card" data-segment="money">
             <h3 class="why-card-q">Почему «ещё одно решение» вечером провальное?</h3>
             <p class="why-card-label">Разбираем</p>
             <ul class="why-card-list">
@@ -777,6 +777,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.min.js" defer></script>
   <script src="js/data.js" defer></script>
-  <script src="js/main.min.js?v=20260720phase3" defer></script>
+  <script src="js/main.min.js?v=20260720phase4" defer></script>
 </body>
 </html>

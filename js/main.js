@@ -2355,10 +2355,22 @@
       track('lab_view', { article: m ? m[1] : '', lang: isEn ? 'en' : 'ru' });
     }
     if (window.PolMetrika && typeof window.PolMetrika.params === 'function') {
-      window.PolMetrika.params({
+      const vp = {
         lang: isEn ? 'en' : 'ru',
         page: page,
-      });
+      };
+      try {
+        const sp = new URLSearchParams(location.search);
+        const seg = resolveHomeSegmentKey(sp);
+        if (seg && seg !== 'default') vp.segment = seg;
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach((k) => {
+          const v = sp.get(k);
+          if (v) vp[k] = v.slice(0, 80);
+        });
+      } catch (e) {
+        /* ignore */
+      }
+      window.PolMetrika.params(vp);
     }
 
     if (page === 'home') renderHome();
@@ -2373,8 +2385,10 @@
 
     mountReadProgress();
     if (page === 'home') {
+      mountHomeSegment();
       mountBookQuiz();
       mountSelfCheck();
+      mountScrollDepthGoals();
     }
 
     // Home problems grid: collapse extras on narrow screens
@@ -2459,6 +2473,230 @@
         pre.removeAttribute('aria-busy');
         if (book.excerpt) fillExcerptProse(pre, String(book.excerpt));
       });
+  }
+
+  /**
+   * Home entry segment from ?s= / ?segment= / utm_campaign.
+   * Examples: ?s=burnout  ?s=fog40  ?s=stress  ?s=energy  ?s=money
+   * UTM: utm_campaign=reset_launch → burnout
+   */
+  function resolveHomeSegmentKey(sp) {
+    const raw = String(sp.get('s') || sp.get('segment') || '').toLowerCase().trim();
+    const camp = String(sp.get('utm_campaign') || sp.get('utm_content') || '').toLowerCase();
+    const blob = raw || camp;
+    if (!blob) return 'default';
+    if (/burnout|vygor|reset|истощ/.test(blob)) return 'burnout';
+    if (/fog|40|memory|памят|туман|mozg-na-100|cogni/.test(blob)) return 'fog40';
+    if (/stress|тревог|stress-i-mozg/.test(blob)) return 'stress';
+    if (/energy|энерг|обед|anatom|устал/.test(blob)) return 'energy';
+    if (/money|деньг|impuls|mozg-i-dengi/.test(blob)) return 'money';
+    if (/biohack|биохак|focus|фокус/.test(blob)) return 'bio';
+    if (raw && HOME_SEGMENTS[raw]) return raw;
+    return 'default';
+  }
+
+  const HOME_SEGMENTS = {
+    default: {
+      key: 'default',
+      eyebrow: 'Сначала польза — потом, если захотите, книга',
+      h1: 'Ваш мозг работает против вас чаще, чем вы думаете',
+      person:
+        'Каждый день — десятки решений, которые незаметно бьют по памяти, фокусу, сну и энергии. Ниже — как это устроено: простым языком, без эзотерики и «волшебных» протоколов.',
+      leadHtml:
+        'Не продаём «нейробиологию». Даём <strong>маленькие победы</strong>: понять, что происходит → проверить себя → взять главу бесплатно.',
+      cardTitle: 'Сначала глава, не касса',
+      cardBody: 'Отрывок на сайте. Полный текст — на Литрес, только если зайдёт.',
+      book: 'mozg-na-100',
+      why: null,
+      checks: [],
+    },
+    burnout: {
+      key: 'burnout',
+      eyebrow: 'Выходные не восстанавливают — и это не лень',
+      h1: 'Выгорели, а «просто отдохни» уже не работает',
+      person:
+        'Силы не возвращаются за два выходных. Ниже — как отличить отдых от восстановления и с чего начать разбор, без мотивационных лозунгов.',
+      leadHtml:
+        'Сначала <strong>проверить себя</strong> и прочитать главу. Книга RESET — если нужен полный протокол после истощения.',
+      cardTitle: 'Тема входа: восстановление',
+      cardBody: 'Глава RESET на сайте. Полный текст — на Литрес, если зайдёт.',
+      book: 'reset',
+      why: 'burnout',
+      checks: ['sleep', 'focus', 'anxiety'],
+    },
+    fog40: {
+      key: 'fog40',
+      eyebrow: 'Не «возраст сделал глупее» — ломается по правилам',
+      h1: 'После 40 — туман в голове и хуже соображаю',
+      person:
+        'Память, «ватность», долгий фокус. Ниже — что реально поддерживает ясность ума, а что остаётся мифом — с уровнями A–D.',
+      leadHtml:
+        'Сначала <strong>глава бесплатно</strong>. «Мозг на 100+» — если нужен спокойный план, а не хайп.',
+      cardTitle: 'Тема входа: ясность ума',
+      cardBody: 'Отрывок «Мозг на 100+». Полный план — на Литрес.',
+      book: 'mozg-na-100',
+      why: 'memory',
+      checks: ['memory', 'focus', 'read'],
+    },
+    stress: {
+      key: 'stress',
+      eyebrow: 'Когда напряжение стало фоном',
+      h1: 'Стресс и тревога не выключаются сами',
+      person:
+        '«Просто успокойся» не срабатывает, потому что петля в теле и мозге уже крутится. Ниже — как она устроена и что реально снижает нагрузку.',
+      leadHtml:
+        'Проверьте себя → откройте разбор «почему тревога усиливается» → <strong>глава бесплатно</strong>.',
+      cardTitle: 'Тема входа: стресс',
+      cardBody: 'Отрывок «Стресс и мозг». Без советов «просто выдохни».',
+      book: 'stress-i-mozg',
+      why: 'stress',
+      checks: ['anxiety', 'distract', 'sleep'],
+    },
+    energy: {
+      key: 'energy',
+      eyebrow: 'Усталость к обеду — не всегда «мало спал»',
+      h1: 'Почему силы тают уже к середине дня',
+      person:
+        'Режим, нагрузка, ложные «энергетики». Ниже — разбор восстановления и честный взгляд на биохакинг-шум.',
+      leadHtml:
+        'Сначала <strong>маленькая польза на странице</strong>, потом глава. Книги — если нужен полный разбор.',
+      cardTitle: 'Тема входа: энергия',
+      cardBody: 'Отрывок «Анатомия энергии» / RESET — на сайте.',
+      book: 'anatomiya-energii',
+      why: 'energy',
+      checks: ['sleep', 'focus'],
+    },
+    money: {
+      key: 'money',
+      eyebrow: 'Сила воли вечером уже съедена',
+      h1: 'Почему «ещё одно решение» вечером провальное',
+      person:
+        'Импульсы, деньги, усталость самоконтроля. Ниже — как мозг подталкивает к ошибкам, когда ресурс на дне.',
+      leadHtml:
+        'Не про «характер». Про <strong>состояние</strong>. Глава бесплатно — потом решите, нужна ли вся книга.',
+      cardTitle: 'Тема входа: решения и импульсы',
+      cardBody: 'Отрывок «Мозг и деньги» на сайте.',
+      book: 'mozg-i-dengi',
+      why: 'money',
+      checks: ['distract', 'focus'],
+    },
+    bio: {
+      key: 'bio',
+      eyebrow: 'Биохакинг без «волшебных» протоколов',
+      h1: 'Хотите ясность и энергию — без хайпа ленты',
+      person:
+        'Что оставить, что отсечь. Ниже — практический путь: проверка → разбор → глава, а не список БАДов.',
+      leadHtml:
+        'Сначала <strong>польза и отрывок</strong>. «Биохакинг мозга» — если нужен честный фильтр мифов.',
+      cardTitle: 'Тема входа: фокус и протоколы',
+      cardBody: 'Отрывок на сайте. Уровни A–D у советов.',
+      book: 'biohacking-mozga',
+      why: 'energy',
+      checks: ['focus', 'distract'],
+    },
+  };
+
+  function mountHomeSegment() {
+    if (isEn) return; // RU home copy for phase 4; EN later
+    let sp;
+    try {
+      sp = new URLSearchParams(location.search);
+    } catch (e) {
+      return;
+    }
+    const key = resolveHomeSegmentKey(sp);
+    const seg = HOME_SEGMENTS[key] || HOME_SEGMENTS.default;
+    const hero = document.getElementById('hero');
+    if (hero) hero.setAttribute('data-segment', seg.key);
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && text != null) el.textContent = text;
+    };
+    const setHtml = (id, html) => {
+      const el = document.getElementById(id);
+      if (el && html != null) el.innerHTML = html;
+    };
+
+    setText('heroEyebrow', seg.eyebrow);
+    setText('heroTitle', seg.h1);
+    setText('heroPerson', seg.person);
+    setHtml('heroLead', seg.leadHtml);
+    setText('heroCardTitle', seg.cardTitle);
+    setText('heroCardBody', seg.cardBody);
+
+    // Pre-check self-check boxes for this segment
+    if (seg.checks && seg.checks.length) {
+      seg.checks.forEach((v) => {
+        const box = document.querySelector(`#selfCheck input[value="${v}"]`);
+        if (box) box.checked = true;
+      });
+    }
+
+    // Feature matching why-card (move to front + highlight)
+    if (seg.why) {
+      const grid = document.querySelector('.why-cards');
+      const card = grid && grid.querySelector(`.why-card[data-segment="${seg.why}"]`);
+      if (grid && card) {
+        grid.querySelectorAll('.why-card.is-featured').forEach((c) => c.classList.remove('is-featured'));
+        card.classList.add('is-featured');
+        grid.insertBefore(card, grid.firstChild);
+      }
+    }
+
+    // Highlight matching problem door
+    if (seg.book) {
+      document.querySelectorAll('#doorsGrid .door.is-segment-match').forEach((d) => {
+        d.classList.remove('is-segment-match');
+      });
+      const door = document.querySelector(`#doorsGrid .door[data-book="${seg.book}"]`);
+      if (door) door.classList.add('is-segment-match');
+
+      // Select excerpt book radio + load preview (flagships only on radios)
+      const radio = document.querySelector(`input[name="flagPick"][value="${seg.book}"]`);
+      const magnetSelect = document.getElementById('magnetBook');
+      if (radio) {
+        radio.checked = true;
+        if (magnetSelect) magnetSelect.value = seg.book;
+      }
+      // Always refresh mid-page reader for this segment's book when available
+      if (POL_GREK.getBook(seg.book)) {
+        window.setTimeout(() => loadHomeExcerptPreview(seg.book, { track: false }), 0);
+      }
+    }
+
+    if (key !== 'default') {
+      track('segment_land', {
+        segment: key,
+        book: seg.book || '',
+        lang: 'ru',
+        path: location.pathname,
+      });
+    }
+  }
+
+  /** Fire scroll_50 / scroll_75 once per session (home engagement). */
+  function mountScrollDepthGoals() {
+    const fired = { 50: false, 75: false };
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const body = document.body;
+      const scrollTop = window.scrollY || doc.scrollTop || 0;
+      const height = Math.max(body.scrollHeight, doc.scrollHeight) - window.innerHeight;
+      if (height <= 0) return;
+      const pct = (scrollTop / height) * 100;
+      if (!fired[50] && pct >= 50) {
+        fired[50] = true;
+        track('scroll_50', { lang: isEn ? 'en' : 'ru', page: 'home' });
+      }
+      if (!fired[75] && pct >= 75) {
+        fired[75] = true;
+        track('scroll_75', { lang: isEn ? 'en' : 'ru', page: 'home' });
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
   /** Home self-check: count boxes, open bridge at threshold, fire self_check once. */
