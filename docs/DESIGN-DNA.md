@@ -66,7 +66,7 @@
 | # | Ось | Сильные сайты (паттерн) | Слабые / опасные | DNA Pol Grek |
 |---|-----|-------------------------|------------------|--------------|
 | 1 | **Hero** | Обещание **исхода** или **мира** за 3 с; один главный CTA; identity вторична | «Меня зовут… я автор 13 книг» | Уже: проблема-first. Закрепить. Не возвращать «нейробиология» в H1 |
-| 2 | **Типографика** | 2 семьи max; чёткая шкала H1→body; serif = trust/editorial | 4+ шрифта, display-хаос | **Manrope + Source Serif 4**; H1 serif, body sans; scale 1.25 |
+| 2 | **Типографика** | 2 семьи max; чёткая шкала H1→body; modern calm premium | 4+ шрифта, display-хаос | **Geist SemiBold + Inter**; H1 Geist 600, body Inter; scale 1.25 |
 | 3 | **Цвет** | 1 primary + 1 accent + neutrals; CTA = solid, не rainbow | Неон, градиент-кнопки, AI-purple | **Ink / teal / paper / amber hairline** (Quiet Lab). Без neural glow |
 | 4 | **Контраст** | Body ≥ WCAG AA; muted не для длинного текста | Серый на сером | Graphite body; muted только secondary; teal-deep links |
 | 5 | **Сетка** | 8/12-col mental model; max ~1120–1200; consistent gutter | «карточки везде по-разному» | `--max: 1120`; 7/5 hero; problems/why 2-col → 1-col mobile |
@@ -154,7 +154,7 @@ Author buyers often 35–55, phone in hand.
 | Ink | `#0A1929` | titles / strong CTA |
 | Teal | `#185A53` / deep links | emphasis |
 | Amber | matte brass | eyebrows / hairlines only |
-| Type | Manrope + Source Serif 4 | body / display |
+| Type | Inter + Geist SemiBold | body / headings |
 | Radius | 8–14px cards, not pill-everything | editorial not startup |
 | Shadow | soft, one elevation | no multi-glow body |
 

@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720en"
+CSS_VER = "20260720geist"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -3108,14 +3108,16 @@ def apply_perf_hub_tweaks() -> None:
     home = SITE / "index.html"
     if home.exists():
         raw = home.read_text(encoding="utf-8")
-        # Replace multi font preloads with Manrope only (body) + LCP cover thumb
+        # Critical fonts: Inter body (cyr+lat) + Geist SemiBold for EN/latin titles
         raw = re.sub(
             r'(?:  <link rel="preload" as="font"[^>]+/>\n)+'
             r'(?:  <link rel="preload" as="image"[^>]+/>\n)?',
             (
-                '  <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" '
+                '  <link rel="preload" as="font" href="assets/fonts/inter-cyrillic.woff2" '
                 'type="font/woff2" crossorigin />\n'
-                '  <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" '
+                '  <link rel="preload" as="font" href="assets/fonts/inter-latin.woff2" '
+                'type="font/woff2" crossorigin />\n'
+                '  <link rel="preload" as="font" href="assets/fonts/geist-semibold.woff2" '
                 'type="font/woff2" crossorigin />\n'
                 '  <link rel="preload" as="image" href="assets/covers/thumbs/mozg-na-100-w180.webp" '
                 'fetchpriority="high" />\n'
