@@ -1553,6 +1553,17 @@
       const btn = e.target.closest('.filter-btn');
       if (!btn) return;
       active = btn.dataset.filter;
+      const problemsRoot = document.getElementById('catalogProblems');
+      if (problemsRoot) {
+        problemsRoot.querySelectorAll('.catalog-problem.is-active').forEach((c) => c.classList.remove('is-active'));
+      }
+      try {
+        const u = new URL(location.href);
+        u.searchParams.delete('problem');
+        history.replaceState(null, '', u.pathname + u.search + u.hash);
+      } catch (err) {
+        /* ignore */
+      }
       syncUrl();
       track('filter_books', { filter: active, q: query || undefined, lang: isEn ? 'en' : 'ru' });
       paint();
@@ -1603,6 +1614,95 @@
     }
 
     paint();
+
+    // Phase 5: problem grid — filter catalog or deep-link without JS
+    const problemsRoot = document.getElementById('catalogProblems');
+    if (problemsRoot) {
+      // URL ?problem=burnout | ?s=fog40
+      try {
+        const params = new URLSearchParams(location.search);
+        const prob = (params.get('problem') || params.get('s') || '').toLowerCase();
+        if (prob) {
+          const card = problemsRoot.querySelector(`[data-problem="${prob}"]`);
+          if (card) {
+            const f = card.getAttribute('data-filter');
+            if (f && POL_GREK.filters.some((x) => x.id === f)) {
+              active = f;
+              syncUrl();
+              paint();
+            }
+            card.classList.add('is-active');
+            const bookSlug = card.getAttribute('data-book');
+            if (bookSlug) {
+              window.setTimeout(() => {
+                const el = grid.querySelector(`[data-book="${bookSlug}"], a[data-book="${bookSlug}"]`);
+                const cardEl = el && el.closest('.book-card');
+                if (cardEl) {
+                  cardEl.classList.add('is-problem-match');
+                  cardEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+              }, 50);
+            }
+          }
+        }
+      } catch (e) {
+        /* ignore */
+      }
+
+      problemsRoot.addEventListener('click', (e) => {
+        const a = e.target.closest('.catalog-problem');
+        if (!a || !problemsRoot.contains(a)) return;
+        // With JS: filter shelf + highlight, keep option to open excerpt via middle-click / modifier
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
+        problemsRoot.querySelectorAll('.catalog-problem.is-active').forEach((c) => c.classList.remove('is-active'));
+        a.classList.add('is-active');
+        const f = a.getAttribute('data-filter');
+        const bookSlug = a.getAttribute('data-book');
+        const problem = a.getAttribute('data-problem') || '';
+        if (f && POL_GREK.filters.some((x) => x.id === f)) {
+          active = f;
+        } else {
+          active = 'all';
+        }
+        if (searchInput) searchInput.value = '';
+        query = '';
+        syncUrl();
+        try {
+          const u = new URL(location.href);
+          if (problem) u.searchParams.set('problem', problem);
+          else u.searchParams.delete('problem');
+          history.replaceState(null, '', u.pathname + u.search + u.hash);
+        } catch (err) {
+          /* ignore */
+        }
+        track('problem_select', {
+          problem,
+          book: bookSlug || '',
+          filter: active,
+          lang: isEn ? 'en' : 'ru',
+          place: 'catalog',
+        });
+        paint();
+        window.setTimeout(() => {
+          grid.querySelectorAll('.book-card.is-problem-match').forEach((c) => c.classList.remove('is-problem-match'));
+          if (bookSlug) {
+            const hit =
+              grid.querySelector(`.book-card a[data-book="${bookSlug}"]`) ||
+              grid.querySelector(`.book-card a[href*="${bookSlug}"]`);
+            const cardEl = hit && hit.closest('.book-card');
+            if (cardEl) {
+              cardEl.classList.add('is-problem-match');
+              cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          } else {
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 40);
+      });
+    }
   }
 
 

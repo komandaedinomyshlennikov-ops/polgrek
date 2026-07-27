@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720secdev"
+CSS_VER = "20260720phase5"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -2072,16 +2072,16 @@ def publish_knigi_catalog() -> None:
         rf"https://polgrek.site/{RU_BOOKS_SEGMENT}/\1/",
         raw,
     )
-    # Title/desc polish for catalog
+    # Title/desc polish for catalog (problem-first, phase 5)
     raw = re.sub(
         r"<title>[^<]*</title>",
-        "<title>Книги Пола Грэка о мозге — каталог без хайпа</title>",
+        "<title>Какая проблема мешает — книги-решения Пола Грэка</title>",
         raw,
         count=1,
     )
     cat_desc = clip_desc(
-        "13 книг Пола и Лоры Грэк: выгорание, туман в голове, стресс, энергия, деньги и гормоны. Научпоп о мозге с уровнями A–D, без эзотерики.",
-        cta="Отрывок бесплатно →",
+        "Выберите проблему: выгорание, туман, стресс, энергия, деньги. Книги Пола Грэка с отрывком бесплатно и уровнями A–D. Не витрина SKU — библиотека решений.",
+        cta="Отрывок →",
     )
     raw = re.sub(
         r'<meta name="description" content="[^"]*"\s*/?>',
@@ -2101,13 +2101,14 @@ def publish_knigi_catalog() -> None:
         raw,
         count=1,
     )
-    # H1 keywords
-    raw = re.sub(
-        r"(<h1[^>]*>)([\s\S]*?)(</h1>)",
-        r"\1Книги о мозге и нейробиологии — каталог Пола Грэка\3",
-        raw,
-        count=1,
-    )
+    # Keep problem-first H1 if already present; else set it
+    if "Какая проблема мешает" not in raw:
+        raw = re.sub(
+            r"(<h1[^>]*>)([\s\S]*?)(</h1>)",
+            r"\1Какая проблема мешает сильнее всего?\3",
+            raw,
+            count=1,
+        )
     (knigi / "index.html").write_text(raw, encoding="utf-8")
     # Legacy catalog → knigi
     (SITE / "books" / "index.html").write_text(
