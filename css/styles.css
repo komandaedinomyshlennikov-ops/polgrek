@@ -186,6 +186,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -196,14 +198,61 @@ body {
   color: var(--graphite);
   background: var(--paper);
   min-height: 100vh;
+  min-height: 100dvh;
   text-align: left;
+  overflow-x: clip;
   transition: background-color 0.25s var(--ease), color 0.2s var(--ease);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Multi-device: no horizontal scroll, no iOS input zoom, touch-friendly phase blocks */
+@media (max-width: 720px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  .container {
+    width: min(var(--max), calc(100% - 1.5rem));
+  }
+  .hero h1,
+  .why-card-q,
+  .micro-fact-title,
+  .home-excerpt-book-title,
+  #mistakes-title {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .home-excerpt-reader {
+    max-height: min(70vh, 28rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .self-check-item {
+    min-height: var(--touch-min);
+  }
+  .btn-row {
+    flex-wrap: wrap;
+  }
+  .btn-row .btn {
+    flex: 1 1 auto;
+    min-width: min(100%, 9.5rem);
+  }
+  .why-card-cta .btn {
+    width: 100%;
+  }
 }
 /* Below-fold sections: paint when near viewport (helps INP/LCP main-thread) */
 main > section:not(.hero),

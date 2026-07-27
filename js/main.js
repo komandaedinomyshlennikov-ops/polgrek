@@ -282,7 +282,7 @@
 
         // Catalog buy: href is clean LitRes (adblock-safe); swap to partner URL on click.
         const aff = a.getAttribute('data-aff');
-        if (aff && /litres\.ru/i.test(aff)) {
+        if (aff && isAllowedLitresUrl(aff)) {
           try {
             a.setAttribute('href', aff);
           } catch (_) {
@@ -397,8 +397,8 @@
             ${langSwitcher()}
             ${themeToggleBtn()}
             <div class="nav-social" aria-label="${UI.footerFollow}">
-              <a class="nav-social-link" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" title="${UI.telegram}" aria-label="${UI.telegram}">TG</a>
-              <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
+              <a class="nav-social-link" href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram" title="${UI.telegram}" aria-label="${UI.telegram}">TG</a>
+              <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener noreferrer" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
             </div>
             <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
             <a class="btn btn-primary nav-cta" href="${url(booksHub)}">${UI.books}</a>
@@ -438,8 +438,8 @@
           <div class="mobile-drawer-cta">
             <a class="btn btn-primary" href="${url(booksHub)}">${UI.catalog}</a>
             <a class="btn btn-outline" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
-            <a class="btn btn-outline" href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
-            <a class="btn btn-outline" href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads}</a>
+            <a class="btn btn-outline" href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram">${UI.telegram}</a>
+            <a class="btn btn-outline" href="${S.threads}" target="_blank" rel="noopener noreferrer" data-track="threads">${UI.threads}</a>
           </div>
         </div>
       </div>
@@ -447,7 +447,7 @@
         <a href="${url('/index.html')}" class="${active === 'home' ? 'active' : ''}"><span aria-hidden="true">🏠</span>${UI.home}</a>
         <a href="${url(booksHub)}" class="${active === 'books' ? 'active' : ''}"><span aria-hidden="true">📚</span>${UI.books}</a>
         <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}"><span aria-hidden="true">🧪</span>${isEn ? 'Lab' : 'Лаб'}</a>
-        <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram" aria-label="${UI.telegram}"><span aria-hidden="true">✈️</span>TG</a>
+        <a href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram" aria-label="${UI.telegram}"><span aria-hidden="true">✈️</span>TG</a>
         <a href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres" aria-label="${UI.litres}"><span aria-hidden="true">🛒</span>${UI.litres}</a>
       </nav>
       <button type="button" class="back-to-top" id="backToTop" aria-label="${UI.top}" hidden>↑</button>`;
@@ -483,8 +483,8 @@
           </div>
           <div>
             <h4>${UI.footerFollow}</h4>
-            <a href="${S.telegram}" target="_blank" rel="noopener" data-track="telegram">${UI.telegram}</a>
-            <a href="${S.threads}" target="_blank" rel="noopener" data-track="threads">${UI.threads} · @pol.grek</a>
+            <a href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram">${UI.telegram}</a>
+            <a href="${S.threads}" target="_blank" rel="noopener noreferrer" data-track="threads">${UI.threads} · @pol.grek</a>
             <a href="mailto:${email}">${email}</a>
             <a href="${url('/privacy.html')}">${UI.footerPrivacy}</a>
           </div>
@@ -690,7 +690,17 @@
 
   function litresRel() {
     const aff = (window.POL_GREK && window.POL_GREK.affiliate) || {};
-    return aff.enabled ? 'noopener sponsored' : 'noopener';
+    return aff.enabled ? 'noopener noreferrer sponsored' : 'noopener noreferrer';
+  }
+
+  /** Only allow LitRes hosts in data-aff partner swaps (open-redirect guard). */
+  function isAllowedLitresUrl(u) {
+    try {
+      const h = new URL(u, location.href).hostname.replace(/^www\./, '');
+      return h === 'litres.ru' || h.endsWith('.litres.ru');
+    } catch (e) {
+      return false;
+    }
   }
 
   function storeButtons(book, compact) {
@@ -1164,7 +1174,7 @@
               <span class="reader-review-date">· ${escapeAttr(r.dateLabel || '')}</span>
               ${flagHtml}
             </figcaption>
-            <a class="reader-review-link" href="${href}" target="_blank" rel="noopener">${linkLabel}</a>
+            <a class="reader-review-link" href="${href}" target="_blank" rel="noopener noreferrer">${linkLabel}</a>
           </figure>`;
         })
         .join('');
@@ -1186,7 +1196,7 @@
           const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
           const stars = Math.max(1, Math.min(5, Math.round(Number(item.rating) || 0)));
           return `
-            <a class="rating-card" href="${escapeAttr(clean || '#')}"${dataAff} target="_blank" rel="${book ? litresRel() : 'noopener'}" data-track="litres" data-book="${escapeAttr(item.slug || '')}">
+            <a class="rating-card" href="${escapeAttr(clean || '#')}"${dataAff} target="_blank" rel="${book ? litresRel() : 'noopener noreferrer'}" data-track="litres" data-book="${escapeAttr(item.slug || '')}">
               <div class="rating-stars" aria-hidden="true">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</div>
               <strong>${Number(item.rating).toFixed(1)}</strong>
               <span class="rating-book">${escapeAttr(item.book)}</span>

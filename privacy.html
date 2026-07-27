@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://formsubmit.co; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://formsubmit.co https://*.formsubmit.co; upgrade-insecure-requests" />
   <meta property="og:site_name" content="Пол Грэк" />
   <meta name="theme-color" content="#0B1F33" />
   <meta name="author" content="Пол Грэк" />
@@ -25,9 +29,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="css/styles.min.css?v=20260720phase4" as="style" />
-  <link rel="stylesheet" href="css/styles.min.css?v=20260720phase4" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720phase4" /></noscript>
+  <link rel="preload" href="css/styles.min.css?v=20260720secdev" as="style" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260720secdev" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720secdev" /></noscript>
 </head>
 <body data-page="about" data-base="">
   <a class="skip-link" href="#main-content">К содержанию</a>
@@ -50,7 +54,7 @@
         </ul>
         <p>
           Передача такой заявки идёт через сервис
-          <a href="https://formsubmit.co/" target="_blank" rel="noopener">FormSubmit</a>
+          <a href="https://formsubmit.co/" target="_blank" rel="noopener noreferrer">FormSubmit</a>
           на адрес <a href="mailto:hello@polgrek.site">hello@polgrek.site</a>.
           На стороне FormSubmit действует их политика; мы не храним платёжные данные.
           Отписка от редких писем — ответом на письмо или на hello@polgrek.site.
@@ -60,7 +64,7 @@
         <h2>Аналитика (Яндекс.Метрика)</h2>
         <p>
           На сайте <strong>всегда подключён</strong> счётчик
-          <a href="https://yandex.ru/support/metrica/" target="_blank" rel="noopener">Яндекс.Метрика</a>
+          <a href="https://yandex.ru/support/metrica/" target="_blank" rel="noopener noreferrer">Яндекс.Метрика</a>
           №&nbsp;110711984. Он собирает технические данные о визитах: страницы, устройство, источник перехода, клики по ссылкам,
           а также включает <strong>карту кликов</strong> и <strong>Вебвизор</strong> (запись сессий) для улучшения сайта.
           Обработка — по политике Яндекса. Ограничить cookie/аналитику можно в настройках браузера или privacy-расширениями.
@@ -75,7 +79,7 @@
 
         <h2>Контакт</h2>
         <p>По вопросам сайта и сотрудничества: <a href="mailto:hello@polgrek.site">hello@polgrek.site</a></p>
-        <p>Книги и профиль автора: <a href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Литрес</a>.</p>
+        <p>Книги и профиль автора: <a href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">Литрес</a>.</p>
 
         <h2>Внешние сервисы и соцсети</h2>
         <p>На сайте встречаются ссылки на сторонние площадки (Литрес, соцсети). Это отдельные сервисы со своими правилами. Доступность отдельных соцсетей зависит от вашей страны и способа подключения. <strong>Основная проверяемая точка автора для читателя в России — страница на Литрес</strong>, а не соцсети.</p>
@@ -95,6 +99,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.min.js" defer></script>
   <script src="js/data.js" defer></script>
-  <script src="js/main.min.js?v=20260720phase4" defer></script>
+  <script src="js/main.min.js?v=20260720secdev" defer></script>
 </body>
 </html>

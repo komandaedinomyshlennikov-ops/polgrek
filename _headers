@@ -1,0 +1,25 @@
+# Security headers for Cloudflare Pages / proxy in front of origin.
+# GitHub Pages alone does not serve this file — put the domain behind Cloudflare
+# (or copy these rules into Transform Rules → Response headers).
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  X-DNS-Prefetch-Control: on
+  # CSP: static site + Yandex Metrika + FormSubmit + LitRes images/links
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://formsubmit.co; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://formsubmit.co https://*.formsubmit.co; media-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=604800
+
+/excerpts/*
+  Cache-Control: public, max-age=86400

@@ -441,8 +441,8 @@ def litres_author_url(G: dict) -> str:
 
 def litres_rel(G: dict | None = None) -> str:
     if affiliate_cfg(G).get("enabled"):
-        return "noopener sponsored"
-    return "noopener"
+        return "noopener noreferrer sponsored"
+    return "noopener noreferrer"
 
 
 def store_actions_html(
@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720phase4"
+CSS_VER = "20260720secdev"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -920,6 +920,11 @@ def shell(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://formsubmit.co; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://formsubmit.co https://*.formsubmit.co; upgrade-insecure-requests" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="{'Pol Grek' if lang == 'en' else 'Пол Грэк'}" />
   <meta name="theme-color" content="#0B1F33" />
@@ -1338,12 +1343,12 @@ def build_book_page(
     )
 
     amz_btn = (
-        f'<a class="btn btn-outline" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        f'<a class="btn btn-outline" href="{esc(amz)}" target="_blank" rel="noopener noreferrer">Amazon</a>'
         if amz
         else ""
     )
     amz_sticky = (
-        f'<a class="btn btn-outline sticky-buy-amazon" href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+        f'<a class="btn btn-outline sticky-buy-amazon" href="{esc(amz)}" target="_blank" rel="noopener noreferrer">Amazon</a>'
         if amz
         else ""
     )
@@ -1362,11 +1367,11 @@ def build_book_page(
     buy_parts: list[str] = []
     if litres_clean:
         buy_parts.append(
-            f'<a href="{esc(litres_clean)}" target="_blank" rel="noopener">Литрес</a>'
+            f'<a href="{esc(litres_clean)}" target="_blank" rel="noopener noreferrer">Литрес</a>'
         )
     if amz:
         buy_parts.append(
-            f'<a href="{esc(amz)}" target="_blank" rel="noopener">Amazon</a>'
+            f'<a href="{esc(amz)}" target="_blank" rel="noopener noreferrer">Amazon</a>'
         )
     buy_dd = " · ".join(buy_parts) if buy_parts else "—"
     highlights_block = (
@@ -1488,7 +1493,7 @@ def build_book_page(
               <p>{esc(author_note)}</p>
               <div class="btn-row">
                 <a class="btn btn-outline" href="{about_href}">Подробнее об авторе</a>
-                <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener">Telegram</a>
+                <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener noreferrer">Telegram</a>
               </div>
             </div>
           </div>
@@ -2948,6 +2953,46 @@ def main() -> None:
     print("OK: static pages built")
 
 
+SECURITY_META = """  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://formsubmit.co; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://formsubmit.co https://*.formsubmit.co; upgrade-insecure-requests" />
+"""
+
+
+def inject_security_meta(html: str) -> str:
+    """Ensure security-related meta tags exist once in <head>."""
+    if 'name="referrer"' in html and "Content-Security-Policy" in html:
+        return html
+    # Remove stale partial security metas to avoid duplicates when re-running
+    html = re.sub(
+        r'\n?\s*<meta name="referrer"[^>]*/?>\s*',
+        "\n",
+        html,
+        count=3,
+    )
+    html = re.sub(
+        r'\n?\s*<meta http-equiv="(?:Content-Security-Policy|Permissions-Policy)"[^>]*/?>\s*',
+        "\n",
+        html,
+        count=6,
+    )
+    html = re.sub(
+        r'\n?\s*<meta name="format-detection"[^>]*/?>\s*',
+        "\n",
+        html,
+        count=2,
+    )
+    if re.search(r'<meta name="viewport"[^>]*>', html):
+        return re.sub(
+            r'(<meta name="viewport"[^>]*>)',
+            r"\1\n" + SECURITY_META.rstrip(),
+            html,
+            count=1,
+        )
+    return html.replace("<head>", "<head>\n" + SECURITY_META, 1)
+
+
 def bust_asset_cache() -> None:
     """Point every page shell at minified assets + current CSS_VER + async CSS."""
     import re
@@ -2965,7 +3010,7 @@ def bust_asset_cache() -> None:
         if "partials" in path.parts:
             continue
         raw = path.read_text(encoding="utf-8")
-        new = raw
+        new = inject_security_meta(raw)
 
         # Detect relative css path prefix from existing stylesheet/preload
         m_css = re.search(

@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://formsubmit.co; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://mc.yandex.ru https://mc.yandex.com https://yandex.ru https://formsubmit.co https://*.formsubmit.co; upgrade-insecure-requests" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Pol Grek" />
   <meta name="theme-color" content="#0B1F33" />
@@ -34,9 +38,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="../css/styles.min.css?v=20260720phase4" as="style" />
-  <link rel="stylesheet" href="../css/styles.min.css?v=20260720phase4" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720phase4" /></noscript>
+  <link rel="preload" href="../css/styles.min.css?v=20260720secdev" as="style" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260720secdev" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720secdev" /></noscript>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,8 +184,8 @@
               <a class="btn btn-outline" href="#excerpt">Read on this page</a>
             </div>
             <div class="book-buy-actions book-buy-actions--store">
-              <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Buy on LitRes</a>
-              <a class="btn btn-outline" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener">Amazon</a>
+              <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">Buy on LitRes</a>
+              <a class="btn btn-outline" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener noreferrer">Amazon</a>
             </div>
             <p class="affiliate-mark">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
             <p class="book-aside-hint">Checkout on Amazon or LitRes. Description and sample here; this site does not take payment.</p>
@@ -212,7 +216,7 @@
         <a href="#excerpt">Excerpt</a>
         <a href="#author">About the author</a>
         <a href="#related">Also read</a>
-        <a href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" class="book-tabs-buy">Buy</a>
+        <a href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" class="book-tabs-buy">Buy</a>
       </nav>
 
       <div class="book-body-col">
@@ -242,7 +246,7 @@
           <div class="excerpt-reader"><div class="excerpt-prose" id="excerptPreview"><p>Brain Biohacking Upgrade memory, focus, and energy — without breaking your mind</p><p>I tried everything: modafinil, nootropics, peptides, microdosing, stacks on stacks. I felt like a superhero. Then I felt nothing. I burned out.</p><p>I went back to base. Minimum effective dose. This book is so you don’t pay full price for my mistakes.</p><p>Minimum effective dose is not laziness. It’s the opposite of stacking. If a protocol needs a pharmacy cabinet to “work,” it probably doesn’t work for long. Base first: sleep, light, stress load, then maybe a narrow stack with evidence grades.</p></div></div>
           <div class="btn-row excerpt-cta-row">
             <a class="btn btn-primary btn-cta-lg" href="../../excerpts/en/biohacking-mozga-excerpt.txt" download>Download excerpt (.txt)</a>
-            <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">Buy on LitRes</a>
+            <a class="btn btn-outline" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">Buy on LitRes</a>
           </div>
         </section>
 
@@ -257,7 +261,7 @@
               <p>Pol Grek writes popular brain science without mysticism. Evidence grades A–D; self-tested first.</p>
               <div class="btn-row">
                 <a class="btn btn-outline" href="../about.html">More about the author</a>
-                <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener">Telegram</a>
+                <a class="btn btn-ghost-link" href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener noreferrer">Telegram</a>
               </div>
             </div>
           </div>
@@ -278,7 +282,7 @@
           <h2>Product details</h2>
           <dl class="book-specs-list">
             <div><dt>Format</dt><dd>Ebook</dd></div>
-            <div><dt>Where to buy</dt><dd><a href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener">LitRes</a> · <a href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener">Amazon</a></dd></div>
+            <div><dt>Where to buy</dt><dd><a href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener noreferrer">LitRes</a> · <a href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener noreferrer">Amazon</a></dd></div>
             <div><dt>Series</dt><dd>Brain Series</dd></div>
             <div><dt>Language</dt><dd>Russian</dd></div>
             <div><dt>Tags</dt><dd class="book-specs-tags"><a class="book-tag-chip" href="index.html?filter=biohacking">biohacking</a><a class="book-tag-chip" href="index.html?filter=cognitive-health">cognitive health</a><a class="book-tag-chip" href="index.html?filter=energy">energy</a></dd></div>
@@ -317,7 +321,7 @@
     <img src="../assets/covers/thumbs/svyashchennye-chasy-w280.webp" srcset="../assets/covers/thumbs/svyashchennye-chasy-w180.webp 180w, ../assets/covers/thumbs/svyashchennye-chasy-w280.webp 280w, ../assets/covers/thumbs/svyashchennye-chasy-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “Sacred Hours”" width="200" height="300" decoding="async" loading="lazy" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" data-aff="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=svyaschennye-chasy&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="svyashchennye-chasy">Buy on LitRes</a>
+      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/" data-aff="https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=svyaschennye-chasy&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="svyashchennye-chasy">Buy on LitRes</a>
       <a class="btn btn-outline book-card-excerpt" href="svyashchennye-chasy.html#excerpt" data-track="excerpt_open" data-book="svyashchennye-chasy">Excerpt</a>
       <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
     </div>
@@ -335,7 +339,7 @@
     <img src="../assets/covers/thumbs/mozg-na-100-w280.webp" srcset="../assets/covers/thumbs/mozg-na-100-w180.webp 180w, ../assets/covers/thumbs/mozg-na-100-w280.webp 280w, ../assets/covers/thumbs/mozg-na-100-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “Brain at 100+”" width="200" height="300" decoding="async" loading="lazy" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="mozg-na-100">Buy on LitRes</a>
+      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="mozg-na-100">Buy on LitRes</a>
       <a class="btn btn-outline book-card-excerpt" href="mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Excerpt</a>
       <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
     </div>
@@ -353,7 +357,7 @@
     <img src="../assets/covers/thumbs/anatomiya-energii-w280.webp" srcset="../assets/covers/thumbs/anatomiya-energii-w180.webp 180w, ../assets/covers/thumbs/anatomiya-energii-w280.webp 280w, ../assets/covers/thumbs/anatomiya-energii-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “Anatomy of Energy”" width="200" height="300" decoding="async" loading="lazy" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/" data-aff="https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=anatomiya-energii&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="anatomiya-energii">Buy on LitRes</a>
+      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/" data-aff="https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=anatomiya-energii&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="anatomiya-energii">Buy on LitRes</a>
       <a class="btn btn-outline book-card-excerpt" href="anatomiya-energii.html#excerpt" data-track="excerpt_open" data-book="anatomiya-energii">Excerpt</a>
       <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
     </div>
@@ -371,7 +375,7 @@
     <img src="../assets/covers/thumbs/ostorozhnyy-biohaker-w280.webp" srcset="../assets/covers/thumbs/ostorozhnyy-biohaker-w180.webp 180w, ../assets/covers/thumbs/ostorozhnyy-biohaker-w280.webp 280w, ../assets/covers/thumbs/ostorozhnyy-biohaker-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “The Careful Biohacker”" width="200" height="300" decoding="async" loading="lazy" />
   </a>
   <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/" data-aff="https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=ostorozhnyy-biohaker&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored" data-track="litres" data-book="ostorozhnyy-biohaker">Buy on LitRes</a>
+      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/" data-aff="https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=ostorozhnyy-biohaker&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="ostorozhnyy-biohaker">Buy on LitRes</a>
       <a class="btn btn-outline book-card-excerpt" href="ostorozhnyy-biohaker.html#excerpt" data-track="excerpt_open" data-book="ostorozhnyy-biohaker">Excerpt</a>
       <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
     </div>
@@ -381,14 +385,14 @@
     </div>
     <div class="sticky-buy" aria-label="Quick actions">
       <a class="btn btn-primary sticky-buy-excerpt" href="#excerpt">Read excerpt</a>
-      <a class="btn btn-outline sticky-buy-store" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener sponsored">LitRes</a>
-      <a class="btn btn-outline sticky-buy-amazon" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener">Amazon</a>
+      <a class="btn btn-outline sticky-buy-store" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">LitRes</a>
+      <a class="btn btn-outline sticky-buy-amazon" href="https://www.amazon.com/dp/B0H7YP5QJ9" target="_blank" rel="noopener noreferrer">Amazon</a>
     </div>
 
   </main>
   <div id="site-footer"></div>
   <script src="../js/base-config.min.js" defer></script>
   <script src="../js/data-en.min.js" defer></script>
-  <script src="../js/main.min.js?v=20260720phase4" defer></script>
+  <script src="../js/main.min.js?v=20260720secdev" defer></script>
 </body>
 </html>
