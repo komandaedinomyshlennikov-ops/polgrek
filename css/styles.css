@@ -4627,6 +4627,57 @@ a.book-tag-chip:hover {
   }
 }
 
+/* ---------- Scroll reveal (only when JS adds .js-reveal) ---------- */
+html.js-reveal .reveal {
+  opacity: 0;
+  transform: translate3d(0, 1.35rem, 0);
+  filter: blur(0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+html.js-reveal .reveal.reveal--up {
+  transform: translate3d(0, 1.75rem, 0);
+}
+html.js-reveal .reveal.reveal--scale {
+  transform: translate3d(0, 0.85rem, 0) scale(0.97);
+}
+html.js-reveal .reveal.reveal--left {
+  transform: translate3d(-1.25rem, 0.5rem, 0);
+}
+html.js-reveal .reveal.reveal--right {
+  transform: translate3d(1.25rem, 0.5rem, 0);
+}
+html.js-reveal .reveal.is-inview {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+/* Stagger children inside a container marked reveal-stagger */
+html.js-reveal .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0.02s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(2) { transition-delay: 0.08s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(3) { transition-delay: 0.14s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(4) { transition-delay: 0.2s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(5) { transition-delay: 0.26s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(6) { transition-delay: 0.32s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(7) { transition-delay: 0.38s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(8) { transition-delay: 0.44s; }
+html.js-reveal .reveal-stagger > .reveal:nth-child(n + 9) { transition-delay: 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal .reveal,
+  html.js-reveal .reveal.reveal--up,
+  html.js-reveal .reveal.reveal--scale,
+  html.js-reveal .reveal.reveal--left,
+  html.js-reveal .reveal.reveal--right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+}
+
 /* ---------- Phase 1: self-check, outcomes, problems ---------- */
 .hero-byline {
   margin: 0.85rem 0 0;

@@ -2522,6 +2522,8 @@
       mountMicroNow();
       mountScrollDepthGoals();
     }
+    // After DOM paint of dynamic grids (flagships etc.)
+    window.setTimeout(mountScrollReveal, 40);
 
     // Home problems grid: collapse extras on narrow screens
     const doorsGrid = document.getElementById('doorsGrid');
@@ -2999,6 +3001,118 @@
     d.addEventListener('toggle', () => {
       if (d.open) {
         track('micro_now_reveal', { lang: isEn ? 'en' : 'ru' });
+      }
+    });
+  }
+
+  /**
+   * Scroll reveal: elements fade/slide in as they enter the viewport.
+   * No-JS: no .js-reveal → content stays fully visible.
+   * Reduced motion: everything shown immediately.
+   */
+  function mountScrollReveal() {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    } catch (e) {
+      /* ignore */
+    }
+    if (!('IntersectionObserver' in window)) return;
+
+    document.documentElement.classList.add('js-reveal');
+
+    const SELECTORS = [
+      'main > section',
+      '.micro-now',
+      '.wow-card',
+      '.insight-ep',
+      '.door',
+      '.cycle-strip li',
+      '.mistake-item',
+      '.outcome-card',
+      '.why-card',
+      '.book-card',
+      '.article-card',
+      '.reader-review',
+      '.rating-card',
+      '.method-card',
+      '.final-cta',
+      '.section-head',
+      '.hero-grid > div',
+      '.faq-item',
+      '.self-check',
+      '.home-excerpt-layout > *',
+      '.book-quiz',
+      '.social-proof-section .section-head',
+      '.trust-split > *',
+    ];
+
+    const seen = new Set();
+    const nodes = [];
+    SELECTORS.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((el) => {
+        if (seen.has(el)) return;
+        // Skip site chrome / sticky UI
+        if (el.closest('.site-header, .page-jump, .mobile-tabbar, .return-bar, .read-progress')) return;
+        // Hero: only animate right column lightly; left stays for LCP
+        if (el.closest('.hero') && el.matches('.hero-grid > div:first-child')) return;
+        seen.add(el);
+        nodes.push(el);
+      });
+    });
+
+    // Assign motion variants
+    nodes.forEach((el, i) => {
+      el.classList.add('reveal');
+      if (el.classList.contains('wow-card') || el.classList.contains('micro-now')) {
+        el.classList.add('reveal--scale');
+      } else if (el.classList.contains('door') || el.classList.contains('insight-ep')) {
+        el.classList.add(i % 2 === 0 ? 'reveal--left' : 'reveal--right');
+      } else if (el.classList.contains('book-card') || el.classList.contains('article-card')) {
+        el.classList.add('reveal--up');
+      }
+    });
+
+    // Stagger groups
+    [
+      '#doorsGrid',
+      '.insight-chain',
+      '.cycle-strip',
+      '.mistakes-list',
+      '.outcomes-grid',
+      '.why-cards',
+      '.books-grid',
+      '.articles-grid',
+      '.social-reviews',
+      '.ratings-row',
+      '.faq-list',
+    ].forEach((sel) => {
+      const g = document.querySelector(sel);
+      if (g) g.classList.add('reveal-stagger');
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-inview');
+          io.unobserve(entry.target);
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.12,
+      }
+    );
+
+    nodes.forEach((el) => {
+      // Already in view (e.g. short pages)
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        // Small delay so first paint isn't a flash of hidden content
+        requestAnimationFrame(() => el.classList.add('is-inview'));
+      } else {
+        io.observe(el);
       }
     });
   }
