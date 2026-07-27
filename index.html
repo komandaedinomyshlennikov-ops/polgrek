@@ -45,9 +45,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="css/styles.min.css?v=20260720hero3" as="style" />
-  <link rel="stylesheet" href="css/styles.min.css?v=20260720hero3" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720hero3" /></noscript>
+  <link rel="preload" href="css/styles.min.css?v=20260720insight" as="style" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260720insight" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720insight" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -164,11 +164,11 @@
 
   <main id="main-content" tabindex="-1">
     <nav class="page-jump" aria-label="Разделы страницы">
-      <a href="#check">Проверка</a>
-      <a href="#problems">Проблемы</a>
-      <a href="#why-cards">Почему</a>
+      <a href="#now">Прямо сейчас</a>
+      <a href="#check">Про себя</a>
+      <a href="#insights">Инсайты</a>
+      <a href="#problems">Почему</a>
       <a href="#excerpt" class="page-jump-cta">Глава</a>
-      <a href="#author-home">Как устроено</a>
       <a href="#faq">FAQ</a>
     </nav>
 
@@ -183,9 +183,9 @@
           </p>
           <p class="lead lead-short" id="heroLead" hidden></p>
           <div class="hero-cta-panel">
-            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#check">Проверить себя →</a>
-            <a class="btn btn-outline" id="heroCtaExcerpt" href="#excerpt">Читать главу</a>
-            <a class="btn btn-ghost-link" href="#problems">Что мешает сильнее</a>
+            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#now">Проверить прямо сейчас →</a>
+            <a class="btn btn-outline" id="heroCtaExcerpt" href="#check">Что из этого про вас</a>
+            <a class="btn btn-ghost-link" href="#excerpt">Глава бесплатно</a>
           </div>
           <p class="hero-trust">Почта не обязательна · без хайпа · где крепко — A–B, где осторожно — C–D</p>
           <p class="hero-byline muted" id="heroByline">Пол Грэк · нейробиология без воды</p>
@@ -237,48 +237,148 @@
             <p class="self-check-bridge-body">
               У большинства таких состояний уже есть объяснение: как устроен мозг, а не «надо просто захотеть».
             </p>
-            <a class="btn btn-primary" href="#problems" id="selfCheckContinue">Что из этого ближе →</a>
+            <a class="btn btn-primary" href="#insights" id="selfCheckContinue">Открыть, почему так →</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="outcomes" class="outcomes-section" aria-labelledby="outcomes-title">
+    <!-- Micro-win: value in the first minutes -->
+    <section id="now" class="micro-now-section" aria-labelledby="now-title">
+      <div class="container">
+        <article class="micro-now" id="microNow">
+          <p class="eyebrow">Польза за 30 секунд · не теория</p>
+          <h2 id="now-title">Проверьте прямо сейчас</h2>
+          <ol class="micro-now-steps">
+            <li>
+              <strong>Вспомните:</strong> что вы ели <em>три дня назад</em> на обед?
+              <span class="muted">Получилось? Часто — туман или «не помню».</span>
+            </li>
+            <li>
+              <strong>Теперь:</strong> что ели <em>вчера</em>?
+              <span class="muted">Обычно легче. И это не «плохая память».</span>
+            </li>
+          </ol>
+          <details class="micro-now-reveal" data-track-open="micro_now_reveal">
+            <summary>Почему мозг хранит одно и почти стирает другое →</summary>
+            <div class="micro-now-answer">
+              <p>
+                Мозг не видеорегистратор. Он копит то, что кажется нужным для выживания и решений,
+                и сжимает остальное. Вчера ещё «горячо» — три дня назад уже архив.
+              </p>
+              <p>
+                Поэтому «просто соберись и запомни» почти не работает: вы просите систему
+                вести себя не так, как она устроена.
+              </p>
+              <p class="micro-now-win">
+                <strong>Мини-решение на сегодня:</strong> одно важное дело — запишите одним предложением
+                <em>до</em> того, как откроете ленту. Не «память», а внешний якорь.
+              </p>
+              <p class="micro-now-next">
+                <a href="#wow" data-track="fact_expand" data-fact="memory-lunch">Дальше: решение раньше, чем вы его осознали →</a>
+                <span class="micro-fact-sep" aria-hidden="true">·</span>
+                <a href="knigi/mozg-na-100/#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Глава про ясность</a>
+              </p>
+            </div>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <!-- Shareable wow moment -->
+    <section id="wow" class="wow-section" aria-labelledby="wow-title">
+      <div class="container">
+        <article class="wow-card">
+          <p class="eyebrow">Можно переслать другу</p>
+          <h2 id="wow-title">За сегодняшний день ваш мозг уже несколько раз принял решение раньше, чем вы поняли, что его приняли</h2>
+          <p class="wow-body">
+            Привычка, телефон, «ещё одно» кликанье — часто стартуют <em>до</em> «осознанного выбора».
+            Это не лень. Это архитектура: контекст и ресурс ведут, а объяснение вы дописываете потом.
+          </p>
+          <p class="wow-punch">Вы не «слабый». Возможно, мозг экономит энергию — не там, где нужно.</p>
+          <div class="btn-row wow-cta">
+            <a class="btn btn-primary" href="#insights" data-track="fact_expand" data-fact="pre-decision">Разбираемся дальше →</a>
+            <a class="btn btn-outline" href="knigi/mozg-i-dengi/#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Глава «Мозг и деньги»</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TED-like insight chain -->
+    <section id="insights" class="insight-chain-section" aria-labelledby="insights-title">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Не «ещё знания»</p>
-            <h2 id="outcomes-title">Что реально меняется</h2>
-            <p class="section-lead">Не стопка теорий. Сдвиги, которые чувствуются в обычном дне — если смотреть на механику, а не на лозунги.</p>
+            <p class="eyebrow">Любопытство → ответ → следующий вопрос</p>
+            <h2 id="insights-title">Три открытия про вас — не про «книги на полке»</h2>
+            <p class="section-lead">Каждый блок: неожиданный факт → почему так → что сделать сегодня → где разобрать полностью.</p>
           </div>
         </div>
-        <ul class="outcomes-grid">
-          <li class="outcome-card"><strong>Фокус</strong><span>Быстрее ловить внимание, когда оно уехало</span></li>
-          <li class="outcome-card"><strong>Стресс</strong><span>Читать его как систему — не как «я слабый»</span></li>
-          <li class="outcome-card"><strong>Мифы</strong><span>Меньше верить хайпу и «просто выспись»</span></li>
-          <li class="outcome-card"><strong>Решения</strong><span>Не решать важное, когда ресурс уже на дне</span></li>
-          <li class="outcome-card"><strong>Сигнал vs шум</strong><span>Что чинить, что переждать, что отпустить</span></li>
-          <li class="outcome-card"><strong>Честность</strong><span>Где данные крепкие (A–B), а где «осторожно» (C–D)</span></li>
-        </ul>
-      </div>
-    </section>
 
-    <section id="fact-1" class="micro-fact-section" aria-labelledby="fact-1-title">
-      <div class="container">
-        <article class="micro-fact">
-          <p class="eyebrow">Если коротко</p>
-          <h2 id="fact-1-title" class="micro-fact-title">Мозг часто «решает» раньше вас</h2>
-          <p class="micro-fact-body">
-            Привычки и контекст запускают действие раньше, чем включается «осознанный выбор».
-            Поэтому «просто соберись» вечером почти не работает: ресурс уже на дне, окружение уже ведёт.
-            Это не лень. Это как мозг просчитывает риски, когда сил мало.
-          </p>
-          <p class="micro-fact-next">
-            <a href="#mistakes" data-track="fact_expand" data-fact="decision-lag">Что вы уже успели сегодня →</a>
-            <span class="micro-fact-sep" aria-hidden="true">·</span>
-            <a href="knigi/mozg-i-dengi/#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Глава «Мозг и деньги»</a>
-          </p>
-        </article>
+        <div class="insight-chain">
+          <article class="insight-ep" id="insight-read" data-segment="memory">
+            <p class="insight-ep-kicker">01 · фокус</p>
+            <h3 class="insight-ep-q">Почему трудно читать длинные тексты?</h3>
+            <p class="insight-ep-hook">Часто дело не в «слабой концентрации». Мозг экономит энергию: длинный текст без срочной награды — дорогой процесс.</p>
+            <div class="insight-ep-grid">
+              <div>
+                <p class="insight-ep-label">Почему так</p>
+                <p>Скачки внимания (чат, вкладка, «быстрый» скролл) уже съели ресурс. Чтение требует устойчивой рабочей памяти — её и нет к вечеру.</p>
+              </div>
+              <div>
+                <p class="insight-ep-label">Уже сегодня</p>
+                <p>10 минут: телефон в другой комнате, один абзац без «проверить». Не час — десять минут. Мозг цепляется за начатое.</p>
+              </div>
+            </div>
+            <p class="insight-ep-book">Полный разбор · <strong>Мозг на 100+</strong> / <strong>Ментальный дебаг</strong></p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="knigi/mozg-na-100/#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Глава</a>
+              <a class="btn btn-ghost-link" href="#insight-evening">Следующий вопрос →</a>
+            </div>
+          </article>
+
+          <article class="insight-ep" id="insight-evening" data-segment="money">
+            <p class="insight-ep-kicker">02 · решения</p>
+            <h3 class="insight-ep-q">Почему вечером невозможно принять нормальное решение?</h3>
+            <p class="insight-ep-hook">К вечеру «сила воли» уже не ресурс — она съедена. Это не характер. Это как мозг просчитывает риски на пустом баке.</p>
+            <div class="insight-ep-grid">
+              <div>
+                <p class="insight-ep-label">Почему так</p>
+                <p>Самоконтроль и рабочая память делят один «бюджет». После сотен мелких выборов вечернее «ещё одно решение» — ловушка.</p>
+              </div>
+              <div>
+                <p class="insight-ep-label">Уже сегодня</p>
+                <p>Важное — до 15:00. Вечером только то, что можно отменить. Импульс: 24 часа вне корзины.</p>
+              </div>
+            </div>
+            <p class="insight-ep-book">Полный разбор · <strong>Мозг и деньги</strong></p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="knigi/mozg-i-dengi/#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Глава</a>
+              <a class="btn btn-ghost-link" href="#insight-vacation">Следующий вопрос →</a>
+            </div>
+          </article>
+
+          <article class="insight-ep" id="insight-vacation" data-segment="burnout">
+            <p class="insight-ep-kicker">03 · восстановление</p>
+            <h3 class="insight-ep-q">Почему после отпуска снова устаёте через три дня?</h3>
+            <p class="insight-ep-hook">Вы восстановили <em>время</em>. Не обязательно — <em>ресурс</em>. Отдых и восстановление мозга — разные вещи.</p>
+            <div class="insight-ep-grid">
+              <div>
+                <p class="insight-ep-label">Почему так</p>
+                <p>Система истощения не сбрасывается «неделей у моря», если вы возвращаетесь в тот же режим: дедлайны, лента, ноль границ.</p>
+              </div>
+              <div>
+                <p class="insight-ep-label">Уже сегодня</p>
+                <p>Один вечер без входящего потока 15 минут. Не «медитация по методичке» — просто тишина. Настоящий отдых начинается, где кончается лента.</p>
+              </div>
+            </div>
+            <p class="insight-ep-book">Полный разбор · <strong>RESET</strong> / <strong>Священные часы</strong></p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset">Глава RESET</a>
+              <a class="btn btn-ghost-link" href="#problems">Выбрать свою историю →</a>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -286,50 +386,56 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Не витрина — точка входа</p>
-            <h2 id="problems-title">Что мешает сильнее всего</h2>
-            <p class="section-lead">Не «13 обложек». То, что сейчас громче. Карточка → книга и глава на сайте.</p>
+            <p class="eyebrow">Не витрина — «что у вас громче»</p>
+            <h2 id="problems-title">Почему с вами так — и что с этим делать</h2>
+            <p class="section-lead">Вопрос → неожиданная причина → мини-ход → глава. Книга — только если захотите углубиться.</p>
           </div>
         </div>
-        <div class="doors doors--situations doors--problems" id="doorsGrid">
+        <div class="doors doors--situations doors--problems doors--insight" id="doorsGrid">
           <a class="door" href="knigi/reset/#excerpt" data-track="problem_select" data-book="reset">
             <div class="num">01</div>
-            <h3>Выгорание · выходные не помогают</h3>
-            <p>Отлежался — и снова в ноль. Это не лень. Истощение работает иначе, чем «просто отдых».</p>
-            <span class="link">Решение · <strong>RESET</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему выходные не помогают?</h3>
+            <p class="door-twist">Частая причина: вы восстанавливаете <strong>время</strong>, а не <strong>мозг</strong>.</p>
+            <p class="door-do"><strong>Что сделать:</strong> один вечер без ленты 15 мин — до «просто отдохни».</p>
+            <span class="link">Дальше · <strong>RESET</strong> <span class="link-hint">(глава)</span></span>
           </a>
           <a class="door" href="knigi/mozg-na-100/#excerpt" data-track="problem_select" data-book="mozg-na-100">
             <div class="num">02</div>
-            <h3>Туман · память · «ватность» после 40</h3>
-            <p>Не «возраст сделал глупее». Есть то, что ломается по правилам — и то, что остаётся мифом.</p>
-            <span class="link">Решение · <strong>Мозг на 100+</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему память «садится» и лезет туман?</h3>
+            <p class="door-twist">Не «возраст сделал глупее». Часто — сон, нагрузка и то, что мозг просто экономит.</p>
+            <p class="door-do"><strong>Что сделать:</strong> важное — одним предложением до ленты. Внешний якорь вместо «запомни».</p>
+            <span class="link">Дальше · <strong>Мозг на 100+</strong> <span class="link-hint">(глава)</span></span>
           </a>
           <a class="door" href="knigi/stress-i-mozg/#excerpt" data-track="problem_select" data-book="stress-i-mozg">
             <div class="num">03</div>
-            <h3>Стресс · тревога не выключается</h3>
-            <p>«Просто успокойся» — самый бесполезный совет. Петля уже крутится. Разбираем, как её ослабить.</p>
-            <span class="link">Решение · <strong>Стресс и мозг</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему тревога сама себя кормит?</h3>
+            <p class="door-twist">«Просто успокойся» бесполезен: амигдала быстрее мысли. Это архитектура, не характер.</p>
+            <p class="door-do"><strong>Что сделать:</strong> один следующий шаг на 2 минуты. Не план на год — один шаг.</p>
+            <span class="link">Дальше · <strong>Стресс и мозг</strong> <span class="link-hint">(глава)</span></span>
           </a>
-          <a class="door door--extra" href="knigi/biohacking-mozga/#excerpt" data-track="problem_select" data-book="biohacking-mozga">
+          <a class="door door--extra" href="knigi/ei-2/#excerpt" data-track="problem_select" data-book="ei-2">
             <div class="num">04</div>
-            <h3>Фокус · энергия · шум «биохакинга»</h3>
-            <p>Что оставить, что отсечь. Без «волшебных» стеков и обещаний за неделю.</p>
-            <span class="link">Решение · <strong>Биохакинг мозга</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему эмоции «перехватывают руль»?</h3>
+            <p class="door-twist">Тело уже в угрозе, а вы ещё «логически понимаете». Стыд добавляет второй слой.</p>
+            <p class="door-do"><strong>Что сделать:</strong> STOP на 90 секунд: назвать чувство → выдох длиннее → один микрошаг.</p>
+            <span class="link">Дальше · <strong>EI 2.0</strong> <span class="link-hint">(глава)</span></span>
           </a>
           <a class="door door--extra" href="knigi/mozg-i-dengi/#excerpt" data-track="problem_select" data-book="mozg-i-dengi">
             <div class="num">05</div>
-            <h3>Деньги · импульсы · «сила воли»</h3>
-            <p>Это не про жадность и не про характер. Как мозг просчитывает риски, когда ресурс на дне.</p>
-            <span class="link">Решение · <strong>Мозг и деньги</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему «ещё одно решение» вечером — ловушка?</h3>
+            <p class="door-twist">Это не жадность и не «слабый характер». Ресурс самоконтроля на дне.</p>
+            <p class="door-do"><strong>Что сделать:</strong> важные деньги-решения — не после 21:00. Импульс: 24 часа в заметках.</p>
+            <span class="link">Дальше · <strong>Мозг и деньги</strong> <span class="link-hint">(глава)</span></span>
           </a>
           <a class="door door--extra" href="knigi/anatomiya-energii/#excerpt" data-track="problem_select" data-book="anatomiya-energii">
             <div class="num">06</div>
-            <h3>К обеду уже пусто</h3>
-            <p>Не всегда «мало спал». Режим, нагрузка, ложные бусты — что реально держит энергию.</p>
-            <span class="link">Решение · <strong>Анатомия энергии</strong> <span class="link-hint">(отрывок)</span></span>
+            <h3>Почему к обеду уже пусто?</h3>
+            <p class="door-twist">Не всегда «мало спал». Три системы — и если чините только одну, «всё правильное» не работает.</p>
+            <p class="door-do"><strong>Что сделать:</strong> свет утром + еда без «энергетика» как костыля. Один рычаг за раз.</p>
+            <span class="link">Дальше · <strong>Анатомия энергии</strong> <span class="link-hint">(глава)</span></span>
           </a>
           <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
-            Ещё проблемы <span class="doors-more-count">3</span>
+            Ещё истории <span class="doors-more-count">3</span>
           </button>
         </div>
         <p class="problems-alt muted">
@@ -340,87 +446,25 @@
       </div>
     </section>
 
-    <section id="why-cards" class="why-cards-section" aria-labelledby="why-cards-title">
+    <!-- Compact cycle strip before excerpt -->
+    <section id="why-cards" class="cycle-strip-section" aria-labelledby="cycle-title">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Разбор, не полка</p>
-            <h2 id="why-cards-title">Почему с вами так</h2>
-            <p class="section-lead">Вопрос → механика → глава. Без витрины «обложка и цена».</p>
+            <p class="eyebrow">Как устроена каждая тема здесь</p>
+            <h2 id="cycle-title">Не «книга → купить». Цепочка пользы</h2>
           </div>
         </div>
-        <div class="why-cards">
-          <article class="why-card" data-segment="energy">
-            <h3 class="why-card-q">Почему к обеду уже пусто?</h3>
-            <p class="why-card-label">Разбираем</p>
-            <ul class="why-card-list">
-              <li>отдых ≠ восстановление</li>
-              <li>режим и нагрузку на мозг</li>
-              <li>ложные «энергетики» и разовый буст</li>
-            </ul>
-            <p class="why-card-book">Книга · <strong>Анатомия энергии</strong> <span class="muted">и</span> <strong>RESET</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="knigi/anatomiya-energii/#excerpt" data-track="excerpt_open" data-book="anatomiya-energii">Отрывок</a>
-              <a class="btn btn-outline" href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset">RESET · отрывок</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="stress">
-            <h3 class="why-card-q">Почему тревога сама себя кормит?</h3>
-            <p class="why-card-label">Разбираем</p>
-            <ul class="why-card-list">
-              <li>петлю «мысль → тело → мысль»</li>
-              <li>почему «просто успокойся» не работает</li>
-              <li>что реально снижает нагрузку — без лозунгов</li>
-            </ul>
-            <p class="why-card-book">Книга · <strong>Стресс и мозг</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="knigi/stress-i-mozg/#excerpt" data-track="excerpt_open" data-book="stress-i-mozg">Отрывок</a>
-              <a class="btn btn-outline" href="knigi/stress-i-mozg/" data-track="problem_select" data-book="stress-i-mozg">О книге</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="memory">
-            <h3 class="why-card-q">Почему память «садится» и лезет туман?</h3>
-            <p class="why-card-label">Разбираем</p>
-            <ul class="why-card-list">
-              <li>что с возрастом реально меняется — и что нет</li>
-              <li>сон, нагрузку, фокус без «волшебных» пилюль</li>
-              <li>где данные крепкие (A–B), а где осторожность</li>
-            </ul>
-            <p class="why-card-book">Книга · <strong>Мозг на 100+</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="knigi/mozg-na-100/#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Отрывок</a>
-              <a class="btn btn-outline" href="knigi/mozg-na-100/" data-track="problem_select" data-book="mozg-na-100">О книге</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="burnout">
-            <h3 class="why-card-q">Почему выходные не восстанавливают?</h3>
-            <p class="why-card-label">Разбираем</p>
-            <ul class="why-card-list">
-              <li>выгорание — это не «длинные выходные»</li>
-              <li>отдых ≠ вернуть ресурс</li>
-              <li>с чего начать, когда «я уже не тяну»</li>
-            </ul>
-            <p class="why-card-book">Книга · <strong>RESET</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset">Отрывок</a>
-              <a class="btn btn-outline" href="knigi/reset/" data-track="problem_select" data-book="reset">О книге</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="money">
-            <h3 class="why-card-q">Почему «ещё одно решение» вечером — ловушка?</h3>
-            <p class="why-card-label">Разбираем</p>
-            <ul class="why-card-list">
-              <li>к вечеру самоконтроль уже съеден</li>
-              <li>импульсы, деньги, «сила воли»</li>
-              <li>как не решать важное на остатке</li>
-            </ul>
-            <p class="why-card-book">Книга · <strong>Мозг и деньги</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="knigi/mozg-i-dengi/#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Отрывок</a>
-              <a class="btn btn-outline" href="knigi/mozg-i-dengi/" data-track="problem_select" data-book="mozg-i-dengi">О книге</a>
-            </div>
-          </article>
-        </div>
+        <ol class="cycle-strip">
+          <li><strong>Проблема</strong><span>что знакомо в жизни</span></li>
+          <li><strong>Неожиданный факт</strong><span>не «просто характер»</span></li>
+          <li><strong>Почему так</strong><span>механика мозга</span></li>
+          <li><strong>Мини-ход</strong><span>уже сегодня</span></li>
+          <li><strong>Глава</strong><span>если хотите глубже</span></li>
+        </ol>
+        <p class="cycle-strip-cta">
+          <a class="btn btn-primary" href="#excerpt">Взять главу — и решить сами →</a>
+        </p>
       </div>
     </section>
 
@@ -429,46 +473,27 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Без морали. С механикой</p>
-            <h2 id="mistakes-title">Сегодня вы, скорее всего, уже сделали минимум три вещи — и мозг об этом «не написал»</h2>
-            <p class="section-lead">Не про вину. Про то, как устроен обычный день. Книги разбирают именно это — не «стань лучше».</p>
+            <h2 id="mistakes-title">Три вещи, которые мозг уже сделал «без уведомления»</h2>
+            <p class="section-lead">Не про вину. Про обычный день — и почему дальше есть мини-ходы, а не только «стань лучше».</p>
           </div>
         </div>
         <ol class="mistakes-list">
           <li class="mistake-item">
             <strong>Телефон в первые минуты после пробуждения</strong>
-            <span>Мозг ещё не собрался — лента уже задала тревогу и сравнение.</span>
+            <span>Мозг ещё не собрался — лента уже задала тревогу и сравнение. <em>Сегодня:</em> 10 минут без экрана.</span>
           </li>
           <li class="mistake-item">
             <strong>Важное решение, когда ресурс на дне</strong>
-            <span>Вечером самоконтроль и рабочая память уже съедены. Решения дороже ошибок. Это не трусость — другой способ, когда сил мало.</span>
+            <span>Вечером самоконтроль съеден. Это не трусость — другой режим. <em>Сегодня:</em> важное до 15:00.</span>
           </li>
           <li class="mistake-item">
             <strong>Скачки внимания каждые 1–2 минуты</strong>
-            <span>Каждый скачок — налог на фокус. Длинный текст и сложная задача сыпятся первыми.</span>
+            <span>Каждый скачок — налог на фокус. <em>Сегодня:</em> один блок 10 минут без «проверить».</span>
           </li>
         </ol>
         <p class="mistakes-cta">
-          Такие вещи разбираются в главах — с данными, без магии.
           <a class="btn btn-primary" href="#excerpt">Разобрать одну в главе →</a>
         </p>
-      </div>
-    </section>
-
-    <section id="fact-2" class="micro-fact-section micro-fact-section--alt" aria-labelledby="fact-2-title">
-      <div class="container">
-        <article class="micro-fact">
-          <p class="eyebrow">Если коротко</p>
-          <h2 id="fact-2-title" class="micro-fact-title">«Просто выспись» часто не закрывает усталость</h2>
-          <p class="micro-fact-body">
-            Когда система истощена, сон в выходные не сбрасывает долг так, как хочется думать.
-            Отдых и восстановление — разные вещи. Иначе: отлежался — и к среде снова ноль.
-          </p>
-          <p class="micro-fact-next">
-            <a href="knigi/reset/#excerpt" data-track="excerpt_open" data-book="reset" data-fact="sleep-not-enough">Глава RESET →</a>
-            <span class="micro-fact-sep" aria-hidden="true">·</span>
-            <a href="#why-cards">Ещё «почему…»</a>
-          </p>
-        </article>
       </div>
     </section>
 
@@ -781,6 +806,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.min.js" defer></script>
   <script src="js/data.js" defer></script>
-  <script src="js/main.min.js?v=20260720hero3" defer></script>
+  <script src="js/main.min.js?v=20260720insight" defer></script>
 </body>
 </html>

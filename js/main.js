@@ -2519,6 +2519,7 @@
       mountHomeSegment();
       mountBookQuiz();
       mountSelfCheck();
+      mountMicroNow();
       mountScrollDepthGoals();
     }
 
@@ -2879,12 +2880,15 @@
       });
     }
 
-    // Feature matching why-card (move to front + highlight)
+    // Feature matching why-card / insight episode
     if (seg.why) {
-      const grid = document.querySelector('.why-cards');
-      const card = grid && grid.querySelector(`.why-card[data-segment="${seg.why}"]`);
+      const grid = document.querySelector('.why-cards, .insight-chain');
+      const card =
+        grid &&
+        (grid.querySelector(`.why-card[data-segment="${seg.why}"]`) ||
+          grid.querySelector(`.insight-ep[data-segment="${seg.why}"]`));
       if (grid && card) {
-        grid.querySelectorAll('.why-card.is-featured').forEach((c) => c.classList.remove('is-featured'));
+        grid.querySelectorAll('.is-featured').forEach((c) => c.classList.remove('is-featured'));
         card.classList.add('is-featured');
         grid.insertBefore(card, grid.firstChild);
       }
@@ -2986,6 +2990,17 @@
 
     boxes.forEach((b) => b.addEventListener('change', sync));
     sync();
+  }
+
+  /** Track open of micro-now <details> (first expand). */
+  function mountMicroNow() {
+    const d = document.querySelector('.micro-now-reveal');
+    if (!d) return;
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        track('micro_now_reveal', { lang: isEn ? 'en' : 'ru' });
+      }
+    });
   }
 
   window.PolSite = { bookCardHTML, articleCardHTML, url, peerLangUrl, isEn, UI, track };
