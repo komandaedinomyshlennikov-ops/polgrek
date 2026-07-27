@@ -4915,28 +4915,93 @@ a.book-tag-chip:hover {
 .home-excerpt-aside {
   position: sticky;
   top: calc(var(--nav-h) + 1rem);
+  min-width: 0; /* prevent grid blowout */
 }
-.home-excerpt-magnet {
-  padding: 1.2rem 1.25rem 1.3rem;
+/*
+ * Home sidebar magnet: light card, single column.
+ * Must override .magnet (full-width dark ink panel + 2-col grid),
+ * otherwise text goes light-on-light and form is crushed in ~16rem aside.
+ */
+.home-excerpt-magnet.magnet {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.85rem;
+  padding: 1.15rem 1.15rem 1.25rem;
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: var(--panel-bg);
+  color: var(--ink);
   box-shadow: var(--shadow);
+  /* kill dark ink gradients from .magnet */
+  background-image: none;
+}
+.home-excerpt-magnet.magnet-cta-focus {
+  outline: 1px solid color-mix(in srgb, var(--teal) 35%, var(--line));
+  outline-offset: 0;
+}
+.home-excerpt-magnet .eyebrow {
+  margin-bottom: 0.45rem;
+  color: var(--amber-deep); /* AAA on paper — not pale amber on light */
 }
 .home-excerpt-magnet-title {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  margin: 0 0 0.4rem;
+  font-family: var(--heading, var(--serif));
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
   color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
-.home-excerpt-magnet-lead {
-  margin: 0 0 1rem;
-  font-size: 0.95rem;
+.home-excerpt-magnet-lead,
+.home-excerpt-magnet.magnet p.home-excerpt-magnet-lead {
+  margin: 0 0 0.15rem;
+  font-size: 0.92rem;
   color: var(--muted);
   line-height: 1.45;
+  max-width: none; /* override .magnet p max-width */
 }
 .home-excerpt-magnet .magnet-form {
-  gap: 0.75rem;
+  gap: 0.65rem;
+  padding: 0.85rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--paper-2) 55%, var(--panel-bg));
+  border: 1px solid var(--line);
+}
+.home-excerpt-magnet .magnet-form label {
+  color: var(--ink-soft);
+}
+.home-excerpt-magnet .magnet-check {
+  color: var(--muted) !important;
+  font-size: 0.84rem !important;
+}
+.home-excerpt-magnet .magnet-note {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+.home-excerpt-magnet .magnet-note a {
+  color: var(--teal-deep);
+}
+.home-excerpt-magnet .magnet-status {
+  color: var(--ink);
+}
+.home-excerpt-magnet .magnet-status.is-error,
+.home-excerpt-magnet .field-error {
+  color: var(--coral);
+}
+.home-excerpt-magnet .field-float input {
+  border-color: var(--line-strong);
+  background: var(--white);
+  color: var(--ink);
+}
+.home-excerpt-magnet .field-float label {
+  color: var(--muted);
+}
+.home-excerpt-magnet .btn {
+  width: 100%;
+  white-space: normal; /* long RU label on narrow card */
+  text-align: center;
 }
 @media (max-width: 900px) {
   .home-excerpt-layout {

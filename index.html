@@ -45,9 +45,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="css/styles.min.css?v=20260720books" as="style" />
-  <link rel="stylesheet" href="css/styles.min.css?v=20260720books" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720books" /></noscript>
+  <link rel="preload" href="css/styles.min.css?v=20260720magnet" as="style" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260720magnet" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720magnet" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -534,9 +534,9 @@
           <aside class="home-excerpt-aside" aria-label="Скачать главу">
             <div class="magnet magnet-cta-focus home-excerpt-magnet">
               <div>
-                <p class="eyebrow" style="color:var(--amber)">Файл · почта не нужна</p>
+                <p class="eyebrow">Файл · почта не нужна</p>
                 <h3 class="home-excerpt-magnet-title">Скачать главу</h3>
-                <p class="home-excerpt-magnet-lead">Сразу файл. Email — если хотите ссылку и редкие новости. Можно без него.</p>
+                <p class="home-excerpt-magnet-lead">Сразу файл. Email — по желанию: ссылка и редкие новости.</p>
               </div>
               <form class="magnet-form" id="magnetForm" novalidate>
                 <label for="magnetBook" class="sr-only">Книга</label>
@@ -549,11 +549,11 @@
                   <p class="field-error" id="magnetEmailError" role="alert"></p>
                   <label class="magnet-check">
                     <input type="checkbox" id="magnetNews" name="news" value="1" />
-                    <span>Можно писать о новых книгах (редко)</span>
+                    <span>Можно писать про новые книги (редко)</span>
                   </label>
                 </div>
                 <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <button type="submit" class="btn btn-primary" id="magnetSubmit">Скачать отрывок</button>
+                <button type="submit" class="btn btn-primary" id="magnetSubmit">Скачать главу</button>
                 <p class="magnet-note" id="magnetNote">Не чаще раза в месяц. <a href="privacy.html">Конфиденциальность</a></p>
                 <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
               </form>
@@ -783,6 +783,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.min.js" defer></script>
   <script src="js/data.js" defer></script>
-  <script src="js/main.min.js?v=20260720books" defer></script>
+  <script src="js/main.min.js?v=20260720magnet" defer></script>
 </body>
 </html>
