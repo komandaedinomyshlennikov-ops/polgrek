@@ -2608,12 +2608,11 @@
   const HOME_SEGMENTS = {
     default: {
       key: 'default',
-      eyebrow: 'Сначала разберёмся. Книга — если понадобится',
+      eyebrow: 'Сначала разберёмся — книга, если понадобится',
       h1: 'Мозг часто работает не так, как вам кажется',
       person:
         'И это не «слабый характер». Это механика: стресс, сон, привычки, остаток ресурса к вечеру. Ниже — коротко и по делу. Без эзотерики и «просто соберись».',
-      leadHtml:
-        'Не продаём «нейробиологию». Даём понять, <strong>что происходит</strong> → проверить себя → взять главу. Дальше сами решите, нужна ли вся книга.',
+      leadHtml: '',
       cardTitle: 'Почитайте — и решите сами',
       cardBody: 'Глава на сайте, бесплатно. Вся книга — на Литрес, только если зайдёт. Заранее ничего платить не нужно.',
       book: 'mozg-na-100',
@@ -2833,7 +2832,14 @@
     setText('heroEyebrow', seg.eyebrow);
     setText('heroTitle', seg.h1);
     setText('heroPerson', seg.person);
-    setHtml('heroLead', seg.leadHtml);
+    {
+      const lead = document.getElementById('heroLead');
+      if (lead) {
+        const html = seg.leadHtml || '';
+        lead.innerHTML = html;
+        lead.hidden = !String(html).trim();
+      }
+    }
     setText('heroCardTitle', seg.cardTitle);
     setText('heroCardBody', seg.cardBody);
 
