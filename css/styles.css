@@ -4738,6 +4738,195 @@ a.book-tag-chip:hover {
   }
 }
 
+/* ---------- Phase 2: micro-facts, Netflix why-cards, mistakes ---------- */
+.micro-fact-section {
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
+}
+.micro-fact-section--alt {
+  background: color-mix(in srgb, var(--amber) 6%, transparent);
+}
+.micro-fact {
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 1.5rem 1.5rem 1.6rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--amber);
+}
+.micro-fact .eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--amber-deep);
+}
+.micro-fact-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  max-width: 28ch;
+  margin: 0 0 0.75rem;
+  line-height: 1.25;
+}
+.micro-fact-body {
+  margin: 0 0 1rem;
+  color: var(--graphite);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 38rem;
+}
+.micro-fact-next {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+.micro-fact-next a {
+  color: var(--teal-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.micro-fact-sep {
+  color: var(--muted);
+  font-weight: 500;
+}
+.why-cards-section {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--teal) 4%, transparent) 40%, transparent);
+}
+.why-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+}
+.why-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+  min-height: 100%;
+}
+.why-card-q {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.3;
+  margin: 0 0 0.85rem;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.why-card-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.why-card-list {
+  margin: 0 0 1rem;
+  padding: 0 0 0 1.1rem;
+  color: var(--graphite);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  flex: 1;
+}
+.why-card-list li {
+  margin-bottom: 0.3rem;
+}
+.why-card-book {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.why-card-cta {
+  margin-top: auto;
+}
+.why-card-cta .btn {
+  min-height: 44px;
+}
+.mistakes-section {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+.mistakes-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  counter-reset: mistake;
+}
+.mistake-item {
+  counter-increment: mistake;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  align-items: start;
+}
+.mistake-item::before {
+  content: counter(mistake, decimal-leading-zero);
+  grid-row: 1 / span 2;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--ink) 18%, transparent);
+  line-height: 1;
+  padding-top: 0.15rem;
+}
+.mistake-item strong {
+  grid-column: 2;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.mistake-item span {
+  grid-column: 2;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.mistakes-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.25rem;
+  margin: 0;
+  max-width: 40rem;
+  color: var(--graphite);
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+.mistakes-cta .btn {
+  flex-shrink: 0;
+}
+@media (max-width: 800px) {
+  .why-cards {
+    grid-template-columns: 1fr;
+  }
+  .mistake-item {
+    grid-template-columns: 1fr;
+  }
+  .mistake-item::before {
+    grid-row: auto;
+  }
+  .mistake-item strong,
+  .mistake-item span {
+    grid-column: 1;
+  }
+  .mistakes-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .mistakes-cta .btn {
+    width: 100%;
+  }
+}
+
 /* ---------- Book quiz (stage 2) ---------- */
 .book-quiz-section {
   background: linear-gradient(180deg, rgba(24, 90, 83, 0.04), transparent 70%);
@@ -4844,6 +5033,10 @@ a.book-tag-chip:hover {
 #check,
 #problems,
 #outcomes,
+#fact-1,
+#fact-2,
+#why-cards,
+#mistakes,
 #social-proof,
 #book-quiz {
   scroll-margin-top: calc(var(--nav-h) + 3.25rem);
