@@ -1237,16 +1237,28 @@
         .join('');
     }
 
-    // Sync radio cover picks → select
+    // Sync radio cover picks → select + home excerpt preview
     const picks = document.getElementById('magnetPicks');
     if (picks && magnetSelect) {
       picks.addEventListener('change', (e) => {
         if (e.target && e.target.name === 'flagPick') {
           magnetSelect.value = e.target.value;
+          loadHomeExcerptPreview(e.target.value, { track: true });
         }
       });
       const checked = picks.querySelector('input[name="flagPick"]:checked');
       if (checked) magnetSelect.value = checked.value;
+    }
+    // Mid-page chapter reader (phase 3)
+    if (document.getElementById('excerptPreview')) {
+      let startSlug = 'mozg-na-100';
+      if (picks) {
+        const ch = picks.querySelector('input[name="flagPick"]:checked');
+        if (ch && ch.value) startSlug = ch.value;
+      } else if (magnetSelect && magnetSelect.value) {
+        startSlug = magnetSelect.value;
+      }
+      loadHomeExcerptPreview(startSlug, { track: false });
     }
 
     const magnetForm = document.getElementById('magnetForm');
@@ -2393,6 +2405,61 @@
       else if (mq.addListener) mq.addListener(syncDoorsExpand);
     }
   });
+
+  /** Home mid-page excerpt: load text + update LitRes CTA for selected flagship. */
+  function loadHomeExcerptPreview(slug, opts) {
+    const options = opts || {};
+    const pre = document.getElementById('excerptPreview');
+    if (!pre || !window.POL_GREK || !POL_GREK.getBook) return;
+    const book = POL_GREK.getBook(slug) || (POL_GREK.books || []).find((b) => b.flagship);
+    if (!book) return;
+
+    const titleEl = document.getElementById('excerptBookTitle');
+    const promiseEl = document.getElementById('excerptBookPromise');
+    if (titleEl) titleEl.textContent = book.title || slug;
+    if (promiseEl) promiseEl.textContent = book.promise || book.subtitle || '';
+
+    const litresA = document.getElementById('excerptLitresCta');
+    if (litresA) {
+      const buy = litresBuyUrl(book, book.slug);
+      const direct = litresDirect(book);
+      litresA.href = direct || buy || litresA.href;
+      if (buy) litresA.setAttribute('data-aff', buy);
+      litresA.setAttribute('data-book', book.slug);
+      litresA.setAttribute('data-track', 'litres');
+    }
+    const pageA = document.getElementById('excerptPageLink');
+    if (pageA) pageA.href = bookPageUrl(book.slug);
+
+    pre.setAttribute('aria-busy', 'true');
+    fetch(excerptUrl(book))
+      .then((r) => (r.ok ? r.text() : null))
+      .then((text) => {
+        if (!pre) return;
+        pre.removeAttribute('aria-busy');
+        if (!text) {
+          if (book.excerpt) fillExcerptProse(pre, String(book.excerpt));
+          return;
+        }
+        let c = text
+          .replace(/^[\s\S]*?— (?:Отрывок|Excerpt) —\s*/im, '')
+          .replace(/\n—\n[\s\S]*$/, '')
+          .trim();
+        // Skip long legal disclaimer blocks at the start when present
+        c = c
+          .replace(/^[\s\S]*?ДИСКЛЕЙМЕР\.[\s\S]*?(?:\n\n)+/i, '')
+          .replace(/^Правовая и медицинская оговорка\s*/i, '')
+          .trim();
+        fillExcerptProse(pre, c);
+        if (options.track) {
+          track('excerpt_open', { book: book.slug, lang: isEn ? 'en' : 'ru', place: 'home' });
+        }
+      })
+      .catch(() => {
+        pre.removeAttribute('aria-busy');
+        if (book.excerpt) fillExcerptProse(pre, String(book.excerpt));
+      });
+  }
 
   /** Home self-check: count boxes, open bridge at threshold, fire self_check once. */
   function mountSelfCheck() {

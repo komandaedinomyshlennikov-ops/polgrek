@@ -4738,6 +4738,100 @@ a.book-tag-chip:hover {
   }
 }
 
+/* ---------- Phase 3: mid-page chapter reader ---------- */
+.excerpt-section--home {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--teal) 5%, transparent), transparent 55%);
+}
+.home-excerpt-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.7fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: start;
+}
+.home-excerpt-main {
+  min-width: 0;
+}
+.home-excerpt-picks {
+  margin-bottom: 1.1rem;
+}
+.home-excerpt-meta {
+  margin-bottom: 0.85rem;
+}
+.home-excerpt-book-title {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.home-excerpt-promise {
+  margin: 0;
+  font-size: 0.98rem;
+  max-width: 40rem;
+}
+.home-excerpt-reader {
+  padding: 1.25rem 1.35rem 1.4rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.15rem;
+}
+.home-excerpt-reader .excerpt-prose {
+  max-height: none;
+}
+.home-excerpt-reader .excerpt-prose p:first-child {
+  margin-top: 0;
+}
+.home-excerpt-after {
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--teal) 28%, var(--line));
+  background: color-mix(in srgb, var(--teal) 7%, var(--panel-bg));
+}
+.home-excerpt-after-lead {
+  margin: 0 0 0.85rem;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+  max-width: 36rem;
+  line-height: 1.45;
+}
+.home-excerpt-aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 1rem);
+}
+.home-excerpt-magnet {
+  padding: 1.2rem 1.25rem 1.3rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+}
+.home-excerpt-magnet-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+}
+.home-excerpt-magnet-lead {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.home-excerpt-magnet .magnet-form {
+  gap: 0.75rem;
+}
+@media (max-width: 900px) {
+  .home-excerpt-layout {
+    grid-template-columns: 1fr;
+  }
+  .home-excerpt-aside {
+    position: static;
+  }
+}
+
 /* ---------- Phase 2: micro-facts, Netflix why-cards, mistakes ---------- */
 .micro-fact-section {
   padding-block: clamp(2.25rem, 5vw, 3.5rem);
