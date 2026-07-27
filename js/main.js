@@ -2608,7 +2608,7 @@
   const HOME_SEGMENTS = {
     default: {
       key: 'default',
-      eyebrow: 'Сначала разберёмся — книга, если понадобится',
+      eyebrow: '',
       h1: 'Мозг часто работает не так, как вам кажется',
       person:
         'И это не «слабый характер». Это механика: стресс, сон, привычки, остаток ресурса к вечеру. Ниже — коротко и по делу. Без эзотерики и «просто соберись».',
@@ -2829,7 +2829,14 @@
       if (el && html != null) el.innerHTML = html;
     };
 
-    setText('heroEyebrow', seg.eyebrow);
+    {
+      const eye = document.getElementById('heroEyebrow');
+      if (eye) {
+        const text = seg.eyebrow || '';
+        eye.textContent = text;
+        eye.hidden = !String(text).trim();
+      }
+    }
     setText('heroTitle', seg.h1);
     setText('heroPerson', seg.person);
     {
