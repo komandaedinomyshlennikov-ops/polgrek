@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720voice"
+CSS_VER = "20260720books"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -1353,7 +1353,7 @@ def build_book_page(
         else ""
     )
     pay_hint = (
-        "Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи."
+        "Платить — на Литрес или Amazon. Здесь описание и фрагмент. Деньги мы не берём."
         if amz
         else "Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи."
     )
@@ -1417,7 +1417,7 @@ def build_book_page(
               <span class="book-format-pill">Электронная</span>
               <span class="book-format-store">{format_store}</span>
             </div>
-            <p class="book-buy-lead">Сначала бесплатная глава — потом покупка на Литрес.</p>
+            <p class="book-buy-lead">Сначала глава. Литрес — если зайдёт.</p>
             <div class="book-buy-actions">
               <a class="btn btn-primary btn-cta-lg" href="{excerpt_file}" download>Скачать отрывок (.txt)</a>
               <a class="btn btn-outline" href="#excerpt">Читать на странице</a>
@@ -1707,7 +1707,7 @@ def build_article_page(G: dict, article: dict) -> str:
         book_rel = litres_rel(G)
         book_side = f"""
         <div class="side-card">
-          <p class="eyebrow" style="margin-bottom:0.5rem">Если хотите глубже</p>
+          <p class="eyebrow" style="margin-bottom:0.5rem">Если зашло — глубже</p>
           <h3>{esc(book["title"])}</h3>
           <p>{esc(book["promise"])}</p>
           <a class="btn btn-primary" href="{book_url(book['slug'], lang='ru', from_depth='lab')}">К книге</a>
@@ -2124,11 +2124,11 @@ def publish_knigi_catalog() -> None:
 
 def apply_hub_seo(G: dict) -> None:
     """Patch hand-authored hub pages: title ≤60, desc 150–160, OG sync, alts."""
-    home_title = "Пол Грэк — книги о мозге и нейробиологии | Научпоп без хайпа"
+    home_title = "Мозг часто работает не так, как вам кажется | Пол Грэк"
     assert len(home_title) <= 60, len(home_title)
     home_desc = clip_desc(
-        "Пол Грэк — 13 книг о мозге: уровни доказательности A–D, без эзотерики и хайпа. Глава бесплатно, без обязательной почты. Каталог, FAQ и отзывы с Литрес.",
-        cta="Читать отрывок →",
+        "Усталость, стресс, туман, импульсы — не «характер», а механика. Проверьте себя, прочитайте главу. Книги Пола Грэка: уровни A–D, без эзотерики. Литрес.",
+        cta="К главе →",
     )
     patches: list[tuple[Path, dict]] = [
         (
@@ -2136,29 +2136,30 @@ def apply_hub_seo(G: dict) -> None:
             {
                 "title": home_title,
                 "description": home_desc,
-                "h1": "Пол Грэк — книги по нейробиологии и мозгу без хайпа",
+                # Visible H1 is voice copy; do not overwrite with SEO brand string
+                "h1": "Мозг часто работает не так, как вам кажется",
             },
         ),
         (
             SITE / "about.html",
             {
-                "title": "Пол Грэк — автор книг о мозге | Об авторе",
+                "title": "Пол Грэк — нейробиология без воды | Об авторе",
                 "description": clip_desc(
-                    "Пол Грэк — научпоп о мозге без эзотерики. Прикладная нейропсихология, 13 книг на Литрес. Соавтор — Лора Грэк, клинический психолог (МГУ).",
-                    cta="Каталог и отрывки →",
+                    "Пол Грэк — нейробиология без воды. 13 книг на Литрес. Соавтор — Лора Грэк, клинический психолог (МГУ). Без эзотерики и «сверхчеловека».",
+                    cta="Каталог и главы →",
                 ),
-                "h1": "Пол Грэк — автор научпопа о мозге",
+                "h1": "Пол Грэк — нейробиология без воды",
             },
         ),
         (
             SITE / "lab" / "index.html",
             {
-                "title": "Лаборатория — короткие заметки о мозге | Пол Грэк",
+                "title": "Лаборатория — без лозунгов | Пол Грэк",
                 "description": clip_desc(
-                    "Лаборатория Пола Грэка: короткие тексты о стрессе, сне, дофамине и выгорании. Без хайпа — с опорой на механизмы мозга.",
-                    cta="Читать бесплатно →",
+                    "Короткие разборы: стресс, сон, дофамин, выгорание. Механика и один шаг. Как в Threads — без «просто возьми себя в руки».",
+                    cta="Читать →",
                 ),
-                "h1": "Лаборатория — научпоп о мозге без хайпа",
+                "h1": "Лаборатория — без «просто возьми себя в руки»",
             },
         ),
         (
@@ -2618,7 +2619,7 @@ def main() -> None:
             # UI chrome replacements (order matters — longer phrases first)
             reps = [
                 ("Страница книги открыта без JavaScript: описание и отрывок ниже.", "Book page loaded without JavaScript: description and excerpt below."),
-                ("Оплата на Литрес или Amazon. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on Amazon or LitRes. Description and sample here; this site does not take payment."),
+                ("Платить — на Литрес или Amazon. Здесь описание и фрагмент. Деньги мы не берём.", "Checkout on Amazon or LitRes. Description and sample here; this site does not take payment."),
                 ("Оплата на Литрес. Здесь — описание и фрагмент; сайт не принимает платежи.", "Checkout on LitRes. Description and sample here; this site does not take payment."),
                 ("Фрагмент из рукописи. Если стиль зайдёт — полный текст на Литрес.", "Sample from the manuscript. If the voice clicks — full text on LitRes / Amazon."),
                 ("Пол Грэк — научпоп о мозге без эзотерики. Уровни доказательности A–D, сначала проверка на себе.", "Pol Grek writes popular brain science without mysticism. Evidence grades A–D; self-tested first."),
@@ -2634,7 +2635,7 @@ def main() -> None:
                 ("и покупка на Литрес", "and buy on LitRes"),
                 ("Отрывок и покупка на Литрес", "Excerpt and buy on LitRes"),
                 ("Бесплатный отрывок", "Free excerpt"),
-                ("Сначала бесплатная глава — потом покупка на Литрес.", "Start with a free chapter — then buy on LitRes / Amazon."),
+                ("Сначала глава. Литрес — если зайдёт.", "Chapter first. LitRes / Amazon if it lands."),
                 ("Читать на странице", "Read on this page"),
                 ("Читать целиком на Литрес", "Read full book on LitRes"),
                 ("Купить на Литрес", "Buy on LitRes"),
@@ -2846,7 +2847,7 @@ def main() -> None:
                 ("Купить на Литрес", "Buy on LitRes"),
                 (" — Пол Грэк", " | Pol Grek"),
                 ("Пола Грэка", "Pol Grek"),
-                ("Если хотите глубже", "If you want to go deeper"),
+                ("Если зашло — глубже", "If you want to go deeper"),
                 ("К книге", "To the book"),
                 ("Вы здесь", "You are here"),
                 ("aria-label=\"Вы здесь\"", "aria-label=\"You are here\""),
