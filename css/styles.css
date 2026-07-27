@@ -4590,6 +4590,154 @@ a.book-tag-chip:hover {
   }
 }
 
+/* ---------- Phase 1: self-check, outcomes, problems ---------- */
+.hero-byline {
+  margin: 0.85rem 0 0;
+  font-size: 0.88rem;
+}
+.self-check-section,
+.outcomes-section,
+.problems-section {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+.self-check-section {
+  background: linear-gradient(180deg, rgba(24, 90, 83, 0.05), transparent 65%);
+}
+.self-check {
+  max-width: 40rem;
+}
+.self-check-list {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.self-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  cursor: pointer;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--ink);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.self-check-item:hover {
+  border-color: var(--line-strong);
+}
+.self-check-item:has(input:checked) {
+  border-color: color-mix(in srgb, var(--teal) 45%, var(--line));
+  background: color-mix(in srgb, var(--teal) 8%, var(--panel-bg));
+  box-shadow: var(--shadow);
+}
+.self-check-item input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.15rem;
+  accent-color: var(--teal);
+  flex-shrink: 0;
+}
+.self-check-count {
+  margin: 0.9rem 0 0;
+  font-size: 0.9rem;
+}
+.self-check-bridge {
+  margin-top: 1.25rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow);
+}
+.self-check-bridge[data-active="true"] {
+  border-color: color-mix(in srgb, var(--teal) 40%, var(--line));
+  background: color-mix(in srgb, var(--teal) 6%, var(--panel-bg));
+}
+.self-check-bridge-lead {
+  margin: 0 0 0.5rem;
+  font-size: 1.08rem;
+  color: var(--ink);
+  line-height: 1.45;
+}
+.self-check-bridge-body {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  max-width: 36rem;
+}
+.outcomes-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+}
+.outcome-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.15rem 1.2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel-bg);
+  min-height: 7.5rem;
+}
+.outcome-card strong {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+.outcome-card span {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.problems-alt {
+  margin: 1.25rem 0 0;
+  font-size: 0.95rem;
+}
+.problems-alt a {
+  color: var(--teal-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.author-filters {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+.author-filters li {
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid var(--teal);
+  background: color-mix(in srgb, var(--teal) 6%, transparent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.95rem;
+  color: var(--graphite);
+}
+.author-name-line {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+}
+@media (max-width: 900px) {
+  .outcomes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .outcomes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Book quiz (stage 2) ---------- */
 .book-quiz-section {
   background: linear-gradient(180deg, rgba(24, 90, 83, 0.04), transparent 70%);
@@ -4693,9 +4841,10 @@ a.book-tag-chip:hover {
   color: var(--teal-deep) !important;
 }
 
-#social-proof {
-  scroll-margin-top: calc(var(--nav-h) + 3.25rem);
-}
+#check,
+#problems,
+#outcomes,
+#social-proof,
 #book-quiz {
   scroll-margin-top: calc(var(--nav-h) + 3.25rem);
 }

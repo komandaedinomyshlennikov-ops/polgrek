@@ -2360,9 +2360,12 @@
     if (page !== 'home') mountReturnBar();
 
     mountReadProgress();
-    if (page === 'home') mountBookQuiz();
+    if (page === 'home') {
+      mountBookQuiz();
+      mountSelfCheck();
+    }
 
-    // Home doors: flat 5-card grid; on narrow screens collapse 04–05 behind button
+    // Home problems grid: collapse extras on narrow screens
     const doorsGrid = document.getElementById('doorsGrid');
     const doorsMoreBtn = document.getElementById('doorsMoreBtn');
     if (doorsGrid && doorsMoreBtn) {
@@ -2390,6 +2393,49 @@
       else if (mq.addListener) mq.addListener(syncDoorsExpand);
     }
   });
+
+  /** Home self-check: count boxes, open bridge at threshold, fire self_check once. */
+  function mountSelfCheck() {
+    const root = document.getElementById('selfCheck');
+    if (!root) return;
+    const boxes = root.querySelectorAll('input[type="checkbox"][name="sc"]');
+    const countEl = document.getElementById('selfCheckCount');
+    const bridge = document.getElementById('selfCheckBridge');
+    const bridgeText = document.getElementById('selfCheckBridgeText');
+    const threshold = Number(root.dataset.threshold) || 3;
+    let fired = false;
+
+    const sync = () => {
+      const n = Array.from(boxes).filter((b) => b.checked).length;
+      if (countEl) {
+        countEl.textContent = isEn
+          ? `Selected: ${n} of ${boxes.length}`
+          : `Отмечено: ${n} из ${boxes.length}`;
+      }
+      if (bridge) {
+        const active = n >= threshold;
+        bridge.setAttribute('data-active', active ? 'true' : 'false');
+        if (bridgeText) {
+          if (active) {
+            bridgeText.innerHTML = isEn
+              ? `You marked <strong>${n}</strong> — you are not broken and not alone.`
+              : `Вы отметили <strong>${n}</strong> — вы не «сломаны» и не одиноки.`;
+          } else {
+            bridgeText.innerHTML = isEn
+              ? `Mark the items above — if at least <strong>three</strong> feel familiar, you are not alone.`
+              : `Отметьте пункты выше — если знакомо <strong>хотя бы три</strong>, вы не «сломаны» и не одиноки.`;
+          }
+        }
+      }
+      if (n >= threshold && !fired) {
+        fired = true;
+        track('self_check', { count: n, lang: isEn ? 'en' : 'ru' });
+      }
+    };
+
+    boxes.forEach((b) => b.addEventListener('change', sync));
+    sync();
+  }
 
   window.PolSite = { bookCardHTML, articleCardHTML, url, peerLangUrl, isEn, UI, track };
 })();
