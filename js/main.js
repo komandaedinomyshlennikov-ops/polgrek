@@ -2706,16 +2706,118 @@
     },
   };
 
+  /** EN parity of HOME_SEGMENTS — same keys / books / why / checks. */
+  const HOME_SEGMENTS_EN = {
+    default: {
+      key: 'default',
+      eyebrow: 'Value first — books only if you want them',
+      h1: 'Your brain works against you more often than you think',
+      person:
+        'Every day you make dozens of choices that quietly hit memory, focus, sleep, and energy. Below: how that works — plain language, no woo, no miracle protocols.',
+      leadHtml:
+        'We don’t sell “neuroscience.” We sell <strong>small wins</strong>: understand what’s happening → check yourself → free chapter.',
+      cardTitle: 'Chapter first — not a cash register',
+      cardBody: 'Free excerpt on this site. Full text on LitRes/Amazon only if it lands.',
+      book: 'mozg-na-100',
+      why: null,
+      checks: [],
+    },
+    burnout: {
+      key: 'burnout',
+      eyebrow: 'Weekends don’t restore you — and that isn’t laziness',
+      h1: 'Burned out, and “just rest” already doesn’t work',
+      person:
+        'Energy doesn’t come back after two days off. Below: how to tell rest from recovery — and where to start, without motivational slogans.',
+      leadHtml:
+        'First <strong>check yourself</strong> and read a chapter. RESET is the full protocol if you need it after depletion.',
+      cardTitle: 'Entry: recovery',
+      cardBody: 'RESET chapter on this site. Full book on LitRes/Amazon if it lands.',
+      book: 'reset',
+      why: 'burnout',
+      checks: ['sleep', 'focus', 'anxiety'],
+    },
+    fog40: {
+      key: 'fog40',
+      eyebrow: 'Not “age made you dumber” — systems fail by rules',
+      h1: 'After 40 — brain fog and slower thinking',
+      person:
+        'Memory slips, “cotton head,” long focus costs more. Below: what actually supports clarity after 40 — and what stays myth — with evidence grades A–D.',
+      leadHtml:
+        'Start with a <strong>free chapter</strong>. Brain at 100+ if you want a calm plan, not hype.',
+      cardTitle: 'Entry: mental clarity',
+      cardBody: 'Brain at 100+ excerpt on this site. Full plan on LitRes/Amazon.',
+      book: 'mozg-na-100',
+      why: 'memory',
+      checks: ['memory', 'focus', 'read'],
+    },
+    stress: {
+      key: 'stress',
+      eyebrow: 'When tension became the background noise',
+      h1: 'Stress and anxiety don’t switch off on their own',
+      person:
+        '“Just calm down” fails because the body–brain loop is already spinning. Below: how it works and what actually lowers load.',
+      leadHtml:
+        'Check yourself → open the “why anxiety feeds itself” card → <strong>free chapter</strong>.',
+      cardTitle: 'Entry: stress',
+      cardBody: 'Stress and the Brain excerpt. No “just breathe” slogans.',
+      book: 'stress-i-mozg',
+      why: 'stress',
+      checks: ['anxiety', 'distract', 'sleep'],
+    },
+    energy: {
+      key: 'energy',
+      eyebrow: 'Afternoon crash isn’t always “too little sleep”',
+      h1: 'Why energy is gone by midday',
+      person:
+        'Rhythm, load, fake “energy fixes.” Below: recovery basics and an honest look at biohacking noise.',
+      leadHtml:
+        'Small wins on the page first, then a chapter. Books only if you want the full map.',
+      cardTitle: 'Entry: energy',
+      cardBody: 'Anatomy of Energy / RESET excerpts on this site.',
+      book: 'anatomiya-energii',
+      why: 'energy',
+      checks: ['sleep', 'focus'],
+    },
+    money: {
+      key: 'money',
+      eyebrow: 'Willpower is already spent by evening',
+      h1: 'Why “one more decision” at night is a trap',
+      person:
+        'Impulses, money, depleted self-control. Below: how the brain pushes bad calls when the tank is empty.',
+      leadHtml:
+        'Not about “character.” About <strong>state</strong>. Free chapter — then decide if you need the whole book.',
+      cardTitle: 'Entry: decisions and impulses',
+      cardBody: 'Wired for Wealth excerpt on this site.',
+      book: 'mozg-i-dengi',
+      why: 'money',
+      checks: ['distract', 'focus'],
+    },
+    bio: {
+      key: 'bio',
+      eyebrow: 'Biohacking without miracle protocols',
+      h1: 'Want clarity and energy — without feed hype',
+      person:
+        'What to keep, what to cut. Below: check → unpack → chapter — not a supplement shopping list.',
+      leadHtml:
+        'Value and excerpt first. Brain Biohacking if you need an honest myth filter.',
+      cardTitle: 'Entry: focus and protocols',
+      cardBody: 'Excerpt on this site. Evidence grades A–D on claims.',
+      book: 'biohacking-mozga',
+      why: 'energy',
+      checks: ['focus', 'distract'],
+    },
+  };
+
   function mountHomeSegment() {
-    if (isEn) return; // RU home copy for phase 4; EN later
     let sp;
     try {
       sp = new URLSearchParams(location.search);
     } catch (e) {
       return;
     }
+    const map = isEn ? HOME_SEGMENTS_EN : HOME_SEGMENTS;
     const key = resolveHomeSegmentKey(sp);
-    const seg = HOME_SEGMENTS[key] || HOME_SEGMENTS.default;
+    const seg = map[key] || map.default;
     const hero = document.getElementById('hero');
     if (hero) hero.setAttribute('data-segment', seg.key);
 
@@ -2779,7 +2881,7 @@
       track('segment_land', {
         segment: key,
         book: seg.book || '',
-        lang: 'ru',
+        lang: isEn ? 'en' : 'ru',
         path: location.pathname,
       });
     }

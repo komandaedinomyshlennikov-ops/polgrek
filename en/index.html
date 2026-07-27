@@ -11,8 +11,8 @@
   <meta name="theme-color" content="#0B1F33" />
   <meta name="author" content="Pol Grek" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <title>Pol Grek — brain science without the woo or the hype</title>
-  <meta name="description" content="Pol Grek — author of 13 books on the brain. Evidence grades A–D, no woo. Free chapter first, buy on Amazon or LitRes." />
+  <title>When your brain works against you — practical fixes | Pol Grek</title>
+  <meta name="description" content="A practical library of brain solutions: fatigue, stress, memory, focus. Check yourself, pick a problem, read a free chapter. Pol Grek books with evidence grades A–D — buy on LitRes/Amazon." />
   <meta property="og:title" content="Pol Grek — brain science without the woo or the hype" />
   <meta property="og:description" content="13 books with evidence grades A–D. Free chapter, no email. Buy on Amazon or LitRes." />
   <meta property="og:type" content="website" />
@@ -36,9 +36,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="../css/styles.min.css?v=20260720phase5" as="style" />
-  <link rel="stylesheet" href="../css/styles.min.css?v=20260720phase5" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720phase5" /></noscript>
+  <link rel="preload" href="../css/styles.min.css?v=20260720en" as="style" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260720en" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720en" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -154,62 +154,443 @@
   </div>
   <noscript><div class="noscript-banner container">This site works without JavaScript: menu above; books and excerpts below.</div></noscript>
 
+
   <main id="main-content" tabindex="-1">
     <nav class="page-jump" aria-label="On this page">
-      <a href="#doors">Situations</a>
-      <a href="#flagships">Books</a>
-      <a href="#excerpt" class="page-jump-cta">Excerpt</a>
-      <a href="#author-home">Author</a>
+      <a href="#check">Check</a>
+      <a href="#problems">Problems</a>
+      <a href="#why-cards">Why</a>
+      <a href="#excerpt" class="page-jump-cta">Chapter</a>
+      <a href="#author-home">Method</a>
       <a href="#faq">FAQ</a>
     </nav>
 
-    <section class="hero">
+    <section class="hero" id="hero" data-segment-default="default">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Author of 13 books · evidence grades A–D</p>
-          <h1>Pol Grek — brain science without the woo or the hype</h1>
-          <p class="hero-person">No motivational slogans, no “miracle” protocols. What the research supports — with an honest grade for how solid each claim is.</p>
-          <p class="lead lead-short">
-            Start with a <strong>free chapter</strong> — no email, no list. Not for you? Close the tab. A fit? Full text on Amazon or LitRes.
+          <p class="eyebrow" id="heroEyebrow">Value first — books only if you want them</p>
+          <h1 id="heroTitle">Your brain works against you more often than you think</h1>
+          <p class="hero-person" id="heroPerson">
+            Every day you make dozens of choices that quietly hit memory, focus, sleep, and energy.
+            Below: how that works — plain language, no woo, no miracle protocols.
           </p>
-          <details class="grade-legend-details">
-            <summary>What grades A–D mean</summary>
-            <p class="grade-legend"><strong>A</strong> — strong data; <strong>B</strong> — solid studies; <strong>C</strong> — limited data; <strong>D</strong> — observation, not a “law of nature.”</p>
-          </details>
+          <p class="lead lead-short" id="heroLead">
+            We don’t sell “neuroscience.” We sell <strong>small wins</strong>: understand what’s happening → check yourself → free chapter.
+          </p>
           <div class="hero-cta-panel">
-            <a class="btn btn-primary btn-cta-lg" href="#excerpt">Read a free chapter</a>
-            <a class="btn btn-outline" href="#book-quiz">Find a book</a>
-            <a class="btn btn-ghost-link" href="books/index.html">All 13 books</a>
+            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#check">See what’s going on →</a>
+            <a class="btn btn-outline" id="heroCtaExcerpt" href="#excerpt">Read a free chapter</a>
+            <a class="btn btn-ghost-link" href="#problems">Pick a problem</a>
           </div>
-          <p class="hero-trust">1 click to excerpt · ≤3 clicks to LitRes · email optional</p>
+          <p class="hero-trust">Email optional · no hype · evidence grades A–D on claims</p>
+          <p class="hero-byline muted" id="heroByline">Pol Grek · a practical library of brain solutions</p>
         </div>
         <div class="hero-visual hero-visual-stack">
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
-            <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html" aria-label="Brain at 100+">
+            <a class="hero-cover hero-cover-0" href="books/mozg-na-100.html#excerpt" aria-label="Brain at 100+ excerpt">
               <img src="../assets/covers/thumbs/mozg-na-100-w180.webp" srcset="../assets/covers/thumbs/mozg-na-100-w180.webp 180w, ../assets/covers/thumbs/mozg-na-100-w280.webp 280w, ../assets/covers/thumbs/mozg-na-100-w360.webp 360w" sizes="(max-width:720px) 32vw, 176px" alt="Cover of Pol Grek book “Brain at 100+”" width="280" height="420" decoding="async" fetchpriority="high" />
             </a>
-            <a class="hero-cover hero-cover-1" href="books/biohacking-mozga.html" aria-label="Brain Biohacking">
+            <a class="hero-cover hero-cover-1" href="books/biohacking-mozga.html#excerpt" aria-label="Brain Biohacking excerpt">
               <img src="../assets/covers/thumbs/biohacking-mozga-w180.webp" srcset="../assets/covers/thumbs/biohacking-mozga-w180.webp 180w, ../assets/covers/thumbs/biohacking-mozga-w280.webp 280w, ../assets/covers/thumbs/biohacking-mozga-w360.webp 360w" sizes="(max-width:720px) 32vw, 176px" alt="Cover of Pol Grek book “Brain Biohacking”" width="280" height="420" decoding="async" loading="lazy" />
             </a>
-            <a class="hero-cover hero-cover-2" href="books/reset.html" aria-label="RESET">
+            <a class="hero-cover hero-cover-2" href="books/reset.html#excerpt" aria-label="RESET excerpt">
               <img src="../assets/covers/thumbs/reset-w180.webp" srcset="../assets/covers/thumbs/reset-w180.webp 180w, ../assets/covers/thumbs/reset-w280.webp 280w, ../assets/covers/thumbs/reset-w360.webp 360w" sizes="(max-width:720px) 32vw, 176px" alt="Cover of Pol Grek book “RESET”" width="280" height="420" decoding="async" loading="lazy" />
             </a>
           </div>
           <div class="hero-card">
-            <strong>Three books to start with</strong>
-            <p>Brain at 100+ · Brain Biohacking · RESET — free excerpt on this site</p>
+            <strong id="heroCardTitle">Chapter first — not a cash register</strong>
+            <p id="heroCardBody">Free excerpt on this site. Full text on LitRes/Amazon only if it lands.</p>
           </div>
         </div>
       </div>
     </section>
 
-<section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
+    <section id="check" class="self-check-section" aria-labelledby="check-title">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">LitRes · Amazon · no fake scores</p>
+            <p class="eyebrow">30 seconds</p>
+            <h2 id="check-title">Check yourself</h2>
+            <p class="section-lead">In the last month — tick what feels familiar. Not a diagnosis: a mirror for where to dig next.</p>
+          </div>
+        </div>
+        <div class="self-check" id="selfCheck" data-threshold="3">
+          <fieldset class="self-check-list">
+            <legend class="sr-only">Symptoms last month</legend>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="focus" /> hard to stay focused</label>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="sleep" /> tired after sleep / don’t recover</label>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="read" /> long texts feel hard</label>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="distract" /> constantly interrupted by yourself</label>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="anxiety" /> anxiety won’t switch off</label>
+            <label class="self-check-item"><input type="checkbox" name="sc" value="memory" /> forget simple things</label>
+          </fieldset>
+          <p class="self-check-count muted" id="selfCheckCount" aria-live="polite">Selected: 0 of 6</p>
+          <div class="self-check-bridge" id="selfCheckBridge" data-active="false">
+            <p class="self-check-bridge-lead" id="selfCheckBridgeText">
+              Tick the items above — if at least <strong>three</strong> feel familiar, you’re not broken and not alone.
+            </p>
+            <p class="self-check-bridge-body">
+              Modern brain science already maps most of these states — without motivational magic or woo.
+            </p>
+            <a class="btn btn-primary" href="#problems" id="selfCheckContinue">Which book fits you →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="outcomes" class="outcomes-section" aria-labelledby="outcomes-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Not “knowledge” — a shift</p>
+            <h2 id="outcomes-title">What you get</h2>
+            <p class="section-lead">After the site materials and books — practical changes in daily life, not another theory stack.</p>
+          </div>
+        </div>
+        <ul class="outcomes-grid">
+          <li class="outcome-card"><strong>Focus</strong><span>Return attention faster when it scatters</span></li>
+          <li class="outcome-card"><strong>Stress</strong><span>Read it as a system, not “weak character”</span></li>
+          <li class="outcome-card"><strong>Myths</strong><span>Less belief in biohacking hype and “just sleep more”</span></li>
+          <li class="outcome-card"><strong>Decisions</strong><span>Stop making big calls on an empty tank</span></li>
+          <li class="outcome-card"><strong>Your brain</strong><span>Signal vs noise: what to fix, what to wait out</span></li>
+          <li class="outcome-card"><strong>Honesty</strong><span>See where data is strong (A–B) vs cautious (C–D)</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="fact-1" class="micro-fact-section" aria-labelledby="fact-1-title">
+      <div class="container">
+        <article class="micro-fact">
+          <p class="eyebrow">Did you know?</p>
+          <h2 id="fact-1-title" class="micro-fact-title">Your brain often “decides” before you feel the decision</h2>
+          <p class="micro-fact-body">
+            Habits and context launch action fractions of a second before conscious choice.
+            That’s why “just try harder” at night almost never works: resource and environment already lead.
+          </p>
+          <p class="micro-fact-next">
+            <a href="#mistakes" data-track="fact_expand" data-fact="decision-lag">Typical daily mistakes →</a>
+            <span class="micro-fact-sep" aria-hidden="true">·</span>
+            <a href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">In <em>Wired for Wealth</em></a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="problems" class="problems-section" aria-labelledby="problems-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Diagnosis, not a shelf</p>
+            <h2 id="problems-title">Pick a problem</h2>
+            <p class="section-lead">Not “13 covers.” Each card is a life task → book + free excerpt.</p>
+          </div>
+        </div>
+        <div class="doors doors--situations doors--problems" id="doorsGrid">
+          <a class="door" href="books/reset.html#excerpt" data-track="problem_select" data-book="reset">
+            <div class="num">01</div>
+            <h3>Chronic fatigue · burnout</h3>
+            <p>Weekends don’t restore you. You need a depletion map — not “just rest.”</p>
+            <span class="link">Solution · <strong>RESET</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door" href="books/mozg-na-100.html#excerpt" data-track="problem_select" data-book="mozg-na-100">
+            <div class="num">02</div>
+            <h3>Memory · fog · after 40</h3>
+            <p>Thinking feels harder than before. A clarity plan with honest grades on every tip.</p>
+            <span class="link">Solution · <strong>Brain at 100+</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door" href="books/stress-i-mozg.html#excerpt" data-track="problem_select" data-book="stress-i-mozg">
+            <div class="num">03</div>
+            <h3>Stress · anxiety won’t quit</h3>
+            <p>Tension became background. How the loop works — and what actually lowers load.</p>
+            <span class="link">Solution · <strong>Stress and the Brain</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/biohacking-mozga.html#excerpt" data-track="problem_select" data-book="biohacking-mozga">
+            <div class="num">04</div>
+            <h3>Energy · focus · biohacking noise</h3>
+            <p>You want a base, not a one-shot boost. What to keep, what to cut as myth.</p>
+            <span class="link">Solution · <strong>Brain Biohacking</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/mozg-i-dengi.html#excerpt" data-track="problem_select" data-book="mozg-i-dengi">
+            <div class="num">05</div>
+            <h3>Money · impulses · “willpower”</h3>
+            <p>Evening willpower is already spent. Stress and brain state — not “weak character.”</p>
+            <span class="link">Solution · <strong>Wired for Wealth</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/anatomiya-energii.html#excerpt" data-track="problem_select" data-book="anatomiya-energii">
+            <div class="num">06</div>
+            <h3>Tired by lunch</h3>
+            <p>Energy drops mid-day. Recovery, rhythm, and fake “energy hacks.”</p>
+            <span class="link">Solution · <strong>Anatomy of Energy</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
+            More problems <span class="doors-more-count">3</span>
+          </button>
+        </div>
+        <p class="problems-alt muted">
+          Don’t want to choose —
+          <a href="#book-quiz">answer 3 short questions</a>
+          or <a href="#excerpt">grab a chapter now</a>.
+        </p>
+      </div>
+    </section>
+
+    <section id="why-cards" class="why-cards-section" aria-labelledby="why-cards-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Not a catalog — a breakdown</p>
+            <h2 id="why-cards-title">Why this happens to you</h2>
+            <p class="section-lead">A short “Netflix” of problems: question → what we unpack → book with excerpt.</p>
+          </div>
+        </div>
+        <div class="why-cards">
+          <article class="why-card" data-segment="energy">
+            <h3 class="why-card-q">Why are you exhausted by lunch?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>recovery vs “just rest”</li>
+              <li>rhythm and cognitive load</li>
+              <li>fake energy boosts</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Anatomy of Energy</strong> <span class="muted">&amp;</span> <strong>RESET</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/anatomiya-energii.html#excerpt" data-track="excerpt_open" data-book="anatomiya-energii">Excerpt</a>
+              <a class="btn btn-outline" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">RESET excerpt</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="stress">
+            <h3 class="why-card-q">Why does anxiety feed itself?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>the thought → body → thought loop</li>
+              <li>why “just calm down” fails</li>
+              <li>what actually lowers system load</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Stress and the Brain</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/stress-i-mozg.html#excerpt" data-track="excerpt_open" data-book="stress-i-mozg">Excerpt</a>
+              <a class="btn btn-outline" href="books/stress-i-mozg.html" data-track="problem_select" data-book="stress-i-mozg">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="memory">
+            <h3 class="why-card-q">Why does memory “slip” and fog appear?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>what ages — and what doesn’t</li>
+              <li>sleep, load, focus without miracle pills</li>
+              <li>tips graded A–D</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Brain at 100+</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Excerpt</a>
+              <a class="btn btn-outline" href="books/mozg-na-100.html" data-track="problem_select" data-book="mozg-na-100">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="burnout">
+            <h3 class="why-card-q">Why weekends don’t restore you?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>burnout as system depletion</li>
+              <li>rest ≠ adaptive recovery</li>
+              <li>a protocol after “I can’t keep up”</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>RESET</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Excerpt</a>
+              <a class="btn btn-outline" href="books/reset.html" data-track="problem_select" data-book="reset">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="money">
+            <h3 class="why-card-q">Why is “one more decision” at night a trap?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>self-control spent by evening</li>
+              <li>impulses, money, willpower myths</li>
+              <li>how not to decide on empty battery</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Wired for Wealth</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Excerpt</a>
+              <a class="btn btn-outline" href="books/mozg-i-dengi.html" data-track="problem_select" data-book="mozg-i-dengi">About the book</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="mistakes" class="mistakes-section" aria-labelledby="mistakes-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">No guilt — mechanics</p>
+            <h2 id="mistakes-title">Today you probably already did at least three things your brain didn’t “notify” you about</h2>
+            <p class="section-lead">Not shame. Everyday design — and why the books unpack exactly this.</p>
+          </div>
+        </div>
+        <ol class="mistakes-list">
+          <li class="mistake-item">
+            <strong>Phone in the first minutes after waking</strong>
+            <span>The brain hasn’t assembled the day yet — the feed already set anxiety and comparison.</span>
+          </li>
+          <li class="mistake-item">
+            <strong>Important decisions on leftover battery</strong>
+            <span>Evening self-control and working memory are low — mistakes get expensive.</span>
+          </li>
+          <li class="mistake-item">
+            <strong>Switching attention every 1–2 minutes</strong>
+            <span>Each hop taxes focus. Long texts and hard tasks fail first.</span>
+          </li>
+        </ol>
+        <p class="mistakes-cta">
+          These mechanisms — with evidence, without magic — are what the chapters unpack.
+          <a class="btn btn-primary" href="#excerpt">Open one mistake in a chapter →</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="fact-2" class="micro-fact-section micro-fact-section--alt" aria-labelledby="fact-2-title">
+      <div class="container">
+        <article class="micro-fact">
+          <p class="eyebrow">Did you know?</p>
+          <h2 id="fact-2-title" class="micro-fact-title">“Just sleep more” often doesn’t fix fatigue</h2>
+          <p class="micro-fact-body">
+            If the system is depleted, weekend sleep doesn’t wipe the debt the way it feels.
+            Rest ≠ recovery — or you’re empty again by Wednesday.
+          </p>
+          <p class="micro-fact-next">
+            <a href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset" data-fact="sleep-not-enough">RESET excerpt →</a>
+            <span class="micro-fact-sep" aria-hidden="true">·</span>
+            <a href="#why-cards">More “why…”</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="excerpt" class="excerpt-section excerpt-section--home" aria-labelledby="excerpt-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Value as text — not as an ad</p>
+            <h2 id="excerpt-title">Start with a free chapter</h2>
+            <p class="section-lead">Read a sample here. Email optional. Full book on LitRes/Amazon only if it lands.</p>
+          </div>
+        </div>
+        <div class="home-excerpt-layout">
+          <div class="home-excerpt-main">
+            <div class="magnet-book-picks home-excerpt-picks" id="magnetPicks" role="radiogroup" aria-label="Book for excerpt">
+              <label class="magnet-book-option">
+                <input type="radio" name="flagPick" value="mozg-na-100" checked>
+                <img src="../assets/covers/thumbs/mozg-na-100-w180.webp" alt="" width="80" height="120" loading="lazy" decoding="async">
+                <span>Brain at 100+</span>
+              </label>
+              <label class="magnet-book-option">
+                <input type="radio" name="flagPick" value="biohacking-mozga">
+                <img src="../assets/covers/thumbs/biohacking-mozga-w180.webp" alt="" width="80" height="120" loading="lazy" decoding="async">
+                <span>Brain Biohacking</span>
+              </label>
+              <label class="magnet-book-option">
+                <input type="radio" name="flagPick" value="reset">
+                <img src="../assets/covers/thumbs/reset-w180.webp" alt="" width="80" height="120" loading="lazy" decoding="async">
+                <span>RESET</span>
+              </label>
+            </div>
+            <div class="home-excerpt-meta">
+              <h3 class="home-excerpt-book-title" id="excerptBookTitle">Brain at 100+</h3>
+              <p class="home-excerpt-promise muted" id="excerptBookPromise">A science-backed plan to keep your mind sharp for decades</p>
+            </div>
+            <div class="excerpt-reader home-excerpt-reader">
+              <div class="excerpt-prose" id="excerptPreview">
+                <p>This isn’t “upgrade your brain to superhuman.” It’s a calm plan: what actually supports clarity over years — and what’s myth — with evidence grades A–D.</p>
+                <p>The excerpt for the selected book loads below (or download the file without email). Text first — then decide if you want the whole book.</p>
+              </div>
+              <details class="excerpt-more" id="excerptMoreWrap" hidden>
+                <summary>Show more of the excerpt</summary>
+                <div class="excerpt-prose excerpt-prose-rest" id="excerptPreviewMore"></div>
+              </details>
+            </div>
+            <div class="home-excerpt-after" id="excerptAfterCta">
+              <p class="home-excerpt-after-lead">If the text landed — full plan on LitRes/Amazon. If not — close the tab.</p>
+              <div class="btn-row">
+                <a class="btn btn-primary btn-cta-lg" id="excerptLitresCta" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="mozg-na-100">Get the full book on LitRes</a>
+                <a class="btn btn-outline" id="excerptPageLink" href="books/mozg-na-100.html">Book page</a>
+              </div>
+              <p class="affiliate-mark">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
+            </div>
+          </div>
+          <aside class="home-excerpt-aside" aria-label="Download chapter">
+            <div class="magnet magnet-cta-focus home-excerpt-magnet">
+              <div>
+                <p class="eyebrow" style="color:var(--amber)">File · email optional</p>
+                <h3 class="home-excerpt-magnet-title">Download the chapter</h3>
+                <p class="home-excerpt-magnet-lead">Instant file. Or leave email for the link and rare book notes.</p>
+              </div>
+              <form class="magnet-form" id="magnetForm" novalidate>
+                <label for="magnetBook" class="sr-only">Book</label>
+                <select id="magnetBook" name="book" class="sr-only" required></select>
+                <div class="magnet-email-block">
+                  <div class="field-float" id="magnetEmailField">
+                    <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder=" " aria-describedby="magnetEmailError" />
+                    <label for="magnetEmail">Email <span class="magnet-optional">(optional)</span></label>
+                  </div>
+                  <p class="field-error" id="magnetEmailError" role="alert"></p>
+                  <label class="magnet-check">
+                    <input type="checkbox" id="magnetNews" name="news" value="1" />
+                    <span>Occasional notes about new books</span>
+                  </label>
+                </div>
+                <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                <button type="submit" class="btn btn-primary" id="magnetSubmit">Download excerpt</button>
+                <p class="magnet-note" id="magnetNote">At most monthly. <a href="privacy.html">Privacy</a></p>
+                <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
+              </form>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">If you don’t want to choose</p>
+            <h2 id="book-quiz-title">Three questions — one recommendation</h2>
+            <p class="section-lead">Not a personality test. One book for your situation and a free excerpt. No email required.</p>
+          </div>
+        </div>
+        <div class="book-quiz" id="bookQuiz" data-lang="en">
+          <div class="book-quiz-progress" aria-hidden="true"><span class="book-quiz-progress-fill" id="quizProgressFill"></span></div>
+          <p class="book-quiz-step-label" id="quizStepLabel">Step 1 of 3</p>
+          <div class="book-quiz-panel" id="quizPanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flagships">
+      <div class="container" id="books">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">If you already recognized yourself</p>
+            <h2>Three books for common situations</h2>
+          </div>
+          <a class="btn btn-outline" href="books/index.html">All books</a>
+        </div>
+        <div class="books-grid books-grid-flagship" id="featuredBooks"></div>
+        <p class="catalog-hint">
+          <a class="btn btn-outline" href="books/index.html">Full catalog</a>
+          <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">LitRes author page</a>
+        </p>
+        <p class="affiliate-mark">Ad · erid: 2VfnxyNkZrY · LitRes partner links</p>
+      </div>
+    </section>
+
+    <section id="social-proof" class="social-proof-section" aria-labelledby="social-proof-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">After value — real voices</p>
             <h2 id="social-proof-title">What readers write</h2>
-            <p class="section-lead">Two real reviews: LitRes (RU, translated) and Amazon US (original English). We show them as-is. Below: current LitRes scores from the book cards (still few — titles are new).</p>
+            <p class="section-lead">Two real reviews: LitRes (RU, translated) and Amazon US (original English). As-is. Ratings still few — titles are new.</p>
           </div>
         </div>
         <div class="social-reviews social-reviews--multi" id="socialReviews">
@@ -240,216 +621,10 @@
             <a class="reader-review-link" href="https://www.amazon.com/dp/B0GTLMCS4N/" target="_blank" rel="noopener noreferrer">Review on Amazon</a>
           </figure>
         </div>
-        <div class="ratings-row" id="socialProof">
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="mozg-na-100">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.7</strong>
-            <span class="rating-book">Brain at 100+</span>
-            <span class="rating-meta">3 ratings · LitRes</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="biohacking-mozga">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>4.2</strong>
-            <span class="rating-book">Brain Biohacking</span>
-            <span class="rating-meta">5 ratings · LitRes</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="zhenskiy-mozg">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.8</strong>
-            <span class="rating-book">The Female Brain</span>
-            <span class="rating-meta">4 ratings · LitRes</span>
-          </a>
-        </div>
-        <p class="muted social-proof-note" id="socialProofNote">LitRes scores as of 18 Jul 2026. Texts: one LitRes review (Brain at 100+; EN is a faithful translation) and one Amazon US review for Anatomy of Energy — Verified Purchase, 4★, 29 Jun 2026. Amazon quote is the original English; we don’t invent more.</p>
+        <div class="ratings-row" id="socialProof"></div>
+        <p class="muted social-proof-note" id="socialProofNote">LitRes scores as of 18 Jul 2026. We don’t invent reviews.</p>
       </div>
     </section>
-
-    <section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">2–3 minutes</p>
-            <h2 id="book-quiz-title">Which book do you need?</h2>
-            <p class="section-lead">Three short steps — a recommendation with a free excerpt. No signup.</p>
-          </div>
-        </div>
-        <div class="book-quiz" id="bookQuiz" data-lang="en">
-          <div class="book-quiz-progress" aria-hidden="true"><span class="book-quiz-progress-fill" id="quizProgressFill"></span></div>
-          <p class="book-quiz-step-label" id="quizStepLabel">Step 1 of 3</p>
-          <div class="book-quiz-panel" id="quizPanel"></div>
-        </div>
-      </div>
-    </section>
-
-
-    <section id="doors">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Where to start</p>
-            <h2>Pick what fits best</h2>
-            <p class="section-lead">Five common situations — and the book that maps to each. No “fixed in two weeks” promises: free excerpt on this site first, then decide.</p>
-          </div>
-        </div>
-        <div class="doors doors--situations" id="doorsGrid">
-          <a class="door" href="books/reset.html">
-            <div class="num">01</div>
-            <h3>I’m burned out and can’t recover</h3>
-            <p>Weekends don’t help. You need a recovery protocol — a plan after systemic depletion, not slogans.</p>
-            <span class="link">Open the book · <strong>RESET</strong> <span class="link-hint">(excerpt on this site)</span></span>
-          </a>
-          <a class="door" href="books/mozg-na-100.html">
-            <div class="num">02</div>
-            <h3>After 40: brain fog, harder to focus</h3>
-            <p>Memory, attention, “cotton head.” A plan to keep a clear mind — with honest grades on every claim (A–D).</p>
-            <span class="link">Open the book · <strong>Brain at 100+</strong> <span class="link-hint">(excerpt on this site)</span></span>
-          </a>
-          <a class="door" href="books/stress-i-mozg.html">
-            <div class="num">03</div>
-            <h3>Constant stress, hard to switch off</h3>
-            <p>Tension became background noise. How stress works in the brain — and what actually lowers load, without “just relax.”</p>
-            <span class="link">Open the book · <strong>Stress and the Brain</strong> <span class="link-hint">(excerpt on this site)</span></span>
-          </a>
-          <a class="door door--extra" href="books/mozg-na-100.html">
-            <div class="num">04</div>
-            <h3>I want steady energy and clarity</h3>
-            <p>Not a one-off boost: sleep, movement, effortful load. Plus an honest take on biohacking without the hype.</p>
-            <span class="link">Open · <strong>Brain at 100+</strong> and Brain Biohacking <span class="link-hint">(excerpt on this site)</span></span>
-          </a>
-          <a class="door door--extra" href="books/mozg-i-dengi.html">
-            <div class="num">05</div>
-            <h3>Money, emotions, relationships feel stuck</h3>
-            <p>Willpower often fails because of stress, impulse, and brain state — not “weak character.”</p>
-            <span class="link">Open the book · <strong>Wired for Wealth</strong> <span class="link-hint">(excerpt on this site)</span></span>
-          </a>
-          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
-            More situations <span class="doors-more-count">2</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section id="flagships">
-      <div class="container" id="books">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Books</p>
-            <h2>Three books to start with</h2>
-          </div>
-          <a class="btn btn-outline" href="books/index.html">All 13 books</a>
-        </div>
-        <div class="books-grid books-grid-flagship" id="featuredBooks">
-<article class="book-card book-card--tile book-card--window is-flagship" data-show="all cog">
-  <div class="book-body">
-    <div class="book-marks"><span class="book-mark book-mark-genre">Popular science</span><span class="book-mark book-mark-ad">Grades A–D</span><span class="book-mark book-mark-start">Start here</span></div>
-    <h3 class="book-title"><a href="books/mozg-na-100.html">Brain at 100+</a></h3>
-    <p class="book-card-subtitle">A science-backed plan to keep your mind sharp for decades</p>
-    <p class="book-card-evidence">Based on 100+ studies · grades A–D</p>
-    <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>3.7</strong> · 3 ratings · LitRes</p>
-    <p class="book-card-price">Price on LitRes / Amazon</p>
-  </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/mozg-na-100.html" aria-label="Brain at 100+">
-    <img src="../assets/covers/thumbs/mozg-na-100-w280.webp" srcset="../assets/covers/thumbs/mozg-na-100-w180.webp 180w, ../assets/covers/thumbs/mozg-na-100-w280.webp 280w, ../assets/covers/thumbs/mozg-na-100-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “Brain at 100+”" width="200" height="300" decoding="async" loading="lazy" />
-  </a>
-  <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" data-aff="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=mozg-na-100&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="mozg-na-100">Buy on LitRes</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Excerpt</a>
-      <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
-    </div>
-</article>
-<article class="book-card book-card--tile book-card--window is-flagship" data-show="all stress cog bio">
-  <div class="book-body">
-    <div class="book-marks"><span class="book-mark book-mark-genre">Popular science</span><span class="book-mark book-mark-ad">Grades A–D</span><span class="book-mark book-mark-start">Start here</span></div>
-    <h3 class="book-title"><a href="books/biohacking-mozga.html">Brain Biohacking</a></h3>
-    <p class="book-card-subtitle">Upgrade memory, focus, and energy — without breaking your mind</p>
-    <p class="book-card-evidence">Evidence grades A–D · no miracle protocols</p>
-    <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>4.2</strong> · 5 ratings · LitRes</p>
-    <p class="book-card-price">Price on LitRes / Amazon</p>
-  </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/biohacking-mozga.html" aria-label="Brain Biohacking">
-    <img src="../assets/covers/thumbs/biohacking-mozga-w280.webp" srcset="../assets/covers/thumbs/biohacking-mozga-w180.webp 180w, ../assets/covers/thumbs/biohacking-mozga-w280.webp 280w, ../assets/covers/thumbs/biohacking-mozga-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “Brain Biohacking”" width="200" height="300" decoding="async" loading="lazy" />
-  </a>
-  <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" data-aff="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=biohaking-mozga&amp;keyword=polgrek%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="biohacking-mozga">Buy on LitRes</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/biohacking-mozga.html#excerpt" data-track="excerpt_open" data-book="biohacking-mozga">Excerpt</a>
-      <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
-    </div>
-</article>
-<article class="book-card book-card--tile book-card--window is-flagship" data-show="all stress burnout">
-  <div class="book-body">
-    <div class="book-marks"><span class="book-mark book-mark-genre">Popular science</span><span class="book-mark book-mark-ad">Grades A–D</span><span class="book-mark book-mark-start">Start here</span></div>
-    <h3 class="book-title"><a href="books/reset.html">RESET</a></h3>
-    <p class="book-card-subtitle">The neurobiology of burnout and restoring adaptive capacity</p>
-    <p class="book-card-evidence">Evidence grades A–D · recovery after depletion</p>
-    
-    <p class="book-card-price">Price on LitRes / Amazon</p>
-  </div>
-  <a class="book-cover book-cover--mini has-image clean" href="books/reset.html" aria-label="RESET">
-    <img src="../assets/covers/thumbs/reset-w280.webp" srcset="../assets/covers/thumbs/reset-w180.webp 180w, ../assets/covers/thumbs/reset-w280.webp 280w, ../assets/covers/thumbs/reset-w360.webp 360w" sizes="(max-width:520px) 104px, 140px" alt="Cover of Pol Grek book “RESET”" width="200" height="300" decoding="async" loading="lazy" />
-  </a>
-  <div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/" data-aff="https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=reset-&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="reset">Buy on LitRes</a>
-      <a class="btn btn-outline book-card-excerpt" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Excerpt</a>
-      <p class="affiliate-mark affiliate-mark--card">Ad · erid: 2VfnxyNkZrY · LitRes partner link</p>
-    </div>
-</article></div>
-        <p class="catalog-hint">
-          <a class="btn btn-outline" href="books/index.html">All 13 books</a>
-          <a class="btn btn-outline" href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">LitRes author page</a>
-        </p>
-        <p class="affiliate-mark">Ad · erid: 2VfnxyNkZrY · LitRes partner links (AdvCake)</p>
-      </div>
-    </section>
-
-        <section id="excerpt" class="excerpt-section">
-      <div class="container">
-        <div class="magnet magnet-with-books magnet-cta-focus">
-          <div>
-            <p class="eyebrow" style="color:var(--amber)">Free</p>
-            <h2>Chapter by email — or instant file</h2>
-            <p>Download without email. Or leave an address: we send the chapter link and rare notes about new books.</p>
-          </div>
-          <form class="magnet-form" id="magnetForm" novalidate>
-            <div class="magnet-book-picks" id="magnetPicks">
-<label class="magnet-book-option">
-  <input type="radio" name="flagPick" value="mozg-na-100" checked>
-  <img src="../assets/covers/thumbs/mozg-na-100-w180.webp" alt="Brain at 100+" width="80" height="120" loading="lazy" decoding="async">
-  <span>Brain at 100+</span>
-</label>
-<label class="magnet-book-option">
-  <input type="radio" name="flagPick" value="biohacking-mozga">
-  <img src="../assets/covers/thumbs/biohacking-mozga-w180.webp" alt="Brain Biohacking" width="80" height="120" loading="lazy" decoding="async">
-  <span>Brain Biohacking</span>
-</label>
-<label class="magnet-book-option">
-  <input type="radio" name="flagPick" value="reset">
-  <img src="../assets/covers/thumbs/reset-w180.webp" alt="RESET" width="80" height="120" loading="lazy" decoding="async">
-  <span>RESET</span>
-</label>
-</div>
-            <label for="magnetBook" class="sr-only">Book</label>
-            <select id="magnetBook" name="book" class="sr-only" required></select>
-            <div class="magnet-email-block">
-              <div class="field-float" id="magnetEmailField">
-                <input type="email" id="magnetEmail" name="email" autocomplete="email" inputmode="email" placeholder=" " aria-describedby="magnetEmailError" />
-                <label for="magnetEmail">Email <span class="magnet-optional">(optional)</span></label>
-              </div>
-              <p class="field-error" id="magnetEmailError" role="alert"></p>
-              <label class="magnet-check">
-                <input type="checkbox" id="magnetNews" name="news" value="1" />
-                <span>Occasional notes about new books (no spam)</span>
-              </label>
-            </div>
-            <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <button type="submit" class="btn btn-primary btn-cta-lg" id="magnetSubmit">Get the chapter</button>
-            <p class="magnet-note" id="magnetNote">At most once a month. Unsubscribe in one reply. <a href="privacy.html">Privacy</a></p>
-            <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    
 
     <section id="author-home">
       <div class="container trust-split trust-split-compact">
@@ -460,20 +635,27 @@
           </picture>
         </div>
         <div>
-          <p class="eyebrow">About the author</p>
-          <h2>Pol Grek</h2>
+          <p class="eyebrow">Trust after value</p>
+          <h2>Why these books are built differently</h2>
           <p class="lead">
-            English-born, writing in Russian: he started the language at 35 for his wife Laura (clinical psychologist, MSU) and family life. Brain science without the woo or “become superhuman” pitch — tried it on himself first, then put it into books. Where it fits, claims get evidence grades A–D.
+            Every recommendation passes filters: research, reviews where possible, clinical caution.
+            Where it fits — evidence grades <strong>A–D</strong>. No woo, no motivational magic, no “superhuman in 7 days.”
           </p>
+          <ul class="author-filters">
+            <li><strong>Studies</strong> — not feed folklore</li>
+            <li><strong>Meta-analyses / reviews</strong> — where data allows</li>
+            <li><strong>Grades A–D</strong> — honest about strength vs caution</li>
+          </ul>
+          <p class="muted author-name-line">Pol Grek — English-born, writes in Russian; some titles with Laura Grek (clinical psychologist, MSU).</p>
           <div class="verify-author" id="verify-author">
             <p class="verify-author-title">How to check he’s not “just another guru”</p>
             <ul class="verify-author-list">
-              <li><a href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">LitRes</a> — books, blurbs, reader ratings</li>
-              <li><a href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener noreferrer">Telegram</a> — short notes, no filler</li>
+              <li><a href="https://www.litres.ru/author/pol-grek/?utm_source=advcake&amp;utm_medium=cpa&amp;utm_campaign=affiliate&amp;utm_content=f71f3ad5&amp;advcake_params=&amp;utm_term=&amp;sub1=author&amp;keyword=polgrek+%2F+site&amp;erid=2VfnxyNkZrY&amp;advcake_method=1&amp;m=1" target="_blank" rel="noopener noreferrer sponsored">LitRes</a> — books, blurbs, ratings</li>
+              <li><a href="https://t.me/+KGQgs6MVHHYwZGVi" target="_blank" rel="noopener noreferrer">Telegram</a> — short notes</li>
               <li><a href="https://www.threads.net/@pol.grek" target="_blank" rel="noopener noreferrer">Threads @pol.grek</a></li>
               <li><a href="mailto:hello@polgrek.site">hello@polgrek.site</a></li>
             </ul>
-            <p class="muted verify-author-note">Showcase only — not a checkout. Pay and read reviews on LitRes or Amazon, open platforms, not a private club.</p>
+            <p class="muted verify-author-note">Showcase of solutions — not a checkout. Pay on LitRes/Amazon.</p>
           </div>
           <div class="btn-row">
             <a class="btn btn-outline" href="about.html">Full biography</a>
@@ -498,11 +680,11 @@
     <section>
       <div class="container">
         <div class="final-cta">
-          <h2>Start with a chapter</h2>
-          <p>Excerpt on this site. Checkout on Amazon or LitRes.</p>
+          <h2>Start with a free chapter</h2>
+          <p>Text first. Checkout on LitRes/Amazon only if you want the rest.</p>
           <div class="btn-row">
-            <a class="btn btn-primary" href="#excerpt">Download excerpt</a>
-            <a class="btn btn-outline" href="books/index.html">Catalog</a>
+            <a class="btn btn-primary" href="#excerpt">Get the chapter</a>
+            <a class="btn btn-outline" href="#problems">Pick a problem</a>
             <a class="btn btn-ghost-link" href="https://www.amazon.com/dp/B0GTF2PQ21" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
         </div>
@@ -510,9 +692,10 @@
     </section>
   </main>
 
+
   <div id="site-footer"></div>
   <script src="../js/base-config.min.js" defer></script>
   <script src="../js/data-en.min.js" defer></script>
-  <script src="../js/main.min.js?v=20260720phase5" defer></script>
+  <script src="../js/main.min.js?v=20260720en" defer></script>
 </body>
 </html>
