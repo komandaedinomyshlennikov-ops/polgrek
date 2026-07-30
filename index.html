@@ -45,9 +45,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="css/styles.min.css?v=20260720reveal" as="style" />
-  <link rel="stylesheet" href="css/styles.min.css?v=20260720reveal" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720reveal" /></noscript>
+  <link rel="preload" href="css/styles.min.css?v=20260720audit" as="style" />
+  <link rel="stylesheet" href="css/styles.min.css?v=20260720audit" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.min.css?v=20260720audit" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -214,9 +214,9 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Минута, не диагноз</p>
+            <p class="eyebrow">Минута, не «вердикт»</p>
             <h2 id="check-title">Что из этого про вас</h2>
-            <p class="section-lead">За последний месяц — отметьте, что знакомо. Не «сломаны ли вы». Просто куда копать дальше.</p>
+            <p class="section-lead">За последний месяц — отметьте, что знакомо. Не «всё ли с вами плохо». Просто куда копать дальше.</p>
           </div>
         </div>
         <div class="self-check" id="selfCheck" data-threshold="3">
@@ -571,13 +571,17 @@
                   </div>
                   <p class="field-error" id="magnetEmailError" role="alert"></p>
                   <label class="magnet-check">
+                    <input type="checkbox" id="magnetConsent" name="consent" value="1" />
+                    <span>Если указываю email — согласен на обработку адреса и редкие письма о книгах (<a href="privacy.html">политика</a>). Не передаём третьим лицам. Отписка в один клик.</span>
+                  </label>
+                  <label class="magnet-check">
                     <input type="checkbox" id="magnetNews" name="news" value="1" />
                     <span>Можно писать про новые книги (редко)</span>
                   </label>
                 </div>
                 <input type="text" name="_gotcha" id="magnetGotcha" class="magnet-hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
                 <button type="submit" class="btn btn-primary" id="magnetSubmit">Скачать главу</button>
-                <p class="magnet-note" id="magnetNote">Не чаще раза в месяц. <a href="privacy.html">Конфиденциальность</a></p>
+                <p class="magnet-note" id="magnetNote">Почта не нужна для скачивания. Спам не шлём. <a href="privacy.html">Конфиденциальность</a></p>
                 <p class="magnet-status" id="magnetStatus" hidden role="status"></p>
               </form>
             </div>
@@ -619,7 +623,6 @@
     <h3 class="book-title"><a href="knigi/mozg-na-100/">Мозг на 100+</a></h3>
     <p class="book-card-subtitle">Что реально держит ясность с годами — и что остаётся мифом</p>
     <p class="book-card-evidence">По данным 100+ исследований · уровни A–D</p>
-    <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>3.7</strong> · 3 оценки · Литрес</p>
     <p class="book-card-price">Цена на Литрес / Amazon</p>
   </div>
   <a class="book-cover book-cover--mini has-image clean" href="knigi/mozg-na-100/" aria-label="Мозг на 100+">
@@ -637,7 +640,6 @@
     <h3 class="book-title"><a href="knigi/biohacking-mozga/">Биохакинг мозга</a></h3>
     <p class="book-card-subtitle">Память, фокус, энергия — без «прокачки до поломки»</p>
     <p class="book-card-evidence">Уровни доказательности A–D · без «волшебных» протоколов</p>
-    <p class="book-card-rating"><span aria-hidden="true">★★★★☆</span> <strong>4.2</strong> · 5 оценок · Литрес</p>
     <p class="book-card-price">Цена на Литрес / Amazon</p>
   </div>
   <a class="book-cover book-cover--mini has-image clean" href="knigi/biohacking-mozga/" aria-label="Биохакинг мозга">
@@ -713,27 +715,11 @@
             <a class="reader-review-link" href="https://www.amazon.com/dp/B0GTLMCS4N/" target="_blank" rel="noopener noreferrer">Отзыв на Amazon</a>
           </figure>
         </div>
-        <div class="ratings-row" id="socialProof">
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="mozg-na-100">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.7</strong>
-            <span class="rating-book">Мозг на 100+</span>
-            <span class="rating-meta">3 оценки · Литрес</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="biohacking-mozga">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>4.2</strong>
-            <span class="rating-book">Биохакинг мозга</span>
-            <span class="rating-meta">5 оценок · Литрес</span>
-          </a>
-          <a class="rating-card" href="https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/" target="_blank" rel="noopener noreferrer sponsored" data-track="litres" data-book="zhenskiy-mozg">
-            <div class="rating-stars" aria-hidden="true">★★★★☆</div>
-            <strong>3.8</strong>
-            <span class="rating-book">Женский мозг</span>
-            <span class="rating-meta">4 оценки · Литрес</span>
-          </a>
-        </div>
-        <p class="muted social-proof-note" id="socialProofNote">Оценки с Литрес (18.07.2026). Тексты: один отзыв на Литрес («Мозг на 100+») и один на Amazon US — «Anatomy of Energy» / «Анатомия энергии», Verified Purchase, 4★, 29.06.2026. Оригинал на английском — не переводим и не «улучшаем».</p>
+        <div class="ratings-row" id="socialProof" hidden aria-hidden="true"></div>
+        <p class="muted social-proof-note social-proof-note--soft" id="socialProofNote">
+          Оценки на Литрес пока копятся — показываем, когда наберётся достаточно отзывов.
+          Сейчас важнее текст: реальные отзывы выше и глава на сайте.
+        </p>
       </div>
     </section>
 
@@ -755,9 +741,19 @@
           <ul class="author-filters">
             <li><strong>Исследования</strong> — не байки из ленты</li>
             <li><strong>Обзоры / метаанализы</strong> — где данные позволяют</li>
-            <li><strong>Уровни A–D</strong> — где крепко, а где «осторожно»</li>
+            <li><strong>Уровни A–D</strong> — где крепко, а где «осторожно»
+              <span class="grade-footnote" id="grade-footnote">
+                <strong>A</strong> — мета-анализы / сильные обзоры;
+                <strong>B</strong> — хорошие исследования;
+                <strong>C</strong> — ограниченные данные;
+                <strong>D</strong> — наблюдения и гипотезы.
+              </span>
+            </li>
           </ul>
-          <p class="muted author-name-line">Пол Грэк — англичанин, пишет по-русски. Часть книг — с Лорой Грэк (клинический психолог, МГУ).</p>
+          <p class="muted author-name-line">
+            <strong>Лора Грэк</strong> — клинический психолог, МГУ, соавтор части книг.
+            <strong>Пол Грэк</strong> — пишет по-русски, коротко и по делу. Вместе: лаборатория + кабинет.
+          </p>
           <div class="verify-author" id="verify-author">
             <p class="verify-author-title">Как проверить, что это не «ещё один блогер»</p>
             <ul class="verify-author-list">
@@ -806,6 +802,6 @@
   <div id="site-footer"></div>
   <script src="js/base-config.min.js" defer></script>
   <script src="js/data.js" defer></script>
-  <script src="js/main.min.js?v=20260720reveal" defer></script>
+  <script src="js/main.min.js?v=20260720audit" defer></script>
 </body>
 </html>

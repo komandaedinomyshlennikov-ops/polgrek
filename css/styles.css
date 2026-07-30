@@ -4678,6 +4678,31 @@ html.js-reveal .reveal-stagger > .reveal:nth-child(n + 9) { transition-delay: 0.
   }
 }
 
+/* A–D footnote on home author block */
+.grade-footnote {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 36rem;
+}
+.grade-footnote strong {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+.social-proof-note--soft {
+  max-width: 40rem;
+  margin: 0.75rem auto 0;
+  text-align: center;
+}
+.magnet-check a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
 /* ---------- Phase 1: self-check, outcomes, problems ---------- */
 .hero-byline {
   margin: 0.85rem 0 0;

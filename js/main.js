@@ -852,7 +852,9 @@
     if (book.evidenceGrades !== false) {
       marks.push(
         `<span class="book-mark book-mark-ad" title="${
-          isEn ? 'Evidence grades A–D in the book' : 'В книге — уровни доказательности A–D'
+          isEn
+            ? 'A meta-analyses · B good trials · C limited · D observations'
+            : 'A — мета-анализы · B — хорошие исследования · C — ограниченные данные · D — наблюдения'
         }">${isEn ? 'Grades A–D' : 'Уровни A–D'}</span>`
       );
     }
@@ -880,15 +882,21 @@
       (book.evidenceGrades === false
         ? ''
         : isEn
-          ? 'Evidence grades A–D'
-          : 'Уровни доказательности A–D');
+          ? 'Evidence grades A–D (A reviews … D observations)'
+          : 'Уровни A–D (A — обзоры · D — наблюдения)');
     if (!note) return '';
-    return `<p class="book-card-evidence">${escapeAttr(note)}</p>`;
+    const tip = isEn
+      ? 'A — meta-analyses; B — good trials; C — limited data; D — observations'
+      : 'A — мета-анализы; B — хорошие исследования; C — ограниченные данные; D — наблюдения';
+    return `<p class="book-card-evidence" title="${escapeAttr(tip)}">${escapeAttr(note)}</p>`;
   }
+
+  /** Hide low-N LitRes scores (weak social proof). Show from this threshold. */
+  const RATING_MIN_VOTES = 10;
 
   function bookRatingLine(book) {
     const r = bookLitresRating(book.slug);
-    if (!r || !r.votes) return '';
+    if (!r || !r.votes || Number(r.votes) < RATING_MIN_VOTES) return '';
     const stars = Math.max(1, Math.min(5, Math.round(Number(r.rating) || 0)));
     const starStr = '★'.repeat(stars) + '☆'.repeat(5 - stars);
     if (isEn) {
@@ -1204,15 +1212,23 @@
 
     const social = document.getElementById('socialProof');
     if (social && sp && Array.isArray(sp.items)) {
-      // Always paint from data so scores stay honest (static HTML may be stale).
-      social.innerHTML = sp.items
-        .map((item) => {
-          const book = POL_GREK.getBook(item.slug);
-          const clean = book ? litresDirect(book) : sp.sourceUrl;
-          const aff = book ? litresBuyUrl(book) : '';
-          const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
-          const stars = Math.max(1, Math.min(5, Math.round(Number(item.rating) || 0)));
-          return `
+      // Hide weak scores (< RATING_MIN_VOTES) — better empty than “3.7 · 3 votes”
+      const strong = sp.items.filter((item) => Number(item.votes) >= RATING_MIN_VOTES);
+      if (!strong.length) {
+        social.innerHTML = '';
+        social.hidden = true;
+        social.setAttribute('aria-hidden', 'true');
+      } else {
+        social.hidden = false;
+        social.setAttribute('aria-hidden', 'false');
+        social.innerHTML = strong
+          .map((item) => {
+            const book = POL_GREK.getBook(item.slug);
+            const clean = book ? litresDirect(book) : sp.sourceUrl;
+            const aff = book ? litresBuyUrl(book) : '';
+            const dataAff = aff && aff !== clean ? ` data-aff="${escapeAttr(aff)}"` : '';
+            const stars = Math.max(1, Math.min(5, Math.round(Number(item.rating) || 0)));
+            return `
             <a class="rating-card" href="${escapeAttr(clean || '#')}"${dataAff} target="_blank" rel="${book ? litresRel() : 'noopener noreferrer'}" data-track="litres" data-book="${escapeAttr(item.slug || '')}">
               <div class="rating-stars" aria-hidden="true">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</div>
               <strong>${Number(item.rating).toFixed(1)}</strong>
@@ -1232,11 +1248,11 @@
                 return item.votes + ' ' + word + ' · Литрес';
               })(item.votes)}</span>
             </a>`;
-        })
-        .join('');
+          })
+          .join('');
+      }
     }
-    const note = document.getElementById('socialProofNote');
-    if (note && sp) note.textContent = sp.note || '';
+    // Keep soft note in HTML when scores are weak; don't overwrite with stale data note
 
     const articles = document.getElementById('homeArticles');
     if (articles && !articles.querySelector('.article-card')) {
@@ -1304,6 +1320,7 @@
 
         const emailEl = document.getElementById('magnetEmail');
         const newsEl = document.getElementById('magnetNews');
+        const consentEl = document.getElementById('magnetConsent');
         const gotcha = document.getElementById('magnetGotcha');
         const status = document.getElementById('magnetStatus');
         const submitBtn = document.getElementById('magnetSubmit');
@@ -1312,6 +1329,19 @@
 
         // Bot honeypot
         if (gotcha && gotcha.value) return;
+
+        // 152-FZ-style consent when email is provided
+        if (email && consentEl && !consentEl.checked) {
+          setMagnetStatus(
+            status,
+            isEn
+              ? 'Please tick the consent box to send your email.'
+              : 'Отметьте согласие на обработку email — или скачайте без почты.',
+            true
+          );
+          if (submitBtn) submitBtn.disabled = false;
+          return;
+        }
 
         if (email && !validateMagnetEmail(true)) {
           if (submitBtn) submitBtn.disabled = false;
