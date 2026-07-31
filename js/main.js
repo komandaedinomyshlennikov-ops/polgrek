@@ -2705,10 +2705,14 @@
   const HOME_SEGMENTS = {
     default: {
       key: 'default',
+      kicker: 'Механика мозга · не мотивация',
       eyebrow: '',
       h1: 'Мозг часто работает не так, как вам кажется',
+      h1Html: 'Мозг часто работает <em class="hero-mark">не так</em>, как вам кажется',
+      reframeHtml:
+        '<span class="hero-strike">не «слабый характер»</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">стресс · сон · остаток ресурса</span>',
       person:
-        'И это не «слабый характер». Это механика: стресс, сон, привычки, остаток ресурса к вечеру. Ниже — коротко и по делу. Без эзотерики и «просто соберись».',
+        'Это механика, не приговор. Ниже — коротко и по делу: что проверить, что прочитать, где книга, если захотите глубже. Без эзотерики и «просто соберись».',
       leadHtml: '',
       cardTitle: 'Почитайте — и решите сами',
       cardBody: 'Глава на сайте, бесплатно. Вся книга — на Литрес, только если зайдёт. Заранее ничего платить не нужно.',
@@ -2718,8 +2722,12 @@
     },
     burnout: {
       key: 'burnout',
-      eyebrow: 'Выходные не помогают — и это не лень',
+      kicker: 'Выходные не помогают — и это не лень',
+      eyebrow: '',
       h1: 'Выгорели, а «просто отдохни» уже не работает',
+      h1Html: 'Выгорели, а <em class="hero-mark">«просто отдохни»</em> уже не работает',
+      reframeHtml:
+        '<span class="hero-strike">не лень</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">истощение · система</span>',
       person:
         'Отлежался — и снова в ноль. Истощение и «просто отдых» — разные вещи. Ниже — с чего начать разбор, без мотивационных лозунгов.',
       leadHtml:
@@ -2732,8 +2740,12 @@
     },
     fog40: {
       key: 'fog40',
-      eyebrow: 'Не «возраст сделал глупее»',
+      kicker: 'Не «возраст сделал глупее»',
+      eyebrow: '',
       h1: 'После 40 — туман и хуже соображаю',
+      h1Html: 'После 40 — <em class="hero-mark">туман</em> и хуже соображаю',
+      reframeHtml:
+        '<span class="hero-strike">не «просто возраст»</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">сон · стресс · нагрузка</span>',
       person:
         'Память, «ватность», долгий фокус. Есть то, что ломается по правилам — и то, что остаётся мифом. С уровнями A–D.',
       leadHtml:
@@ -2746,8 +2758,12 @@
     },
     stress: {
       key: 'stress',
-      eyebrow: 'Когда напряжение стало фоном',
+      kicker: 'Когда напряжение стало фоном',
+      eyebrow: '',
       h1: 'Стресс и тревога сами не выключаются',
+      h1Html: 'Стресс и тревога <em class="hero-mark">сами не выключаются</em>',
+      reframeHtml:
+        '<span class="hero-strike">«просто успокойся»</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">петля в теле и мозге</span>',
       person:
         '«Просто успокойся» — самый бесполезный совет. Петля в теле и мозге уже крутится. Ниже — как она устроена и что реально снижает нагрузку.',
       leadHtml:
@@ -2760,8 +2776,12 @@
     },
     energy: {
       key: 'energy',
-      eyebrow: 'К обеду пусто — не всегда «мало спал»',
+      kicker: 'К обеду пусто — не всегда «мало спал»',
+      eyebrow: '',
       h1: 'Почему силы тают уже к середине дня',
+      h1Html: 'Почему силы <em class="hero-mark">тают</em> уже к середине дня',
+      reframeHtml:
+        '<span class="hero-strike">не «мало спал»</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">режим · нагрузка · ложные бусты</span>',
       person:
         'Режим, нагрузка, ложные бусты. Ниже — восстановление и честный взгляд на шум «биохакинга».',
       leadHtml:
@@ -2774,8 +2794,12 @@
     },
     money: {
       key: 'money',
-      eyebrow: 'Сила воли вечером уже съедена',
+      kicker: 'Сила воли вечером уже съедена',
+      eyebrow: '',
       h1: 'Почему «ещё одно решение» вечером — ловушка',
+      h1Html: 'Почему <em class="hero-mark">«ещё одно решение»</em> вечером — ловушка',
+      reframeHtml:
+        '<span class="hero-strike">не характер</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">ресурс на дне · импульс</span>',
       person:
         'Это не про жадность и не про характер. Как мозг просчитывает риски, когда ресурс на дне — импульсы, деньги, «сила воли».',
       leadHtml:
@@ -2788,8 +2812,12 @@
     },
     bio: {
       key: 'bio',
-      eyebrow: 'Без «волшебных» протоколов',
+      kicker: 'Без «волшебных» протоколов',
+      eyebrow: '',
       h1: 'Ясность и энергия — без хайпа ленты',
+      h1Html: 'Ясность и энергия — <em class="hero-mark">без хайпа</em> ленты',
+      reframeHtml:
+        '<span class="hero-strike">не список БАДов</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">фильтр · уровни A–D</span>',
       person:
         'Что оставить, что отсечь. Проверка → разбор → глава. Не список БАДов.',
       leadHtml:
@@ -2806,12 +2834,15 @@
   const HOME_SEGMENTS_EN = {
     default: {
       key: 'default',
-      eyebrow: 'Value first — books only if you want them',
+      kicker: 'Brain mechanics · not pep talks',
+      eyebrow: '',
       h1: 'Your brain works against you more often than you think',
+      h1Html: 'Your brain works <em class="hero-mark">against you</em> more often than you think',
+      reframeHtml:
+        '<span class="hero-strike">not “weak character”</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">stress · sleep · leftover resource</span>',
       person:
-        'Every day you make dozens of choices that quietly hit memory, focus, sleep, and energy. Below: how that works — plain language, no woo, no miracle protocols.',
-      leadHtml:
-        'We don’t sell “neuroscience.” We sell <strong>small wins</strong>: understand what’s happening → check yourself → free chapter.',
+        'Mechanics, not a verdict. Below: check yourself, read a free chapter, go deeper only if it lands. No woo. No “just push harder.”',
+      leadHtml: '',
       cardTitle: 'Chapter first — not a cash register',
       cardBody: 'Free excerpt on this site. Full text on LitRes/Amazon only if it lands.',
       book: 'mozg-na-100',
@@ -2820,8 +2851,12 @@
     },
     burnout: {
       key: 'burnout',
-      eyebrow: 'Weekends don’t restore you — and that isn’t laziness',
+      kicker: 'Weekends don’t restore you — not laziness',
+      eyebrow: '',
       h1: 'Burned out, and “just rest” already doesn’t work',
+      h1Html: 'Burned out, and <em class="hero-mark">“just rest”</em> already doesn’t work',
+      reframeHtml:
+        '<span class="hero-strike">not laziness</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">depletion · system</span>',
       person:
         'Energy doesn’t come back after two days off. Below: how to tell rest from recovery — and where to start, without motivational slogans.',
       leadHtml:
@@ -2834,8 +2869,12 @@
     },
     fog40: {
       key: 'fog40',
-      eyebrow: 'Not “age made you dumber” — systems fail by rules',
+      kicker: 'Not “age made you dumber”',
+      eyebrow: '',
       h1: 'After 40 — brain fog and slower thinking',
+      h1Html: 'After 40 — <em class="hero-mark">brain fog</em> and slower thinking',
+      reframeHtml:
+        '<span class="hero-strike">not “just age”</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">sleep · stress · load</span>',
       person:
         'Memory slips, “cotton head,” long focus costs more. Below: what actually supports clarity after 40 — and what stays myth — with evidence grades A–D.',
       leadHtml:
@@ -2848,8 +2887,12 @@
     },
     stress: {
       key: 'stress',
-      eyebrow: 'When tension became the background noise',
+      kicker: 'When tension became background noise',
+      eyebrow: '',
       h1: 'Stress and anxiety don’t switch off on their own',
+      h1Html: 'Stress and anxiety <em class="hero-mark">don’t switch off</em> on their own',
+      reframeHtml:
+        '<span class="hero-strike">“just calm down”</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">body–brain loop</span>',
       person:
         '“Just calm down” fails because the body–brain loop is already spinning. Below: how it works and what actually lowers load.',
       leadHtml:
@@ -2862,8 +2905,12 @@
     },
     energy: {
       key: 'energy',
-      eyebrow: 'Afternoon crash isn’t always “too little sleep”',
+      kicker: 'Afternoon crash isn’t always “too little sleep”',
+      eyebrow: '',
       h1: 'Why energy is gone by midday',
+      h1Html: 'Why energy is <em class="hero-mark">gone</em> by midday',
+      reframeHtml:
+        '<span class="hero-strike">not “too little sleep”</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">rhythm · load · fake boosts</span>',
       person:
         'Rhythm, load, fake “energy fixes.” Below: recovery basics and an honest look at biohacking noise.',
       leadHtml:
@@ -2876,8 +2923,12 @@
     },
     money: {
       key: 'money',
-      eyebrow: 'Willpower is already spent by evening',
+      kicker: 'Willpower is already spent by evening',
+      eyebrow: '',
       h1: 'Why “one more decision” at night is a trap',
+      h1Html: 'Why <em class="hero-mark">“one more decision”</em> at night is a trap',
+      reframeHtml:
+        '<span class="hero-strike">not character</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">empty tank · impulse</span>',
       person:
         'Impulses, money, depleted self-control. Below: how the brain pushes bad calls when the tank is empty.',
       leadHtml:
@@ -2890,8 +2941,12 @@
     },
     bio: {
       key: 'bio',
-      eyebrow: 'Biohacking without miracle protocols',
+      kicker: 'Biohacking without miracle protocols',
+      eyebrow: '',
       h1: 'Want clarity and energy — without feed hype',
+      h1Html: 'Clarity and energy — <em class="hero-mark">without feed hype</em>',
+      reframeHtml:
+        '<span class="hero-strike">not a supplement list</span><span class="hero-reframe-sep" aria-hidden="true">→</span><span class="hero-reframe-yes">filter · grades A–D</span>',
       person:
         'What to keep, what to cut. Below: check → unpack → chapter — not a supplement shopping list.',
       leadHtml:
@@ -2933,8 +2988,32 @@
         eye.textContent = text;
         eye.hidden = !String(text).trim();
       }
+      const kickerLabel = document.getElementById('heroKickerLabel');
+      const kicker = document.getElementById('heroKicker');
+      if (kickerLabel) {
+        const k = seg.kicker || seg.eyebrow || '';
+        kickerLabel.textContent = k || (isEn ? 'Brain mechanics · not pep talks' : 'Механика мозга · не мотивация');
+      }
+      if (kicker) kicker.hidden = false;
     }
-    setText('heroTitle', seg.h1);
+    {
+      const title = document.getElementById('heroTitle');
+      if (title) {
+        if (seg.h1Html) title.innerHTML = seg.h1Html;
+        else if (seg.h1) title.textContent = seg.h1;
+      }
+    }
+    {
+      const reframe = document.getElementById('heroReframe');
+      if (reframe) {
+        if (seg.reframeHtml) {
+          reframe.innerHTML = seg.reframeHtml;
+          reframe.hidden = false;
+        } else {
+          reframe.hidden = true;
+        }
+      }
+    }
     setText('heroPerson', seg.person);
     {
       const lead = document.getElementById('heroLead');

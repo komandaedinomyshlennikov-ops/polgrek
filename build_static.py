@@ -837,7 +837,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720bc"
+CSS_VER = "20260720hero"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -2276,8 +2276,7 @@ def apply_hub_seo(G: dict) -> None:
             {
                 "title": home_title,
                 "description": home_desc,
-                # Visible H1 is voice copy; do not overwrite with SEO brand string
-                "h1": "Мозг часто работает не так, как вам кажется",
+                # Visible H1 has markup (hero-mark) — never overwrite with plain text
             },
         ),
         (

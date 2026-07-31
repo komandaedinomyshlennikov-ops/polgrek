@@ -37,9 +37,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="../css/styles.min.css?v=20260720bc" as="style" />
-  <link rel="stylesheet" href="../css/styles.min.css?v=20260720bc" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720bc" /></noscript>
+  <link rel="preload" href="../css/styles.min.css?v=20260720hero" as="style" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260720hero" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720hero" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -166,27 +166,40 @@
       <a href="#faq">FAQ</a>
     </nav>
 
-    <section class="hero" id="hero" data-segment-default="default">
+    <section class="hero hero--stage" id="hero" data-segment-default="default">
+      <div class="hero-stage-glow" aria-hidden="true"></div>
       <div class="container hero-grid">
-        <div>
-          <p class="eyebrow" id="heroEyebrow">Value first — books only if you want them</p>
-          <h1 id="heroTitle">Your brain works against you more often than you think</h1>
+        <div class="hero-copy">
+          <p class="hero-kicker" id="heroKicker">
+            <span class="hero-kicker-pulse" aria-hidden="true"></span>
+            <span id="heroKickerLabel">Brain mechanics · not pep talks</span>
+          </p>
+          <p class="eyebrow" id="heroEyebrow" hidden></p>
+          <h1 id="heroTitle" class="hero-title">Your brain works <em class="hero-mark">against you</em> more often than you think</h1>
+          <p class="hero-reframe" id="heroReframe">
+            <span class="hero-strike">not “weak character”</span>
+            <span class="hero-reframe-sep" aria-hidden="true">→</span>
+            <span class="hero-reframe-yes">stress · sleep · leftover resource</span>
+          </p>
           <p class="hero-person" id="heroPerson">
-            Every day you make dozens of choices that quietly hit memory, focus, sleep, and energy.
-            Below: how that works — plain language, no woo, no miracle protocols.
+            Mechanics, not a verdict. Below: check yourself, read a free chapter, go deeper only if it lands. No woo. No “just push harder.”
           </p>
-          <p class="lead lead-short" id="heroLead">
-            We don’t sell “neuroscience.” We sell <strong>small wins</strong>: understand what’s happening → check yourself → free chapter.
-          </p>
+          <p class="lead lead-short" id="heroLead" hidden></p>
+          <ul class="hero-chips" id="heroChips" aria-label="How we think here">
+            <li>not laziness — a signal</li>
+            <li>no “just calm down”</li>
+            <li>A–B when solid · C–D when thin</li>
+          </ul>
           <div class="hero-cta-panel">
-            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#check">See what’s going on →</a>
-            <a class="btn btn-outline" id="heroCtaExcerpt" href="#excerpt">Read a free chapter</a>
-            <a class="btn btn-ghost-link" href="#problems">Pick a problem</a>
+            <a class="btn btn-primary btn-cta-lg" id="heroCtaPrimary" href="#check">What of this is you →</a>
+            <a class="btn btn-outline" id="heroCtaExcerpt" href="#excerpt">Free chapter</a>
+            <a class="btn btn-ghost-link" href="#now">3 insights · now</a>
           </div>
-          <p class="hero-trust">Email optional · no hype · evidence grades A–D on claims</p>
-          <p class="hero-byline muted" id="heroByline">Pol Grek · a practical library of brain solutions</p>
+          <p class="hero-trust">Email optional · no hype · pay only on LitRes/Amazon if it lands</p>
+          <p class="hero-byline muted" id="heroByline">Pol Grek · brain science without the fluff</p>
         </div>
         <div class="hero-visual hero-visual-stack">
+          <p class="hero-visual-badge"><span aria-hidden="true">↓</span> 13 books · hover a cover</p>
           <div class="hero-cover-stack" id="heroCoverStack" aria-hidden="false">
             <a class="hero-cover hero-cover-0" href="books/zhenskiy-mozg.html" aria-label="The Female Brain">
               <img src="../assets/covers/thumbs/zhenskiy-mozg-w180.webp" srcset="../assets/covers/thumbs/zhenskiy-mozg-w180.webp 180w, ../assets/covers/thumbs/zhenskiy-mozg-w280.webp 280w, ../assets/covers/thumbs/zhenskiy-mozg-w360.webp 360w" sizes="(max-width:720px) 32vw, 176px" alt="Cover of Pol Grek book “The Female Brain”" width="280" height="420" decoding="async" fetchpriority="high" />
@@ -199,10 +212,17 @@
             </a>
           </div>
           <div class="hero-card">
+            <span class="hero-card-mark" aria-hidden="true">“</span>
             <strong id="heroCardTitle">Chapter first — not a cash register</strong>
             <p id="heroCardBody">Free excerpt on this site. Full text on LitRes/Amazon only if it lands.</p>
           </div>
         </div>
+      </div>
+      <div class="hero-scroll-wrap">
+        <a class="hero-scroll" href="#check">
+          <span class="hero-scroll-label">Check what sounds familiar</span>
+          <span class="hero-scroll-chevron" aria-hidden="true"></span>
+        </a>
       </div>
     </section>
 
@@ -755,6 +775,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.min.js" defer></script>
   <script src="../js/data-en.min.js" defer></script>
-  <script src="../js/main.min.js?v=20260720bc" defer></script>
+  <script src="../js/main.min.js?v=20260720hero" defer></script>
 </body>
 </html>
