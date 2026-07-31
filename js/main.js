@@ -31,15 +31,22 @@
         mobileNavAria: 'Mobile menu',
         tabAria: 'Quick links',
         top: 'Back to top',
-        footerBrand: 'Brain science without the woo. Author showcase — buy on Amazon or LitRes.',
+        footerBrand: 'Brain science without the woo. Free chapter first — books on LitRes / Amazon if they land.',
+        footerHook: 'One more useful thing before you go',
+        footerHookLead: 'A free chapter. No hard sell. Or a short note in Telegram — same voice as Threads.',
+        footerCtaExcerpt: 'Free chapter',
+        footerCtaTg: 'Telegram notes',
+        footerSituations: 'By situation',
         footerSections: 'Sections',
         footerBuy: 'Read & buy',
         footerContact: 'Contact',
         footerFollow: 'Follow',
         footerPrivacy: 'Privacy & external links',
-        footerLegalNote: 'Not medical advertising. Author showcase — not a clinic.',
+        footerLegalNote: 'Not medical advertising. Author site — not a clinic.',
+        footerQuote: 'You are not weak. Your brain may just be saving energy in the wrong place.',
         logoAria: 'Pol Grek — home',
-        logoSub: 'Pol Grek · brain science',
+        logoSub: 'brain · no woo',
+        navExcerpt: 'Chapter',
         door1t: 'Burned out, can’t recover',
         door1s: 'RESET',
         door2t: 'Fog / focus after 40',
@@ -107,15 +114,22 @@
         mobileNavAria: 'Мобильная навигация',
         tabAria: 'Быстрые разделы',
         top: 'Наверх',
-        footerBrand: 'Нейробиология без воды. Книги — на Литрес.',
+        footerBrand: 'Нейробиология без воды. Сначала глава — книга на Литрес, если зайдёт.',
+        footerHook: 'Ещё одна полезная вещь, пока вы здесь',
+        footerHookLead: 'Глава бесплатно. Без давления. Или короткий разбор в Telegram — тем же голосом, что в Threads.',
+        footerCtaExcerpt: 'Глава бесплатно',
+        footerCtaTg: 'Telegram · заметки',
+        footerSituations: 'По ситуации',
         footerSections: 'Разделы',
         footerBuy: 'Читать и купить',
         footerContact: 'Связь',
         footerFollow: 'Читать автора',
         footerPrivacy: 'О внешних ссылках',
         footerLegalNote: 'Не медреклама. Сайт автора, не клиника.',
+        footerQuote: 'Вы не «слабый». Возможно, мозг экономит энергию — не там, где нужно.',
         logoAria: 'Пол Грэк — на главную',
-        logoSub: 'Pol Grek · без воды',
+        logoSub: 'мозг · без воды',
+        navExcerpt: 'Глава',
         door1t: 'Выгорание · выходные не помогают',
         door1s: 'RESET',
         door2t: 'Туман · память после 40',
@@ -377,6 +391,7 @@
       </div>`;
 
     const name = isEn ? 'Pol Grek' : 'Пол Грэк';
+    const excerptHref = isEn ? url('/index.html') + '#excerpt' : url('/index.html') + '#excerpt';
     return `
       <a class="skip-link" href="#main-content">${UI.skip}</a>
       <header class="site-header" id="siteHeader">
@@ -391,16 +406,11 @@
             <a href="${url(booksHub)}" class="${active === 'books' ? 'active' : ''}">${UI.books}</a>
             <a href="${url('/lab/index.html')}" class="${active === 'lab' ? 'active' : ''}">${UI.lab}</a>
             <a href="${url('/about.html')}" class="${active === 'about' ? 'active' : ''}">${UI.about}</a>
-            <a href="${url('/index.html')}#faq" class="nav-soft">${UI.faq}</a>
           </nav>
           <div class="nav-actions">
             ${langSwitcher()}
             ${themeToggleBtn()}
-            <div class="nav-social" aria-label="${UI.footerFollow}">
-              <a class="nav-social-link" href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram" title="${UI.telegram}" aria-label="${UI.telegram}">TG</a>
-              <a class="nav-social-link" href="${S.threads}" target="_blank" rel="noopener noreferrer" data-track="threads" title="${UI.threads}" aria-label="${UI.threads}">Th</a>
-            </div>
-            <a class="btn btn-outline nav-cta-secondary" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.litres}</a>
+            <a class="btn btn-ghost-link nav-cta-ghost" href="${excerptHref}" data-track="excerpt_open">${UI.navExcerpt}</a>
             <a class="btn btn-primary nav-cta" href="${url(booksHub)}">${UI.books}</a>
           </div>
           <div class="nav-mobile-tools">
@@ -458,41 +468,74 @@
     const email = legal.email || 'hello@polgrek.site';
     const name = isEn ? 'Pol Grek' : 'Пол Грэк';
     const S = siteLinks();
+    const booksHub = isEn ? '/books/index.html' : '/knigi/';
+    const d1 = isEn ? url('/books/reset.html') : url('/knigi/reset/');
+    const d2 = isEn ? url('/books/mozg-na-100.html') : url('/knigi/mozg-na-100/');
+    const d3 = isEn ? url('/books/stress-i-mozg.html') : url('/knigi/stress-i-mozg/');
+    const dEi = isEn ? url('/books/ei-2.html') : url('/knigi/ei-2/');
+    const dZh = isEn ? url('/books/zhenskiy-mozg.html') : url('/knigi/zhenskiy-mozg/');
     return `
       <footer class="site-footer">
+        <div class="container">
+          <div class="footer-hook">
+            <div class="footer-hook-copy">
+              <p class="footer-hook-kicker">${UI.footerHook}</p>
+              <p class="footer-hook-quote">«${UI.footerQuote}»</p>
+              <p class="footer-hook-lead">${UI.footerHookLead}</p>
+              <div class="btn-row footer-hook-cta">
+                <a class="btn btn-primary" href="${url('/index.html')}#excerpt" data-track="excerpt_open">${UI.footerCtaExcerpt}</a>
+                <a class="btn btn-outline footer-btn-ghost" href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram">${UI.footerCtaTg}</a>
+                <a class="btn btn-ghost-link footer-btn-ghost" href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.fullLitres}</a>
+              </div>
+              <p class="affiliate-mark footer-hook-aff">${UI.affiliateMark || ''}</p>
+            </div>
+            <div class="footer-hook-doors" aria-label="${UI.footerSituations}">
+              <p class="footer-hook-doors-label">${UI.footerSituations}</p>
+              <a href="${d1}"><span>${isEn ? 'Burnout · weekends fail' : 'Выгорание · выходные не помогают'}</span><strong>RESET</strong></a>
+              <a href="${d2}"><span>${isEn ? 'Fog after 40' : 'Туман · память после 40'}</span><strong>${isEn ? 'Brain at 100+' : 'Мозг на 100+'}</strong></a>
+              <a href="${d3}"><span>${isEn ? 'Stress loop' : 'Стресс · тревога'}</span><strong>${isEn ? 'Stress & brain' : 'Стресс и мозг'}</strong></a>
+              <a href="${dEi}"><span>${isEn ? 'Emotions take the wheel' : 'Эмоции «перехватывают руль»'}</span><strong>EI 2.0</strong></a>
+              <a href="${dZh}"><span>${isEn ? 'Hormones & clarity' : 'Гормоны · ясность'}</span><strong>${isEn ? 'Female Brain' : 'Женский мозг'}</strong></a>
+            </div>
+          </div>
+        </div>
         <div class="container footer-grid">
           <div class="footer-brand">
-            <div class="logo" style="margin-bottom:1rem">
+            <a class="logo footer-logo" href="${url('/index.html')}" aria-label="${UI.logoAria}">
               <span class="logo-mark" aria-hidden="true"></span>
-              <span class="logo-text">${name}<span>Pol Grek</span></span>
-            </div>
+              <span class="logo-text">${name}<span>${UI.logoSub}</span></span>
+            </a>
             <p>${UI.footerBrand}</p>
           </div>
           <div>
             <h4>${UI.footerSections}</h4>
-            <a href="${url(isEn ? '/books/index.html' : '/knigi/')}">${UI.books}</a>
+            <a href="${url(booksHub)}">${UI.books}</a>
             <a href="${url('/lab/index.html')}">${UI.lab}</a>
             <a href="${url('/about.html')}">${UI.about}</a>
             <a href="${url('/index.html')}#faq">${UI.faq}</a>
-            <a href="${url('/index.html')}#social-proof">${isEn ? 'Reviews' : 'Отзывы'}</a>
+            <a href="${url('/index.html')}#now">${isEn ? 'Try now' : 'Прямо сейчас'}</a>
             <a href="${url('/privacy.html')}">${UI.privacy}</a>
           </div>
           <div>
             <h4>${UI.footerBuy}</h4>
+            <a href="${url('/index.html')}#excerpt">${UI.footerCtaExcerpt}</a>
             <a href="${S.litres}" target="_blank" rel="${S.litresRel}" data-track="litres">${UI.fullLitres}</a>
+            ${
+              isEn
+                ? `<a href="https://www.amazon.com/s?k=Pol+Grek" target="_blank" rel="noopener noreferrer">${UI.amazon}</a>`
+                : ''
+            }
           </div>
           <div>
             <h4>${UI.footerFollow}</h4>
             <a href="${S.telegram}" target="_blank" rel="noopener noreferrer" data-track="telegram">${UI.telegram}</a>
             <a href="${S.threads}" target="_blank" rel="noopener noreferrer" data-track="threads">${UI.threads} · @pol.grek</a>
             <a href="mailto:${email}">${email}</a>
-            <a href="${url('/privacy.html')}">${UI.footerPrivacy}</a>
           </div>
         </div>
         <div class="container footer-legal">
           <p>${legal.disclaimer || ''}</p>
           <p>${legal.privacy || ''}</p>
-          <p class="affiliate-mark">${UI.affiliateMark || ''}</p>
         </div>
         <div class="container footer-bottom">
           <span>© ${new Date().getFullYear()} Pol Grek / Пол Грэк</span>
