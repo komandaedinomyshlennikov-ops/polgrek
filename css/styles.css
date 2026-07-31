@@ -576,6 +576,19 @@ body[data-page="home"] .final-cta {
 .breadcrumb [aria-current="page"] {
   color: var(--ink-soft);
   font-weight: 600;
+  max-width: min(42ch, 72vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.breadcrumb .bc-text {
+  color: var(--muted);
+  font-weight: 550;
+}
+.breadcrumb .bc-sep {
+  color: var(--muted);
+  opacity: 0.65;
+  user-select: none;
 }
 
 .site-header {
@@ -1136,6 +1149,18 @@ body.has-sticky-buy .back-to-top {
   font-weight: 600;
 }
 .breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb [aria-current="page"] {
+  color: var(--ink-soft);
+  font-weight: 600;
+  max-width: min(42ch, 72vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.breadcrumb .bc-text {
+  color: var(--muted);
+  font-weight: 550;
+}
 
 /* ---------- Hero ---------- */
 .hero {

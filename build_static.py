@@ -21,6 +21,94 @@ TAG_RU = {
     "лора": "с Лорой",
 }
 
+# Breadcrumb topic labels — living RU (and EN keys for mirror)
+BC_TOPIC_RU = {
+    "когнитивное-здоровье": "Про когнитивное здоровье",
+    "биохакинг": "Про биохакинг",
+    "энергия": "Про энергию и режим",
+    "стресс": "Про стресс",
+    "выгорание": "Про выгорание",
+    "деньги": "Про деньги и мозг",
+    "гормоны": "Про гормоны",
+}
+BC_TOPIC_EN = {
+    "cognitive-health": "Cognitive health",
+    "biohacking": "Biohacking",
+    "energy": "Energy & rhythm",
+    "stress": "Stress",
+    "burnout": "Burnout",
+    "money": "Money & mind",
+    "hormones": "Hormones",
+    # RU tag ids (EN book mirror may still carry them)
+    "когнитивное-здоровье": "Cognitive health",
+    "биохакинг": "Biohacking",
+    "энергия": "Energy & rhythm",
+    "стресс": "Stress",
+    "выгорание": "Burnout",
+    "деньги": "Money & mind",
+    "гормоны": "Hormones",
+}
+
+
+def crumb_short(title: str, max_len: int = 48) -> str:
+    """Keep breadcrumb current page readable; full title stays in <h1>."""
+    t = re.sub(r"\s+", " ", (title or "").strip())
+    if len(t) <= max_len:
+        return t
+    for sep in (" — ", " – ", ". ", "? ", "! "):
+        i = t.find(sep)
+        if 14 <= i <= max_len:
+            return t[:i].rstrip(" .—–")
+    cut = t[: max_len - 1]
+    if " " in cut:
+        cut = cut.rsplit(" ", 1)[0]
+    return cut.rstrip(" ,.;:") + "…"
+
+
+def breadcrumb_html(
+    items: list[tuple[str | None, str]],
+    *,
+    lang: str = "ru",
+) -> str:
+    """items: (href|None, label). Last item is the current page (aria-current).
+    Middle items may have href=None for non-clickable context (e.g. category)."""
+    aria = "Breadcrumb" if lang == "en" else "Путь по сайту"
+    parts: list[str] = []
+    n = len(items)
+    for i, (href, label) in enumerate(items):
+        is_last = i == n - 1
+        if i:
+            parts.append('<span class="bc-sep" aria-hidden="true">/</span>')
+        lab = esc(label)
+        if is_last:
+            parts.append(f'<span aria-current="page">{lab}</span>')
+        elif href:
+            parts.append(f'<a href="{esc(href)}">{lab}</a>')
+        else:
+            parts.append(f'<span class="bc-text">{lab}</span>')
+    inner = "\n        ".join(parts)
+    return f'<nav class="breadcrumb" aria-label="{aria}">\n        {inner}\n      </nav>'
+
+
+def bc_home_label(lang: str = "ru") -> str:
+    return "Home" if lang == "en" else "На главную"
+
+
+def bc_books_label(lang: str = "ru") -> str:
+    return "All books" if lang == "en" else "Все книги"
+
+
+def bc_lab_label(lang: str = "ru") -> str:
+    return "Lab notes" if lang == "en" else "Лаборатория"
+
+
+def bc_topic_label(tag: str, lang: str = "ru") -> str:
+    if not tag:
+        return ""
+    if lang == "en":
+        return BC_TOPIC_EN.get(tag) or TAG_RU.get(tag, tag).replace("-", " ").title()
+    return BC_TOPIC_RU.get(tag) or TAG_RU.get(tag, tag)
+
 
 def load_data(data_file: str = "js/data.js") -> dict:
     """Load POL_GREK; side-load lab articles from data-articles*.js when split out."""
@@ -749,7 +837,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720labvoice"
+CSS_VER = "20260720bc"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -1200,7 +1288,8 @@ def build_book_page(
         (t for t in (book.get("tags") or []) if t not in ("лора", "laura")),
         "",
     )
-    topic = TAG_RU.get(primary, primary)
+    lang_bc = "en" if is_en else "ru"
+    topic = bc_topic_label(primary, lang_bc)
     topic_href = (
         f"{catalog_href}?filter={html.escape(primary)}"
         if primary
@@ -1387,14 +1476,15 @@ def build_book_page(
     body = f"""
     <div class="container book-page">
       <noscript><div class="noscript-banner">Страница книги открыта без JavaScript: описание и отрывок ниже.</div></noscript>
-      <nav class="breadcrumb" aria-label="Вы здесь">
-        <a href="{home_href}">Главная</a>
-        <span class="bc-sep" aria-hidden="true">/</span>
-        <a href="{catalog_href}">Книги</a>
-        {f'<span class="bc-sep" aria-hidden="true">/</span><a href="{topic_href}">{esc(topic)}</a>' if topic else ''}
-        <span class="bc-sep" aria-hidden="true">/</span>
-        <span aria-current="page">{esc(book["title"])}</span>
-      </nav>
+      {breadcrumb_html(
+          [
+              (home_href, bc_home_label(lang_bc)),
+              (catalog_href, bc_books_label(lang_bc)),
+              *([(topic_href, topic)] if topic else []),
+              (None, book["title"]),
+          ],
+          lang=lang_bc,
+      )}
 
       <!-- MIF-style product hero: cover + info + buy -->
       <div class="book-product">
@@ -1651,19 +1741,45 @@ def build_book_page(
     if reviews_ld:
         book_ld["review"] = reviews_ld
 
+    crumb_items_ld = [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": bc_home_label("en" if is_en else "ru"),
+            "item": abs_url("/en/" if is_en else "/"),
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": bc_books_label("en" if is_en else "ru"),
+            "item": abs_url("/en/books/index.html" if is_en else f"/{RU_BOOKS_SEGMENT}/"),
+        },
+    ]
+    if topic and primary:
+        crumb_items_ld.append(
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": topic,
+                "item": abs_url(
+                    f"/en/books/index.html?filter={primary}"
+                    if is_en
+                    else f"/{RU_BOOKS_SEGMENT}/?filter={primary}"
+                ),
+            }
+        )
+    crumb_items_ld.append(
+        {
+            "@type": "ListItem",
+            "position": len(crumb_items_ld) + 1,
+            "name": book["title"],
+            "item": can,
+        }
+    )
     crumbs = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home" if is_en else "Главная", "item": abs_url("/en/" if is_en else "/")},
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Books" if is_en else "Книги",
-                "item": abs_url("/en/books/index.html" if is_en else f"/{RU_BOOKS_SEGMENT}/"),
-            },
-            {"@type": "ListItem", "position": 3, "name": book["title"], "item": can},
-        ],
+        "itemListElement": crumb_items_ld,
     }
     person_ld = {
         "@context": "https://schema.org",
@@ -1720,13 +1836,15 @@ def build_article_page(G: dict, article: dict) -> str:
     body = f"""
     <div class="container" style="padding-top:1.5rem">
       <noscript><div class="noscript-banner">Статья открыта без JavaScript.</div></noscript>
-      <nav class="breadcrumb" aria-label="Вы здесь">
-        <a href="../index.html">Главная</a>
-        <span class="bc-sep">/</span>
-        <a href="index.html">Лаборатория</a>
-        <span class="bc-sep">/</span>
-        <span aria-current="page">{esc(article["title"])}</span>
-      </nav>
+      {breadcrumb_html(
+          [
+              ("../index.html", bc_home_label("ru")),
+              ("index.html", bc_lab_label("ru")),
+              *([(None, str(article["category"]))] if article.get("category") else []),
+              (None, crumb_short(article["title"], 48)),
+          ],
+          lang="ru",
+      )}
       <div class="article-layout">
         <article class="article-content">
           <p class="eyebrow">{esc(article["category"])} · {article["readMin"]} мин</p>
@@ -1779,14 +1897,36 @@ def build_article_page(G: dict, article: dict) -> str:
             "name": book["title"],
             "url": ru_book_canonical(book["slug"]),
         }
+    crumb_ld = [
+        {"@type": "ListItem", "position": 1, "name": bc_home_label("ru"), "item": abs_url("/")},
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": bc_lab_label("ru"),
+            "item": abs_url("/lab/index.html"),
+        },
+    ]
+    if article.get("category"):
+        crumb_ld.append(
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": str(article["category"]),
+                "item": abs_url("/lab/index.html"),
+            }
+        )
+    crumb_ld.append(
+        {
+            "@type": "ListItem",
+            "position": len(crumb_ld) + 1,
+            "name": clip_title(raw_title, 80),
+            "item": can,
+        }
+    )
     crumbs = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Главная", "item": abs_url("/")},
-            {"@type": "ListItem", "position": 2, "name": "Лаборатория", "item": abs_url("/lab/index.html")},
-            {"@type": "ListItem", "position": 3, "name": clip_title(raw_title, 80), "item": can},
-        ],
+        "itemListElement": crumb_ld,
     }
     return shell(
         title,
@@ -2636,6 +2776,16 @@ def main() -> None:
                 ("Для кого", "Who it's for"),
                 ("Что внутри", "Inside the book"),
                 ("Вы здесь", "You are here"),
+                ("Путь по сайту", "Breadcrumb"),
+                ("На главную", "Home"),
+                ("Все книги", "All books"),
+                ("Про когнитивное здоровье", "Cognitive health"),
+                ("Про биохакинг", "Biohacking"),
+                ("Про энергию и режим", "Energy & rhythm"),
+                ("Про стресс", "Stress"),
+                ("Про выгорание", "Burnout"),
+                ("Про деньги и мозг", "Money & mind"),
+                ("Про гормоны", "Hormones"),
                 ("и покупка на Литрес", "and buy on LitRes"),
                 ("Отрывок и покупка на Литрес", "Excerpt and buy on LitRes"),
                 ("Бесплатный отрывок", "Free excerpt"),
@@ -2703,6 +2853,7 @@ def main() -> None:
                 ("Скачать отрывок (.txt)", "Download excerpt (.txt)"),
                 ("Excerpt и покупка на LitRes.", "Excerpt and purchase links included."),
                 ('aria-label="Вы здесь"', 'aria-label="You are here"'),
+                ('aria-label="Путь по сайту"', 'aria-label="Breadcrumb"'),
                 ("Книга носит образовательный характер и не заменяет консультацию врача, психотерапевта или финансового советника.", "This book is educational and does not replace a physician, therapist, or financial advisor."),
                 ("Who it's for эта книга", "Who this book is for"),
             ]
@@ -2812,7 +2963,8 @@ def main() -> None:
             html_out = html_out.replace('"inLanguage": "ru"', '"inLanguage": "en"')
             html_out = html_out.replace('content="ru_RU"', 'content="en_US"')
             html_out = html_out.replace('"name": "Главная"', '"name": "Home"')
-            html_out = html_out.replace('"name": "Лаборатория"', '"name": "Lab"')
+            html_out = html_out.replace('"name": "На главную"', '"name": "Home"')
+            html_out = html_out.replace('"name": "Лаборатория"', '"name": "Lab notes"')
             html_out = html_out.replace(
                 '"name": "Пол Грэк"',
                 '"name": "Pol Grek"',
@@ -2854,7 +3006,10 @@ def main() -> None:
                 ("Если зашло — глубже", "If you want to go deeper"),
                 ("К книге", "To the book"),
                 ("Вы здесь", "You are here"),
+                ("Путь по сайту", "Breadcrumb"),
+                ("На главную", "Home"),
                 ("aria-label=\"Вы здесь\"", "aria-label=\"You are here\""),
+                ('aria-label="Путь по сайту"', 'aria-label="Breadcrumb"'),
                 ('content="Пол Грэк"', 'content="Pol Grek"'),
                 ('og:site_name" content="Пол Грэк"', 'og:site_name" content="Pol Grek"'),
                 ("Пол Грэк — автор научпопа о мозге", "Pol Grek — brain science author"),
@@ -2862,6 +3017,11 @@ def main() -> None:
                 ("Уровни доказательности A–D", "Evidence grades A–D"),
                 ("Без эзотерики и хайпа", "No woo, no hype"),
                 ("Научпоп о мозге", "Popular brain science"),
+                ("Мозг и поведение", "Brain & behavior"),
+                ("Наука без хайпа", "Science without hype"),
+                ("Сон и энергия", "Sleep & energy"),
+                ("Эмоции", "Emotions"),
+                ("Деньги и мозг", "Money & mind"),
             ]
             for a, b in reps:
                 html_out = html_out.replace(a, b)
