@@ -711,7 +711,7 @@ def article_card(a: dict, from_lab: bool = True) -> str:
   <div class="cat">{esc(a['category'])}</div>
   <h3>{esc(a['title'])}</h3>
   <p>{esc(a['hook'])}</p>
-  <div class="meta">{a['readMin']} мин · отрывок и книга →</div>
+  <div class="meta">{a['readMin']} мин · польза + книга →</div>
 </a>"""
 
 
@@ -749,7 +749,7 @@ def related_books(G: dict, slug: str, n: int = 3) -> list:
 
 SITE_ORIGIN = "https://polgrek.site"
 OG_IMAGE = f"{SITE_ORIGIN}/assets/og-image.jpg"
-CSS_VER = "20260720chrome"
+CSS_VER = "20260720lab"
 USE_MINIFIED_ASSETS = True  # styles.min.css + main.min.js when present & smaller
 
 
@@ -2441,7 +2441,7 @@ def main() -> None:
   <div class="cat">{esc(a['category'])}</div>
   <h3>{esc(a['title'])}</h3>
   <p>{esc(a['hook'])}</p>
-  <div class="meta">{a['readMin']} мин · отрывок и книга →</div>
+  <div class="meta">{a['readMin']} мин · польза + книга →</div>
 </a>"""
         for a in G["articles"][:3]
     )
@@ -2453,7 +2453,7 @@ def main() -> None:
   <div class="cat">{esc(a['category'])}</div>
   <h3>{esc(a['title'])}</h3>
   <p>{esc(a['hook'])}</p>
-  <div class="meta">{a['readMin']} мин · отрывок и книга →</div>
+  <div class="meta">{a['readMin']} мин · польза + книга →</div>
 </a>"""
         for a in G["articles"]
     )
@@ -2843,7 +2843,7 @@ def main() -> None:
                 ("Лаборатория", "Lab"),
                 ("Об авторе", "About"),
                 ("Книги", "Books"),
-                ("мин · отрывок и книга →", "min · excerpt & book →"),
+                ("мин · польза + книга →", "min · excerpt & book →"),
                 (" мин", " min"),
                 ("Книга:", "Book:"),
                 ("Все материалы", "All posts"),
