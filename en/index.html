@@ -37,9 +37,9 @@
   <style id="critical-css">
   html{background:#F2EDE3;direction:ltr}html[data-theme=dark]{background:#0C121A}body{margin:0;font-family:system-ui,-apple-system,sans-serif;font-size:18px;line-height:1.65;color:#2C3640;background:inherit}[data-theme=dark] body{color:#B4C0CC}.skip-link{position:absolute;left:-9999px}img{max-width:100%;height:auto;display:block}.container{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}.site-header,.site-header--static{height:72px;display:flex;align-items:center}.hero{padding:2.5rem 0 3rem}.hero-grid{display:grid;gap:2rem;align-items:center}@media(min-width:801px){.hero-grid{grid-template-columns:7fr 5fr}}.hero-visual{position:relative;min-height:360px;border-radius:20px;background:#1a221c}.hero-cover-stack{position:relative;min-height:240px;width:100%}.hero-cover{position:absolute;top:50%;width:132px;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:#E8E0D2}.hero-cover img{width:100%;height:100%;object-fit:cover;max-width:none}.hero-cover-0{left:6%;transform:translateY(-50%) rotate(-9deg)}.hero-cover-1{left:50%;transform:translate(-50%,-50%) scale(1.08);width:176px}.hero-cover-2{right:6%;left:auto;transform:translateY(-50%) rotate(9deg)}h1{font-size:clamp(1.75rem,4vw,2.2rem);line-height:1.2;margin:0 0 .75rem;color:#0A1929}[data-theme=dark] h1{color:#E8EEF4}
   </style>
-  <link rel="preload" href="../css/styles.min.css?v=20260720hero" as="style" />
-  <link rel="stylesheet" href="../css/styles.min.css?v=20260720hero" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720hero" /></noscript>
+  <link rel="preload" href="../css/styles.min.css?v=20260720funnel" as="style" />
+  <link rel="stylesheet" href="../css/styles.min.css?v=20260720funnel" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="../css/styles.min.css?v=20260720funnel" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -157,12 +157,18 @@
 
 
   <main id="main-content" tabindex="-1">
+
+    <div class="sticky-chapter" id="stickyChapter" hidden>
+      <div class="sticky-chapter-inner">
+        <p class="sticky-chapter-copy"><strong>Free chapter</strong> · no email required · decide yourself</p>
+        <a class="btn btn-primary sticky-chapter-cta" href="#excerpt" data-track="excerpt_open">To chapter →</a>
+      </div>
+    </div>
+
     <nav class="page-jump" aria-label="On this page">
       <a href="#check">Check</a>
-      <a href="#problems">Problems</a>
-      <a href="#why-cards">Why</a>
       <a href="#excerpt" class="page-jump-cta">Chapter</a>
-      <a href="#author-home">Method</a>
+      <a href="#problems">Problems</a>
       <a href="#faq">FAQ</a>
     </nav>
 
@@ -253,241 +259,13 @@
             <p class="self-check-bridge-body">
               Modern brain science already maps most of these states — without motivational magic or woo.
             </p>
-            <a class="btn btn-primary" href="#problems" id="selfCheckContinue">Which book fits you →</a>
+            <a class="btn btn-primary" href="#excerpt" id="selfCheckContinue">Which book fits you →</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="outcomes" class="outcomes-section" aria-labelledby="outcomes-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Not “knowledge” — a shift</p>
-            <h2 id="outcomes-title">What you get</h2>
-            <p class="section-lead">After the site materials and books — practical changes in daily life, not another theory stack.</p>
-          </div>
-        </div>
-        <ul class="outcomes-grid">
-          <li class="outcome-card"><strong>Focus</strong><span>Return attention faster when it scatters</span></li>
-          <li class="outcome-card"><strong>Stress</strong><span>Read it as a system, not “weak character”</span></li>
-          <li class="outcome-card"><strong>Myths</strong><span>Less belief in biohacking hype and “just sleep more”</span></li>
-          <li class="outcome-card"><strong>Decisions</strong><span>Stop making big calls on an empty tank</span></li>
-          <li class="outcome-card"><strong>Your brain</strong><span>Signal vs noise: what to fix, what to wait out</span></li>
-          <li class="outcome-card"><strong>Honesty</strong><span>See where data is strong (A–B) vs cautious (C–D)</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="fact-1" class="micro-fact-section" aria-labelledby="fact-1-title">
-      <div class="container">
-        <article class="micro-fact">
-          <p class="eyebrow">Did you know?</p>
-          <h2 id="fact-1-title" class="micro-fact-title">Your brain often “decides” before you feel the decision</h2>
-          <p class="micro-fact-body">
-            Habits and context launch action fractions of a second before conscious choice.
-            That’s why “just try harder” at night almost never works: resource and environment already lead.
-          </p>
-          <p class="micro-fact-next">
-            <a href="#mistakes" data-track="fact_expand" data-fact="decision-lag">Typical daily mistakes →</a>
-            <span class="micro-fact-sep" aria-hidden="true">·</span>
-            <a href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">In <em>Wired for Wealth</em></a>
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section id="problems" class="problems-section" aria-labelledby="problems-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Diagnosis, not a shelf</p>
-            <h2 id="problems-title">Pick a problem</h2>
-            <p class="section-lead">Not “13 covers.” Each card is a life task → book + free excerpt.</p>
-          </div>
-        </div>
-        <div class="doors doors--situations doors--problems" id="doorsGrid">
-          <a class="door" href="books/reset.html#excerpt" data-track="problem_select" data-book="reset">
-            <div class="num">01</div>
-            <h3>Chronic fatigue · burnout</h3>
-            <p>Weekends don’t restore you. You need a depletion map — not “just rest.”</p>
-            <span class="link">Solution · <strong>RESET</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <a class="door" href="books/mozg-na-100.html#excerpt" data-track="problem_select" data-book="mozg-na-100">
-            <div class="num">02</div>
-            <h3>Memory · fog · after 40</h3>
-            <p>Thinking feels harder than before. A clarity plan with honest grades on every tip.</p>
-            <span class="link">Solution · <strong>Brain at 100+</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <a class="door" href="books/stress-i-mozg.html#excerpt" data-track="problem_select" data-book="stress-i-mozg">
-            <div class="num">03</div>
-            <h3>Stress · anxiety won’t quit</h3>
-            <p>Tension became background. How the loop works — and what actually lowers load.</p>
-            <span class="link">Solution · <strong>Stress and the Brain</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <a class="door door--extra" href="books/biohacking-mozga.html#excerpt" data-track="problem_select" data-book="biohacking-mozga">
-            <div class="num">04</div>
-            <h3>Energy · focus · biohacking noise</h3>
-            <p>You want a base, not a one-shot boost. What to keep, what to cut as myth.</p>
-            <span class="link">Solution · <strong>Brain Biohacking</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <a class="door door--extra" href="books/mozg-i-dengi.html#excerpt" data-track="problem_select" data-book="mozg-i-dengi">
-            <div class="num">05</div>
-            <h3>Money · impulses · “willpower”</h3>
-            <p>Evening willpower is already spent. Stress and brain state — not “weak character.”</p>
-            <span class="link">Solution · <strong>Wired for Wealth</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <a class="door door--extra" href="books/anatomiya-energii.html#excerpt" data-track="problem_select" data-book="anatomiya-energii">
-            <div class="num">06</div>
-            <h3>Tired by lunch</h3>
-            <p>Energy drops mid-day. Recovery, rhythm, and fake “energy hacks.”</p>
-            <span class="link">Solution · <strong>Anatomy of Energy</strong> <span class="link-hint">(excerpt)</span></span>
-          </a>
-          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
-            More problems <span class="doors-more-count">3</span>
-          </button>
-        </div>
-        <p class="problems-alt muted">
-          Don’t want to choose —
-          <a href="#book-quiz">answer 3 short questions</a>
-          or <a href="#excerpt">grab a chapter now</a>.
-        </p>
-      </div>
-    </section>
-
-    <section id="why-cards" class="why-cards-section" aria-labelledby="why-cards-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Not a catalog — a breakdown</p>
-            <h2 id="why-cards-title">Why this happens to you</h2>
-            <p class="section-lead">A short “Netflix” of problems: question → what we unpack → book with excerpt.</p>
-          </div>
-        </div>
-        <div class="why-cards">
-          <article class="why-card" data-segment="energy">
-            <h3 class="why-card-q">Why are you exhausted by lunch?</h3>
-            <p class="why-card-label">We unpack</p>
-            <ul class="why-card-list">
-              <li>recovery vs “just rest”</li>
-              <li>rhythm and cognitive load</li>
-              <li>fake energy boosts</li>
-            </ul>
-            <p class="why-card-book">Book · <strong>Anatomy of Energy</strong> <span class="muted">&amp;</span> <strong>RESET</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="books/anatomiya-energii.html#excerpt" data-track="excerpt_open" data-book="anatomiya-energii">Excerpt</a>
-              <a class="btn btn-outline" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">RESET excerpt</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="stress">
-            <h3 class="why-card-q">Why does anxiety feed itself?</h3>
-            <p class="why-card-label">We unpack</p>
-            <ul class="why-card-list">
-              <li>the thought → body → thought loop</li>
-              <li>why “just calm down” fails</li>
-              <li>what actually lowers system load</li>
-            </ul>
-            <p class="why-card-book">Book · <strong>Stress and the Brain</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="books/stress-i-mozg.html#excerpt" data-track="excerpt_open" data-book="stress-i-mozg">Excerpt</a>
-              <a class="btn btn-outline" href="books/stress-i-mozg.html" data-track="problem_select" data-book="stress-i-mozg">About the book</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="memory">
-            <h3 class="why-card-q">Why does memory “slip” and fog appear?</h3>
-            <p class="why-card-label">We unpack</p>
-            <ul class="why-card-list">
-              <li>what ages — and what doesn’t</li>
-              <li>sleep, load, focus without miracle pills</li>
-              <li>tips graded A–D</li>
-            </ul>
-            <p class="why-card-book">Book · <strong>Brain at 100+</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Excerpt</a>
-              <a class="btn btn-outline" href="books/mozg-na-100.html" data-track="problem_select" data-book="mozg-na-100">About the book</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="burnout">
-            <h3 class="why-card-q">Why weekends don’t restore you?</h3>
-            <p class="why-card-label">We unpack</p>
-            <ul class="why-card-list">
-              <li>burnout as system depletion</li>
-              <li>rest ≠ adaptive recovery</li>
-              <li>a protocol after “I can’t keep up”</li>
-            </ul>
-            <p class="why-card-book">Book · <strong>RESET</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Excerpt</a>
-              <a class="btn btn-outline" href="books/reset.html" data-track="problem_select" data-book="reset">About the book</a>
-            </div>
-          </article>
-          <article class="why-card" data-segment="money">
-            <h3 class="why-card-q">Why is “one more decision” at night a trap?</h3>
-            <p class="why-card-label">We unpack</p>
-            <ul class="why-card-list">
-              <li>self-control spent by evening</li>
-              <li>impulses, money, willpower myths</li>
-              <li>how not to decide on empty battery</li>
-            </ul>
-            <p class="why-card-book">Book · <strong>Wired for Wealth</strong></p>
-            <div class="why-card-cta btn-row">
-              <a class="btn btn-primary" href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Excerpt</a>
-              <a class="btn btn-outline" href="books/mozg-i-dengi.html" data-track="problem_select" data-book="mozg-i-dengi">About the book</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="mistakes" class="mistakes-section" aria-labelledby="mistakes-title">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">No guilt — mechanics</p>
-            <h2 id="mistakes-title">Today you probably already did at least three things your brain didn’t “notify” you about</h2>
-            <p class="section-lead">Not shame. Everyday design — and why the books unpack exactly this.</p>
-          </div>
-        </div>
-        <ol class="mistakes-list">
-          <li class="mistake-item">
-            <strong>Phone in the first minutes after waking</strong>
-            <span>The brain hasn’t assembled the day yet — the feed already set anxiety and comparison.</span>
-          </li>
-          <li class="mistake-item">
-            <strong>Important decisions on leftover battery</strong>
-            <span>Evening self-control and working memory are low — mistakes get expensive.</span>
-          </li>
-          <li class="mistake-item">
-            <strong>Switching attention every 1–2 minutes</strong>
-            <span>Each hop taxes focus. Long texts and hard tasks fail first.</span>
-          </li>
-        </ol>
-        <p class="mistakes-cta">
-          These mechanisms — with evidence, without magic — are what the chapters unpack.
-          <a class="btn btn-primary" href="#excerpt">Open one mistake in a chapter →</a>
-        </p>
-      </div>
-    </section>
-
-    <section id="fact-2" class="micro-fact-section micro-fact-section--alt" aria-labelledby="fact-2-title">
-      <div class="container">
-        <article class="micro-fact">
-          <p class="eyebrow">Did you know?</p>
-          <h2 id="fact-2-title" class="micro-fact-title">“Just sleep more” often doesn’t fix fatigue</h2>
-          <p class="micro-fact-body">
-            If the system is depleted, weekend sleep doesn’t wipe the debt the way it feels.
-            Rest ≠ recovery — or you’re empty again by Wednesday.
-          </p>
-          <p class="micro-fact-next">
-            <a href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset" data-fact="sleep-not-enough">RESET excerpt →</a>
-            <span class="micro-fact-sep" aria-hidden="true">·</span>
-            <a href="#why-cards">More “why…”</a>
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section id="excerpt" class="excerpt-section excerpt-section--home" aria-labelledby="excerpt-title">
+<section id="excerpt" class="excerpt-section excerpt-section--priority excerpt-section--home" aria-labelledby="excerpt-title">
       <div class="container">
         <div class="section-head">
           <div>
@@ -574,7 +352,65 @@
       </div>
     </section>
 
-    <section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
+<section id="problems" class="problems-section" aria-labelledby="problems-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Diagnosis, not a shelf</p>
+            <h2 id="problems-title">Pick a problem</h2>
+            <p class="section-lead">Not “13 covers.” Each card is a life task → book + free excerpt.</p>
+          </div>
+        </div>
+        <div class="doors doors--situations doors--problems" id="doorsGrid">
+          <a class="door" href="books/reset.html#excerpt" data-track="problem_select" data-book="reset">
+            <div class="num">01</div>
+            <h3>Chronic fatigue · burnout</h3>
+            <p>Weekends don’t restore you. You need a depletion map — not “just rest.”</p>
+            <span class="link">Solution · <strong>RESET</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door" href="books/mozg-na-100.html#excerpt" data-track="problem_select" data-book="mozg-na-100">
+            <div class="num">02</div>
+            <h3>Memory · fog · after 40</h3>
+            <p>Thinking feels harder than before. A clarity plan with honest grades on every tip.</p>
+            <span class="link">Solution · <strong>Brain at 100+</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door" href="books/stress-i-mozg.html#excerpt" data-track="problem_select" data-book="stress-i-mozg">
+            <div class="num">03</div>
+            <h3>Stress · anxiety won’t quit</h3>
+            <p>Tension became background. How the loop works — and what actually lowers load.</p>
+            <span class="link">Solution · <strong>Stress and the Brain</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/biohacking-mozga.html#excerpt" data-track="problem_select" data-book="biohacking-mozga">
+            <div class="num">04</div>
+            <h3>Energy · focus · biohacking noise</h3>
+            <p>You want a base, not a one-shot boost. What to keep, what to cut as myth.</p>
+            <span class="link">Solution · <strong>Brain Biohacking</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/mozg-i-dengi.html#excerpt" data-track="problem_select" data-book="mozg-i-dengi">
+            <div class="num">05</div>
+            <h3>Money · impulses · “willpower”</h3>
+            <p>Evening willpower is already spent. Stress and brain state — not “weak character.”</p>
+            <span class="link">Solution · <strong>Wired for Wealth</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <a class="door door--extra" href="books/anatomiya-energii.html#excerpt" data-track="problem_select" data-book="anatomiya-energii">
+            <div class="num">06</div>
+            <h3>Tired by lunch</h3>
+            <p>Energy drops mid-day. Recovery, rhythm, and fake “energy hacks.”</p>
+            <span class="link">Solution · <strong>Anatomy of Energy</strong> <span class="link-hint">(excerpt)</span></span>
+          </a>
+          <button type="button" class="doors-more-btn" id="doorsMoreBtn" aria-expanded="false" aria-controls="doorsGrid">
+            More problems <span class="doors-more-count">3</span>
+          </button>
+        </div>
+        <p class="problems-alt muted">
+          Don’t want to choose —
+          <a href="#book-quiz">answer 3 short questions</a>
+          or <a href="#excerpt">grab a chapter now</a>.
+        </p>
+      </div>
+    </section>
+
+<section id="book-quiz" class="book-quiz-section" aria-labelledby="book-quiz-title">
       <div class="container">
         <div class="section-head">
           <div>
@@ -590,6 +426,178 @@
         </div>
       </div>
     </section>
+
+<section id="outcomes" class="mid-funnel-secondary outcomes-section" aria-labelledby="outcomes-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Not “knowledge” — a shift</p>
+            <h2 id="outcomes-title">What you get</h2>
+            <p class="section-lead">After the site materials and books — practical changes in daily life, not another theory stack.</p>
+          </div>
+        </div>
+        <ul class="outcomes-grid">
+          <li class="outcome-card"><strong>Focus</strong><span>Return attention faster when it scatters</span></li>
+          <li class="outcome-card"><strong>Stress</strong><span>Read it as a system, not “weak character”</span></li>
+          <li class="outcome-card"><strong>Myths</strong><span>Less belief in biohacking hype and “just sleep more”</span></li>
+          <li class="outcome-card"><strong>Decisions</strong><span>Stop making big calls on an empty tank</span></li>
+          <li class="outcome-card"><strong>Your brain</strong><span>Signal vs noise: what to fix, what to wait out</span></li>
+          <li class="outcome-card"><strong>Honesty</strong><span>See where data is strong (A–B) vs cautious (C–D)</span></li>
+        </ul>
+      </div>
+    </section>
+
+<section id="fact-1" class="mid-funnel-secondary micro-fact-section" aria-labelledby="fact-1-title">
+      <div class="container">
+        <article class="micro-fact">
+          <p class="eyebrow">Did you know?</p>
+          <h2 id="fact-1-title" class="micro-fact-title">Your brain often “decides” before you feel the decision</h2>
+          <p class="micro-fact-body">
+            Habits and context launch action fractions of a second before conscious choice.
+            That’s why “just try harder” at night almost never works: resource and environment already lead.
+          </p>
+          <p class="micro-fact-next">
+            <a href="#mistakes" data-track="fact_expand" data-fact="decision-lag">Typical daily mistakes →</a>
+            <span class="micro-fact-sep" aria-hidden="true">·</span>
+            <a href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">In <em>Wired for Wealth</em></a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+<section id="why-cards" class="mid-funnel-secondary why-cards-section" aria-labelledby="why-cards-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Not a catalog — a breakdown</p>
+            <h2 id="why-cards-title">Why this happens to you</h2>
+            <p class="section-lead">A short “Netflix” of problems: question → what we unpack → book with excerpt.</p>
+          </div>
+        </div>
+        <div class="why-cards">
+          <article class="why-card" data-segment="energy">
+            <h3 class="why-card-q">Why are you exhausted by lunch?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>recovery vs “just rest”</li>
+              <li>rhythm and cognitive load</li>
+              <li>fake energy boosts</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Anatomy of Energy</strong> <span class="muted">&amp;</span> <strong>RESET</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/anatomiya-energii.html#excerpt" data-track="excerpt_open" data-book="anatomiya-energii">Excerpt</a>
+              <a class="btn btn-outline" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">RESET excerpt</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="stress">
+            <h3 class="why-card-q">Why does anxiety feed itself?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>the thought → body → thought loop</li>
+              <li>why “just calm down” fails</li>
+              <li>what actually lowers system load</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Stress and the Brain</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/stress-i-mozg.html#excerpt" data-track="excerpt_open" data-book="stress-i-mozg">Excerpt</a>
+              <a class="btn btn-outline" href="books/stress-i-mozg.html" data-track="problem_select" data-book="stress-i-mozg">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="memory">
+            <h3 class="why-card-q">Why does memory “slip” and fog appear?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>what ages — and what doesn’t</li>
+              <li>sleep, load, focus without miracle pills</li>
+              <li>tips graded A–D</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Brain at 100+</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/mozg-na-100.html#excerpt" data-track="excerpt_open" data-book="mozg-na-100">Excerpt</a>
+              <a class="btn btn-outline" href="books/mozg-na-100.html" data-track="problem_select" data-book="mozg-na-100">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="burnout">
+            <h3 class="why-card-q">Why weekends don’t restore you?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>burnout as system depletion</li>
+              <li>rest ≠ adaptive recovery</li>
+              <li>a protocol after “I can’t keep up”</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>RESET</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset">Excerpt</a>
+              <a class="btn btn-outline" href="books/reset.html" data-track="problem_select" data-book="reset">About the book</a>
+            </div>
+          </article>
+          <article class="why-card" data-segment="money">
+            <h3 class="why-card-q">Why is “one more decision” at night a trap?</h3>
+            <p class="why-card-label">We unpack</p>
+            <ul class="why-card-list">
+              <li>self-control spent by evening</li>
+              <li>impulses, money, willpower myths</li>
+              <li>how not to decide on empty battery</li>
+            </ul>
+            <p class="why-card-book">Book · <strong>Wired for Wealth</strong></p>
+            <div class="why-card-cta btn-row">
+              <a class="btn btn-primary" href="books/mozg-i-dengi.html#excerpt" data-track="excerpt_open" data-book="mozg-i-dengi">Excerpt</a>
+              <a class="btn btn-outline" href="books/mozg-i-dengi.html" data-track="problem_select" data-book="mozg-i-dengi">About the book</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+<section id="mistakes" class="mid-funnel-secondary mistakes-section" aria-labelledby="mistakes-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">No guilt — mechanics</p>
+            <h2 id="mistakes-title">Today you probably already did at least three things your brain didn’t “notify” you about</h2>
+            <p class="section-lead">Not shame. Everyday design — and why the books unpack exactly this.</p>
+          </div>
+        </div>
+        <ol class="mistakes-list">
+          <li class="mistake-item">
+            <strong>Phone in the first minutes after waking</strong>
+            <span>The brain hasn’t assembled the day yet — the feed already set anxiety and comparison.</span>
+          </li>
+          <li class="mistake-item">
+            <strong>Important decisions on leftover battery</strong>
+            <span>Evening self-control and working memory are low — mistakes get expensive.</span>
+          </li>
+          <li class="mistake-item">
+            <strong>Switching attention every 1–2 minutes</strong>
+            <span>Each hop taxes focus. Long texts and hard tasks fail first.</span>
+          </li>
+        </ol>
+        <p class="mistakes-cta">
+          These mechanisms — with evidence, without magic — are what the chapters unpack.
+          <a class="btn btn-primary" href="#excerpt">Open one mistake in a chapter →</a>
+        </p>
+      </div>
+    </section>
+
+<section id="fact-2" class="mid-funnel-secondary micro-fact-section micro-fact-section--alt" aria-labelledby="fact-2-title">
+      <div class="container">
+        <article class="micro-fact">
+          <p class="eyebrow">Did you know?</p>
+          <h2 id="fact-2-title" class="micro-fact-title">“Just sleep more” often doesn’t fix fatigue</h2>
+          <p class="micro-fact-body">
+            If the system is depleted, weekend sleep doesn’t wipe the debt the way it feels.
+            Rest ≠ recovery — or you’re empty again by Wednesday.
+          </p>
+          <p class="micro-fact-next">
+            <a href="books/reset.html#excerpt" data-track="excerpt_open" data-book="reset" data-fact="sleep-not-enough">RESET excerpt →</a>
+            <span class="micro-fact-sep" aria-hidden="true">·</span>
+            <a href="#why-cards">More “why…”</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+
 
     <section id="flagships">
       <div class="container" id="books">
@@ -775,6 +783,6 @@
   <div id="site-footer"></div>
   <script src="../js/base-config.min.js" defer></script>
   <script src="../js/data-en.min.js" defer></script>
-  <script src="../js/main.min.js?v=20260720hero" defer></script>
+  <script src="../js/main.min.js?v=20260720funnel" defer></script>
 </body>
 </html>

@@ -2593,6 +2593,7 @@
       mountBookQuiz();
       mountSelfCheck();
       mountMicroNow();
+      mountStickyChapter();
       mountScrollDepthGoals();
     }
     // After DOM paint of dynamic grids (flagships etc.)
@@ -3101,6 +3102,81 @@
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+  }
+
+  /**
+   * Home sticky «Глава»: show after hero, hide when #excerpt is in view
+   * (or user already scrolled past it). One-tap path to free chapter.
+   */
+  function mountStickyChapter() {
+    const bar = document.getElementById('stickyChapter');
+    const excerpt = document.getElementById('excerpt');
+    const hero = document.getElementById('hero');
+    if (!bar || !excerpt) return;
+
+    bar.hidden = false;
+    document.body.classList.add('has-sticky-chapter');
+
+    let excerptVisible = false;
+    let pastHero = false;
+    let dismissed = false;
+
+    const sync = () => {
+      if (dismissed) {
+        bar.classList.remove('is-visible');
+        document.body.classList.remove('has-sticky-chapter');
+        return;
+      }
+      const show = pastHero && !excerptVisible;
+      bar.classList.toggle('is-visible', show);
+      document.body.classList.toggle('has-sticky-chapter', show);
+    };
+
+    if ('IntersectionObserver' in window) {
+      if (hero) {
+        const ho = new IntersectionObserver(
+          (entries) => {
+            pastHero = !entries[0].isIntersecting;
+            sync();
+          },
+          { threshold: 0.05, rootMargin: '-48px 0px 0px 0px' }
+        );
+        ho.observe(hero);
+      } else {
+        pastHero = true;
+      }
+      const eo = new IntersectionObserver(
+        (entries) => {
+          const e = entries[0];
+          excerptVisible = e.isIntersecting || e.boundingClientRect.top < 120;
+          // If scrolled past excerpt entirely, keep hidden
+          if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+            excerptVisible = true;
+          }
+          sync();
+        },
+        { threshold: [0, 0.12, 0.35], rootMargin: '-10% 0px -35% 0px' }
+      );
+      eo.observe(excerpt);
+    } else {
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+        pastHero = y > (hero ? hero.offsetHeight * 0.55 : 280);
+        const er = excerpt.getBoundingClientRect();
+        excerptVisible = er.top < window.innerHeight * 0.75 && er.bottom > 80;
+        if (er.bottom < 0) excerptVisible = true;
+        sync();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    const cta = bar.querySelector('.sticky-chapter-cta');
+    if (cta) {
+      cta.addEventListener('click', () => {
+        track('sticky_chapter_click', { lang: isEn ? 'en' : 'ru' });
+      });
+    }
   }
 
   /** Home self-check: count boxes, open bridge at threshold, fire self_check once. */

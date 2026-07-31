@@ -4479,6 +4479,120 @@ a.book-tag-chip:hover {
   margin-top: 0.65rem;
 }
 
+/* Home sticky «Глава» — always one hop to #excerpt until user reaches it */
+.sticky-chapter {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 96;
+  padding: 0.55rem 0.85rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line-strong);
+  box-shadow: 0 -12px 36px rgba(10, 25, 41, 0.12);
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.28s var(--ease), opacity 0.22s ease;
+}
+.sticky-chapter.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.sticky-chapter[hidden] {
+  display: none !important;
+}
+.sticky-chapter-inner {
+  width: min(var(--max), calc(100% - 0.5rem));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+.sticky-chapter-copy {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  max-width: none;
+}
+.sticky-chapter-copy strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+.sticky-chapter-cta {
+  flex: 0 0 auto;
+  min-height: 48px;
+  white-space: nowrap;
+  font-weight: 750;
+}
+body.has-sticky-chapter {
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+/* Sit above mobile tabbar when present */
+@media (max-width: 720px) {
+  body.has-mobile-tabbar .sticky-chapter,
+  body:has(.mobile-tabbar) .sticky-chapter {
+    bottom: calc(var(--mobile-tabbar-h, 4rem) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0.55rem;
+  }
+  body.has-mobile-tabbar.has-sticky-chapter,
+  body:has(.mobile-tabbar).has-sticky-chapter {
+    padding-bottom: calc(var(--mobile-tabbar-h, 4rem) + 4.75rem + env(safe-area-inset-bottom, 0px));
+  }
+  .sticky-chapter-copy {
+    font-size: 0.8rem;
+  }
+  .sticky-chapter-copy span.sticky-chapter-hint {
+    display: none;
+  }
+}
+
+/* Mid-funnel after #excerpt: denser, secondary */
+body[data-page="home"] .mid-funnel-secondary {
+  padding-top: var(--space-section-sm);
+  padding-bottom: var(--space-section-sm);
+}
+body[data-page="home"] .excerpt-section--priority {
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2.75rem, 5.5vw, 4.25rem);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--teal) 7%, transparent), transparent 42%),
+    var(--paper);
+  border-block: 1px solid color-mix(in srgb, var(--teal) 14%, var(--line));
+  scroll-margin-top: calc(var(--nav-h) + 0.75rem);
+}
+body[data-page="home"] #check {
+  scroll-margin-top: calc(var(--nav-h) + 0.75rem);
+}
+.lab-bridge-section {
+  padding-block: clamp(2rem, 4vw, 3rem);
+}
+.lab-bridge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--amber) 6%, var(--panel-bg));
+}
+.lab-bridge .section-lead {
+  max-width: 36rem;
+}
+.self-check-bridge-actions {
+  margin-top: 0.85rem;
+}
+.self-check-bridge-actions .btn {
+  min-height: 48px;
+}
+
 /* Sticky mobile buy bar — sits ABOVE tabbar (not under it) · stage 11.3 */
 .sticky-buy {
   display: none;
