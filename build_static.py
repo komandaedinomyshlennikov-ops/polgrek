@@ -540,8 +540,12 @@ def store_actions_html(
     G: dict | None = None,
     *,
     lang: str = "ru",
+    soft: bool = False,
 ) -> str:
-    """Catalog CTA: exactly two buttons — Buy + Excerpt (stage 3.5)."""
+    """Catalog CTA: exactly two buttons — Buy + Excerpt (stage 3.5).
+
+    soft=True: both outline (home flagship grid — ≤1 btn-primary per section).
+    """
     clean = litres_direct_url(book)
     aff = litres_buy_url(G, book) or clean
     buy_href = clean or aff
@@ -552,13 +556,15 @@ def store_actions_html(
     more_label = "About the book" if lang == "en" else "О книге"
     mark = AFFILIATE_MARK_EN if lang == "en" else AFFILIATE_MARK_RU
     mark = mark.replace('class="affiliate-mark"', 'class="affiliate-mark affiliate-mark--card"')
+    buy_cls = "btn btn-outline book-card-buy" if soft else "btn btn-primary book-card-buy"
+    more_cls = "btn btn-outline" if soft else "btn btn-primary"
     if not buy_href:
         return f"""<div class="book-card-cta book-card-cta--duo">
       <a class="btn btn-outline" href="{href}#excerpt" data-track="excerpt_open">{excerpt_label}</a>
-      <a class="btn btn-primary" href="{href}">{more_label}</a>
+      <a class="{more_cls}" href="{href}">{more_label}</a>
     </div>"""
     return f"""<div class="book-card-cta book-card-cta--duo">
-      <a class="btn btn-primary book-card-buy" href="{esc(buy_href)}"{data_aff} target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
+      <a class="{buy_cls}" href="{esc(buy_href)}"{data_aff} target="_blank" rel="{rel}" data-track="litres" data-book="{esc(book.get('slug') or '')}">{buy_label}</a>
       <a class="btn btn-outline book-card-excerpt" href="{href}#excerpt" data-track="excerpt_open" data-book="{esc(book.get('slug') or '')}">{excerpt_label}</a>
       {mark}
     </div>"""
@@ -681,6 +687,7 @@ def book_card(
     *,
     lang: str = "ru",
     from_depth: str | None = None,
+    soft_cta: bool = False,
 ) -> str:
     """Text-first catalog tile: science marks + pitch, mini cover secondary.
 
@@ -788,7 +795,7 @@ def book_card(
   <a class="book-cover book-cover--mini has-image clean" href="{href}" aria-label="{esc(book['title'])}">
     {cover_img_html(book, asset_prefix=asset_prefix, sizes="(max-width:520px) 104px, 140px", width=200, height=300, lang=lang, loading="lazy", prefer="280", mode="card")}
   </a>
-  {store_actions_html(book, href, compact=True, G=G, lang=lang)}
+  {store_actions_html(book, href, compact=True, G=G, lang=lang, soft=soft_cta)}
 </article>"""
 
 
@@ -2446,23 +2453,15 @@ def main() -> None:
     flagships = [_by_slug[s] for s in _hero_order if s in _by_slug]
     if len(flagships) < 3:
         flagships = [b for b in G["books"] if b.get("flagship")]
-    (SITE / "partials" / "flagships.html").write_text(
-        "".join(
-            book_card(b, books_dir=False, G=G)
-            .replace('href="books/', 'href="books/')
-            .replace('src="assets/', 'src="assets/')
-            for b in flagships
-        ),
-        encoding="utf-8",
-    )
-    # Fix flagships for index (from root)
-    def card_root(book):
-        return book_card(book, books_dir=False, G=G)
+    # soft_cta on home flagships: ≤1 btn-primary per section (DS rule)
+    def card_root_soft(book):
+        return book_card(book, books_dir=False, G=G, soft_cta=True)
 
     def card_books_dir(book):
         return book_card(book, books_dir=True, G=G)
 
-    flagships_html = "".join(card_root(b) for b in flagships)
+    flagships_html = "".join(card_root_soft(b) for b in flagships)
+    (SITE / "partials" / "flagships.html").write_text(flagships_html, encoding="utf-8")
     books_all_html = "".join(card_books_dir(b) for b in G["books"])
     (SITE / "partials" / "flagships.html").write_text(flagships_html, encoding="utf-8")
     (SITE / "partials" / "books-all.html").write_text(books_all_html, encoding="utf-8")
@@ -3060,7 +3059,14 @@ def main() -> None:
         if len(en_flagships) < 3:
             en_flagships = [b for b in GE.get("books") or [] if b.get("flagship")]
         en_flagships_html = "".join(
-            book_card(b, books_dir=False, G=GE, lang="en", from_depth="en_root")
+            book_card(
+                b,
+                books_dir=False,
+                G=GE,
+                lang="en",
+                from_depth="en_root",
+                soft_cta=True,
+            )
             for b in en_flagships
         )
         inject_between(
