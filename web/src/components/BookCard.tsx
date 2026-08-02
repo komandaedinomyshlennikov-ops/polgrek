@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import type { Book } from "@/lib/types";
-import { affiliateUrl, tagLabel } from "@/lib/books";
+import { affiliateUrl, internationalTitle, tagLabel } from "@/lib/books";
 import { BUY_VOICE, getBookVoice } from "@/data/book-voice";
 import { CoverImage } from "@/components/CoverImage";
 
@@ -9,6 +9,7 @@ export function BookCard({ book }: { book: Book }) {
   const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 3);
   const voice = getBookVoice(book.slug);
   const blurb = voice?.hook || book.subtitle || book.promise;
+  const enTitle = internationalTitle(book);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] transition hover:border-border-strong">
@@ -30,6 +31,11 @@ export function BookCard({ book }: { book: Book }) {
               {tagLabel(t)}
             </span>
           ))}
+          {enTitle && (
+            <span className="rounded-md bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent">
+              EN · {enTitle}
+            </span>
+          )}
         </div>
         <h3 className="font-display text-base font-semibold leading-snug text-fg">
           <Link href={`/books/${book.slug}/`} className="hover:text-accent">

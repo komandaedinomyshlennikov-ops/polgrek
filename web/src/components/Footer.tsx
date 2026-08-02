@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getBooks, siteData } from "@/lib/books";
+import { getBooks, litresAuthorUrl, siteData } from "@/lib/books";
 
 export function Footer() {
   const books = getBooks();
@@ -56,6 +56,14 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <a
+              href={litresAuthorUrl()}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="mt-3 inline-flex text-sm font-semibold text-accent hover:underline"
+            >
+              Все на Литрес →
+            </a>
           </div>
         </div>
 
