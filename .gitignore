@@ -8,3 +8,7 @@ node_modules/
 assets/covers/*-full.*
 assets/*-full.jpg
 assets/*-full.png
+web/node_modules
+web/.next
+web/out
+

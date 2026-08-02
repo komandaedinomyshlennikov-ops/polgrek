@@ -1,0 +1,521 @@
+{
+  "links": {
+    "litresAuthor": "https://www.litres.ru/author/pol-grek/",
+    "amazonAuthor": "https://www.amazon.in/s?i=digital-text&rh=p_27%3A%25D0%259F%25D0%25BE%25D0%25BB%2B%25D0%2593%25D1%2580%25D1%258D%25D0%25BA&s=relevancerank&text=%D0%9F%D0%BE%D0%BB+%D0%93%D1%80%D1%8D%D0%BA&ref=dp_byline_sr_ebooks_1",
+    "threads": "https://www.threads.net/@pol.grek",
+    "telegram": "https://t.me/+KGQgs6MVHHYwZGVi"
+  },
+  "affiliate": {
+    "enabled": true,
+    "template": "{url}?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1={sub1}&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+    "authorSub1": "author",
+    "authorUrl": "",
+    "bySlug": {
+      "anatomiya-energii": "https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=anatomiya-energii&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "biohacking-mozga": "https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=biohaking-mozga&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "detskiy-mozg": "https://www.litres.ru/book/pol-grek/detskiy-mozg-73952409/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=detskiy-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "glubokiy-son-bez-tabletok": "https://www.litres.ru/book/pol-grek/glubokiy-son-bez-tabletok-neyrobiologiya-vosstanovleniya-mozga-no-73936374/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=glubokiy-son-bez&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "mentalnyy-debag": "https://www.litres.ru/book/pol-grek/mental-nyy-debag-kak-perezagruzit-mozg-za-5-minut-v-den-73443798/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mental-nyy-debag&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "mozg-i-dengi": "https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-i-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "mozg-na-100": "https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-na-100&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "mozg-ne-stareet-on-lomaetsya": "https://www.litres.ru/book/pol-grek/mozg-ne-stareet-on-lomaetsya-74072773/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=mozg-ne-stareet&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "muzhskoy-mozg": "https://www.litres.ru/book/lora-grek/muzhskoy-mozg-73738682/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=muzhskoy-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "neyrodengi": "https://www.litres.ru/book/lora-grek/neyrodengi-kak-mozg-meshaet-nam-bogatet-i-kak-zastavit-ego-rabot-74175788/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=neyrodengi-kak-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "ostorozhnyy-biohaker": "https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=ostorozhnyy-biohaker&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "reset": "https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=reset-&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "snachala-dengi-potom-soznanie": "https://www.litres.ru/book/pol-grek/snachala-dengi-potom-soznanie-73569016/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=snachala-dengi&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "stress-i-mozg": "https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=stress-i-mozg&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "svyashchennye-chasy": "https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=svyaschennye-chasy&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "telo-pomnit-vse": "https://www.litres.ru/book/pol-grek/telo-pomnit-vse-no-ne-umeet-govorit-73602871/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=telo-pomnit-vse&keyword=polgrek+%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1",
+      "zhenskiy-mozg": "https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=f71f3ad5&advcake_params=&utm_term=&sub1=zhenskiy-mozg&keyword=polgrek%2F+site&erid=2VfnxyNkZrY&advcake_method=1&m=1"
+    }
+  },
+  "books": [
+    {
+      "slug": "mozg-na-100",
+      "title": "Мозг на 100+",
+      "subtitle": "Что реально держит ясность с годами — и что остаётся мифом",
+      "promise": "Не «гений за неделю». Как не потерять ясность, пока заняты «более важным».",
+      "tags": [
+        "когнитивное-здоровье"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "mozg-na-100.webp",
+      "excerptFile": "mozg-na-100-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/",
+      "amazon": "https://www.amazon.com/dp/B0GTF2PQ21",
+      "flagship": false,
+      "forWhom": [
+        "После 40 — туман, память, «ватность»",
+        "Устали от рекламы «чудо-таблеток»",
+        "Нужна механика, а не мотивационные слоганы",
+        "Готовы к базе: сон, движение, нагрузка «с усилием»"
+      ],
+      "takeaways": [
+        "Сон, движение, давление, сахар — главные рычаги",
+        "«Ночная очистка» мозга — без магии",
+        "Когнитивный резерв: копить, а не ждать генов",
+        "Что тихо крадёт память в обычном дне",
+        "40 / 50 / 60+ — без паники «уже поздно»"
+      ],
+      "annotation": "Не сборник лайфхаков. Спокойный план: что реально держит ясность с годами, а что — миф. Данные 100+ исследований, уровни A–D. Без «станешь сверхчеловеком» и без «просто пей больше воды».",
+      "series": "Серия «Мозг»"
+    },
+    {
+      "slug": "biohacking-mozga",
+      "title": "Биохакинг мозга",
+      "subtitle": "Память, фокус, энергия — без «прокачки до поломки»",
+      "promise": "Что оставить, что отсечь. База и минимальная эффективная доза — без «волшебных» стеков.",
+      "tags": [
+        "биохакинг",
+        "когнитивное-здоровье",
+        "энергия"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "biohacking-mozga.webp",
+      "excerptFile": "biohacking-mozga-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/biohaking-mozga-73755942/",
+      "amazon": "https://www.amazon.com/dp/B0H7YP5QJ9",
+      "flagship": true,
+      "forWhom": [
+        "Пробовали «прокачать» мозг — и выгорели",
+        "Хотите без инфоцыганства и хайпа ленты",
+        "Только то, у чего есть данные (A–D)",
+        "Нужен ритм, а не война с собой"
+      ],
+      "takeaways": [
+        "Нейропластичность — без сказки",
+        "Почему «быстрые» методы выжигают",
+        "Сон, свет, движение — до любых стеков",
+        "Где граница у ноотропов и трендов",
+        "Минимальная эффективная доза"
+      ],
+      "annotation": "Пробовал всё — и выгорел. Эта книга, чтобы вы не платили ту же цену. Нейропластичность, стресс, дофамин, сон, свет, движение. Главный навык биохакинга — вовремя остановиться.",
+      "series": "Серия «Мозг»"
+    },
+    {
+      "slug": "anatomiya-energii",
+      "title": "Анатомия энергии",
+      "subtitle": "Три системы, которые решают, хватит ли вам сил",
+      "promise": "Три системы. Если чините только одну — «всё правильное» не сработает.",
+      "tags": [
+        "энергия",
+        "стресс"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "anatomiya-energii.webp",
+      "excerptFile": "anatomiya-energii-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/anatomiya-energii-73551286/",
+      "amazon": "https://www.amazon.com/dp/B0GTLMCS4N",
+      "flagship": false,
+      "forWhom": [
+        "К обеду уже пусто",
+        "Смена или 10 часов за столом",
+        "Устали от wellness-хайпа",
+        "Нужны простые рычаги, не шкаф с банками"
+      ],
+      "takeaways": [
+        "Три источника энергии: mito / cognitive / circadian",
+        "Самопроверка и короткие эксперименты",
+        "Evidence grades на вмешательства",
+        "Что не работает: alkaline, detox-скамы"
+      ],
+      "annotation": "Провал в 15:00 — не характер. Три системы: митохондрии, когнитивная нагрузка, циркадный ритм. Чините одну и игнорируете остальные — будете удивляться, почему «всё правильное» не работает. Плюс: что не стоит покупать.",
+      "series": "Восстановление"
+    },
+    {
+      "slug": "mozg-i-dengi",
+      "title": "Мозг и деньги",
+      "subtitle": "Деньги — не математика. Это нейробиология",
+      "promise": "Это не про жадность. Как мозг просчитывает риски — шопинг, страх потерь, статус в кредит.",
+      "tags": [
+        "деньги"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "mozg-i-dengi.webp",
+      "excerptFile": "mozg-i-dengi-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/mozg-i-dengi-74048009/",
+      "amazon": "https://www.amazon.com/dp/B0H6MN9DX1",
+      "flagship": false,
+      "forWhom": [
+        "Доход есть — накоплений нет",
+        "Покупки «для настроения»",
+        "Устали «брать себя в руки»",
+        "Нужна механика, а не мораль"
+      ],
+      "takeaways": [
+        "Дофамин — гормон предвкушения",
+        "Почему потери «болят» сильнее выигрышей",
+        "Финансовые профили мозга",
+        "Стресс и туннельное мышление",
+        "Протокол архитектуры выбора"
+      ],
+      "annotation": "Доход «стоит», сила воли не спасает — и это не характер. Дофамин и шопинг, страх потерь, статус в кредит, ловушка дефицита. Без графиков акций. Про автоматику: чтобы префронтальная кора снова вела, а не импульс.",
+      "series": "Серия «Мозг»"
+    },
+    {
+      "slug": "snachala-dengi-potom-soznanie",
+      "title": "Сначала деньги, потом сознание",
+      "subtitle": "Как внешний порядок перестраивает мышление",
+      "promise": "Сначала внешний порядок. «Сознание» само станет яснее. Не аффирмации вместо дебиторки.",
+      "tags": [
+        "деньги"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "snachala-dengi-potom-soznanie.webp",
+      "excerptFile": "snachala-dengi-potom-soznanie-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/snachala-dengi-potom-soznanie-73569016/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "Дырявая операционка — и «проработка блоков» вместо звонков",
+        "Читали про изобилие — дебиторка и runway стоят",
+        "Устали ждать «состояния» перед действием",
+        "Нужна механика: CRM, скрипты, 90 дней — не метафизика"
+      ],
+      "takeaways": [
+        "«Сначала сознание» часто — бегство от звонков",
+        "Действие раньше готовности",
+        "Дебиторка как стресс 24/7",
+        "Кейсы: маркетплейс, IT, курс без «полной готовности»",
+        "Формула: операционка → результат → перестройка"
+      ],
+      "annotation": "Читали про «сознание изобилия» — а дебиторка на месте. Меняем порядок: сначала действие и системы, потом ясность. Без «Вселенная подарит». Когда кортизол высокий, а «потока» нет — нужны скрипты и дедлайны, не аффирмации.",
+      "series": "Серия «Мозг» · деньги"
+    },
+    {
+      "slug": "stress-i-mozg",
+      "title": "Стресс и мозг",
+      "subtitle": "Когда «просто успокойся» не работает",
+      "promise": "Кортизол, амигдала, один следующий шаг. Без «просто расслабься».",
+      "tags": [
+        "стресс",
+        "выгорание"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "stress-i-mozg.webp",
+      "excerptFile": "stress-i-mozg-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/stress-i-mozg-74047783/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "Напряжение стало фоном",
+        "Под стрессом — глупые решения",
+        "Ведете людей или проекты",
+        "Нужен механизм, а не аффирмации"
+      ],
+      "takeaways": [
+        "Стресс как адаптивный механизм",
+        "Кортизол: мало и много — разные вещи",
+        "Профиль стресса",
+        "Техники и долгосрочная стратегия"
+      ],
+      "annotation": "Мозг обожает ощущение контроля. Даже когда его нет. Особенно когда его нет. Кортизол, амигдала, префронтальная кора, сон, границы. «Просто успокойся» — самый бесполезный совет. Дайте системе один понятный шаг.",
+      "series": "Серия «Мозг»"
+    },
+    {
+      "slug": "reset",
+      "title": "RESET",
+      "subtitle": "Когда выходные не помогают — и это не лень",
+      "promise": "Усталость снимается отдыхом. Выгорание — нет. С чего реально начинать.",
+      "tags": [
+        "выгорание",
+        "стресс"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "reset.webp",
+      "excerptFile": "reset-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/reset-neyrobiologiya-vygoraniya-i-vosstanovlenie-adaptacionnogo-r-74066286/",
+      "amazon": "https://www.amazon.com/dp/B0H6K6BG5Z",
+      "flagship": false,
+      "forWhom": [
+        "Выходные не помогают",
+        "Ничего не радует — и это уже не «просто устал»",
+        "«Заебалась» — и хочется понять механизм"
+      ],
+      "takeaways": [
+        "Выгорание ≠ обычная усталость",
+        "Маркеры системного истощения",
+        "Почему «просто отдохни» не работает",
+        "С чего начинать восстановление"
+      ],
+      "annotation": "Писал и из своего опыта. Не про позитивное мышление. Почему «просто отдохни» не работает и с чего реально начинать. Аллостаз, ресурс, возврат контроля. Тело жмёт стоп — а мы едем на красный.",
+      "series": "Восстановление"
+    },
+    {
+      "slug": "mentalnyy-debag",
+      "title": "Ментальный дебаг",
+      "subtitle": "Короткие шаги, когда нет сил на «личностный рост»",
+      "promise": "Мотивация — побочный продукт. Сначала движение, потом настрой.",
+      "tags": [
+        "выгорание",
+        "стресс"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "mentalnyy-debag.webp",
+      "excerptFile": "mentalnyy-debag-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/mental-nyy-debag-kak-perezagruzit-mozg-za-5-minut-v-den-73443798/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "Тревога и пустота на фоне работы",
+        "Нет сил на длинные программы",
+        "Нужен шаг, а не вдохновение"
+      ],
+      "takeaways": [
+        "Разбор «где сломалось»",
+        "Короткие протоколы восстановления",
+        "Как не спутать лень с физиологией"
+      ],
+      "annotation": "Когда мотивационные книги бесят, а на «проработать себя» нет сил. Короткие шаги: сначала действие, потом состояние. Не чините мотивацию — чините вход в действие.",
+      "series": "Восстановление"
+    },
+    {
+      "slug": "ostorozhnyy-biohaker",
+      "title": "Осторожный биохакер",
+      "subtitle": "Сначала не навреди. Главный навык — вовремя остановиться",
+      "promise": "«2 литра воды» — часто маркетинг. Фильтр хайпа вместо гонки за протоколами.",
+      "tags": [
+        "биохакинг"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "ostorozhnyy-biohaker.webp",
+      "excerptFile": "ostorozhnyy-biohaker-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/ostorozhnyy-biohaker-73548892/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "Только начинаете — и лента уже давит стеками",
+        "Уже переборщили с экспериментами"
+      ],
+      "takeaways": [
+        "Философия осторожного подхода",
+        "Фильтры для трендов и хайпа",
+        "База важнее стека"
+      ],
+      "annotation": "Больше протоколов — часто хуже. Как отделить пользу от маркетинга, не превращая жизнь в лабораторию без выходных. Осторожный — не робкий. Это про дорогие ошибки, которых можно избежать.",
+      "series": "Серия «Мозг»"
+    },
+    {
+      "slug": "svyashchennye-chasy",
+      "title": "Священные часы",
+      "subtitle": "Сон, циклы, свет — без мистики",
+      "promise": "Спите «8 часов» — и всё равно разбиты. Считайте циклы, уберите входящий поток.",
+      "tags": [
+        "энергия",
+        "когнитивное-здоровье"
+      ],
+      "authors": [
+        "Пол Грэк"
+      ],
+      "coverFile": "svyashchennye-chasy.webp",
+      "excerptFile": "svyashchennye-chasy-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/svyaschennye-chasy-neyroinzheneriya-soznaniya-73479341/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "8 часов в кровати — и всё равно разбиты",
+        "Экран до ночи, телефон с утра",
+        "Нужны короткие шаги, не «режим монаха»"
+      ],
+      "takeaways": [
+        "Считайте циклы, не только часы",
+        "Свет утром и вечером",
+        "5–20 минут протоколов в день"
+      ],
+      "annotation": "Сон и циркадные ритмы — без эзотерики. Циклы, свет, мелатонин. Короткие шаги, которые влезают в обычный день. Лежите с телефоном и думаете, что отдыхаете — мозг всё ещё жуёт входящий поток.",
+      "series": "Восстановление"
+    },
+    {
+      "slug": "zhenskiy-mozg",
+      "title": "Женский мозг",
+      "subtitle": "Гормоны, циклы, ясность — без мифов и «женской логики»",
+      "promise": "Два голоса: лаборатория + кабинет. «Привыкайте» — не ответ.",
+      "tags": [
+        "гормоны",
+        "лора"
+      ],
+      "authors": [
+        "Пол Грэк",
+        "Лора Грэк"
+      ],
+      "coverFile": "zhenskiy-mozg.webp",
+      "excerptFile": "zhenskiy-mozg-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/lora-grek/zhenskiy-mozg-73580927/",
+      "amazon": "https://www.amazon.com/dp/B0H7SB181H",
+      "flagship": true,
+      "forWhom": [
+        "Разные недели цикла — разный мозг",
+        "Перименопауза: туман, тревога, бессонница",
+        "Устали слышать «это возрастное» / «привыкайте»",
+        "Партнёры, которым важно понимать"
+      ],
+      "takeaways": [
+        "Как гормоны меняют мышление и эмоции",
+        "Цикл как нейробиологический контекст",
+        "Что наука подтверждает — и чего нет",
+        "Практики и красные флаги"
+      ],
+      "annotation": "«Я больше не понимаю свой мозг» — часто физиология, не «характер». Цикл, перименопауза, ясность. Пол — механизмы. Лора (МГУ, клиника) — то, что реально говорят в кресле. Без эзотерики и ярлыков.",
+      "series": "Вместе с Лорой"
+    },
+    {
+      "slug": "muzhskoy-mozg",
+      "title": "Мужской мозг",
+      "subtitle": "Энергия и фокус после 40 — без паники «как в 25»",
+      "promise": "Энергия тает к обеду. Это не «просто возраст». Взрослая версия, не охота за 25-ю.",
+      "tags": [
+        "гормоны",
+        "лора",
+        "энергия"
+      ],
+      "authors": [
+        "Пол Грэк",
+        "Лора Грэк"
+      ],
+      "coverFile": "muzhskoy-mozg.webp",
+      "excerptFile": "muzhskoy-mozg-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/lora-grek/muzhskoy-mozg-73738682/",
+      "amazon": "",
+      "flagship": false,
+      "forWhom": [
+        "35–55: энергия и фокус «не те»",
+        "Раздражение «из ниоткуда»",
+        "Нужна механика, а не «кризис среднего возраста»"
+      ],
+      "takeaways": [
+        "Мужской мозг — не «женский + тестостерон»",
+        "Энергия и восстановление",
+        "Когнитивная мощь после 40",
+        "Отношения и 8-недельный протокол"
+      ],
+      "annotation": "После 40: тестостерон, энергия, фокус, отношения. Без стыда, без паники «кризис среднего возраста», без чудес. Пол и Лора — механика, не мораль.",
+      "series": "Вместе с Лорой"
+    },
+    {
+      "slug": "ei-2",
+      "title": "Эмоциональный интеллект 2.0",
+      "subtitle": "Амигдала, дофамин, стыд — вместо «просто успокойся»",
+      "promise": "«Просто успокойся» — самый бесполезный совет. Амигдала быстрее мысли.",
+      "tags": [
+        "лора",
+        "стресс"
+      ],
+      "authors": [
+        "Пол Грэк",
+        "Лора Грэк"
+      ],
+      "coverFile": "ei-2.webp",
+      "excerptFile": "ei-2-otryvok.txt",
+      "buyUrl": "https://www.litres.ru/book/pol-grek/emocional-nyy-intellekt-2-0-73597132/",
+      "amazon": "",
+      "flagship": true,
+      "forWhom": [
+        "Эмоции перехватывают руль",
+        "Стыд и вина жрут ресурс",
+        "Нужны навыки, а не «просто успокойся»"
+      ],
+      "takeaways": [
+        "Амигдала vs префронтальная кора",
+        "Дофамин соцсетей",
+        "STOP, RAIN, дыхание",
+        "Стыд через самосострадание"
+      ],
+      "annotation": "Амигдала быстрее мысли. Это не слабость — архитектура. «Дешёвый» дофамин ленты, стыд, вина. STOP, дыхание, один микрошаг. Научпоп — не замена терапии, если тяжело.",
+      "series": "Психика"
+    }
+  ],
+  "socialProof": {
+    "source": "Литрес / Amazon",
+    "sourceUrl": "https://www.litres.ru/author/pol-grek/",
+    "checkedAt": "2026-07-18",
+    "reviews": [
+      {
+        "author": "Людмила",
+        "book": "Мозг на 100+",
+        "slug": "mozg-na-100",
+        "dateLabel": "14 мая 2026",
+        "store": "litres",
+        "storeLabel": "Литрес",
+        "text": "Отличная книга. Понятно изложен материал. Есть непонятные для простого человека медицинские термины, но это не мешает чтению. Очень легко читается.",
+        "url": "https://www.litres.ru/book/pol-grek/mozg-na-100-nauchnyy-plan-sohraneniya-kognitivnyh-funkciy-do-glub-73556522/reviews/"
+      },
+      {
+        "author": "Bobbie's playlist",
+        "book": "Анатомия энергии",
+        "slug": "anatomiya-energii",
+        "dateLabel": "29 июня 2026",
+        "store": "amazon",
+        "storeLabel": "Amazon",
+        "rating": 4,
+        "title": "Helps answer the questions you never ask",
+        "text": "This book is great for explaining issues that everybody goes through and pushes on the side as normal when they may not be.",
+        "url": "https://www.amazon.com/dp/B0GTLMCS4N/",
+        "lang": "en",
+        "verified": true
+      }
+    ],
+    "items": [
+      {
+        "book": "Мозг на 100+",
+        "rating": 3.7,
+        "votes": 3,
+        "slug": "mozg-na-100"
+      },
+      {
+        "book": "Биохакинг мозга",
+        "rating": 4.2,
+        "votes": 5,
+        "slug": "biohacking-mozga"
+      },
+      {
+        "book": "Женский мозг",
+        "rating": 3.8,
+        "votes": 4,
+        "slug": "zhenskiy-mozg"
+      }
+    ],
+    "note": "Оценки с Литрес (18.07.2026). Тексты: один отзыв на Литрес («Мозг на 100+») и один на Amazon US — «Anatomy of Energy» / «Анатомия энергии», Verified Purchase, 4★, 29.06.2026. Оригинал на английском — не переводим и не «улучшаем»."
+  },
+  "legal": {
+    "email": "hello@polgrek.site",
+    "disclaimer": "Материалы сайта носят образовательный характер и не заменяют очную консультацию врача, психотерапевта или финансового советника. При острых состояниях обращайтесь к специалистам и службам экстренной помощи.",
+    "privacy": "Отрывок скачивается без email. Почта — только с согласия (чекбокс): ссылка на главу и редкие письма (не чаще раза в месяц), FormSubmit → hello@polgrek.site, не передаём третьим лицам. Метрика 110711984. Подробнее: privacy.html."
+  },
+  "faq": [
+    {
+      "q": "Чем это отличается от обычного «биохакинга» в ленте?",
+      "a": "Если коротко: нет курсов «станешь сверхчеловеком» и чудо-протоколов. Важные утверждения — с уровнями A–D: где данные крепче, а где нужна осторожность. Хайп (в том числе жёсткие «обязательные 2 литра») разбирается в тексте, а не продаётся. Главу можно прочитать здесь. Покупка — на Литрес, не в «закрытом клубе»."
+    },
+    {
+      "q": "Почему на русском, если автор из Англии?",
+      "a": "Жена — Лора Грэк, клинический психолог, МГУ. Русский Пол начал учить с 35, чтобы говорить с семьёй на одном языке. Книги и короткие посты — для той же аудитории, не «перевод ради рынка». Пишет коротко и по делу."
+    },
+    {
+      "q": "Насколько это научно — и кто отвечает?",
+      "a": "Научпоп о мозге: где можно — уровни A–D, без обещания «всё уже доказано». Лора — клинический психолог, соавтор части книг (тревога, гормоны, EI). Это не медруководство: решения о здоровье — с вашим врачом. Книги и отзывы — на Литрес."
+    },
+    {
+      "q": "Где купить и как убедиться, что автор настоящий?",
+      "a": "Проще всего — профиль на Литрес: litres.ru/author/pol-grek/ — книги, описания, оценки. Здесь 13 книг с отрывками; оплату мы не принимаем. Рядом — Telegram и Threads @pol.grek. Живые ответы, не вместо Литрес."
+    }
+  ]
+}

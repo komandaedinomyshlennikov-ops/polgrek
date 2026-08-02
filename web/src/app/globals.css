@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Scientific Premium — Pol Grek design tokens */
+:root {
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --fg: #0f172a;
+  --fg-muted: #64748b;
+  --border: rgba(15, 23, 42, 0.1);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.12);
+  --bio: #059669;
+  --bio-soft: rgba(5, 150, 105, 0.12);
+  --surface: #f1f5f9;
+  --reader-bg: #faf8f5;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 23, 42, 0.06);
+  --radius: 14px;
+  --radius-lg: 20px;
+  --touch: 48px;
+  --header-h: 64px;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0b0f17;
+  --bg-elevated: #151c28;
+  --fg: #f3f4f6;
+  --fg-muted: #9ca3af;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.16);
+  --bio: #10b981;
+  --bio-soft: rgba(16, 185, 129, 0.14);
+  --surface: #111827;
+  --reader-bg: #0f1419;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 16px 40px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-bio: var(--bio);
+  --color-bio-soft: var(--bio-soft);
+  --color-surface: var(--surface);
+  --color-reader: var(--reader-bg);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-reader: var(--font-lora), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reader theme variants */
+.reader-sepia {
+  --reader-bg: #f4ecd8;
+  --fg: #3e3226;
+  --fg-muted: #6b5d4d;
+}
+
+.dark .reader-sepia {
+  --reader-bg: #1c1814;
+  --fg: #e8dcc8;
+  --fg-muted: #a89880;
+}
+
+/* Subtle neural grid for hero */
+.hero-grid-bg {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 70% 20%, var(--accent-soft), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, var(--bio-soft), transparent 50%);
+}
+
+/* Progress bar */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 100;
+  background: transparent;
+  pointer-events: none;
+}
+.read-progress > span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--bio));
+  transition: width 0.08s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
