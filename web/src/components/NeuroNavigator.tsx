@@ -104,7 +104,7 @@ export function NeuroNavigator() {
                   className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-accent px-4 text-sm font-semibold text-white transition hover:brightness-110"
                 >
                   <BookOpen className="h-4 w-4" aria-hidden />
-                  Читать 1-ю главу
+                  Читать фрагмент бесплатно
                 </Link>
                 <a
                   href={affiliateUrl(book)}
@@ -112,7 +112,7 @@ export function NeuroNavigator() {
                   rel="noopener noreferrer sponsored"
                   className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-border-strong px-4 text-sm font-semibold text-fg transition hover:border-accent/40"
                 >
-                  Купить на Литрес
+                  Забрать на Литрес
                   <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                 </a>
               </div>

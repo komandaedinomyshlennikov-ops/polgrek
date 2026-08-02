@@ -17,7 +17,7 @@ export function BooksShowcase({ mode = "flagships" }: { mode?: "flagships" | "al
               {mode === "all" ? "Все книги" : "С чего чаще начинают"}
             </h2>
             <p className="mt-2 text-fg-muted">
-              Глава на сайте бесплатно. Полный текст — на Литрес, если решите дочитать.
+              Не витрина SKU. Хук → суть → глава. Покупка — только если зайдёт.
             </p>
           </div>
           {mode === "flagships" && (

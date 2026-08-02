@@ -112,10 +112,10 @@ export function Reader({ book, text }: { book: Book; text: string }) {
         </div>
 
         <div className="mt-14 rounded-2xl border border-border bg-bg-elevated p-5 sm:p-6">
-          <p className="font-display text-lg font-semibold">Конец фрагмента</p>
+          <p className="font-display text-lg font-semibold">Готов заглянуть глубже?</p>
           <p className="mt-2 text-sm text-fg-muted">
-            Полная версия со схемами и протоколами — на Литрес. Если не зашло — закроете вкладку.
-            Нормально.
+            Полная версия — со схемами и протоколами — на ключевых площадках. Здесь была глава. Там —
+            если зайдёт. Не зашло — закроете вкладку. Нормально.
           </p>
           <a
             href={affiliateUrl(book)}
@@ -123,7 +123,7 @@ export function Reader({ book, text }: { book: Book; text: string }) {
             rel="noopener noreferrer sponsored"
             className="mt-4 inline-flex min-h-12 items-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white"
           >
-            Полная книга на Литрес
+            Забрать на Литрес
             <ExternalLink className="h-4 w-4 opacity-80" aria-hidden />
           </a>
           <p className="mt-3 text-[11px] text-fg-muted">
@@ -136,7 +136,7 @@ export function Reader({ book, text }: { book: Book; text: string }) {
       <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-bg-elevated/95 px-4 py-3 backdrop-blur-lg">
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-fg-muted">
-            <strong className="text-fg">Понравилась глава?</strong> Полная версия — на Литрес.
+            <strong className="text-fg">Зашло?</strong> Полная версия — на Литрес. Не зашло — ок.
           </p>
           <a
             href={affiliateUrl(book)}
@@ -144,7 +144,7 @@ export function Reader({ book, text }: { book: Book; text: string }) {
             rel="noopener noreferrer sponsored"
             className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white"
           >
-            К полной книге →
+            Забрать на Литрес →
           </a>
         </div>
       </div>

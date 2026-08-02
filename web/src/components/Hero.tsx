@@ -30,11 +30,11 @@ export function Hero() {
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong bg-bg-elevated px-5 text-[15px] font-semibold text-fg transition hover:border-accent/40"
             >
               <BookOpen className="h-4 w-4 text-accent" aria-hidden />
-              Читать главы бесплатно
+              Читать фрагменты бесплатно
             </Link>
           </div>
           <p className="mt-5 text-sm text-fg-muted">
-            Почта не обязательна · партнёрские ссылки Литрес с erid · не клиника
+            Сначала текст. Литрес — если зайдёт. Не клиника · erid на партнёрских ссылках.
           </p>
         </div>
 

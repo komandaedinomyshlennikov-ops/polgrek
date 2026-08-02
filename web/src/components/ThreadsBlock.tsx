@@ -1,4 +1,5 @@
 import { siteData } from "@/lib/books";
+import { SOCIAL_VOICE } from "@/data/book-voice";
 import { ExternalLink, MessageCircle } from "lucide-react";
 
 const POSTS = [
@@ -25,12 +26,9 @@ export function ThreadsBlock() {
             Threads & Telegram
           </p>
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            Присоединяйтесь к дискуссиям
+            {SOCIAL_VOICE.title}
           </h2>
-          <p className="mt-3 text-fg-muted">
-            Ежедневные разборы механик мозга, ответы на вопросы читателей и открытые дискуссии — без
-            коучинговых лозунгов.
-          </p>
+          <p className="mt-3 text-fg-muted">{SOCIAL_VOICE.body}</p>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -52,7 +50,7 @@ export function ThreadsBlock() {
             rel="noopener noreferrer"
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
           >
-            Читать в Threads
+            {SOCIAL_VOICE.threadsCta}
             <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
           </a>
           <a
@@ -62,7 +60,7 @@ export function ThreadsBlock() {
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong bg-bg-elevated px-5 text-sm font-semibold text-fg transition hover:border-accent/40"
           >
             <MessageCircle className="h-4 w-4 text-accent" aria-hidden />
-            Telegram-канал
+            {SOCIAL_VOICE.telegramCta}
           </a>
         </div>
       </div>

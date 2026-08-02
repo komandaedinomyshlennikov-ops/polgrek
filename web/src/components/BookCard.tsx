@@ -2,9 +2,12 @@ import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import type { Book } from "@/lib/types";
 import { affiliateUrl, coverUrl, tagLabel } from "@/lib/books";
+import { BUY_VOICE, getBookVoice } from "@/data/book-voice";
 
 export function BookCard({ book }: { book: Book }) {
   const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 3);
+  const voice = getBookVoice(book.slug);
+  const blurb = voice?.hook || book.subtitle || book.promise;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] transition hover:border-border-strong">
@@ -35,15 +38,13 @@ export function BookCard({ book }: { book: Book }) {
             {book.title}
           </Link>
         </h3>
-        <p className="mt-1.5 line-clamp-2 flex-1 text-sm text-fg-muted">
-          {book.subtitle || book.promise}
-        </p>
+        <p className="mt-1.5 line-clamp-3 flex-1 text-sm leading-snug text-fg-muted">{blurb}</p>
         <div className="mt-4 flex flex-col gap-2">
           <Link
             href={`/read/${book.slug}/`}
             className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
           >
-            Читать главу
+            {BUY_VOICE.excerpt}
           </Link>
           <a
             href={affiliateUrl(book)}
@@ -51,7 +52,7 @@ export function BookCard({ book }: { book: Book }) {
             rel="noopener noreferrer sponsored"
             className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-border px-3 text-sm font-semibold text-fg transition hover:border-accent/40"
           >
-            Купить на Литрес
+            {BUY_VOICE.litres}
             <ExternalLink className="h-3.5 w-3.5 opacity-50" aria-hidden />
           </a>
         </div>

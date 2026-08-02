@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, ExternalLink } from "lucide-react";
-import { affiliateUrl, coverUrl, getBook, getBooks, tagLabel } from "@/lib/books";
+import { coverUrl, getBook, getBooks, tagLabel } from "@/lib/books";
+import { getBookVoice } from "@/data/book-voice";
+import { BookHighlight } from "@/components/BookHighlight";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,12 +15,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const book = getBook(slug);
   if (!book) return { title: "Книга" };
+  const voice = getBookVoice(slug);
+  const desc = voice?.hook || book.subtitle || book.promise || book.title;
   return {
     title: book.title,
-    description: book.subtitle || book.promise || book.title,
+    description: desc.slice(0, 160),
     openGraph: {
       title: `${book.title} — Пол Грэк`,
-      description: book.subtitle || book.promise,
+      description: desc.slice(0, 160),
       type: "book",
     },
     alternates: { canonical: `https://polgrek.site/books/${slug}/` },
@@ -31,13 +34,14 @@ export default async function BookPage({ params }: Props) {
   const book = getBook(slug);
   if (!book) notFound();
 
+  const voice = getBookVoice(slug);
   const tags = (book.tags || []).filter((t) => t !== "лора");
   const bookLd = {
     "@context": "https://schema.org",
     "@type": "Book",
     name: book.title,
     author: { "@type": "Person", name: book.authors?.[0] || "Пол Грэк" },
-    description: book.annotation || book.promise || book.subtitle,
+    description: voice?.essence || book.annotation || book.promise || book.subtitle,
     url: `https://polgrek.site/books/${book.slug}/`,
     inLanguage: "ru",
   };
@@ -61,7 +65,7 @@ export default async function BookPage({ params }: Props) {
       </nav>
 
       <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
-        <div className="mx-auto w-full max-w-[280px] lg:col-span-4 lg:mx-0">
+        <div className="mx-auto w-full max-w-[280px] lg:col-span-4 lg:mx-0 lg:sticky lg:top-24">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverUrl(book)}
@@ -71,18 +75,6 @@ export default async function BookPage({ params }: Props) {
             className="w-full rounded-2xl border border-border object-cover shadow-[var(--shadow)]"
             fetchPriority="high"
           />
-        </div>
-        <div className="lg:col-span-8">
-          <p className="text-xs font-semibold tracking-wide text-fg-muted uppercase">
-            {book.series || "Научпоп о мозге"}
-          </p>
-          <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            {book.title}
-          </h1>
-          <p className="mt-2 text-fg-muted">{book.authors?.join(", ")}</p>
-          {book.subtitle && (
-            <p className="mt-4 text-lg leading-relaxed text-fg-muted">{book.subtitle}</p>
-          )}
           <div className="mt-4 flex flex-wrap gap-2">
             {tags.map((t) => (
               <span
@@ -93,46 +85,23 @@ export default async function BookPage({ params }: Props) {
               </span>
             ))}
           </div>
+          <p className="mt-3 text-sm text-fg-muted">{book.authors?.join(", ")}</p>
+        </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href={`/read/${book.slug}/`}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-white"
-            >
-              <BookOpen className="h-4 w-4" aria-hidden />
-              Читать главу бесплатно
-            </Link>
-            <a
-              href={affiliateUrl(book)}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong px-6 text-sm font-semibold"
-            >
-              Купить на Литрес
-              <ExternalLink className="h-4 w-4 opacity-60" aria-hidden />
-            </a>
-          </div>
-          <p className="mt-3 text-[11px] text-fg-muted">
-            Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка Литрес
-          </p>
-
-          {(book.annotation || book.promise) && (
-            <div className="mt-10 prose-space space-y-4 text-[15px] leading-relaxed text-fg-muted">
-              {(book.annotation || book.promise)
-                .split(/\n\n+/)
-                .filter(Boolean)
-                .map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-            </div>
-          )}
+        <div className="lg:col-span-8">
+          <BookHighlight book={book} />
 
           {!!book.takeaways?.length && (
-            <div className="mt-8">
-              <h2 className="font-display text-lg font-semibold">Что внутри</h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-fg-muted">
+            <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5 sm:p-6">
+              <h2 className="font-display text-lg font-semibold">Что внутри (без спойлеров)</h2>
+              <ul className="mt-3 space-y-2.5 text-sm text-fg-muted">
                 {book.takeaways.map((t) => (
-                  <li key={t}>{t}</li>
+                  <li key={t} className="flex gap-2">
+                    <span className="text-accent" aria-hidden>
+                      →
+                    </span>
+                    <span>{t}</span>
+                  </li>
                 ))}
               </ul>
             </div>
