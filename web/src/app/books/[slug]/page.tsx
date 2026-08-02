@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { coverUrl, getBook, getBooks, tagLabel } from "@/lib/books";
+import { getBook, getBooks, tagLabel } from "@/lib/books";
 import { getBookVoice } from "@/data/book-voice";
 import { BookHighlight } from "@/components/BookHighlight";
+import { CoverImage } from "@/components/CoverImage";
+import { OG_IMAGE, SITE_URL } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!book) return { title: "Книга" };
   const voice = getBookVoice(slug);
   const desc = voice?.hook || book.subtitle || book.promise || book.title;
+  const pageUrl = `${SITE_URL}/books/${slug}/`;
   return {
     title: book.title,
     description: desc.slice(0, 160),
@@ -24,8 +27,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${book.title} — Пол Грэк`,
       description: desc.slice(0, 160),
       type: "book",
+      url: pageUrl,
+      locale: "ru_RU",
+      siteName: "Пол Грэк",
+      images: [
+        {
+          url: `${SITE_URL}/covers/${book.coverFile.replace(/\.(webp|png)$/i, ".jpg").replace(/\.jpg$/i, ".jpg")}`,
+          width: 720,
+          height: 1080,
+          alt: book.title,
+        },
+        { url: OG_IMAGE, width: 1200, height: 630, alt: "Пол Грэк" },
+      ],
     },
-    alternates: { canonical: `https://polgrek.site/books/${slug}/` },
+    twitter: {
+      card: "summary_large_image",
+      title: `${book.title} — Пол Грэк`,
+      description: desc.slice(0, 160),
+      images: [OG_IMAGE],
+    },
+    alternates: { canonical: pageUrl },
   };
 }
 
@@ -66,14 +87,11 @@ export default async function BookPage({ params }: Props) {
 
       <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
         <div className="mx-auto w-full max-w-[280px] lg:col-span-4 lg:mx-0 lg:sticky lg:top-24">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={coverUrl(book)}
-            alt={`Обложка «${book.title}»`}
-            width={400}
-            height={600}
-            className="w-full rounded-2xl border border-border object-cover shadow-[var(--shadow)]"
-            fetchPriority="high"
+          <CoverImage
+            book={book}
+            variant="product"
+            priority
+            className="w-full rounded-2xl border border-border shadow-[var(--shadow)]"
           />
           <div className="mt-4 flex flex-wrap gap-2">
             {tags.map((t) => (

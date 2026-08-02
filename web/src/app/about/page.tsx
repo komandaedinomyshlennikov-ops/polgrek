@@ -1,12 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AuthorBlock } from "@/components/AuthorBlock";
+import { defaultOg, OG_IMAGE, SITE_URL } from "@/lib/seo";
+
+const title = "Об авторе — Пол Грэк";
+const description =
+  "Пол Грэк — автор научпопа о мозге без эзотерики. 13+ книг, уровни A–D, главы бесплатно. Механика, не «просто соберись».";
 
 export const metadata: Metadata = {
   title: "Об авторе",
-  description:
-    "Пол Грэк — автор научпопа о мозге без эзотерики. 13+ книг, уровни A–D, главы бесплатно.",
-  alternates: { canonical: "https://polgrek.site/about/" },
+  description,
+  alternates: { canonical: `${SITE_URL}/about/` },
+  openGraph: {
+    ...defaultOg,
+    type: "profile",
+    title,
+    description,
+    url: `${SITE_URL}/about/`,
+    images: [
+      {
+        url: `${SITE_URL}/images/pol-grek-portrait.webp`,
+        width: 800,
+        height: 800,
+        alt: "Пол Грэк",
+      },
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Пол Грэк — нейробиология без эзотерики",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [OG_IMAGE],
+  },
 };
 
 export default function AboutPage() {

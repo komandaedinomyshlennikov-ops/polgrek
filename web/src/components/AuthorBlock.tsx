@@ -22,15 +22,19 @@ export function AuthorBlock() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <div className="mx-auto aspect-square max-w-[280px] overflow-hidden rounded-2xl border border-border shadow-[var(--shadow)] lg:mx-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/pol-grek-portrait.webp"
-              alt="Пол Грэк"
-              width={400}
-              height={400}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
+            <picture>
+              <source type="image/webp" srcSet="/images/pol-grek-portrait.webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/pol-grek-portrait.jpg"
+                alt="Пол Грэк"
+                width={800}
+                height={800}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
         </div>
         <div className="lg:col-span-8">

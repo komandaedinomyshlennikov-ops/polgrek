@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { BookOpen, ExternalLink, Sparkles } from "lucide-react";
 import { NAVIGATOR } from "@/lib/navigator";
-import { affiliateUrl, coverUrl, getBook } from "@/lib/books";
+import { affiliateUrl, getBook } from "@/lib/books";
 import { cn } from "@/lib/cn";
+import { CoverImage } from "@/components/CoverImage";
 
 export function NeuroNavigator() {
   const [activeId, setActiveId] = useState(NAVIGATOR[0].id);
@@ -82,13 +83,11 @@ export function NeuroNavigator() {
           {book && (
             <div className="flex flex-col gap-4 rounded-xl border border-border bg-bg p-4 lg:col-span-5">
               <div className="flex gap-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={coverUrl(book, "thumb")}
-                  alt={`Обложка: ${book.title}`}
-                  width={88}
-                  height={132}
-                  className="h-[132px] w-[88px] shrink-0 rounded-lg object-cover shadow-md"
+                <CoverImage
+                  book={book}
+                  variant="card"
+                  sizes="88px"
+                  className="h-[132px] w-[88px] shrink-0 rounded-lg shadow-md"
                 />
                 <div className="min-w-0">
                   <p className="text-xs font-medium text-fg-muted">Рекомендуемая книга</p>

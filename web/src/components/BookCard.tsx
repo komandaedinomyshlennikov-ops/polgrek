@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import type { Book } from "@/lib/types";
-import { affiliateUrl, coverUrl, tagLabel } from "@/lib/books";
+import { affiliateUrl, tagLabel } from "@/lib/books";
 import { BUY_VOICE, getBookVoice } from "@/data/book-voice";
+import { CoverImage } from "@/components/CoverImage";
 
 export function BookCard({ book }: { book: Book }) {
   const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 3);
@@ -12,14 +13,11 @@ export function BookCard({ book }: { book: Book }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] transition hover:border-border-strong">
       <Link href={`/books/${book.slug}/`} className="relative block aspect-[2/3] bg-surface">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={coverUrl(book)}
-          alt={`Обложка книги «${book.title}»`}
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-          loading="lazy"
-          width={320}
-          height={480}
+        <CoverImage
+          book={book}
+          variant="card"
+          sizes="(max-width:640px) 45vw, (max-width:1024px) 28vw, 220px"
+          imgClassName="transition duration-300 group-hover:scale-[1.02]"
         />
       </Link>
       <div className="flex flex-1 flex-col p-4">

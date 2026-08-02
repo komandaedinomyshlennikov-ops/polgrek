@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Lora } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteChrome } from "@/components/SiteChrome";
+import { YandexMetrika } from "@/components/YandexMetrika";
+import { defaultOg, OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -16,32 +18,37 @@ const lora = Lora({
   display: "swap",
 });
 
+const title = "Пол Грэк — нейробиология без эзотерики";
+const description =
+  "Физиологические причины выгорания, тревоги и снижения фокуса. Книги Пола Грэка: главы бесплатно на сайте, полные тексты на Литрес.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://polgrek.site"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Пол Грэк — нейробиология без эзотерики",
+    default: title,
     template: "%s | Пол Грэк",
   },
-  description:
-    "Физиологические причины выгорания, тревоги и снижения фокуса. Книги Пола Грэка: главы бесплатно на сайте, полные тексты на Литрес.",
+  description,
   openGraph: {
-    type: "website",
-    locale: "ru_RU",
-    siteName: "Пол Грэк",
-    title: "Пол Грэк — нейробиология без эзотерики",
+    ...defaultOg,
+    title,
     description:
       "Как устроен мозг и как вернуть ресурс. Главы бесплатно · книги на Литрес.",
-    url: "https://polgrek.site",
+    url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Пол Грэк — нейробиология без эзотерики",
+    title,
     description: "Главы бесплатно · книги на Литрес · без «просто соберись».",
+    images: [OG_IMAGE],
   },
   robots: { index: true, follow: true },
   alternates: {
-    canonical: "https://polgrek.site",
-    languages: { ru: "https://polgrek.site", en: "https://polgrek.site/en/" },
+    canonical: SITE_URL,
+    languages: { ru: SITE_URL, en: `${SITE_URL}/en/`, "x-default": SITE_URL },
+  },
+  other: {
+    "og:image:alt": OG_IMAGE_ALT,
   },
 };
 
@@ -59,7 +66,8 @@ const personLd = {
   "@type": "Person",
   name: "Пол Грэк",
   alternateName: "Pol Grek",
-  url: "https://polgrek.site",
+  url: SITE_URL,
+  image: `${SITE_URL}/images/pol-grek-portrait.webp`,
   jobTitle: "Автор научпопа о мозге",
   sameAs: [
     "https://www.litres.ru/author/pol-grek/",
@@ -78,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <ThemeProvider>
           <SiteChrome>{children}</SiteChrome>
+          <YandexMetrika />
         </ThemeProvider>
       </body>
     </html>

@@ -40,15 +40,19 @@ export function Hero() {
 
         <div className="relative lg:col-span-5">
           <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/pol-grek-portrait.webp"
-              alt="Пол Грэк — автор научпопа о мозге"
-              className="h-full w-full object-cover"
-              width={480}
-              height={600}
-              fetchPriority="high"
-            />
+            <picture>
+              <source type="image/webp" srcSet="/images/pol-grek-portrait.webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/pol-grek-portrait.jpg"
+                alt="Пол Грэк — автор научпопа о мозге"
+                className="h-full w-full object-cover"
+                width={800}
+                height={800}
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-80"
               aria-hidden
