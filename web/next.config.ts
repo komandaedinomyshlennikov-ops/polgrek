@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  // App is served at domain root (polgrek.site) — no basePath
 };
 
 export default nextConfig;
