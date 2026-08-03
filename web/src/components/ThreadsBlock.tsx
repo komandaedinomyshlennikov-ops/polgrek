@@ -1,8 +1,10 @@
 import { siteData } from "@/lib/books";
-import { SOCIAL_VOICE } from "@/data/book-voice";
+import { getSocialVoice } from "@/data/book-voice";
 import { ExternalLink, MessageCircle } from "lucide-react";
+import type { Locale } from "@/lib/types";
+import { ui } from "@/data/ui";
 
-const POSTS = [
+const POSTS_RU = [
   {
     text: "Мотивация — не причина действия. Это побочный продукт. Сначала движение на 10 минут.",
   },
@@ -17,22 +19,41 @@ const POSTS = [
   },
 ];
 
-export function ThreadsBlock() {
+const POSTS_EN = [
+  {
+    text: "Motivation is not the cause of action. It’s a byproduct. Move for 10 minutes first.",
+  },
+  {
+    text: "“Just calm down” is almost useless when the system is already in threat. The body leaves before reason.",
+  },
+  {
+    text: "Scrolling the feed is not rest. Fifteen minutes without inbound — and you notice when the brain hears itself again.",
+  },
+  {
+    text: "By evening willpower is spent. Important decisions — not after 9pm. Not character — capacity.",
+  },
+];
+
+export function ThreadsBlock({ locale = "ru" }: { locale?: Locale }) {
+  const social = getSocialVoice(locale);
+  const t = ui(locale).social;
+  const posts = locale === "en" ? POSTS_EN : POSTS_RU;
+
   return (
     <section className="border-b border-border py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
           <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-            Threads & Telegram
+            {t.eyebrow}
           </p>
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            {SOCIAL_VOICE.title}
+            {social.title}
           </h2>
-          <p className="mt-3 text-fg-muted">{SOCIAL_VOICE.body}</p>
+          <p className="mt-3 text-fg-muted">{social.body}</p>
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
-          {POSTS.map((p) => (
+          {posts.map((p) => (
             <blockquote
               key={p.text}
               className="rounded-2xl border border-border bg-bg-elevated p-5 text-[15px] leading-relaxed text-fg shadow-sm"
@@ -50,7 +71,7 @@ export function ThreadsBlock() {
             rel="noopener noreferrer"
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
           >
-            {SOCIAL_VOICE.threadsCta}
+            {social.threadsCta}
             <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
           </a>
           <a
@@ -60,7 +81,7 @@ export function ThreadsBlock() {
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong bg-bg-elevated px-5 text-sm font-semibold text-fg transition hover:border-accent/40"
           >
             <MessageCircle className="h-4 w-4 text-accent" aria-hidden />
-            {SOCIAL_VOICE.telegramCta}
+            {social.telegramCta}
           </a>
         </div>
       </div>

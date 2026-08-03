@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getBook, getBooks, tagLabel } from "@/lib/books";
+import { getBooks, getLocalizedBook, tagLabel } from "@/lib/books";
 import { getBookVoice } from "@/data/book-voice";
 import { BookHighlight } from "@/components/BookHighlight";
 import { CoverImage } from "@/components/CoverImage";
 import { OG_IMAGE, SITE_URL } from "@/lib/seo";
+import { ui } from "@/data/ui";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -15,21 +16,21 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const book = getBook(slug);
-  if (!book) return { title: "Книга" };
-  const voice = getBookVoice(slug);
+  const book = getLocalizedBook(slug, "en");
+  if (!book) return { title: "Book" };
+  const voice = getBookVoice(slug, "en");
   const desc = voice?.hook || book.subtitle || book.promise || book.title;
-  const pageUrl = `${SITE_URL}/books/${slug}/`;
+  const pageUrl = `${SITE_URL}/en/books/${slug}/`;
   return {
     title: book.title,
     description: desc.slice(0, 160),
     openGraph: {
-      title: `${book.title} — Пол Грэк`,
+      title: `${book.title} — Pol Grek`,
       description: desc.slice(0, 160),
       type: "book",
       url: pageUrl,
-      locale: "ru_RU",
-      siteName: "Пол Грэк",
+      locale: "en_US",
+      siteName: "Pol Grek",
       images: [
         {
           url: `${SITE_URL}/covers/${book.coverFile.replace(/\.(webp|png)$/i, ".jpg").replace(/\.jpg$/i, ".jpg")}`,
@@ -37,41 +38,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           height: 1080,
           alt: book.title,
         },
-        { url: OG_IMAGE, width: 1200, height: 630, alt: "Пол Грэк" },
+        { url: OG_IMAGE, width: 1200, height: 630, alt: "Pol Grek" },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${book.title} — Пол Грэк`,
+      title: `${book.title} — Pol Grek`,
       description: desc.slice(0, 160),
       images: [OG_IMAGE],
     },
     alternates: {
       canonical: pageUrl,
       languages: {
-        ru: pageUrl,
-        en: `${SITE_URL}/en/books/${slug}/`,
-        "x-default": pageUrl,
+        ru: `${SITE_URL}/books/${slug}/`,
+        en: pageUrl,
+        "x-default": `${SITE_URL}/books/${slug}/`,
       },
     },
   };
 }
 
-export default async function BookPage({ params }: Props) {
+export default async function EnBookPage({ params }: Props) {
   const { slug } = await params;
-  const book = getBook(slug);
+  const book = getLocalizedBook(slug, "en");
   if (!book) notFound();
 
-  const voice = getBookVoice(slug);
-  const tags = (book.tags || []).filter((t) => t !== "лора");
+  const t = ui("en").bookPage;
+  const voice = getBookVoice(slug, "en");
+  const tags = (book.tags || []).filter((x) => x !== "лора");
   const bookLd = {
     "@context": "https://schema.org",
     "@type": "Book",
     name: book.title,
-    author: { "@type": "Person", name: book.authors?.[0] || "Пол Грэк" },
+    author: { "@type": "Person", name: book.authors?.[0] || "Pol Grek" },
     description: voice?.essence || book.annotation || book.promise || book.subtitle,
-    url: `https://polgrek.site/books/${book.slug}/`,
-    inLanguage: "ru",
+    url: `${SITE_URL}/en/books/${book.slug}/`,
+    inLanguage: "en",
   };
 
   return (
@@ -80,13 +82,13 @@ export default async function BookPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(bookLd) }}
       />
-      <nav className="mb-6 text-sm text-fg-muted" aria-label="Путь">
-        <Link href="/" className="hover:text-accent">
-          На главную
+      <nav className="mb-6 text-sm text-fg-muted" aria-label="Breadcrumb">
+        <Link href="/en/" className="hover:text-accent">
+          {t.home}
         </Link>
         <span className="mx-2 opacity-50">/</span>
-        <Link href="/books/" className="hover:text-accent">
-          Все книги
+        <Link href="/en/books/" className="hover:text-accent">
+          {t.all}
         </Link>
         <span className="mx-2 opacity-50">/</span>
         <span className="text-fg">{book.title}</span>
@@ -101,12 +103,12 @@ export default async function BookPage({ params }: Props) {
             className="w-full rounded-2xl border border-border shadow-[var(--shadow)]"
           />
           <div className="mt-4 flex flex-wrap gap-2">
-            {tags.map((t) => (
+            {tags.map((tag) => (
               <span
-                key={t}
+                key={tag}
                 className="rounded-full bg-surface px-3 py-1 text-xs font-medium text-fg-muted"
               >
-                {tagLabel(t)}
+                {tagLabel(tag, "en")}
               </span>
             ))}
           </div>
@@ -114,18 +116,18 @@ export default async function BookPage({ params }: Props) {
         </div>
 
         <div className="lg:col-span-8">
-          <BookHighlight book={book} />
+          <BookHighlight book={book} locale="en" />
 
           {!!book.takeaways?.length && (
             <div className="mt-8 rounded-2xl border border-border bg-surface/40 p-5 sm:p-6">
-              <h2 className="font-display text-lg font-semibold">Что внутри (без спойлеров)</h2>
+              <h2 className="font-display text-lg font-semibold">{t.takeaways}</h2>
               <ul className="mt-3 space-y-2.5 text-sm text-fg-muted">
-                {book.takeaways.map((t) => (
-                  <li key={t} className="flex gap-2">
+                {book.takeaways.map((item) => (
+                  <li key={item} className="flex gap-2">
                     <span className="text-accent" aria-hidden>
                       →
                     </span>
-                    <span>{t}</span>
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>

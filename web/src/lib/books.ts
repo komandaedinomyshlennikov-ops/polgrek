@@ -1,7 +1,17 @@
 import site from "@/data/site.json";
-import type { Book, SiteData } from "./types";
+import { localizeBook } from "@/data/books-en";
+import type { Book, Locale, SiteData } from "./types";
 
 export const siteData = site as SiteData;
+
+export function getLocalizedBooks(locale: Locale = "ru"): Book[] {
+  return siteData.books.map((b) => localizeBook(b, locale));
+}
+
+export function getLocalizedBook(slug: string, locale: Locale = "ru"): Book | undefined {
+  const b = getBook(slug);
+  return b ? localizeBook(b, locale) : undefined;
+}
 
 export function getBooks(): Book[] {
   return siteData.books;
@@ -66,14 +76,18 @@ export function litresAuthorUrl(): string {
 export const CATALOG_SHELVES: Array<{
   id: string;
   title: string;
+  titleEn: string;
   subtitle: string;
+  subtitleEn: string;
   emoji: string;
   slugs: string[];
 }> = [
   {
     id: "neuro",
     title: "Нейробиология и когнитивные практики",
+    titleEn: "Neuroscience & cognitive practice",
     subtitle: "Фокус, стресс, биохакинг, эмоции — механика, не «просто соберись»",
+    subtitleEn: "Focus, stress, biohacking, emotion — mechanics, not “just try harder”",
     emoji: "🧠",
     slugs: [
       "mentalnyy-debag",
@@ -90,7 +104,9 @@ export const CATALOG_SHELVES: Array<{
   {
     id: "money-reset",
     title: "Деньги, мышление и перезапуск",
+    titleEn: "Money, mindset & reset",
     subtitle: "Wired for Wealth · RESET · Sacred Hours — внешний порядок и ресурс",
+    subtitleEn: "Wired for Wealth · RESET · Sacred Hours — external order and capacity",
     emoji: "💰",
     slugs: [
       "snachala-dengi-potom-soznanie",
@@ -101,11 +117,25 @@ export const CATALOG_SHELVES: Array<{
   },
 ];
 
-export function getBooksByShelf(shelfId: string): Book[] {
+export function getCatalogShelves(locale: Locale = "ru") {
+  return CATALOG_SHELVES.map((s) => ({
+    id: s.id,
+    emoji: s.emoji,
+    slugs: s.slugs,
+    title: locale === "en" ? s.titleEn : s.title,
+    subtitle: locale === "en" ? s.subtitleEn : s.subtitle,
+  }));
+}
+
+export function getBooksByShelf(shelfId: string, locale: Locale = "ru"): Book[] {
   const shelf = CATALOG_SHELVES.find((s) => s.id === shelfId);
   if (!shelf) return [];
-  const by = Object.fromEntries(getBooks().map((b) => [b.slug, b]));
+  const by = Object.fromEntries(getLocalizedBooks(locale).map((b) => [b.slug, b]));
   return shelf.slugs.map((s) => by[s]).filter(Boolean);
+}
+
+export function getFlagshipsLocalized(locale: Locale = "ru"): Book[] {
+  return getFlagships().map((b) => localizeBook(b, locale));
 }
 
 /** EN title aliases (KDP) for display */

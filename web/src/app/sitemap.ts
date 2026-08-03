@@ -18,22 +18,65 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: { ru: `${SITE}/`, en: `${SITE}/en/`, "x-default": `${SITE}/` } },
     },
     {
+      url: `${SITE}/en/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.95,
+      alternates: { languages: { ru: `${SITE}/`, en: `${SITE}/en/`, "x-default": `${SITE}/` } },
+    },
+    {
       url: `${SITE}/books/`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.95,
+      alternates: {
+        languages: { ru: `${SITE}/books/`, en: `${SITE}/en/books/`, "x-default": `${SITE}/books/` },
+      },
+    },
+    {
+      url: `${SITE}/en/books/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+      alternates: {
+        languages: { ru: `${SITE}/books/`, en: `${SITE}/en/books/`, "x-default": `${SITE}/books/` },
+      },
     },
     {
       url: `${SITE}/about/`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
+      alternates: {
+        languages: { ru: `${SITE}/about/`, en: `${SITE}/en/about/`, "x-default": `${SITE}/about/` },
+      },
+    },
+    {
+      url: `${SITE}/en/about/`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+      alternates: {
+        languages: { ru: `${SITE}/about/`, en: `${SITE}/en/about/`, "x-default": `${SITE}/about/` },
+      },
     },
     {
       url: `${SITE}/lab/`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.7,
+      alternates: {
+        languages: { ru: `${SITE}/lab/`, en: `${SITE}/en/lab/`, "x-default": `${SITE}/lab/` },
+      },
+    },
+    {
+      url: `${SITE}/en/lab/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.65,
+      alternates: {
+        languages: { ru: `${SITE}/lab/`, en: `${SITE}/en/lab/`, "x-default": `${SITE}/lab/` },
+      },
     },
     {
       url: `${SITE}/privacy/`,
@@ -42,10 +85,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
-      url: `${SITE}/en/`,
+      url: `${SITE}/en/privacy/`,
       lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
+      changeFrequency: "yearly",
+      priority: 0.25,
     },
   ];
 
@@ -55,12 +98,50 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: b.flagship ? 0.9 : 0.75,
+      alternates: {
+        languages: {
+          ru: `${SITE}/books/${b.slug}/`,
+          en: `${SITE}/en/books/${b.slug}/`,
+          "x-default": `${SITE}/books/${b.slug}/`,
+        },
+      },
+    },
+    {
+      url: `${SITE}/en/books/${b.slug}/`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: b.flagship ? 0.85 : 0.7,
+      alternates: {
+        languages: {
+          ru: `${SITE}/books/${b.slug}/`,
+          en: `${SITE}/en/books/${b.slug}/`,
+          "x-default": `${SITE}/books/${b.slug}/`,
+        },
+      },
     },
     {
       url: `${SITE}/read/${b.slug}/`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+      alternates: {
+        languages: {
+          ru: `${SITE}/read/${b.slug}/`,
+          en: `${SITE}/en/read/${b.slug}/`,
+        },
+      },
+    },
+    {
+      url: `${SITE}/en/read/${b.slug}/`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.65,
+      alternates: {
+        languages: {
+          ru: `${SITE}/read/${b.slug}/`,
+          en: `${SITE}/en/read/${b.slug}/`,
+        },
+      },
     },
   ]);
 

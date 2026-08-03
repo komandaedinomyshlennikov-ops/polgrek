@@ -4,13 +4,15 @@ import { NeuroCheckup } from "@/components/lab/NeuroCheckup";
 import { LabBeta } from "@/components/lab/LabBeta";
 import { LabPrompts } from "@/components/lab/LabPrompts";
 import { SITE_URL } from "@/lib/seo";
+import { ui } from "@/data/ui";
+
+const t = ui("en").lab;
 
 export const metadata: Metadata = {
-  title: "Лаборатория",
-  description:
-    "Цифровая песочница Пола Грэка: нейро-чек-ап, бета-протоколы, ИИ-промпты. Эксперименты без эзотерики.",
+  title: t.title,
+  description: t.metaDesc,
   alternates: {
-    canonical: `${SITE_URL}/lab/`,
+    canonical: `${SITE_URL}/en/lab/`,
     languages: {
       ru: `${SITE_URL}/lab/`,
       en: `${SITE_URL}/en/lab/`,
@@ -18,37 +20,37 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Лаборатория Пола Грэка",
-    description: "Нейро-чек-ап, протоколы и ИИ-шаблоны. EXPERIMENTAL ZONE.",
-    url: `${SITE_URL}/lab/`,
+    locale: "en_US",
+    title: t.ogTitle,
+    description: t.ogDesc,
+    url: `${SITE_URL}/en/lab/`,
   },
 };
 
 const JUMP = [
-  { href: "#checkup", label: "Чек-ап" },
-  { href: "#beta", label: "Бета" },
-  { href: "#prompts", label: "ИИ-промпты" },
+  { href: "#checkup", label: t.jump.checkup },
+  { href: "#beta", label: t.jump.beta },
+  { href: "#prompts", label: t.jump.prompts },
 ];
 
-export default function LabPage() {
+export default function EnLabPage() {
   return (
     <div className="pb-16">
       <section className="border-b border-border bg-gradient-to-b from-accent-soft/30 to-transparent">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <span className="inline-flex items-center rounded-full border border-bio/30 bg-bio-soft px-3 py-1 text-[11px] font-bold tracking-[0.16em] text-bio uppercase">
-            Experimental zone
+            {t.badge}
           </span>
           <h1 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-            Лаборатория Пола Грэка
+            {t.h1}
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
-            Песочница: нейро-протоколы, ИИ-шаблоны, полевые тесты. Не архив статей и не «просто
-            соберись».
+            {t.lead}
           </p>
 
           <nav
             className="mt-8 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            aria-label="Разделы лаборатории"
+            aria-label="Lab sections"
           >
             {JUMP.map((j) => (
               <a
@@ -60,19 +62,19 @@ export default function LabPage() {
               </a>
             ))}
             <Link
-              href="/books/"
+              href="/en/books/"
               className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-border bg-bg-elevated px-3.5 text-sm font-medium text-fg-muted transition hover:border-accent/40 hover:text-fg"
             >
-              Книги
+              {t.jump.books}
             </Link>
           </nav>
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl space-y-16 px-4 py-12 sm:px-6 sm:py-16">
-        <NeuroCheckup />
-        <LabBeta />
-        <LabPrompts />
+        <NeuroCheckup locale="en" />
+        <LabBeta locale="en" />
+        <LabPrompts locale="en" />
       </div>
     </div>
   );

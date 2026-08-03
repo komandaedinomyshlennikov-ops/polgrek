@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { LAB_PROMPTS } from "@/data/lab";
+import { LAB_PROMPTS_EN } from "@/data/lab-en";
 import { cn } from "@/lib/cn";
+import type { Locale } from "@/lib/types";
+import { ui } from "@/data/ui";
 
-export function LabPrompts() {
+export function LabPrompts({ locale = "ru" }: { locale?: Locale }) {
+  const t = ui(locale).lab;
+  const prompts = locale === "en" ? LAB_PROMPTS_EN : LAB_PROMPTS;
   const [copied, setCopied] = useState<string | null>(null);
 
   const copy = async (id: string, text: string) => {
@@ -14,7 +19,6 @@ export function LabPrompts() {
       setCopied(id);
       window.setTimeout(() => setCopied(null), 2000);
     } catch {
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = text;
       document.body.appendChild(ta);
@@ -30,19 +34,14 @@ export function LabPrompts() {
     <section id="prompts" className="scroll-mt-20">
       <div className="mb-5 max-w-2xl">
         <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-          ⚡️ AI Template
+          {t.promptsEyebrow}
         </p>
-        <h2 className="mt-1 font-display text-xl font-semibold sm:text-2xl">
-          ИИ-промпты & нейро-шаблоны
-        </h2>
-        <p className="mt-2 text-sm text-fg-muted">
-          Авторские инструкции для ChatGPT / Claude. Без «стань лучшей версией». Вставьте поток —
-          получите структуру. Делитесь, если зайдёт.
-        </p>
+        <h2 className="mt-1 font-display text-xl font-semibold sm:text-2xl">{t.promptsTitle}</h2>
+        <p className="mt-2 text-sm text-fg-muted">{t.promptsLead}</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {LAB_PROMPTS.map((p) => (
+        {prompts.map((p) => (
           <article
             key={p.id}
             className="flex flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-sm"
@@ -68,12 +67,12 @@ export function LabPrompts() {
               {copied === p.id ? (
                 <>
                   <Check className="h-4 w-4 text-bio" aria-hidden />
-                  Скопировано
+                  {t.copied}
                 </>
               ) : (
                 <>
                   <Copy className="h-4 w-4" aria-hidden />
-                  Скопировать промпт
+                  {t.copy}
                 </>
               )}
             </button>

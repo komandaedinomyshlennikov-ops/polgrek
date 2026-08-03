@@ -4,6 +4,14 @@
  * No bookstore copy. No «эта книга рассказывает…».
  */
 
+import type { Locale } from "@/lib/types";
+import {
+  BOOK_VOICE_EN,
+  BUY_VOICE_EN,
+  LITRES_EXTRA_EN,
+  SOCIAL_VOICE_EN,
+} from "./book-voice-en";
+
 export type BookVoice = {
   /** One-line paradox / reframe — page tagline */
   hook: string;
@@ -182,8 +190,8 @@ export const LITRES_EXTRA = [
   },
 ] as const;
 
-
-export function getBookVoice(slug: string): BookVoice | null {
+export function getBookVoice(slug: string, locale: Locale = "ru"): BookVoice | null {
+  if (locale === "en") return BOOK_VOICE_EN[slug] ?? BOOK_VOICE[slug] ?? null;
   return BOOK_VOICE[slug] ?? null;
 }
 
@@ -203,3 +211,15 @@ export const BUY_VOICE = {
   amazon: "Читать на Amazon",
   excerpt: "Читать фрагмент бесплатно",
 };
+
+export function getSocialVoice(locale: Locale = "ru") {
+  return locale === "en" ? SOCIAL_VOICE_EN : SOCIAL_VOICE;
+}
+
+export function getBuyVoice(locale: Locale = "ru") {
+  return locale === "en" ? BUY_VOICE_EN : BUY_VOICE;
+}
+
+export function getLitresExtra(locale: Locale = "ru") {
+  return locale === "en" ? LITRES_EXTRA_EN : LITRES_EXTRA;
+}

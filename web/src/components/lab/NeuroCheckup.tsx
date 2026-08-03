@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { LAB_CHECKUP, scoreToResult } from "@/data/lab";
+import { LAB_CHECKUP_EN, scoreToResultEn } from "@/data/lab-en";
 import { cn } from "@/lib/cn";
+import type { Locale } from "@/lib/types";
+import { lp } from "@/lib/locale";
+import { ui } from "@/data/ui";
 
-export function NeuroCheckup() {
+export function NeuroCheckup({ locale = "ru" }: { locale?: Locale }) {
+  const t = ui(locale).lab;
+  const questions = locale === "en" ? LAB_CHECKUP_EN : LAB_CHECKUP;
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [done, setDone] = useState(false);
 
@@ -13,8 +19,13 @@ export function NeuroCheckup() {
     () => Object.values(answers).reduce((a, b) => a + b, 0),
     [answers]
   );
-  const complete = Object.keys(answers).length === LAB_CHECKUP.length;
-  const result = done && complete ? scoreToResult(total) : null;
+  const complete = Object.keys(answers).length === questions.length;
+  const result =
+    done && complete
+      ? locale === "en"
+        ? scoreToResultEn(total)
+        : scoreToResult(total)
+      : null;
 
   return (
     <section
@@ -24,23 +35,18 @@ export function NeuroCheckup() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-semibold tracking-[0.14em] text-bio uppercase">
-            🧬 Нейро-чек-ап
+            {t.checkupEyebrow}
           </p>
-          <h2 className="mt-1 font-display text-xl font-semibold sm:text-2xl">
-            Насколько мозг забит шумом прямо сейчас?
-          </h2>
-          <p className="mt-2 max-w-xl text-sm text-fg-muted">
-            4 вопроса. Не диагноз и не «вердикт». На выходе — один протокол и глава, если нужно
-            глубже. Тон: механика, не стыд.
-          </p>
+          <h2 className="mt-1 font-display text-xl font-semibold sm:text-2xl">{t.checkupTitle}</h2>
+          <p className="mt-2 max-w-xl text-sm text-fg-muted">{t.checkupLead}</p>
         </div>
         <span className="rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-fg-muted">
-          {Object.keys(answers).length}/{LAB_CHECKUP.length}
+          {Object.keys(answers).length}/{questions.length}
         </span>
       </div>
 
       <div className="mt-6 space-y-6">
-        {LAB_CHECKUP.map((q, qi) => (
+        {questions.map((q, qi) => (
           <fieldset key={q.id} className="border-0 p-0">
             <legend className="text-sm font-semibold text-fg">
               <span className="text-fg-muted">{qi + 1}.</span> {q.q}
@@ -82,37 +88,54 @@ export function NeuroCheckup() {
             complete ? "bg-accent hover:brightness-110" : "cursor-not-allowed bg-fg-muted/40"
           )}
         >
-          Показать разбор
+          {t.showResult}
         </button>
         {complete && (
           <p className="text-xs text-fg-muted">
-            Сумма сигналов: <strong className="text-fg">{total}</strong> (чем выше — тем больше шума
-            / пустого бака)
+            {locale === "en" ? (
+              <>
+                Signal sum: <strong className="text-fg">{total}</strong> (higher = more noise / empty
+                tank)
+              </>
+            ) : (
+              <>
+                Сумма сигналов: <strong className="text-fg">{total}</strong> (чем выше — тем больше
+                шума / пустого бака)
+              </>
+            )}
           </p>
         )}
       </div>
 
       {result && (
         <div className="mt-6 rounded-xl border border-bio/30 bg-bio-soft/40 p-5">
-          <p className="text-xs font-semibold tracking-wide text-bio uppercase">Результат · не ярлык</p>
+          <p className="text-xs font-semibold tracking-wide text-bio uppercase">
+            {locale === "en" ? "Result · not a label" : "Результат · не ярлык"}
+          </p>
           <h3 className="mt-1 font-display text-lg font-semibold text-fg">{result.title}</h3>
           <p className="mt-2 text-sm leading-relaxed text-fg-muted">{result.body}</p>
           <div className="mt-4 rounded-lg border border-border bg-bg p-4">
-            <p className="text-xs font-semibold text-accent uppercase">Протокол сегодня</p>
+            <p className="text-xs font-semibold text-accent uppercase">{t.protocolLabel}</p>
             <p className="mt-1 text-sm text-fg">{result.protocol}</p>
           </div>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <Link
-              href={result.readHref}
+              href={
+                locale === "en"
+                  ? result.readHref
+                  : result.readHref.startsWith("/en/")
+                    ? result.readHref
+                    : result.readHref
+              }
               className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white"
             >
-              Глава: {result.bookLabel} →
+              {t.readChapter}: {result.bookLabel} →
             </Link>
             <Link
-              href={`/books/${result.bookSlug}/`}
+              href={lp(locale, `/books/${result.bookSlug}/`)}
               className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border px-4 text-sm font-semibold"
             >
-              О книге
+              {locale === "en" ? "About the book" : "О книге"}
             </Link>
           </div>
         </div>

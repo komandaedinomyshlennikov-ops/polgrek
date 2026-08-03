@@ -5,7 +5,14 @@ export const metadata: Metadata = {
   title: "Книги Пола Грэка",
   description:
     "Каталог Пола Грэка на polgrek.site и Литрес: Ментальный дебаг, Мозг на 100+, биохакинг, EI 2.0, RESET, Wired for Wealth. Главы бесплатно · litres.ru/author/pol-grek.",
-  alternates: { canonical: "https://polgrek.site/books/" },
+  alternates: {
+    canonical: "https://polgrek.site/books/",
+    languages: {
+      ru: "https://polgrek.site/books/",
+      en: "https://polgrek.site/en/books/",
+      "x-default": "https://polgrek.site/books/",
+    },
+  },
   openGraph: {
     title: "Книги Пола Грэка",
     description:
