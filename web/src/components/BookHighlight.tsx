@@ -22,8 +22,7 @@ export function BookHighlight({ book }: { book: Book }) {
 
   return (
     <section className="book-highlight rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] sm:p-8">
-      <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">Суть · не аннотация магазина</p>
-      <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+      <h2 className="font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
         {book.title}
       </h2>
       <p className="book-tagline mt-4 border-l-2 border-accent pl-4 font-display text-lg leading-snug text-fg sm:text-xl">

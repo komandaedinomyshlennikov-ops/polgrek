@@ -34,7 +34,6 @@ export function CoverImage({
     return (
       <picture className={cn("block overflow-hidden", className)}>
         <source type="image/webp" srcSet={fullWebp} />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={fullJpg}
           alt={label}
@@ -62,7 +61,6 @@ export function CoverImage({
         srcSet={`${src180} 180w, ${src280} 280w, ${src360} 360w, ${src560} 560w`}
         sizes={sizes}
       />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src280}
         alt={label}

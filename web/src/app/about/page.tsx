@@ -52,19 +52,12 @@ export default function AboutPage() {
           <span className="text-fg">Об авторе</span>
         </nav>
       </div>
-      <AuthorBlock />
+      <AuthorBlock showMoreLink={false} />
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-        <h2 className="font-display text-xl font-semibold">Подход</h2>
-        <div className="mt-4 space-y-4 text-fg-muted">
-          <p>
-            Материалы носят образовательный характер и не заменяют консультацию врача или
-            психотерапевта. При острых состояниях — к специалистам.
-          </p>
-          <p>
-            На сайте можно прочитать фрагменты. Оплата — только на Литрес (и Amazon для EN). Партнёрские
-            ссылки помечены erid.
-          </p>
-        </div>
+        <p className="text-sm text-fg-muted">
+          Материалы образовательные, не замена врачу. Оплата — на Литрес / Amazon; партнёрские ссылки
+          с erid.
+        </p>
         <Link
           href="/#navigator"
           className="mt-8 inline-flex min-h-12 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-white"

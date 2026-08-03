@@ -19,24 +19,16 @@ export function BooksShowcase({ mode = "flagships" }: { mode?: "flagships" | "al
     return (
       <section id="books" className="border-b border-border py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-xl">
-              <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-                Книги Пола Грэка
-              </p>
-              <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-                Практическая нейробиология и перепрошивка мышления
-              </h2>
-              <p className="mt-2 text-fg-muted">
-                Хук → глава на сайте → Литрес / Amazon. Не витрина SKU.
-              </p>
-            </div>
-            <Link
-              href="/books/"
-              className="inline-flex min-h-11 items-center text-sm font-semibold text-accent hover:underline"
-            >
-              Весь каталог →
-            </Link>
+          <div className="max-w-xl">
+            <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+              Книги
+            </p>
+            <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+              С чего чаще начинают
+            </h2>
+            <p className="mt-2 text-fg-muted">
+              Глава на сайте. Полный текст — на Литрес, если зайдёт.
+            </p>
           </div>
 
           <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
@@ -50,7 +42,7 @@ export function BooksShowcase({ mode = "flagships" }: { mode?: "flagships" | "al
               href="/books/"
               className="inline-flex min-h-12 items-center justify-center rounded-xl border border-border-strong px-5 text-sm font-semibold text-fg"
             >
-              Все {getBooks().length} книг на сайте
+              Все {getBooks().length} книг
             </Link>
             <a
               href={litresProfile}
@@ -58,15 +50,12 @@ export function BooksShowcase({ mode = "flagships" }: { mode?: "flagships" | "al
               rel="noopener noreferrer sponsored"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg"
             >
-              Все книги на Литрес
+              Профиль на Литрес
               <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
             </a>
           </div>
           <p className="mt-3 text-center text-[11px] text-fg-muted">
-            Реклама · erid: 2VfnxyNkZrY ·{" "}
-            <a href={siteData.links.litresAuthor} className="underline hover:text-fg">
-              litres.ru/author/pol-grek
-            </a>
+            Реклама · erid: 2VfnxyNkZrY
           </p>
         </div>
       </section>

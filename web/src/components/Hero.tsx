@@ -8,14 +8,14 @@ export function Hero() {
         <div className="lg:col-span-7">
           <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated/80 px-3 py-1.5 text-xs font-semibold tracking-wide text-bio uppercase">
             <span className="h-1.5 w-1.5 rounded-full bg-bio" aria-hidden />
-            Без эзотерики · уровни A–D
+            13+ книг · уровни A–D
           </p>
           <h1 className="font-display text-[1.85rem] leading-[1.12] font-semibold tracking-tight text-balance text-fg sm:text-4xl lg:text-[2.75rem]">
             Нейробиология без эзотерики. Как устроен ваш мозг и как вернуть ему ресурс.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-fg-muted sm:text-lg">
-            Физиологические причины выгорания, тревоги и снижения фокуса. Понятные протоколы и книги
-            от Пола Грэка — сначала глава на сайте, покупка только если зайдёт.
+            Выгорание, тревога, фокус — как система, не как «характер». Сначала глава на сайте,
+            покупка только если зайдёт.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
@@ -33,16 +33,12 @@ export function Hero() {
               Читать фрагменты бесплатно
             </Link>
           </div>
-          <p className="mt-5 text-sm text-fg-muted">
-            Сначала текст. Литрес — если зайдёт. Не клиника · erid на партнёрских ссылках.
-          </p>
         </div>
 
         <div className="relative lg:col-span-5">
           <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)]">
             <picture>
               <source type="image/webp" srcSet="/images/pol-grek-portrait.webp" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/pol-grek-portrait.jpg"
                 alt="Пол Грэк — автор научпопа о мозге"
@@ -59,18 +55,9 @@ export function Hero() {
             />
             <div className="absolute right-0 bottom-0 left-0 p-5">
               <p className="font-display text-lg font-semibold text-fg">Пол Грэк</p>
-              <p className="text-sm text-fg-muted">13+ книг · механика мозга, не «просто соберись»</p>
+              <p className="text-sm text-fg-muted">Механика мозга, не «просто соберись»</p>
             </div>
           </div>
-          {/* Decorative neural nodes */}
-          <div
-            className="pointer-events-none absolute -top-4 -right-4 h-24 w-24 rounded-full border border-accent/20 bg-accent-soft blur-xl"
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute -bottom-6 -left-6 h-28 w-28 rounded-full border border-bio/20 bg-bio-soft blur-xl"
-            aria-hidden
-          />
         </div>
       </div>
     </section>
