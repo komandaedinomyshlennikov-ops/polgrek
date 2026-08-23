@@ -69,7 +69,7 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
                       href={storeHref}
                       target="_blank"
                       rel="noopener noreferrer sponsored"
-                      className="inline-flex min-h-12 items-center justify-center gap-1.5 rounded-xl border border-border-strong px-4 text-sm font-semibold text-fg transition hover:border-accent/40"
+                      className="inline-flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-fg px-4 text-sm font-semibold text-bg transition hover:opacity-90"
                     >
                       {storeLabel}
                       <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />

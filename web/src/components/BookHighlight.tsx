@@ -70,7 +70,7 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
           href={primaryStore}
           target="_blank"
           rel="noopener noreferrer sponsored"
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong px-5 text-sm font-semibold text-fg transition hover:border-accent/40"
+          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
         >
           {primaryLabel}
           <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />

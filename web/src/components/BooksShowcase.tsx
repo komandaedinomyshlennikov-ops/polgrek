@@ -93,6 +93,17 @@ export function BooksShowcase({
             </a>
             {t.catalogLeadAfter}
           </p>
+          <div className="mt-6">
+            <a
+              href={locale === "en" ? siteData.links.amazonAuthor : litresProfile}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
+            >
+              {locale === "en" ? "Buy on Amazon" : "Купить на Литрес"}
+              <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
+            </a>
+          </div>
         </div>
 
         {shelves.map((shelf) => {
