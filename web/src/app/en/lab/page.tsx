@@ -47,6 +47,12 @@ export default function EnLabPage() {
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
             {t.lead}
           </p>
+          <p className="mt-3 max-w-2xl text-sm text-fg-muted">
+            Full lab essays are in Russian.{" "}
+            <Link href="/lab/" className="font-semibold text-accent hover:underline">
+              Open the Russian LAB
+            </Link>
+          </p>
 
           <nav
             className="mt-8 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"

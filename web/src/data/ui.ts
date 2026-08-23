@@ -115,12 +115,12 @@ export const UI = {
     lab: {
       title: "Лаборатория",
       metaDesc:
-        "Цифровая песочница Пола Грэка: нейро-чек-ап, бета-протоколы, ИИ-промпты. Эксперименты без эзотерики.",
+        "Научная лаборатория повседневной жизни: почему мозг делает именно так — и что можно проверить уже сегодня.",
       ogTitle: "Лаборатория Пола Грэка",
-      ogDesc: "Нейро-чек-ап, протоколы и ИИ-шаблоны. EXPERIMENTAL ZONE.",
-      badge: "Experimental zone",
+      ogDesc: "Наблюдение, механика, эксперимент, доказательства. Без эзотерики.",
+      badge: "Бесплатно",
       h1: "Лаборатория Пола Грэка",
-      lead: "Песочница: нейро-протоколы, ИИ-шаблоны, полевые тесты. Не архив статей и не «просто соберись».",
+      lead: "Не архив заметок. Место, где знания превращаются в навык.",
       jump: { checkup: "Чек-ап", beta: "Бета", prompts: "ИИ-промпты", books: "Книги" },
       checkupEyebrow: "🧬 Нейро-чек-ап",
       checkupTitle: "Насколько мозг забит шумом прямо сейчас?",
@@ -284,12 +284,12 @@ export const UI = {
     lab: {
       title: "Lab",
       metaDesc:
-        "Pol Grek’s digital sandbox: neuro checkup, beta protocols, AI prompts. Experiments without woo.",
+        "A lab of everyday life: why the brain does this — and what you can test today.",
       ogTitle: "Pol Grek Lab",
-      ogDesc: "Neuro checkup, protocols, and AI templates. EXPERIMENTAL ZONE.",
-      badge: "Experimental zone",
+      ogDesc: "Observation, mechanics, experiment, evidence. No woo.",
+      badge: "Free",
       h1: "Pol Grek Lab",
-      lead: "Sandbox: neuro protocols, AI templates, field tests. Not an article archive — and not “just try harder.”",
+      lead: "Not an article archive. A place where knowledge becomes a skill.",
       jump: { checkup: "Checkup", beta: "Beta", prompts: "AI prompts", books: "Books" },
       checkupEyebrow: "🧬 Neuro checkup",
       checkupTitle: "How noisy is your brain right now?",

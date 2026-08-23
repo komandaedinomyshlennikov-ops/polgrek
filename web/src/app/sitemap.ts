@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getBooks } from "@/lib/books";
+import { getLabArticles } from "@/data/lab-articles";
 
 const SITE = "https://polgrek.site";
 
@@ -8,6 +9,7 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString().slice(0, 10);
   const books = getBooks();
+  const lab = getLabArticles();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -64,7 +66,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE}/lab/`,
       lastModified: now,
       changeFrequency: "weekly",
-      priority: 0.7,
+      priority: 0.85,
       alternates: {
         languages: { ru: `${SITE}/lab/`, en: `${SITE}/en/lab/`, "x-default": `${SITE}/lab/` },
       },
@@ -91,6 +93,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.25,
     },
   ];
+
+  const labRoutes: MetadataRoute.Sitemap = lab.map((a) => ({
+    url: `${SITE}/lab/${a.slug}/`,
+    lastModified: a.published,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   const bookRoutes: MetadataRoute.Sitemap = books.flatMap((b) => [
     {
@@ -145,5 +154,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]);
 
-  return [...staticRoutes, ...bookRoutes];
+  return [...staticRoutes, ...labRoutes, ...bookRoutes];
 }
