@@ -9,6 +9,7 @@ export type Book = {
   excerptFile: string;
   buyUrl: string;
   amazon: string;
+  litresPrice?: number;
   flagship: boolean;
   forWhom: string[];
   takeaways: string[];

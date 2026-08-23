@@ -122,7 +122,7 @@ export function BooksShowcase({
               </div>
               <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
                 {books.map((b) => (
-                  <BookCard key={b.slug} book={b} locale={locale} />
+                  <BookCard key={b.slug} book={b} locale={locale} priceCta={locale === "ru"} />
                 ))}
               </div>
             </div>
@@ -150,10 +150,12 @@ export function BooksShowcase({
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
-                    className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl border border-border-strong px-4 text-sm font-semibold"
+                    className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl bg-accent px-4 text-sm font-semibold text-white"
                   >
-                    {t.onLitres}
-                    <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
+                    {locale === "ru" && "price" in item && item.price
+                      ? `Купить за ${item.price}\u00a0₽`
+                      : t.onLitres}
+                    <ExternalLink className="h-3.5 w-3.5 opacity-80" aria-hidden />
                   </a>
                 </li>
               );

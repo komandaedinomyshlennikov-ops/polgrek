@@ -187,6 +187,7 @@ export const LITRES_EXTRA = [
     title: "Детский мозг",
     tagline: "Когнитивное и эмоциональное развитие ребёнка — нейронаука, не советы «из интернета».",
     slug: "detskiy-mozg",
+    price: 399,
   },
 ] as const;
 

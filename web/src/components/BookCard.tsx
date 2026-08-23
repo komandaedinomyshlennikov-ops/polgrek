@@ -6,14 +6,27 @@ import { getBuyVoice, getBookVoice } from "@/data/book-voice";
 import { CoverImage } from "@/components/CoverImage";
 import { lp } from "@/lib/locale";
 
-export function BookCard({ book, locale = "ru" }: { book: Book; locale?: Locale }) {
+export function BookCard({
+  book,
+  locale = "ru",
+  priceCta = false,
+}: {
+  book: Book;
+  locale?: Locale;
+  priceCta?: boolean;
+}) {
   const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 3);
   const voice = getBookVoice(book.slug, locale);
   const blurb = voice?.hook || book.subtitle || book.promise;
   const enTitle = locale === "ru" ? internationalTitle(book) : null;
   const buy = getBuyVoice(locale);
   const storeHref = locale === "en" && book.amazon ? amazonUrl(book) : affiliateUrl(book);
-  const storeLabel = locale === "en" && book.amazon ? buy.amazon : buy.litres;
+  const storeLabel =
+    priceCta && locale === "ru" && book.litresPrice
+      ? `Купить за ${book.litresPrice}\u00a0₽`
+      : locale === "en" && book.amazon
+        ? buy.amazon
+        : buy.litres;
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] transition hover:border-border-strong">
@@ -48,23 +61,33 @@ export function BookCard({ book, locale = "ru" }: { book: Book; locale?: Locale 
         </h3>
         <p className="mt-1.5 line-clamp-3 flex-1 text-sm leading-snug text-fg-muted">{blurb}</p>
         <div className="mt-4 flex flex-col gap-2">
-          <Link
-            href={lp(locale, `/read/${book.slug}/`)}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            {buy.excerpt}
-          </Link>
           <a
             href={storeHref}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-fg px-3 text-sm font-semibold text-bg transition hover:opacity-90"
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
           >
             {storeLabel}
-            <ExternalLink className="h-3.5 w-3.5 opacity-70" aria-hidden />
+            <ExternalLink className="h-3.5 w-3.5 opacity-80" aria-hidden />
           </a>
+          {priceCta ? (
+            <Link
+              href={lp(locale, `/read/${book.slug}/`)}
+              className="inline-flex min-h-10 items-center justify-center text-sm font-medium text-fg-muted hover:text-accent"
+            >
+              {buy.excerpt}
+            </Link>
+          ) : (
+            <Link
+              href={lp(locale, `/read/${book.slug}/`)}
+              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
+            >
+              {buy.excerpt}
+            </Link>
+          )}
         </div>
       </div>
     </article>
   );
 }
+
