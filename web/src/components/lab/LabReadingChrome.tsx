@@ -53,7 +53,7 @@ export function LabToc({
   if (!headings.length) return null;
 
   return (
-    <nav aria-label="Содержание статьи">
+    <nav aria-label="Содержание статьи" className="max-h-[calc(100dvh-8rem)] overflow-y-auto pr-1">
       <p className="mb-3 text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">
         Содержание
       </p>
