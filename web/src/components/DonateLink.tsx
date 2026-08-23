@@ -5,11 +5,11 @@ import type { Locale } from "@/lib/types";
 const COPY = {
   ru: {
     label: "Поддержать автора",
-    hint: "Если материалы зашли — можно поддержать на Литрес. Это не покупка книги.",
+    hint: "Если материалы зашли — на странице автора Литрес нажмите «Поддержать автора». Сначала может понадобиться войти в кабинет. Это не покупка книги.",
   },
   en: {
     label: "Support the author",
-    hint: "If the work lands — you can support it on LitRes. This is not a book purchase.",
+    hint: "If the work lands — on the LitRes author page tap “Support the author.” You may need to sign in first. This is not a book purchase.",
   },
 } as const;
 
