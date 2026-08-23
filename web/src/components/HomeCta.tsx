@@ -3,6 +3,7 @@ import { ArrowDown, BookOpen } from "lucide-react";
 import type { Locale } from "@/lib/types";
 import { lp } from "@/lib/locale";
 import { DEFAULT_SAMPLE_SLUG, home } from "@/data/home";
+import { DonateLink } from "@/components/DonateLink";
 
 export function HomeCta({ locale = "ru" }: { locale?: Locale }) {
   const t = home(locale).cta;
@@ -32,6 +33,7 @@ export function HomeCta({ locale = "ru" }: { locale?: Locale }) {
             {t.read}
           </Link>
         </div>
+        <DonateLink locale={locale} className="mt-6" />
       </div>
     </section>
   );

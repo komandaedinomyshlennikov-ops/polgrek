@@ -8,6 +8,7 @@ import { LabProgress, LabToc } from "@/components/lab/LabReadingChrome";
 import { getLocalizedBook } from "@/lib/books";
 import { SITE_URL } from "@/lib/seo";
 import { GRADE_META } from "@/components/lab/lab-grade";
+import { DonateLink } from "@/components/DonateLink";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -117,6 +118,7 @@ export default async function LabArticlePage({ params }: Props) {
               <li>2. Что из этого можно проверить сегодня?</li>
               <li>3. Что я перестану делать уже завтра?</li>
             </ol>
+            <DonateLink className="mt-5 max-w-xl" />
           </div>
 
           {book && (

@@ -12,6 +12,7 @@ import {
 } from "@/data/lab-articles";
 import { SITE_URL } from "@/lib/seo";
 import type { EvidenceGrade } from "@/data/lab-types";
+import { DonateLink } from "@/components/DonateLink";
 
 export const metadata: Metadata = {
   title: "Лаборатория",
@@ -248,6 +249,7 @@ export default function LabPage() {
               Вернуться к книгам
             </Link>
           </div>
+          <DonateLink className="mt-6" />
         </div>
       </section>
 

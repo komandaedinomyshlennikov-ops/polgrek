@@ -4,6 +4,7 @@ import { CoverImage } from "@/components/CoverImage";
 import { MOZG_LANDING as t } from "@/data/book-landing-mozg";
 import { affiliateUrl, amazonUrl } from "@/lib/books";
 import { ui } from "@/data/ui";
+import { DonateLink } from "@/components/DonateLink";
 import type { Book } from "@/lib/types";
 
 function Ctas({ book, className = "" }: { book: Book; className?: string }) {
@@ -35,6 +36,7 @@ function Ctas({ book, className = "" }: { book: Book; className?: string }) {
           <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
         </a>
       )}
+      <DonateLink variant="quiet" className="justify-center sm:justify-start" />
     </div>
   );
 }

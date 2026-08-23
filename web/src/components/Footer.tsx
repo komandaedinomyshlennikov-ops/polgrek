@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getLocalizedBook, getLocalizedBooks, litresAuthorUrl, siteData } from "@/lib/books";
+import { DonateLink } from "@/components/DonateLink";
 import { localeFromPath, lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
 import { HOME_FOOTER_SLUGS, home } from "@/data/home";
@@ -95,6 +96,9 @@ export function Footer() {
             >
               {t.footer.allLitres}
             </a>
+            <div className="mt-3">
+              <DonateLink locale={locale} variant="quiet" />
+            </div>
           </div>
         </div>
 

@@ -22,6 +22,7 @@ export type SiteData = {
     amazonAuthor: string;
     threads: string;
     telegram: string;
+    donate: string;
   };
   affiliate: {
     enabled: boolean;

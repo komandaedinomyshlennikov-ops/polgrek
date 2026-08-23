@@ -4,6 +4,7 @@ import { about } from "@/data/about";
 import { home } from "@/data/home";
 import { getLocalizedBook, siteData } from "@/lib/books";
 import { CoverImage } from "@/components/CoverImage";
+import { DonateLink } from "@/components/DonateLink";
 import { lp } from "@/lib/locale";
 import { SITE_URL } from "@/lib/seo";
 import type { Locale } from "@/lib/types";
@@ -106,6 +107,7 @@ export function AboutView({ locale = "ru" }: { locale?: Locale }) {
                   Threads
                 </a>
               </p>
+              <DonateLink locale={locale} className="mt-4 max-w-md" />
             </div>
           </div>
         </div>

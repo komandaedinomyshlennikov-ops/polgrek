@@ -5,6 +5,7 @@ import { affiliateUrl, amazonUrl } from "@/lib/books";
 import { getBookVoice, getBuyVoice } from "@/data/book-voice";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
+import { DonateLink } from "@/components/DonateLink";
 
 /**
  * Conversion book block in Pol Grek ToV:
@@ -99,6 +100,7 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
       </div>
 
       <p className="mt-4 text-sm text-fg-muted">{ctaLine}</p>
+      <DonateLink locale={locale} className="mt-3" />
       <p className="mt-2 text-[11px] text-fg-muted">{ui(locale).bookPage.ad}</p>
     </section>
   );

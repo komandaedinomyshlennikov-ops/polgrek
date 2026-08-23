@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
 import { getBuyVoice } from "@/data/book-voice";
+import { DonateLink } from "@/components/DonateLink";
 
 type ReaderTheme = "default" | "sepia";
 
@@ -189,6 +190,7 @@ export function Reader({
               ? "Ad · erid: 2VfnxyNkZrY · partner links where applicable"
               : "Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка"}
           </p>
+          <DonateLink locale={locale} className="mt-4" />
         </div>
       </article>
 
