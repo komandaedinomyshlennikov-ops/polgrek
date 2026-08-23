@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBook, getBooks, tagLabel } from "@/lib/books";
 import { getBookVoice } from "@/data/book-voice";
+import { MOZG_LANDING } from "@/data/book-landing-mozg";
 import { BookHighlight } from "@/components/BookHighlight";
 import { CoverImage } from "@/components/CoverImage";
+import { MozgNa100Landing } from "@/components/MozgNa100Landing";
 import { OG_IMAGE, SITE_URL } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,7 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const book = getBook(slug);
   if (!book) return { title: "Книга" };
   const voice = getBookVoice(slug);
-  const desc = voice?.hook || book.subtitle || book.promise || book.title;
+  const desc =
+    slug === "mozg-na-100"
+      ? MOZG_LANDING.dek
+      : voice?.hook || book.subtitle || book.promise || book.title;
   const pageUrl = `${SITE_URL}/books/${slug}/`;
   return {
     title: book.title,
@@ -61,6 +66,10 @@ export default async function BookPage({ params }: Props) {
   const { slug } = await params;
   const book = getBook(slug);
   if (!book) notFound();
+
+  if (slug === "mozg-na-100") {
+    return <MozgNa100Landing book={book} />;
+  }
 
   const voice = getBookVoice(slug);
   const tags = (book.tags || []).filter((t) => t !== "лора");
