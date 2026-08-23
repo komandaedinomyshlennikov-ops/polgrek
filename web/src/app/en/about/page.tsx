@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { AuthorBlock } from "@/components/AuthorBlock";
+import { AboutView } from "@/components/AboutView";
+import { about } from "@/data/about";
 import { defaultOg, OG_IMAGE, SITE_URL } from "@/lib/seo";
-import { ui } from "@/data/ui";
 
-const title = "About — Pol Grek";
-const description =
-  "Pol Grek — brain science without the woo. 13+ books, evidence grades A–D, free samples. Mechanics, not “just try harder.”";
+const t = about("en");
 
 export const metadata: Metadata = {
-  title: "About",
-  description,
+  title: t.metaTitle,
+  description: t.metaDesc,
   alternates: {
     canonical: `${SITE_URL}/en/about/`,
     languages: {
@@ -23,55 +20,26 @@ export const metadata: Metadata = {
     ...defaultOg,
     locale: "en_US",
     type: "profile",
-    title,
-    description,
+    title: `${t.h1} — ${t.metaTitle}`,
+    description: t.metaDesc,
     url: `${SITE_URL}/en/about/`,
     images: [
       {
         url: `${SITE_URL}/images/pol-grek-portrait.webp`,
         width: 800,
         height: 800,
-        alt: "Pol Grek",
+        alt: t.portraitAlt,
       },
       {
         url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Pol Grek — brain science without the woo",
+        alt: t.h1,
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-    images: [OG_IMAGE],
   },
 };
 
 export default function EnAboutPage() {
-  const t = ui("en").about;
-  return (
-    <div>
-      <div className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
-        <nav className="mb-6 text-sm text-fg-muted">
-          <Link href="/en/" className="hover:text-accent">
-            {t.crumbHome}
-          </Link>
-          <span className="mx-2 opacity-50">/</span>
-          <span className="text-fg">{t.crumbHere}</span>
-        </nav>
-      </div>
-      <AuthorBlock showMoreLink={false} locale="en" />
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-        <p className="text-sm text-fg-muted">{t.note}</p>
-        <Link
-          href="/en/#navigator"
-          className="mt-8 inline-flex min-h-12 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-white"
-        >
-          {t.cta}
-        </Link>
-      </div>
-    </div>
-  );
+  return <AboutView locale="en" />;
 }
