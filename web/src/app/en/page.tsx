@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
+import { Recognize } from "@/components/Recognize";
 import { NeuroNavigator } from "@/components/NeuroNavigator";
-import { BooksShowcase } from "@/components/BooksShowcase";
+import { AuthorBlock } from "@/components/AuthorBlock";
+import { HomeBooks } from "@/components/HomeBooks";
+import { Philosophy } from "@/components/Philosophy";
+import { LabTeaser } from "@/components/LabTeaser";
 import { ThreadsBlock } from "@/components/ThreadsBlock";
+import { HomeCta } from "@/components/HomeCta";
 import { SITE_URL } from "@/lib/seo";
 import { ui } from "@/data/ui";
 
@@ -27,17 +32,18 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * EN home funnel (parity with RU):
- * Hero → Navigator → Books → Threads
- */
 export default function EnHomePage() {
   return (
     <>
       <Hero locale="en" />
+      <Recognize locale="en" />
       <NeuroNavigator locale="en" />
-      <BooksShowcase mode="flagships" locale="en" />
+      <AuthorBlock locale="en" />
+      <HomeBooks locale="en" />
+      <Philosophy locale="en" />
+      <LabTeaser locale="en" />
       <ThreadsBlock locale="en" />
+      <HomeCta locale="en" />
     </>
   );
 }

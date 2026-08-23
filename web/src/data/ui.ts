@@ -15,7 +15,7 @@ export const UI = {
     menuClose: "Закрыть меню",
     nav: {
       navigator: "Навигатор",
-      books: "Каталог книг",
+      books: "Все книги",
       about: "Об авторе",
       lab: "Лаборатория",
     },
@@ -23,7 +23,7 @@ export const UI = {
       sections: "Разделы",
       books: "Книги",
       allLitres: "Все на Литрес →",
-      tagline: "Научпоп о мозге без эзотерики. Главы на сайте · книги на Литрес / Amazon.",
+      tagline: "Доказательная нейробиология простым языком. Главы на сайте · книги на Литрес / Amazon.",
       ad: "Реклама · erid: 2VfnxyNkZrY · партнёрские ссылки Литрес (AdvCake).",
     },
     hero: {
@@ -104,7 +104,7 @@ export const UI = {
       crumbHome: "На главную",
       crumbHere: "Об авторе",
       note: "Материалы образовательные, не замена врачу. Оплата — на Литрес / Amazon; партнёрские ссылки с erid.",
-      cta: "Подобрать книгу под симптомы →",
+      cta: "Выбрать первую книгу →",
     },
     bookPage: {
       home: "На главную",
@@ -167,7 +167,7 @@ export const UI = {
     meta: {
       siteTitle: "Пол Грэк — нейробиология без эзотерики",
       siteDesc:
-        "Физиологические причины выгорания, тревоги и снижения фокуса. Книги Пола Грэка: главы бесплатно на сайте, полные тексты на Литрес.",
+        "Мозг не ленится — он пытается вас защитить. Книги о стрессе, памяти, сне и энергии простым языком. Главы бесплатно на сайте, полные тексты на Литрес.",
       template: "%s | Пол Грэк",
     },
   },
@@ -273,7 +273,7 @@ export const UI = {
       crumbHome: "Home",
       crumbHere: "About",
       note: "Educational material, not medical advice. Purchases on Amazon / LitRes; partner links use erid where required.",
-      cta: "Match a book to symptoms →",
+      cta: "Choose a first book →",
     },
     bookPage: {
       home: "Home",
@@ -337,7 +337,7 @@ export const UI = {
     meta: {
       siteTitle: "Pol Grek — brain science without the woo",
       siteDesc:
-        "Physiological takes on burnout, anxiety, and focus. Free samples on the site. Full books on Amazon and LitRes.",
+        "Your brain isn’t lazy — it’s trying to protect you. Plain-language books on stress, memory, sleep and energy. Free samples on the site.",
       template: "%s | Pol Grek",
     },
   },

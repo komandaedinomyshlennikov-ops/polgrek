@@ -1,89 +1,60 @@
 import { siteData } from "@/lib/books";
-import { getSocialVoice } from "@/data/book-voice";
 import { ExternalLink, MessageCircle } from "lucide-react";
 import type { Locale } from "@/lib/types";
-import { ui } from "@/data/ui";
-
-const POSTS_RU = [
-  {
-    text: "Мотивация — не причина действия. Это побочный продукт. Сначала движение на 10 минут.",
-  },
-  {
-    text: "«Просто успокойся» — почти бесполезный совет, когда система уже в угрозе. Тело уходит вперёд разума.",
-  },
-  {
-    text: "Листание ленты — это не отдых. 15 минут без потока — и видно, когда мозг снова слышит себя.",
-  },
-  {
-    text: "К вечеру «сила воли» уже съедена. Важные решения — не после 21:00. Это не характер — ресурс.",
-  },
-];
-
-const POSTS_EN = [
-  {
-    text: "Motivation is not the cause of action. It’s a byproduct. Move for 10 minutes first.",
-  },
-  {
-    text: "“Just calm down” is almost useless when the system is already in threat. The body leaves before reason.",
-  },
-  {
-    text: "Scrolling the feed is not rest. Fifteen minutes without inbound — and you notice when the brain hears itself again.",
-  },
-  {
-    text: "By evening willpower is spent. Important decisions — not after 9pm. Not character — capacity.",
-  },
-];
+import { home } from "@/data/home";
 
 export function ThreadsBlock({ locale = "ru" }: { locale?: Locale }) {
-  const social = getSocialVoice(locale);
-  const t = ui(locale).social;
-  const posts = locale === "en" ? POSTS_EN : POSTS_RU;
+  const t = home(locale).social;
 
   return (
-    <section className="border-b border-border py-14 sm:py-20">
+    <section className="border-b border-border py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
           <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
             {t.eyebrow}
           </p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            {social.title}
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-balance text-fg sm:text-3xl">
+            {t.title}
           </h2>
-          <p className="mt-3 text-fg-muted">{social.body}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-pretty text-fg-muted sm:text-base">
+            {t.lead}
+          </p>
         </div>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-2">
-          {posts.map((p) => (
-            <blockquote
-              key={p.text}
-              className="rounded-2xl border border-border bg-bg-elevated p-5 text-[15px] leading-relaxed text-fg shadow-sm"
-            >
-              <p className="text-fg-muted">«{p.text}»</p>
-              <footer className="mt-3 text-xs font-medium text-fg-muted">@pol.grek</footer>
-            </blockquote>
-          ))}
-        </div>
-
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
           <a
             href={siteData.links.threads}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
+            className="flex flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] transition hover:border-accent/40 sm:p-6"
           >
-            {social.threadsCta}
-            <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
+            <h3 className="font-display text-lg font-semibold text-fg">{t.threadsTitle}</h3>
+            <p className="mt-3 flex-1 text-[15px] leading-relaxed text-pretty text-fg-muted">
+              {t.threadsBody}
+            </p>
+            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+              {t.threadsCta}
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+            </span>
           </a>
           <a
             href={siteData.links.telegram}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-strong bg-bg-elevated px-5 text-sm font-semibold text-fg transition hover:border-accent/40"
+            className="flex flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] transition hover:border-accent/40 sm:p-6"
           >
-            <MessageCircle className="h-4 w-4 text-accent" aria-hidden />
-            {social.telegramCta}
+            <h3 className="font-display text-lg font-semibold text-fg">{t.telegramTitle}</h3>
+            <p className="mt-3 flex-1 text-[15px] leading-relaxed text-pretty text-fg-muted">
+              {t.telegramBody}
+            </p>
+            <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+              <MessageCircle className="h-4 w-4" aria-hidden />
+              {t.telegramCta}
+            </span>
           </a>
         </div>
+
+        <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-fg">{t.close}</p>
       </div>
     </section>
   );

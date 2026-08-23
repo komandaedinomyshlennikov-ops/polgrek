@@ -69,7 +69,7 @@ export default function AboutPage() {
           href="/#navigator"
           className="mt-8 inline-flex min-h-12 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-white"
         >
-          Подобрать книгу под симптомы →
+          Выбрать первую книгу →
         </Link>
       </div>
     </div>

@@ -54,12 +54,9 @@ export type Locale = "ru" | "en";
 
 export type NavigatorCategory = {
   id: string;
-  emoji: string;
   label: string;
   labelEn: string;
-  fact: string;
-  factEn: string;
-  protocol: string;
-  protocolEn: string;
+  scene: string;
+  sceneEn: string;
   bookSlug: string;
 };

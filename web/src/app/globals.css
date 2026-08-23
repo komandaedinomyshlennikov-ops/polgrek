@@ -71,6 +71,13 @@ body {
   min-height: 100dvh;
 }
 
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
 ::selection {
   background: var(--accent-soft);
   color: var(--fg);
@@ -95,11 +102,11 @@ body {
   --fg-muted: #a89880;
 }
 
-/* Subtle neural grid for hero */
+/* Quiet wash for hero — not a blob, just a hint of depth */
 .hero-grid-bg {
   background-image:
-    radial-gradient(ellipse 80% 60% at 70% 20%, var(--accent-soft), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 10% 80%, var(--bio-soft), transparent 50%);
+    radial-gradient(ellipse 70% 50% at 80% 0%, var(--accent-soft), transparent 58%),
+    radial-gradient(ellipse 40% 35% at 0% 100%, var(--bio-soft), transparent 52%);
 }
 
 /* Progress bar */
