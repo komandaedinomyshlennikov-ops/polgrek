@@ -13,6 +13,11 @@ export default function PrivacyPage() {
       <h1 className="font-display text-3xl font-semibold">Конфиденциальность</h1>
       <div className="mt-6 space-y-4 text-fg-muted">
         <p>{siteData.legal.privacy}</p>
+        <p>
+          При первом визите сайт определяет страну по IP (сервис geojs.io), чтобы открыть русскую
+          или английскую версию. Страны СНГ — русский, остальные — английский. Выбор кнопками RU/EN
+          запоминается на этом устройстве. Поисковые роботы не переключаются.
+        </p>
         <p>{siteData.legal.disclaimer}</p>
         <p>
           Связь:{" "}

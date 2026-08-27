@@ -6,6 +6,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { isReaderPath } from "@/lib/locale";
 import { HtmlLang } from "./HtmlLang";
+import { LocaleAuto } from "./LocaleAuto";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "";
@@ -15,6 +16,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     return (
       <>
         <HtmlLang />
+        <LocaleAuto />
         {children}
       </>
     );
@@ -23,6 +25,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   return (
     <>
       <HtmlLang />
+      <LocaleAuto />
       <Header />
       <main id="main-content">{children}</main>
       <Footer />

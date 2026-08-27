@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { localeFromPath, lp, switchLocalePath } from "@/lib/locale";
+import { persistLocale } from "@/lib/locale-pref";
 import { ui } from "@/data/ui";
 
 export function Header() {
@@ -83,6 +84,7 @@ export function Header() {
             <Link
               href={ruHref}
               hrefLang="ru"
+              onClick={() => persistLocale("ru")}
               className={cn(
                 "rounded-lg px-2.5 py-1.5 text-xs font-medium",
                 locale === "ru"
@@ -95,6 +97,7 @@ export function Header() {
             <Link
               href={enHref}
               hrefLang="en"
+              onClick={() => persistLocale("en")}
               className={cn(
                 "rounded-lg px-2.5 py-1.5 text-xs font-medium",
                 locale === "en"
@@ -154,7 +157,10 @@ export function Header() {
                   "rounded-lg px-3 py-2 text-sm font-medium",
                   locale === "ru" ? "bg-accent-soft text-accent" : "text-fg-muted"
                 )}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  persistLocale("ru");
+                  setOpen(false);
+                }}
               >
                 Русский
               </Link>
@@ -164,7 +170,10 @@ export function Header() {
                   "rounded-lg px-3 py-2 text-sm font-medium",
                   locale === "en" ? "bg-accent-soft text-accent" : "text-fg-muted"
                 )}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  persistLocale("en");
+                  setOpen(false);
+                }}
               >
                 English
               </Link>

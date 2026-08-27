@@ -81,6 +81,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ru" suppressHydrationWarning className={`${manrope.variable} ${lora.variable}`}>
       <body className="bg-bg font-sans text-fg antialiased">
         <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k='pg_locale';var loc=null;try{loc=localStorage.getItem(k)}catch(e){}if(loc!=='ru'&&loc!=='en'){var m=document.cookie.match(/(?:^|; )pg_locale=(ru|en)/);loc=m?m[1]:''}if(loc!=='ru'&&loc!=='en')return;var p=location.pathname||'/';var en=p==='/en'||p.indexOf('/en/')===0;if(loc==='en'&&!en){var n=p==='/'?'/en/':'/en'+(p.charAt(p.length-1)==='/'?p:p+'/');location.replace(n+location.search+location.hash)}else if(loc==='ru'&&en){var n=p==='/en'||p==='/en/'?'/':p.replace(/^\\/en/,'');if(n.length>1&&n.charAt(n.length-1)!=='/')n+='/';location.replace(n+location.search+location.hash)}}catch(e){}})();`,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
         />

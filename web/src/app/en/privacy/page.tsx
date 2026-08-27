@@ -27,6 +27,11 @@ export default function EnPrivacyPage() {
           statistics. We do not sell personal data.
         </p>
         <p>
+          On first visit we look up country by IP (geojs.io) to open Russian or English. CIS
+          countries get Russian; others get English. The RU/EN buttons remember your choice on this
+          device. Search crawlers are not redirected.
+        </p>
+        <p>
           Educational material about the brain and behavior. Not medical advice and not a substitute
           for a doctor or therapist.
         </p>
