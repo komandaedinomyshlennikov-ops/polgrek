@@ -7,6 +7,7 @@ import { Footer } from "./Footer";
 import { isReaderPath } from "@/lib/locale";
 import { HtmlLang } from "./HtmlLang";
 import { LocaleAuto } from "./LocaleAuto";
+import { MetrikaGoals } from "./MetrikaGoals";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "";
@@ -17,6 +18,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <>
         <HtmlLang />
         <LocaleAuto />
+        <MetrikaGoals />
         {children}
       </>
     );
@@ -26,6 +28,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     <>
       <HtmlLang />
       <LocaleAuto />
+      <MetrikaGoals />
       <Header />
       <main id="main-content">{children}</main>
       <Footer />

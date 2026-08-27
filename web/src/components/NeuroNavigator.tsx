@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { NAVIGATOR } from "@/lib/navigator";
@@ -5,6 +7,7 @@ import { getLocalizedBook } from "@/lib/books";
 import type { Locale } from "@/lib/types";
 import { lp } from "@/lib/locale";
 import { home } from "@/data/home";
+import { reachGoal } from "@/lib/metrika";
 
 export function NeuroNavigator({ locale = "ru" }: { locale?: Locale }) {
   const t = home(locale).navigator;
@@ -34,6 +37,13 @@ export function NeuroNavigator({ locale = "ru" }: { locale?: Locale }) {
               <li key={cat.id}>
                 <Link
                   href={lp(locale, `/books/${book.slug}/`)}
+                  onClick={() =>
+                    reachGoal("book_quiz_complete", {
+                      book: book.slug,
+                      lang: locale,
+                      want: cat.id,
+                    })
+                  }
                   className="group flex h-full flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] transition hover:border-accent/40 sm:p-6"
                 >
                   <h3 className="font-display text-lg font-semibold leading-snug text-fg">
