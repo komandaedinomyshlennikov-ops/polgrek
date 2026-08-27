@@ -44,6 +44,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href={lp(locale, "/start/")} className="text-fg hover:text-accent">
+                  {locale === "en" ? "Start here" : "С чего начать"}
+                </Link>
+              </li>
+              <li>
                 <Link href={lp(locale, "/books/")} className="text-fg hover:text-accent">
                   {locale === "en" ? "All books" : "Все книги"}
                 </Link>

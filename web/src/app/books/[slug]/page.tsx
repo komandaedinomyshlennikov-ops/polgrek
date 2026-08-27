@@ -6,7 +6,8 @@ import { getBookVoice } from "@/data/book-voice";
 import { MOZG_LANDING } from "@/data/book-landing-mozg";
 import { BookHighlight } from "@/components/BookHighlight";
 import { CoverImage } from "@/components/CoverImage";
-import { MozgNa100Landing } from "@/components/MozgNa100Landing";
+import { BookLandingView } from "@/components/BookLandingView";
+import { hasBookLanding } from "@/data/book-landing";
 import { OG_IMAGE, SITE_URL } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -67,8 +68,8 @@ export default async function BookPage({ params }: Props) {
   const book = getBook(slug);
   if (!book) notFound();
 
-  if (slug === "mozg-na-100") {
-    return <MozgNa100Landing book={book} />;
+  if (hasBookLanding(slug)) {
+    return <BookLandingView book={book} />;
   }
 
   const voice = getBookVoice(slug);

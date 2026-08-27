@@ -10,6 +10,8 @@ export const UMNYE_DENGI: LabArticle = {
   published: "2026-08-23",
   status: "live",
   bookSlug: "snachala-dengi-potom-soznanie",
+  bookWhy:
+    "Статья показывает, что плохое денежное решение часто начинается не с математики, а с состояния. Если это ваш повторный сценарий, книга разбирает, почему «сначала сознание» не закрывает дебиторку.",
   body: [
     {
       type: "p",

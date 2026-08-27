@@ -73,6 +73,29 @@ export function AboutView({ locale = "ru" }: { locale?: Locale }) {
                 {t.lead}
               </p>
 
+              <div className="mt-8 max-w-xl space-y-6">
+                <div>
+                  <h2 className="font-display text-lg font-semibold">{t.whyTitle}</h2>
+                  <p className="mt-2 text-[15px] leading-relaxed text-pretty text-fg-muted">{t.why}</p>
+                </div>
+                <div>
+                  <h2 className="font-display text-lg font-semibold">{t.methodTitle}</h2>
+                  <p className="mt-2 text-[15px] leading-relaxed text-pretty text-fg-muted">{t.method}</p>
+                </div>
+                <div>
+                  <h2 className="font-display text-lg font-semibold">{t.notTitle}</h2>
+                  <ul className="mt-2 space-y-1.5 text-[15px] text-fg-muted">
+                    {t.notItems.map((item) => (
+                      <li key={item}>— {item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <blockquote className="mt-8 max-w-xl border-l-2 border-accent/50 pl-5 font-display text-xl font-medium leading-snug">
+                {t.line}
+              </blockquote>
+
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
                   href={lp(locale, "/books/")}

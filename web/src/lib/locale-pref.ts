@@ -58,20 +58,6 @@ export function localeFromCountry(country: string | null | undefined): Locale | 
   return CIS.has(country.toUpperCase()) ? "ru" : "en";
 }
 
-export function localeFromBrowser(): Locale {
-  const langs =
-    typeof navigator !== "undefined"
-      ? navigator.languages?.length
-        ? navigator.languages
-        : navigator.language
-          ? [navigator.language]
-          : []
-      : [];
-  const blob = langs.join(" ").toLowerCase();
-  if (/(^|[-_ ])(ru|be|uk|kk|ky|uz|tg|hy|az|mo)/.test(blob)) return "ru";
-  return "en";
-}
-
 export async function detectCountryCode(): Promise<string | null> {
   const ctrl = new AbortController();
   const t = window.setTimeout(() => ctrl.abort(), 1400);
@@ -91,7 +77,25 @@ export async function detectCountryCode(): Promise<string | null> {
 }
 
 export async function detectLocale(): Promise<Locale> {
-  const country = await detectCountryCode();
-  return localeFromCountry(country) ?? localeFromBrowser();
+  const fromBrowser = localeFromBrowserExplicit();
+  if (fromBrowser) return fromBrowser;
+  return "ru";
+}
+
+/** RU family in browser → ru. Explicit English → en. Otherwise null (then geo, default ru). */
+export function localeFromBrowserExplicit(): Locale | null {
+  const langs =
+    typeof navigator !== "undefined"
+      ? navigator.languages?.length
+        ? [...navigator.languages]
+        : navigator.language
+          ? [navigator.language]
+          : []
+      : [];
+  if (!langs.length) return null;
+  const blob = langs.join(" ").toLowerCase();
+  if (/(^|[-_, ])(ru|be|uk|kk|ky|uz|tg|hy|az|mo)([-_, ]|$)/.test(blob)) return "ru";
+  if (langs.some((l) => l.toLowerCase().startsWith("en"))) return "en";
+  return null;
 }
 

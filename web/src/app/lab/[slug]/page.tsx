@@ -122,21 +122,24 @@ export default async function LabArticlePage({ params }: Props) {
           </div>
 
           {book && (
-            <div className="max-w-2xl rounded-2xl border border-border bg-bg-elevated p-5">
-              <p className="text-xs font-semibold tracking-[0.14em] text-fg-muted uppercase">
-                Если нужно глубже
+            <div className="max-w-2xl rounded-2xl border border-border bg-bg-elevated p-5 sm:p-6">
+              <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+                Что дальше
               </p>
-              <p className="mt-2 font-display text-lg font-semibold">
+              <p className="mt-3 text-[15px] leading-relaxed text-pretty text-fg">
+                {article.bookWhy ||
+                  `Эта статья показывает механизм. Если проблема повторяется, в книге «${book.title}» разбор системы целиком.`}
+              </p>
+              <p className="mt-4 font-display text-lg font-semibold">
                 <Link href={`/books/${book.slug}/`} className="hover:text-accent">
                   {book.title}
                 </Link>
               </p>
-              <p className="mt-1 text-sm text-fg-muted">{book.subtitle}</p>
               <Link
                 href={`/read/${book.slug}/`}
-                className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-accent hover:underline"
+                className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white"
               >
-                Читать фрагмент бесплатно →
+                Прочитать первую главу
               </Link>
             </div>
           )}

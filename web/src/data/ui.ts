@@ -14,7 +14,7 @@ export const UI = {
     menuOpen: "Открыть меню",
     menuClose: "Закрыть меню",
     nav: {
-      navigator: "Навигатор",
+      navigator: "С чего начать",
       books: "Все книги",
       about: "Об авторе",
       lab: "Лаборатория",
@@ -183,7 +183,7 @@ export const UI = {
     menuOpen: "Open menu",
     menuClose: "Close menu",
     nav: {
-      navigator: "Navigator",
+      navigator: "Start here",
       books: "Books",
       about: "About",
       lab: "Lab",

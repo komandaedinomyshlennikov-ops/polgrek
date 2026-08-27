@@ -61,30 +61,21 @@ export function BookCard({
         </h3>
         <p className="mt-1.5 line-clamp-3 flex-1 text-sm leading-snug text-fg-muted">{blurb}</p>
         <div className="mt-4 flex flex-col gap-2">
+          <Link
+            href={lp(locale, `/read/${book.slug}/`)}
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
+          >
+            {locale === "en" ? "Read the first chapter" : "Читать первую главу"}
+          </Link>
           <a
             href={storeHref}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-border-strong px-3 text-sm font-semibold text-fg transition hover:border-accent/40"
           >
             {storeLabel}
-            <ExternalLink className="h-3.5 w-3.5 opacity-80" aria-hidden />
+            <ExternalLink className="h-3.5 w-3.5 opacity-70" aria-hidden />
           </a>
-          {priceCta ? (
-            <Link
-              href={lp(locale, `/read/${book.slug}/`)}
-              className="inline-flex min-h-10 items-center justify-center text-sm font-medium text-fg-muted hover:text-accent"
-            >
-              {buy.excerpt}
-            </Link>
-          ) : (
-            <Link
-              href={lp(locale, `/read/${book.slug}/`)}
-              className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
-            >
-              {buy.excerpt}
-            </Link>
-          )}
         </div>
       </div>
     </article>

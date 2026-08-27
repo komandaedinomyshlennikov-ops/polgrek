@@ -1,34 +1,20 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
-import { Recognize } from "@/components/Recognize";
-import { NeuroNavigator } from "@/components/NeuroNavigator";
+import { ProblemDoors } from "@/components/ProblemDoors";
+import { LabNow } from "@/components/LabNow";
+import { MicroExperiment } from "@/components/MicroExperiment";
 import { AuthorBlock } from "@/components/AuthorBlock";
 import { HomeBooks } from "@/components/HomeBooks";
-import { Philosophy } from "@/components/Philosophy";
-import { LabTeaser } from "@/components/LabTeaser";
 import { ThreadsBlock } from "@/components/ThreadsBlock";
-import { HomeCta } from "@/components/HomeCta";
 import { SITE_URL } from "@/lib/seo";
-import { ui } from "@/data/ui";
-
-const t = ui("en").meta;
 
 export const metadata: Metadata = {
-  title: { absolute: t.siteTitle },
-  description: t.siteDesc,
+  title: "Pol Grek — brain science without the mysticism",
+  description:
+    "Popular-science books on stress, sleep, energy, and attention. Start with a chapter. Buy only if the voice lands.",
   alternates: {
     canonical: `${SITE_URL}/en/`,
-    languages: {
-      ru: `${SITE_URL}/`,
-      en: `${SITE_URL}/en/`,
-      "x-default": `${SITE_URL}/`,
-    },
-  },
-  openGraph: {
-    locale: "en_US",
-    title: t.siteTitle,
-    description: t.siteDesc,
-    url: `${SITE_URL}/en/`,
+    languages: { ru: `${SITE_URL}/`, en: `${SITE_URL}/en/`, "x-default": `${SITE_URL}/` },
   },
 };
 
@@ -36,14 +22,16 @@ export default function EnHomePage() {
   return (
     <>
       <Hero locale="en" />
-      <Recognize locale="en" />
-      <NeuroNavigator locale="en" />
+      <ProblemDoors
+        locale="en"
+        title="What’s going on with you?"
+        lead="Pick a state, not a title. Then a short piece — and a chapter if the voice lands."
+      />
+      <LabNow locale="en" />
+      <MicroExperiment locale="en" />
       <AuthorBlock locale="en" />
       <HomeBooks locale="en" />
-      <Philosophy locale="en" />
-      <LabTeaser locale="en" />
       <ThreadsBlock locale="en" />
-      <HomeCta locale="en" />
     </>
   );
 }

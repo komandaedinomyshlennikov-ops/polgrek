@@ -10,6 +10,8 @@ export const DVA_LITRA: LabArticle = {
   published: "2026-08-23",
   status: "live",
   bookSlug: "ostorozhnyy-biohaker",
+  bookWhy:
+    "Статья снимает одно правило-маркетинг. Если таких правил на вас уже целая лента, в «Осторожном биохакере» — фильтр: что оставить, что отсечь, где «не навреди» важнее стека.",
   body: [
     {
       type: "p",

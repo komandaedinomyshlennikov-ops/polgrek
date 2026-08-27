@@ -47,8 +47,12 @@ export function flushGoals() {
 
 export function reachGoal(name: string, params?: Record<string, string>) {
   if (!name || typeof window === "undefined") return;
-  if (stubReady && send(name, params)) return;
-  queue.push({ name, params });
+  const extra: Record<string, string> = {
+    page: window.location.pathname,
+    ...(params || {}),
+  };
+  if (stubReady && send(name, extra)) return;
+  queue.push({ name, params: extra });
 }
 
 export function metrikaHit(url?: string) {

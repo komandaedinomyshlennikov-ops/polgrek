@@ -20,5 +20,6 @@ export type LabArticle = {
   published: string;
   status: "live" | "soon";
   bookSlug?: string;
+  bookWhy?: string;
   body: LabBlock[];
 };

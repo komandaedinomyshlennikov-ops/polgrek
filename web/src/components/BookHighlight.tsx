@@ -54,7 +54,7 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
       <ul className="book-features mt-6 space-y-2.5">
         {vibe.map((item) => (
           <li key={item} className="text-sm font-medium text-fg">
-            {item}
+            {item.replace(/^[⚡🧬🔥]\s*/, "")}
           </li>
         ))}
       </ul>

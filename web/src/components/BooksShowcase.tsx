@@ -13,6 +13,7 @@ import { BookCard } from "./BookCard";
 import type { Locale } from "@/lib/types";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
+import { ProblemDoors } from "./ProblemDoors";
 
 export function BooksShowcase({
   mode = "flagships",
@@ -72,6 +73,13 @@ export function BooksShowcase({
   const extra = getLitresExtra(locale);
 
   return (
+    <>
+      {locale === "ru" && (
+        <ProblemDoors
+          title="С чего начать"
+          lead="Четыре-шесть входов вместо полки из тринадцати книг. Ниже — весь каталог."
+        />
+      )}
     <section id="books" className="border-b border-border py-14 sm:py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
@@ -188,5 +196,6 @@ export function BooksShowcase({
         <p className="mt-3 text-center text-[11px] text-fg-muted">{t.adFull}</p>
       </div>
     </section>
+    </>
   );
 }

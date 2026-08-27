@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
 import { getBuyVoice } from "@/data/book-voice";
+import { getLabArticles } from "@/data/lab-articles";
 import { DonateLink } from "@/components/DonateLink";
 
 type ReaderTheme = "default" | "sepia";
@@ -60,6 +61,8 @@ export function Reader({
       : locale === "en"
         ? buy.litres
         : buy.litres;
+  const relatedArticle = getLabArticles().find((a) => a.bookSlug === book.slug);
+  const otherBookHref = lp(locale, `/books/`);
   const stickyLabel =
     locale === "en"
       ? hasAmazon
@@ -150,7 +153,10 @@ export function Reader({
         </div>
 
         <div className="mt-14 rounded-2xl border border-border bg-bg-elevated p-5 sm:p-6">
-          <p className="font-display text-lg font-semibold">{buy.title}</p>
+          <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+            {locale === "en" ? "What next" : "Что дальше"}
+          </p>
+          <p className="mt-3 font-display text-lg font-semibold">{buy.title}</p>
           <p className="mt-2 text-sm text-fg-muted">{buy.body}</p>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <a
@@ -191,6 +197,19 @@ export function Reader({
               : "Реклама · erid: 2VfnxyNkZrY · партнёрская ссылка"}
           </p>
           <DonateLink locale={locale} className="mt-4" />
+          <div className="mt-6 grid gap-2 border-t border-border pt-4 text-sm">
+            {relatedArticle && locale === "ru" && (
+              <Link href={`/lab/${relatedArticle.slug}/`} className="font-semibold text-accent hover:underline">
+                Ещё разбор по теме: {relatedArticle.title} →
+              </Link>
+            )}
+            <Link href={lp(locale, `/books/${book.slug}/`)} className="font-medium text-fg hover:text-accent">
+              {locale === "en" ? "Back to the book page" : "К странице книги"}
+            </Link>
+            <Link href={otherBookHref} className="font-medium text-fg-muted hover:text-accent">
+              {locale === "en" ? "All books" : "Другая книга — каталог"}
+            </Link>
+          </div>
         </div>
       </article>
 

@@ -23,13 +23,16 @@ export default function EnPrivacyPage() {
       <h1 className="font-display text-3xl font-semibold">{t.title}</h1>
       <div className="mt-6 space-y-4 text-fg-muted">
         <p>
-          We use Yandex Metrica and similar analytics to understand traffic. Cookies may be set for
-          statistics. We do not sell personal data.
+          We use Yandex Metrica (counter 110711984) for traffic stats. It may set cookies. We do
+          not sell personal data. There is no email capture form on the site right now.
         </p>
         <p>
-          On first visit we look up country by IP (geojs.io) to open Russian or English. CIS
-          countries get Russian; others get English. The RU/EN buttons remember your choice on this
-          device. Search crawlers are not redirected.
+          Language: Russian stays if the browser lists a Russian-family language. English opens
+          only when the browser is explicitly English (or you tap EN). The choice is remembered.
+          Crawlers are not redirected.
+        </p>
+        <p>
+          LitRes links may be affiliate (AdvCake; erid 2VfnxyNkZrY). Purchase happens on LitRes.
         </p>
         <p>
           Educational material about the brain and behavior. Not medical advice and not a substitute

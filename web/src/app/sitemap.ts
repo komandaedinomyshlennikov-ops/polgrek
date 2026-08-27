@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: { languages: { ru: `${SITE}/`, en: `${SITE}/en/`, "x-default": `${SITE}/` } },
     },
     {
+      url: `${SITE}/start/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE}/books/`,
       lastModified: now,
       changeFrequency: "weekly",
