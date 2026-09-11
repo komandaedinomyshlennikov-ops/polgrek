@@ -15,7 +15,7 @@ export function BookCard({
   locale?: Locale;
   priceCta?: boolean;
 }) {
-  const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 3);
+  const tags = (book.tags || []).filter((t) => t !== "лора").slice(0, 2);
   const voice = getBookVoice(book.slug, locale);
   const blurb = voice?.hook || book.subtitle || book.promise;
   const enTitle = locale === "ru" ? internationalTitle(book) : null;
@@ -29,17 +29,21 @@ export function BookCard({
         : buy.litres;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] transition hover:border-border-strong">
-      <Link href={lp(locale, `/books/${book.slug}/`)} className="relative block aspect-[2/3] bg-surface">
+    <article className="card-lift group flex flex-row overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)] sm:flex-col">
+      <Link
+        href={lp(locale, `/books/${book.slug}/`)}
+        className="relative block aspect-[2/3] w-[38%] shrink-0 overflow-hidden bg-surface sm:w-full"
+      >
         <CoverImage
           book={book}
           variant="card"
-          sizes="(max-width:640px) 45vw, (max-width:1024px) 28vw, 220px"
+          className="h-full w-full"
+          sizes="(max-width:640px) 38vw, (max-width:1024px) 40vw, 280px"
           imgClassName="transition duration-300 group-hover:scale-[1.02]"
         />
       </Link>
-      <div className="flex flex-1 flex-col p-4">
-        <div className="mb-2 flex flex-wrap gap-1.5">
+      <div className="flex min-w-0 flex-1 flex-col p-3.5 sm:p-4">
+        <div className="mb-1.5 hidden flex-wrap gap-1.5 sm:flex">
           {tags.map((t) => (
             <span
               key={t}
@@ -50,28 +54,30 @@ export function BookCard({
           ))}
           {enTitle && (
             <span className="rounded-md bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent">
-              EN · {enTitle}
+              EN
             </span>
           )}
         </div>
-        <h3 className="font-display text-base font-semibold leading-snug text-fg">
+        <h3 className="font-display text-[15px] font-medium leading-snug text-fg sm:text-lg">
           <Link href={lp(locale, `/books/${book.slug}/`)} className="hover:text-accent">
             {book.title}
           </Link>
         </h3>
-        <p className="mt-1.5 line-clamp-3 flex-1 text-sm leading-snug text-fg-muted">{blurb}</p>
-        <div className="mt-4 flex flex-col gap-2">
+        <p className="mt-1.5 line-clamp-3 flex-1 text-[13px] leading-snug text-fg-muted sm:text-sm">
+          {blurb}
+        </p>
+        <div className="mt-3 flex flex-col gap-2">
           <Link
             href={lp(locale, `/read/${book.slug}/`)}
-            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:brightness-110"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-3 text-[13px] font-semibold text-white transition hover:brightness-110 sm:text-sm"
           >
-            {locale === "en" ? "Read the first chapter" : "Читать первую главу"}
+            {locale === "en" ? "Read the chapter" : "Читать главу"}
           </Link>
           <a
             href={storeHref}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-border-strong px-3 text-sm font-semibold text-fg transition hover:border-accent/40"
+            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-border-strong px-3 text-[13px] font-semibold text-fg transition hover:border-accent/40 sm:min-h-11 sm:text-sm"
           >
             {storeLabel}
             <ExternalLink className="h-3.5 w-3.5 opacity-70" aria-hidden />
@@ -81,4 +87,3 @@ export function BookCard({
     </article>
   );
 }
-

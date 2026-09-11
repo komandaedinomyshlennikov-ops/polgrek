@@ -17,7 +17,7 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
           <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
             {t.eyebrow}
           </p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-balance text-fg sm:text-3xl">
+          <h2 className="font-display text-3xl font-medium tracking-tight text-balance text-fg sm:text-4xl">
             {t.title}
           </h2>
         </div>
@@ -49,7 +49,7 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
                   <p className="text-xs font-semibold tracking-[0.12em] text-accent uppercase">
                     {item.tag}
                   </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold tracking-tight text-fg">
+                  <h3 className="mt-1 font-display text-xl font-medium tracking-tight text-fg">
                     <Link href={lp(locale, `/books/${book.slug}/`)} className="hover:text-accent">
                       {book.title}
                     </Link>

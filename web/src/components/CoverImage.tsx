@@ -32,7 +32,7 @@ export function CoverImage({
 
   if (variant === "product") {
     return (
-      <picture className={cn("block overflow-hidden", className)}>
+      <picture className={cn("block h-full w-full overflow-hidden", className)}>
         <source type="image/webp" srcSet={fullWebp} />
         <img
           src={fullJpg}
@@ -55,7 +55,7 @@ export function CoverImage({
   const src560 = `/covers/thumbs/${base}-w560.webp`;
 
   return (
-    <picture className={cn("block overflow-hidden", className)}>
+    <picture className={cn("block h-full w-full overflow-hidden", className)}>
       <source
         type="image/webp"
         srcSet={`${src180} 180w, ${src280} 280w, ${src360} 360w, ${src560} 560w`}

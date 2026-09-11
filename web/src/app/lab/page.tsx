@@ -46,7 +46,7 @@ export default function LabPage() {
           <p className="inline-flex items-center rounded-full border border-bio/30 bg-bio-soft px-3 py-1 text-[11px] font-semibold tracking-[0.16em] text-bio uppercase">
             Бесплатно
           </p>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-medium tracking-tight text-balance sm:text-5xl">
             Лаборатория Пола Грэка
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">

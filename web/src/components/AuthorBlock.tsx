@@ -35,7 +35,7 @@ export function AuthorBlock({
           <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
             {t.eyebrow}
           </p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+          <h2 className="font-display text-3xl font-medium tracking-tight text-balance sm:text-4xl">
             {t.title}
           </h2>
           <div className="mt-5 max-w-2xl space-y-4 text-[15px] leading-relaxed text-pretty text-fg-muted sm:text-base">

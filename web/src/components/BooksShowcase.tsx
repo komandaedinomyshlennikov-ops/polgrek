@@ -40,7 +40,7 @@ export function BooksShowcase({
             <p className="mt-2 text-fg-muted">{t.flagshipsLead}</p>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {flagships.map((b) => (
               <BookCard key={b.slug} book={b} locale={locale} />
             ))}
@@ -128,7 +128,7 @@ export function BooksShowcase({
                 </h3>
                 <p className="mt-1 text-sm text-fg-muted">{shelf.subtitle}</p>
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
                 {books.map((b) => (
                   <BookCard key={b.slug} book={b} locale={locale} priceCta={locale === "ru"} />
                 ))}

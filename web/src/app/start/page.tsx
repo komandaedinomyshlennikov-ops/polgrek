@@ -19,7 +19,7 @@ export default function StartPage() {
           <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
             polgrek.site/start
           </p>
-          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+          <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-balance sm:text-5xl">
             Если вы пришли после поста — продолжение здесь.
           </h1>
           <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-pretty text-fg-muted">

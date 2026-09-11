@@ -4,13 +4,13 @@ import type { Locale } from "@/lib/types";
 
 export function MicroExperiment({ locale = "ru" }: { locale?: Locale }) {
   return (
-    <section className="border-b border-border py-12 sm:py-16">
+    <section className="reveal border-b border-border py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
           <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
             Можно проверить завтра
           </p>
-          <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+          <h2 className="mt-3 font-display text-2xl font-medium tracking-tight text-balance sm:text-3xl">
             Первые двадцать минут утра — без ленты.
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-pretty text-fg-muted">

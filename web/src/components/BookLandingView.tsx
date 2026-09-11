@@ -7,6 +7,7 @@ import { getLabArticle } from "@/data/lab-articles";
 import { affiliateUrl, amazonUrl, getBook } from "@/lib/books";
 import { ui } from "@/data/ui";
 import { SITE_URL } from "@/lib/seo";
+import { BookStickyBar } from "@/components/BookStickyBar";
 import type { Book } from "@/lib/types";
 
 function Ctas({
@@ -82,7 +83,7 @@ export function BookLandingView({ book }: { book: Book }) {
       : null;
 
   return (
-    <div>
+    <div className="pb-24 lg:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(bookLd) }}
@@ -127,7 +128,7 @@ export function BookLandingView({ book }: { book: Book }) {
             <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
               {t.kicker}
             </p>
-            <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+            <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-balance sm:text-5xl">
               {t.title}
             </h1>
             <p className="mt-4 max-w-xl font-display text-xl font-medium leading-snug text-pretty text-fg">
@@ -408,6 +409,7 @@ export function BookLandingView({ book }: { book: Book }) {
           <p className="mt-2 text-[11px] text-fg-muted">{ui("ru").bookPage.ad}</p>
         </div>
       </section>
+      <BookStickyBar book={book} excerptLabel={t.ctaExcerpt} buyLabel={t.ctaBuy} />
     </div>
   );
 }

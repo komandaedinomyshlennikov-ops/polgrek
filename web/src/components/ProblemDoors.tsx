@@ -18,22 +18,20 @@ export function ProblemDoors({
   id?: string;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 border-b border-border bg-surface/40 py-16 sm:py-24">
+    <section id={id} className="reveal scroll-mt-20 border-b border-border bg-surface/50 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="max-w-2xl">
-          <p className="mb-2 text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-            С чего начать
+          <p className="mb-2 text-[11px] font-semibold tracking-[0.16em] text-accent uppercase">
+            {locale === "en" ? "Start here" : "С чего начать"}
           </p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-balance text-fg sm:text-3xl">
+          <h2 className="font-display text-3xl font-medium tracking-tight text-balance text-fg sm:text-4xl">
             {title}
           </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-pretty text-fg-muted sm:text-base">
-            {lead}
-          </p>
+          <p className="mt-3 text-base leading-relaxed text-pretty text-fg-muted">{lead}</p>
         </div>
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PROBLEM_DOORS.map((door) => {
+        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {PROBLEM_DOORS.map((door, i) => {
             const book = getLocalizedBook(door.bookSlug, locale);
             const article = door.articleSlug ? getLabArticle(door.articleSlug) : undefined;
             const href = article
@@ -46,26 +44,24 @@ export function ProblemDoors({
               <li key={door.id}>
                 <Link
                   href={href}
-                  className="group flex h-full flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] transition hover:border-accent/40 sm:p-6"
+                  className="card-lift group flex h-full flex-col rounded-2xl border border-border bg-bg-elevated p-5 sm:p-6"
                 >
-                  <h3 className="font-display text-lg font-semibold leading-snug text-fg">
+                  <span className="font-display text-sm tabular-nums text-accent/80">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-3 font-display text-xl font-medium leading-snug text-fg">
                     {label}
                   </h3>
                   <p className="mt-3 flex-1 text-[15px] leading-relaxed text-pretty text-fg-muted">
                     {scene}
                   </p>
-                  <p className="mt-5 text-sm font-semibold text-accent">
-                    {article ? (
-                      <span className="inline-flex items-center gap-1.5">
-                        Разбор → «{book.title}»
-                        <ArrowRight className="h-4 w-4" aria-hidden />
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5">
-                        → «{book.title}»
-                        <ArrowRight className="h-4 w-4" aria-hidden />
-                      </span>
-                    )}
+                  <p className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent">
+                    {article
+                      ? locale === "en"
+                        ? `Essay → ${book.title}`
+                        : `Разбор → «${book.title}»`
+                      : `→ «${book.title}»`}
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden />
                   </p>
                 </Link>
               </li>

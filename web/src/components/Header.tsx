@@ -38,14 +38,14 @@ export function Header() {
   const ruHref = switchLocalePath(pathname, "ru");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-bg/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link
           href={lp(locale, "/")}
           className="group flex min-h-12 min-w-0 flex-col justify-center leading-tight"
           aria-label={t.brandAria}
         >
-          <span className="font-display text-[15px] font-semibold tracking-wide text-fg sm:text-base">
+          <span className="font-display text-[15px] font-medium tracking-wide text-fg sm:text-base">
             {t.brand}
           </span>
           <span className="text-[11px] font-medium tracking-[0.12em] text-fg-muted uppercase">
