@@ -4,7 +4,7 @@ import { BooksShowcase } from "@/components/BooksShowcase";
 export const metadata: Metadata = {
   title: "Книги Пола Грэка",
   description:
-    "Каталог Пола Грэка на polgrek.site и Литрес: Ментальный дебаг, Мозг на 100+, биохакинг, EI 2.0, RESET, Wired for Wealth. Главы бесплатно · litres.ru/author/pol-grek.",
+    "Каталог книг Пола Грэка: мозг, сон, энергия, внимание. Главы бесплатно на сайте, полные тексты — на Литрес.",
   alternates: {
     canonical: "https://polgrek.site/books/",
     languages: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Книги Пола Грэка",
     description:
-      "Практическая нейробиология и перепрошивка мышления. Каталог + бесплатные главы.",
+      "Книги о мозге простым языком. Каталог и бесплатные главы.",
     url: "https://polgrek.site/books/",
   },
 };

@@ -68,7 +68,7 @@ export function Reader({
       ? hasAmazon
         ? `${buy.amazon} →`
         : `${buy.litres} →`
-      : "Забрать на Литрес →";
+      : "Купить на Литрес →";
 
   return (
     <div className={cn("min-h-dvh bg-reader text-fg", readerTheme === "sepia" && "reader-sepia")}>

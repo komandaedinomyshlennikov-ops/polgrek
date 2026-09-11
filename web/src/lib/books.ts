@@ -84,9 +84,9 @@ export const CATALOG_SHELVES: Array<{
 }> = [
   {
     id: "neuro",
-    title: "Нейробиология и когнитивные практики",
+    title: "Мозг, внимание, привычки",
     titleEn: "Neuroscience & cognitive practice",
-    subtitle: "Фокус, стресс, биохакинг, эмоции — механика, не «просто соберись»",
+    subtitle: "Усталость, стресс, сон, эмоции — как это устроено, не «просто соберись»",
     subtitleEn: "Focus, stress, biohacking, emotion — mechanics, not “just try harder”",
     emoji: "🧠",
     slugs: [
@@ -103,9 +103,9 @@ export const CATALOG_SHELVES: Array<{
   },
   {
     id: "money-reset",
-    title: "Деньги, мышление и перезапуск",
+    title: "Деньги, привычки и перезапуск",
     titleEn: "Money, mindset & reset",
-    subtitle: "Wired for Wealth · RESET · Sacred Hours — внешний порядок и ресурс",
+    subtitle: "Когда голова не варит — решения про деньги и отдых тоже плывут",
     subtitleEn: "Wired for Wealth · RESET · Sacred Hours — external order and capacity",
     emoji: "💰",
     slugs: [

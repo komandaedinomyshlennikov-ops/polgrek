@@ -50,12 +50,11 @@ export default function LabPage() {
             Лаборатория Пола Грэка
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">
-            Место, где знания превращаются в навык, а научные исследования — в понятные решения
-            для обычной жизни.
+            Не архив статей. Разборы обычной жизни: почему мозг делает именно так — и что с этим
+            можно сделать уже сегодня.
           </p>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-pretty text-fg-muted">
-            Здесь нет новостного шума, мотивационных цитат и статей ради просмотров. Только один
-            вопрос: почему мозг делает именно так — и что с этим можно сделать уже сегодня?
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-pretty text-fg-muted">
+            Без новостного шума, мотивационных цитат и обещаний «стать новым человеком».
           </p>
         </div>
       </section>

@@ -23,7 +23,7 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
           string,
           string,
         ])
-      : (["⚡ Коротко и по делу", "🧬 Механика, не мораль", "🔥 Без «просто соберись»"] as [
+      : (["Без хайпа", "Как устроено, не мораль", "Без «просто соберись»"] as [
           string,
           string,
           string,

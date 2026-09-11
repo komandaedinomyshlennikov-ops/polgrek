@@ -47,7 +47,7 @@ export function LabPrompts({ locale = "ru" }: { locale?: Locale }) {
             className="flex flex-col rounded-2xl border border-border bg-bg-elevated p-5 shadow-sm"
           >
             <span className="w-fit rounded-full bg-accent-soft px-2.5 py-0.5 text-[11px] font-semibold text-accent">
-              AI Template
+              Заготовка
             </span>
             <h3 className="mt-3 font-display text-base font-semibold text-fg">{p.title}</h3>
             <p className="mt-1.5 flex-1 text-sm text-fg-muted">{p.body}</p>
