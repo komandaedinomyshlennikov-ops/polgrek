@@ -29,18 +29,17 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
             return (
               <li
                 key={item.slug}
-                className="grid grid-cols-[128px_1fr] items-start gap-4 rounded-2xl border border-border bg-bg-elevated p-4 shadow-[var(--shadow)] sm:grid-cols-[180px_1fr] sm:gap-6 sm:p-6"
+                className="grid grid-cols-[minmax(100px,32%)_1fr] items-start gap-3 rounded-2xl border border-border bg-bg-elevated p-3 shadow-[var(--shadow)] sm:grid-cols-[minmax(160px,200px)_1fr] sm:gap-5 sm:p-5 lg:grid-cols-[220px_1fr] lg:gap-6 lg:p-6"
               >
                 <Link
                   href={lp(locale, `/books/${book.slug}/`)}
-                  className="block w-full"
+                  className="block min-w-0"
                 >
                   <CoverImage
                     book={book}
                     variant="product"
-                    sizes="(max-width:640px) 128px, 180px"
-                    className="aspect-[2/3] overflow-hidden rounded-lg bg-surface shadow-md"
-                    imgClassName="object-cover"
+                    sizes="(max-width:640px) 32vw, (max-width:1024px) 200px, 220px"
+                    className="rounded-lg bg-surface shadow-md ring-1 ring-black/5"
                   />
                 </Link>
                 <div className="min-w-0">
@@ -53,7 +52,7 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
                     </Link>
                   </h3>
                   <p className="mt-2 text-[15px] font-medium leading-snug text-fg">{item.forWhom}</p>
-                  <p className="mt-2 text-[15px] leading-relaxed text-pretty text-fg-muted">
+                  <p className="mt-2 hidden text-[15px] leading-relaxed text-pretty text-fg-muted sm:block">
                     {item.body}
                   </p>
                   <div className="mt-5 flex flex-col gap-2">

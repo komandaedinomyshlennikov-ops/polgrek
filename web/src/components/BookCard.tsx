@@ -24,13 +24,13 @@ export function BookCard({
       <div className="flex gap-3 p-3 sm:flex-col sm:gap-0 sm:p-0">
         <Link
           href={lp(locale, `/books/${book.slug}/`)}
-          className="relative block aspect-[2/3] w-[34%] shrink-0 overflow-hidden rounded-xl bg-surface sm:w-full sm:rounded-none sm:rounded-t-2xl"
+          className="relative block w-[38%] min-w-[96px] max-w-[140px] shrink-0 overflow-hidden rounded-xl bg-surface sm:w-full sm:max-w-none sm:rounded-none sm:rounded-t-2xl"
         >
           <CoverImage
             book={book}
             variant="card"
-            className="h-full w-full"
-            sizes="(max-width:640px) 34vw, (max-width:1024px) 40vw, 280px"
+            className="sm:rounded-none sm:rounded-t-2xl"
+            sizes="(max-width:640px) 38vw, (max-width:1024px) 40vw, 280px"
             imgClassName="transition duration-300 group-hover:scale-[1.02]"
           />
         </Link>

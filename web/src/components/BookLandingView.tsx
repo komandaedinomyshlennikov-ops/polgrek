@@ -89,12 +89,13 @@ export function BookLandingView({ book }: { book: Book }) {
       <section className="border-b border-border">
         <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 pb-14 sm:px-6 lg:grid-cols-12">
           <div className="lg:sticky lg:top-24 lg:col-span-4">
-            <div className="mx-auto max-w-[280px] lg:mx-0">
+            <div className="mx-auto w-full max-w-[min(280px,58vw)] sm:max-w-[320px] lg:mx-0 lg:max-w-none">
               <CoverImage
                 book={book}
                 variant="product"
                 priority
-                className="w-full rounded-2xl border border-border shadow-[var(--shadow)]"
+                sizes="(max-width:1023px) 58vw, 320px"
+                className="rounded-2xl border border-border bg-surface shadow-[var(--shadow)]"
               />
             </div>
             <Ctas book={book} landing={t} className="mt-5 hidden lg:flex" />

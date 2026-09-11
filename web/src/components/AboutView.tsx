@@ -173,12 +173,12 @@ export function AboutView({ locale = "ru" }: { locale?: Locale }) {
                     href={lp(locale, `/books/${book.slug}/`)}
                     className="flex h-full gap-4 rounded-2xl border border-border bg-bg-elevated p-4 shadow-[var(--shadow)] transition hover:border-accent/40"
                   >
-                    <div className="w-[72px] shrink-0">
+                    <div className="w-[26%] min-w-[72px] max-w-[96px] shrink-0">
                       <CoverImage
                         book={book}
                         variant="card"
-                        sizes="72px"
-                        className="aspect-[2/3] overflow-hidden rounded-md"
+                        sizes="96px"
+                        className="rounded-md bg-surface"
                       />
                     </div>
                     <div className="min-w-0">

@@ -95,12 +95,13 @@ export default async function EnBookPage({ params }: Props) {
       </nav>
 
       <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
-        <div className="mx-auto w-full max-w-[280px] lg:col-span-4 lg:mx-0 lg:sticky lg:top-24">
+        <div className="mx-auto w-full max-w-[min(280px,58vw)] sm:max-w-[320px] lg:col-span-4 lg:mx-0 lg:max-w-none lg:sticky lg:top-24">
           <CoverImage
             book={book}
             variant="product"
             priority
-            className="w-full rounded-2xl border border-border shadow-[var(--shadow)]"
+            sizes="(max-width:1023px) 58vw, 320px"
+            className="rounded-2xl border border-border bg-surface shadow-[var(--shadow)]"
           />
           <div className="mt-4 flex flex-wrap gap-2">
             {tags.map((tag) => (
