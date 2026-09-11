@@ -6,7 +6,7 @@ import { getBookLanding, type BookLanding } from "@/data/book-landing";
 import { getLabArticle } from "@/data/lab-articles";
 import { affiliateUrl, amazonUrl, getBook } from "@/lib/books";
 import { ui } from "@/data/ui";
-import { SITE_URL } from "@/lib/seo";
+import { bookBreadcrumbLd, bookJsonLd } from "@/lib/book-seo";
 import { BookStickyBar } from "@/components/BookStickyBar";
 import type { Book } from "@/lib/types";
 
@@ -60,15 +60,8 @@ export function BookLandingView({ book }: { book: Book }) {
   const related = getBook(t.relatedBook);
   const article = t.relatedArticle ? getLabArticle(t.relatedArticle) : undefined;
 
-  const bookLd = {
-    "@context": "https://schema.org",
-    "@type": "Book",
-    name: book.title,
-    author: { "@type": "Person", name: "Пол Грэк" },
-    description: t.dek,
-    url: `${SITE_URL}/books/${book.slug}/`,
-    inLanguage: "ru",
-  };
+  const bookLd = bookJsonLd(book);
+  const crumbLd = bookBreadcrumbLd(book);
   const faqLd =
     t.faq.length > 0
       ? {
@@ -87,6 +80,10 @@ export function BookLandingView({ book }: { book: Book }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(bookLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbLd) }}
       />
       {faqLd && (
         <script

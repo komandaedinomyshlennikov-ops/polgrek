@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBook, getBooks, tagLabel } from "@/lib/books";
-import { getBookVoice } from "@/data/book-voice";
-import { MOZG_LANDING } from "@/data/book-landing-mozg";
 import { BookHighlight } from "@/components/BookHighlight";
 import { CoverImage } from "@/components/CoverImage";
 import { BookLandingView } from "@/components/BookLandingView";
 import { hasBookLanding } from "@/data/book-landing";
 import { OG_IMAGE, SITE_URL } from "@/lib/seo";
+import { bookCoverAbs, bookJsonLd, bookSeo } from "@/lib/book-seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,37 +19,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const book = getBook(slug);
   if (!book) return { title: "Книга" };
-  const voice = getBookVoice(slug);
-  const desc =
-    slug === "mozg-na-100"
-      ? MOZG_LANDING.dek
-      : voice?.hook || book.subtitle || book.promise || book.title;
+  const seo = bookSeo(book);
   const pageUrl = `${SITE_URL}/books/${slug}/`;
+  const cover = bookCoverAbs(book);
   return {
-    title: book.title,
-    description: desc.slice(0, 160),
+    title: seo.title,
+    description: seo.description,
     openGraph: {
       title: `${book.title} — Пол Грэк`,
-      description: desc.slice(0, 160),
+      description: seo.description,
       type: "book",
       url: pageUrl,
       locale: "ru_RU",
       siteName: "Пол Грэк",
       images: [
-        {
-          url: `${SITE_URL}/covers/${book.coverFile.replace(/\.(webp|png)$/i, ".jpg").replace(/\.jpg$/i, ".jpg")}`,
-          width: 720,
-          height: 1080,
-          alt: book.title,
-        },
+        { url: cover, width: 720, height: 1080, alt: `Обложка книги «${book.title}»` },
         { url: OG_IMAGE, width: 1200, height: 630, alt: "Пол Грэк" },
       ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${book.title} — Пол Грэк`,
-      description: desc.slice(0, 160),
-      images: [OG_IMAGE],
+      description: seo.description,
+      images: [cover],
     },
     alternates: {
       canonical: pageUrl,
@@ -72,17 +63,8 @@ export default async function BookPage({ params }: Props) {
     return <BookLandingView book={book} />;
   }
 
-  const voice = getBookVoice(slug);
   const tags = (book.tags || []).filter((t) => t !== "лора");
-  const bookLd = {
-    "@context": "https://schema.org",
-    "@type": "Book",
-    name: book.title,
-    author: { "@type": "Person", name: book.authors?.[0] || "Пол Грэк" },
-    description: voice?.essence || book.annotation || book.promise || book.subtitle,
-    url: `https://polgrek.site/books/${book.slug}/`,
-    inLanguage: "ru",
-  };
+  const bookLd = bookJsonLd(book);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">

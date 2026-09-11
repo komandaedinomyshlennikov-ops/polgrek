@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const book = getBook(slug);
   if (!book) return { title: "Глава" };
   return {
-    title: `Глава — ${book.title}`,
-    description: `Бесплатный отрывок: ${book.title}. Пол Грэк.`,
+    title: `Глава книги «${book.title}» — читать бесплатно`,
+    description: `Бесплатный фрагмент книги «${book.title}» Пола Грэка. Сначала глава на сайте — потом решите, нужна ли книга на Литрес.`,
     robots: { index: true, follow: true },
     alternates: { canonical: `https://polgrek.site/read/${slug}/` },
   };

@@ -28,7 +28,7 @@ export function CoverImage({
   const base = book.coverFile.replace(/\.(webp|jpg|png)$/i, "");
   const fullWebp = `/covers/${base}.webp`;
   const fullJpg = `/covers/${base}.jpg`;
-  const label = alt || `Обложка книги «${book.title}»`;
+  const label = alt || `Обложка книги «${book.title}» Пола Грэка`;
 
   if (variant === "product") {
     return (
