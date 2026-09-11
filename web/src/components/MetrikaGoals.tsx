@@ -9,7 +9,11 @@ import {
   trackContext,
 } from "@/lib/metrika";
 
-function goalFromHref(href: string, pathname: string): { name: string; params: Record<string, string> } | null {
+function goalFromHref(
+  href: string,
+  pathname: string,
+  el?: HTMLAnchorElement | null
+): { name: string; params: Record<string, string> } | null {
   const ctx = trackContext(pathname);
   let url: URL;
   try {
@@ -24,7 +28,7 @@ function goalFromHref(href: string, pathname: string): { name: string; params: R
 
   if (host === "litres.ru" || host.endsWith(".litres.ru")) {
     const art = full.match(/\/book\/[^/]+\/[^/]*?(\d{6,})/i);
-    const slug = bookSlugFromPath(pathname);
+    const slug = el?.dataset.book || bookSlugFromPath(pathname);
     const params = { ...ctx };
     if (slug) params.book = slug;
     if (art) params.art = art[1];
@@ -91,7 +95,7 @@ export function MetrikaGoals() {
       if (!a) return;
       const href = a.getAttribute("href");
       if (!href) return;
-      const hit = goalFromHref(href, window.location.pathname || pathname);
+      const hit = goalFromHref(href, window.location.pathname || pathname, a);
       if (hit) reachGoal(hit.name, hit.params);
     };
     document.addEventListener("click", onClick, true);

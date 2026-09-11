@@ -42,7 +42,7 @@ export function BooksShowcase({
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {flagships.map((b) => (
-              <BookCard key={b.slug} book={b} locale={locale} />
+              <BookCard key={b.slug} book={b} locale={locale} priceCta />
             ))}
           </div>
 
