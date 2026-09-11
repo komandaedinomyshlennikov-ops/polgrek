@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
-import { affiliateUrl, amazonUrl, getBooks, getLocalizedBook } from "@/lib/books";
+import { getBooks, getLocalizedBook } from "@/lib/books";
 import { CoverImage } from "@/components/CoverImage";
+import { BuyButtons } from "@/components/BuyButtons";
 import type { Locale } from "@/lib/types";
 import { lp } from "@/lib/locale";
 import { home } from "@/data/home";
@@ -26,9 +26,6 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
           {t.items.map((item) => {
             const book = getLocalizedBook(item.slug, locale);
             if (!book) return null;
-            const storeHref =
-              item.store === "amazon" && book.amazon ? amazonUrl(book) : affiliateUrl(book);
-            const storeLabel = item.store === "amazon" ? t.amazon : t.litres;
             return (
               <li
                 key={item.slug}
@@ -58,22 +55,14 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
                   <p className="mt-2 text-[15px] leading-relaxed text-pretty text-fg-muted">
                     {item.body}
                   </p>
-                  <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                  <div className="mt-5 flex flex-col gap-2">
                     <Link
                       href={lp(locale, `/read/${book.slug}/`)}
-                      className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white transition hover:brightness-110"
+                      className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white transition hover:brightness-110 sm:self-start"
                     >
                       {t.excerpt}
                     </Link>
-                    <a
-                      href={storeHref}
-                      target="_blank"
-                      rel="noopener noreferrer sponsored"
-                      className="inline-flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-fg px-4 text-sm font-semibold text-bg transition hover:opacity-90"
-                    >
-                      {storeLabel}
-                      <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-                    </a>
+                    <BuyButtons book={book} locale={locale} layout="row" />
                   </div>
                 </div>
               </li>

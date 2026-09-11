@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ExternalLink, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Minus, Plus } from "lucide-react";
 import type { Book, Locale } from "@/lib/types";
-import { affiliateUrl, amazonUrl } from "@/lib/books";
+import { affiliateUrl } from "@/lib/books";
 import { cn } from "@/lib/cn";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
 import { getBuyVoice } from "@/data/book-voice";
 import { getLabArticles } from "@/data/lab-articles";
 import { DonateLink } from "@/components/DonateLink";
+import { BuyButtons } from "@/components/BuyButtons";
 
 type ReaderTheme = "default" | "sepia";
 
@@ -53,22 +54,9 @@ export function Reader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const hasAmazon = Boolean(book.amazon);
-  const primaryHref = locale === "en" && hasAmazon ? amazonUrl(book) : affiliateUrl(book);
-  const primaryLabel =
-    locale === "en" && hasAmazon
-      ? buy.amazon
-      : locale === "en"
-        ? buy.litres
-        : buy.litres;
   const relatedArticle = getLabArticles().find((a) => a.bookSlug === book.slug);
   const otherBookHref = lp(locale, `/books/`);
-  const stickyLabel =
-    locale === "en"
-      ? hasAmazon
-        ? `${buy.amazon} →`
-        : `${buy.litres} →`
-      : "Купить на Литрес →";
+  const stickyLabel = locale === "en" ? `${buy.litres} →` : "Купить на Литрес →";
 
   return (
     <div className={cn("min-h-dvh bg-reader text-fg", readerTheme === "sepia" && "reader-sepia")}>
@@ -158,38 +146,8 @@ export function Reader({
           </p>
           <p className="mt-3 font-display text-lg font-semibold">{buy.title}</p>
           <p className="mt-2 text-sm text-fg-muted">{buy.body}</p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-            <a
-              href={primaryHref}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-accent px-5 text-sm font-semibold text-white"
-            >
-              {primaryLabel}
-              <ExternalLink className="h-4 w-4 opacity-80" aria-hidden />
-            </a>
-            {locale === "en" && hasAmazon && (
-              <a
-                href={affiliateUrl(book)}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-border px-5 text-sm font-semibold"
-              >
-                {buy.litres}
-                <ExternalLink className="h-4 w-4 opacity-60" aria-hidden />
-              </a>
-            )}
-            {locale === "ru" && hasAmazon && (
-              <a
-                href={amazonUrl(book)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-border px-5 text-sm font-semibold"
-              >
-                {buy.amazon}
-                <ExternalLink className="h-4 w-4 opacity-60" aria-hidden />
-              </a>
-            )}
+          <div className="mt-4">
+            <BuyButtons book={book} locale={locale} layout="row" />
           </div>
           <p className="mt-3 text-[11px] text-fg-muted">
             {locale === "en"
@@ -217,7 +175,7 @@ export function Reader({
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-fg-muted">{t.sticky}</p>
           <a
-            href={primaryHref}
+            href={affiliateUrl(book)}
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white"

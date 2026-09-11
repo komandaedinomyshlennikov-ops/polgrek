@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import type { Book, Locale } from "@/lib/types";
-import { affiliateUrl, amazonUrl, internationalTitle, tagLabel } from "@/lib/books";
-import { getBuyVoice, getBookVoice } from "@/data/book-voice";
+import { internationalTitle, tagLabel } from "@/lib/books";
+import { getBookVoice } from "@/data/book-voice";
 import { CoverImage } from "@/components/CoverImage";
+import { BuyButtons } from "@/components/BuyButtons";
 import { lp } from "@/lib/locale";
 
 export function BookCard({
   book,
   locale = "ru",
-  priceCta = true,
 }: {
   book: Book;
   locale?: Locale;
@@ -19,14 +18,6 @@ export function BookCard({
   const voice = getBookVoice(book.slug, locale);
   const blurb = voice?.hook || book.subtitle || book.promise;
   const enTitle = locale === "ru" ? internationalTitle(book) : null;
-  const buy = getBuyVoice(locale);
-  const storeHref = locale === "en" && book.amazon ? amazonUrl(book) : affiliateUrl(book);
-  const storeLabel =
-    locale === "en" && book.amazon
-      ? buy.amazon
-      : priceCta && locale === "ru" && book.litresPrice
-        ? `Купить за ${book.litresPrice}\u00a0₽`
-        : buy.litres;
 
   return (
     <article className="card-lift flex flex-col rounded-2xl border border-border bg-bg-elevated shadow-[var(--shadow)]">
@@ -70,16 +61,7 @@ export function BookCard({
         </div>
       </div>
       <div className="mt-auto flex flex-col gap-2 p-3 pt-0 sm:p-4">
-        <a
-          href={storeHref}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          data-book={book.slug}
-          className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-[13px] font-semibold text-white transition hover:brightness-110 sm:min-h-12 sm:text-sm"
-        >
-          {storeLabel}
-          <ExternalLink className="h-3.5 w-3.5 opacity-80" aria-hidden />
-        </a>
+        <BuyButtons book={book} locale={locale} showPrice={locale === "ru"} />
         <Link
           href={lp(locale, `/read/${book.slug}/`)}
           className="inline-flex min-h-10 items-center justify-center rounded-xl border border-border-strong px-3 text-[13px] font-semibold text-fg transition hover:border-accent/40 sm:min-h-11 sm:text-sm"

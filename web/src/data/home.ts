@@ -69,7 +69,7 @@ export const HOME = {
       all: "Посмотреть все 13 книг",
       excerpt: "Читать главу",
       litres: "Купить на Литрес",
-      amazon: "Amazon",
+      amazon: "Купить на Amazon",
       items: [
         {
           slug: "mozg-na-100",

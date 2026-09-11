@@ -1,16 +1,11 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import type { Book, Locale } from "@/lib/types";
-import { affiliateUrl, amazonUrl } from "@/lib/books";
 import { getBookVoice, getBuyVoice } from "@/data/book-voice";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
 import { DonateLink } from "@/components/DonateLink";
+import { BuyButtons } from "@/components/BuyButtons";
 
-/**
- * Conversion book block in Pol Grek ToV:
- * hook → essence → vibe → CTA (fragment + store)
- */
 export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Locale }) {
   const voice = getBookVoice(book.slug, locale);
   const buy = getBuyVoice(locale);
@@ -18,7 +13,7 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
   const essence = voice?.essence || book.annotation || book.promise;
   const vibe = voice?.vibe ||
     (locale === "en"
-      ? (["⚡ Short and sharp", "🧬 Mechanics, not morals", "🔥 No “just try harder”"] as [
+      ? (["Short and sharp", "Mechanics, not morals", "No “just try harder”"] as [
           string,
           string,
           string,
@@ -29,9 +24,6 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
           string,
         ]));
   const ctaLine = voice?.ctaLine || buy.body;
-  const hasAmazon = Boolean(book.amazon);
-  const primaryStore = locale === "en" && hasAmazon ? amazonUrl(book) : affiliateUrl(book);
-  const primaryLabel = locale === "en" && hasAmazon ? buy.amazon : buy.litres;
 
   return (
     <section className="book-highlight rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] sm:p-8">
@@ -59,44 +51,14 @@ export function BookHighlight({ book, locale = "ru" }: { book: Book; locale?: Lo
         ))}
       </ul>
 
-      <div className="book-actions mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <div className="book-actions mt-8 flex flex-col gap-3">
         <Link
           href={lp(locale, `/read/${book.slug}/`)}
-          className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:brightness-110"
+          className="inline-flex min-h-12 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-white transition hover:brightness-110 sm:self-start"
         >
           {buy.excerpt}
         </Link>
-        <a
-          href={primaryStore}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
-        >
-          {primaryLabel}
-          <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-        </a>
-        {hasAmazon && locale === "ru" && (
-          <a
-            href={amazonUrl(book)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border px-5 text-sm font-semibold text-fg-muted transition hover:text-fg"
-          >
-            {buy.amazon}
-            <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-          </a>
-        )}
-        {locale === "en" && !hasAmazon && (
-          <a
-            href={affiliateUrl(book)}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border px-5 text-sm font-semibold text-fg-muted transition hover:text-fg"
-          >
-            {buy.litres}
-            <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-          </a>
-        )}
+        <BuyButtons book={book} locale={locale} layout="row" />
       </div>
 
       <p className="mt-4 text-sm text-fg-muted">{ctaLine}</p>

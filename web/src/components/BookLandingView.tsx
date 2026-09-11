@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import { CoverImage } from "@/components/CoverImage";
 import { DonateLink } from "@/components/DonateLink";
 import { getBookLanding, type BookLanding } from "@/data/book-landing";
 import { getLabArticle } from "@/data/lab-articles";
-import { affiliateUrl, amazonUrl, getBook } from "@/lib/books";
+import { getBook } from "@/lib/books";
 import { ui } from "@/data/ui";
 import { bookBreadcrumbLd, bookJsonLd } from "@/lib/book-seo";
 import { BookStickyBar } from "@/components/BookStickyBar";
+import { BuyButtons } from "@/components/BuyButtons";
 import type { Book } from "@/lib/types";
 
 function Ctas({
@@ -27,27 +27,7 @@ function Ctas({
       >
         {landing.ctaExcerpt}
       </Link>
-      <a
-        href={affiliateUrl(book)}
-        target="_blank"
-        rel="noopener noreferrer sponsored"
-        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-fg px-5 text-sm font-semibold text-bg transition hover:opacity-90"
-      >
-        {landing.ctaBuy}
-        {book.litresPrice ? ` · ${book.litresPrice}\u00a0₽` : ""}
-        <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-      </a>
-      {book.amazon && (
-        <a
-          href={amazonUrl(book)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-fg-muted hover:text-fg"
-        >
-          {landing.ctaAmazon}
-          <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-        </a>
-      )}
+      <BuyButtons book={book} />
       <DonateLink variant="quiet" className="justify-center sm:justify-start" />
     </div>
   );

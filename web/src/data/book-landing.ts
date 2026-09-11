@@ -48,7 +48,7 @@ export type BookLanding = {
 const SHARED_CTA = {
   ctaExcerpt: "Читать первую главу",
   ctaBuy: "Купить на Литрес",
-  ctaAmazon: "Amazon",
+  ctaAmazon: "Купить на Amazon",
   ctaNote: "Сначала глава. Потом решите, нужна ли книга.",
   note: "Материалы носят образовательный характер и не заменяют консультацию врача.",
 } as const;
