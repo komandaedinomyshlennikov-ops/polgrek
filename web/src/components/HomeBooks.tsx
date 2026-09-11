@@ -29,17 +29,18 @@ export function HomeBooks({ locale = "ru" }: { locale?: Locale }) {
             return (
               <li
                 key={item.slug}
-                className="grid gap-5 rounded-2xl border border-border bg-bg-elevated p-5 shadow-[var(--shadow)] sm:grid-cols-[120px_1fr] sm:p-6"
+                className="grid grid-cols-[128px_1fr] items-start gap-4 rounded-2xl border border-border bg-bg-elevated p-4 shadow-[var(--shadow)] sm:grid-cols-[180px_1fr] sm:gap-6 sm:p-6"
               >
                 <Link
                   href={lp(locale, `/books/${book.slug}/`)}
-                  className="mx-auto w-[120px] sm:mx-0"
+                  className="block w-full"
                 >
                   <CoverImage
                     book={book}
-                    variant="card"
-                    sizes="120px"
-                    className="aspect-[2/3] overflow-hidden rounded-lg shadow-md"
+                    variant="product"
+                    sizes="(max-width:640px) 128px, 180px"
+                    className="aspect-[2/3] overflow-hidden rounded-lg bg-surface shadow-md"
+                    imgClassName="object-cover"
                   />
                 </Link>
                 <div className="min-w-0">
