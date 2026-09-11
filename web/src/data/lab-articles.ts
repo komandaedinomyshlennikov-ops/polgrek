@@ -13,10 +13,10 @@ export type LabMyth = {
 };
 
 export const LAB_PATH = {
-  observe: "Наблюдение",
-  mechanics: "Механика мозга",
-  experiment: "Эксперимент",
-  evidence: "Доказательства",
+  observe: "Обычная сцена",
+  mechanics: "Как это устроено",
+  experiment: "Проверьте на себе",
+  evidence: "Что говорит наука",
 } as const;
 
 export const LAB_MYTHS: LabMyth[] = [
@@ -52,13 +52,13 @@ export const LAB_EXPERIMENTS = [
   },
   {
     id: "three-decisions",
-    title: "Дневник трёх решений",
+    title: "Три решения за день",
     body: "Почему важные решения лучше принимать до вечера, а не после 21:00.",
     minutes: 0,
   },
   {
     id: "info-hunger",
-    title: "Тест на информационный голод",
+    title: "Хочется листать, или уже устали?",
     body: "Простая практика помогает отличить настоящую усталость от привычки постоянно получать стимулы.",
     minutes: 0,
   },

@@ -352,7 +352,7 @@ export function BookLandingView({ book }: { book: Book }) {
 
       <section className="border-b border-border py-14 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h2 className="font-display text-2xl font-semibold">Почему Пол Грэк</h2>
+          <h2 className="font-display text-2xl font-semibold">Почему этот тон</h2>
           <p className="mt-4 text-[17px] leading-relaxed text-pretty text-fg-muted">{t.whyAuthor}</p>
         </div>
       </section>

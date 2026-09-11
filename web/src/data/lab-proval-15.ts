@@ -3,7 +3,7 @@ import type { LabArticle } from "./lab-types";
 export const PROVAL_15: LabArticle = {
   slug: "proval-15",
   rubric: "Энергия",
-  title: "Провал в 15:00 — это не лень",
+  title: "Провал в три часа — это не лень",
   dek: "Что на самом деле вызывает резкое падение энергии после обеда — и почему кофе не всегда решает проблему",
   minutes: 12,
   grade: "B",
@@ -128,7 +128,7 @@ export const PROVAL_15: LabArticle = {
     {
       type: "h2",
       id: "kognitivno",
-      text: "Причина №4. Вы устали не физически, а когнитивно",
+      text: "Причина №4. Устали не телом — устали думать",
     },
     {
       type: "p",

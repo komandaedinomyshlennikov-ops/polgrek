@@ -3,7 +3,7 @@ import type { LabArticle } from "./lab-types";
 export const UMNYE_DENGI: LabArticle = {
   slug: "umnye-dengi",
   rubric: "Деньги и мозг",
-  title: "Почему умные люди принимают плохие финансовые решения",
+  title: "Почему умные люди делают глупости с деньгами",
   dek: "Дело не в интеллекте. Часто — в том, как стресс меняет оценку риска, награды и будущего",
   minutes: 14,
   grade: "B",

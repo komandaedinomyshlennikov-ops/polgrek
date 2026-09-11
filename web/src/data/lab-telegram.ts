@@ -102,7 +102,7 @@ export const TELEGRAM_LENTA: LabArticle = {
     {
       type: "h2",
       id: "pereklyuchenie",
-      text: "Мозг не умеет переключаться бесплатно",
+      text: "Каждое переключение чего-то стоит",
     },
     {
       type: "p",

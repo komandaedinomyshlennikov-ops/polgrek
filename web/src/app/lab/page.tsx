@@ -62,7 +62,7 @@ export default function LabPage() {
       <section className="border-b border-border py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            Что такое LAB?
+            Зачем эта лаборатория
           </h2>
           <div className="mt-5 max-w-2xl space-y-4 text-[15px] leading-relaxed text-pretty text-fg-muted sm:text-base">
             <p>Большинство людей не испытывают недостатка в информации. Они испытывают недостаток в ясности.</p>
@@ -131,10 +131,10 @@ export default function LabPage() {
       <section id="myths" className="scroll-mt-20 border-b border-border py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <p className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-            Разрушители мифов
+            Мифы
           </p>
           <h2 className="mt-2 max-w-2xl font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-            Не всё, что повторяют тысячи раз, становится правдой
+            Если все повторяют — это ещё не правда
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-pretty text-fg-muted">
             Каждую неделю появляются новые советы: пить определённые добавки, просыпаться в 5 утра,
@@ -161,7 +161,7 @@ export default function LabPage() {
       <section id="experiments" className="scroll-mt-20 border-b border-border bg-surface/40 py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            Мини-эксперименты
+            Попробуйте на себе
           </h2>
           <p className="mt-2 font-display text-lg text-fg">Не читайте. Проверяйте.</p>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-pretty text-fg-muted">
@@ -186,7 +186,7 @@ export default function LabPage() {
       <section className="border-b border-border py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            Как читать материалы LAB
+            Как это читать
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-pretty text-fg-muted">
             Не пытайтесь запомнить всё. Ошибка большинства образовательных проектов — дать человеку
@@ -205,7 +205,7 @@ export default function LabPage() {
       <section className="border-b border-border bg-surface/40 py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
-            Оценка силы доказательств
+            Насколько это доказано
           </h2>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-pretty text-fg-muted">
             Чтобы вы понимали, насколько надёжны выводы, каждый материал получает уровень
@@ -227,7 +227,7 @@ export default function LabPage() {
       <section className="border-b border-border py-14 sm:py-20">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
           <h2 className="font-display text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-            Лучшие книги начинаются с одного вопроса
+            Книги часто начинаются с одного вопроса
           </h2>
           <p className="mt-4 text-[15px] leading-relaxed text-pretty text-fg-muted">
             Почти каждая глава моих книг сначала была короткой заметкой в лаборатории. Здесь

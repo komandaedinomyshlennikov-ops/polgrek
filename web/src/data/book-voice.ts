@@ -146,7 +146,7 @@ export function getBookVoice(slug: string, locale: Locale = "ru"): BookVoice | n
 
 /** Social block — Threads DNA */
 export const SOCIAL_VOICE = {
-  title: "Где мысли пробуют вслух",
+  title: "Где мысли ещё не стали книгой",
   body: "То, что не вошло в книги: черновики, короткие разборы, тексты, за которые иногда неловко. Без коучинговых плакатов.",
   threadsCta: "Читать в Threads",
   telegramCta: "Зайти в Telegram",
@@ -154,7 +154,7 @@ export const SOCIAL_VOICE = {
 
 /** Generic purchase block voice */
 export const BUY_VOICE = {
-  title: "Хотите заглянуть глубже?",
+  title: "Если глава зашла",
   body: "Полный текст — на Литрес. Здесь глава. Там — если зайдёт.",
   litres: "Купить на Литрес",
   amazon: "Читать на Amazon",

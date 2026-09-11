@@ -7,7 +7,7 @@ import { SITE_URL } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "С чего начать",
   description:
-    "Если вы пришли после поста Пола Грэка — продолжение здесь. Выберите состояние: усталость, внимание, стресс, сон, ясность с возрастом.",
+    "Пришли после поста Пола Грэка? Продолжение здесь. Выберите состояние: усталость, внимание, стресс, сон, ясность с возрастом.",
   alternates: { canonical: `${SITE_URL}/start/` },
 };
 
@@ -20,7 +20,7 @@ export default function StartPage() {
             polgrek.site/start
           </p>
           <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-balance sm:text-5xl">
-            Если вы пришли после поста — продолжение здесь.
+            Пришли после поста? Продолжение здесь.
           </h1>
           <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-pretty text-fg-muted">
             Не полка из тринадцати книг. Сначала узнайте себя. Потом короткий разбор. Потом глава — если голос зайдёт.
