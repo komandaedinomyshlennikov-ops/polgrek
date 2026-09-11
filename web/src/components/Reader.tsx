@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Minus, Plus } from "lucide-react";
 import type { Book, Locale } from "@/lib/types";
-import { affiliateUrl } from "@/lib/books";
 import { cn } from "@/lib/cn";
 import { lp } from "@/lib/locale";
 import { ui } from "@/data/ui";
@@ -175,9 +174,9 @@ export function Reader({
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-fg-muted">{t.sticky}</p>
           <a
-            href={affiliateUrl(book)}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
+            href={`/go/${book.slug}/`}
+            data-book={book.slug}
+            data-track="litres"
             className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-accent px-4 text-sm font-semibold text-white"
           >
             {stickyLabel}

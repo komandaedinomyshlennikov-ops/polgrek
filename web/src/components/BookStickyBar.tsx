@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { affiliateUrl } from "@/lib/books";
 import type { Book } from "@/lib/types";
 
 export function BookStickyBar({
@@ -24,10 +23,10 @@ export function BookStickyBar({
           {excerptLabel}
         </Link>
         <a
-          href={affiliateUrl(book)}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl border border-border-strong bg-bg px-3 text-sm font-semibold text-fg"
+          href={`/go/${book.slug}/`}
+          data-book={book.slug}
+          data-track="litres"
+          className="inline-flex min-h-12 flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-sm font-semibold text-white"
         >
           {buyLabel}
           {book.litresPrice ? ` · ${book.litresPrice}\u00a0₽` : ""}

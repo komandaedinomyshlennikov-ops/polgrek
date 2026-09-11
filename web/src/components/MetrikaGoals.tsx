@@ -23,8 +23,18 @@ function goalFromHref(
   }
   const host = url.hostname.replace(/^www\./, "");
   const full = url.href;
+  const path = url.pathname.replace(/\/+$/, "") || "/";
 
   if (/purchase\/donation/i.test(full)) return null;
+
+  if (path.startsWith("/go/amazon")) {
+    const slug = el?.dataset.book || path.split("/").filter(Boolean).pop() || ctx.book;
+    return { name: "amazon", params: { ...ctx, ...(slug ? { book: slug } : {}) } };
+  }
+  if (path.startsWith("/go/")) {
+    const slug = el?.dataset.book || path.split("/").filter(Boolean).pop() || ctx.book;
+    return { name: "litres", params: { ...ctx, ...(slug ? { book: slug } : {}) } };
+  }
 
   if (host === "litres.ru" || host.endsWith(".litres.ru")) {
     const art = full.match(/\/book\/[^/]+\/[^/]*?(\d{6,})/i);
@@ -47,13 +57,12 @@ function goalFromHref(
     return { name: "amazon", params: ctx };
   }
 
-  const path = url.pathname;
   if (/\/read\/[^/]+/.test(path)) {
     const book = bookSlugFromPath(path) || ctx.book;
     return { name: "excerpt_open", params: { ...ctx, ...(book ? { book } : {}) } };
   }
 
-  if (path === "/en" || path === "/en/" || path.startsWith("/en/")) {
+  if (path === "/en" || path.startsWith("/en/")) {
     if (ctx.lang === "ru") return { name: "lang_en", params: ctx };
   }
 
